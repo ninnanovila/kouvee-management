@@ -76,7 +76,6 @@ class AllEmployeeFragment : Fragment(), EmployeeView {
                 EmployeeRecyclerViewAdapter(employees){
                     showDialog(it)
                     Toast.makeText(context, it.id, Toast.LENGTH_LONG).show()
-
                 }
             }
 

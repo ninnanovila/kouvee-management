@@ -4,6 +4,7 @@ import com.example.kouveemanagement.api.ApiClient
 import com.example.kouveemanagement.model.Employee
 import com.example.kouveemanagement.model.EmployeeResponse
 import com.example.kouveemanagement.model.LoginResponse
+import com.example.kouveemanagement.model.ProductResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -106,6 +107,26 @@ class Repository {
                     callback.employeeSuccess(response.body())
                 }else{
                     callback.employeeFailed()
+                }
+            }
+        })
+    }
+
+    fun getAllProduct(callback: ProductRepositoryCallback<ProductResponse>) {
+
+        ApiClient().services.getAllProduct().enqueue(object : Callback<ProductResponse?> {
+            override fun onFailure(call: Call<ProductResponse?>, t: Throwable) {
+                callback.productFailed()
+            }
+
+            override fun onResponse(
+                call: Call<ProductResponse?>,
+                response: Response<ProductResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.productSuccess(response.body())
+                }else{
+                    callback.productFailed()
                 }
             }
         })

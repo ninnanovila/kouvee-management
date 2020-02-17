@@ -3,10 +3,13 @@ package com.example.kouveemanagement.presenter
 import com.example.kouveemanagement.model.Employee
 import com.example.kouveemanagement.model.EmployeeResponse
 import com.example.kouveemanagement.model.LoginResponse
+import com.example.kouveemanagement.model.ProductResponse
 import com.example.kouveemanagement.repository.EmployeeRepositoryCallback
 import com.example.kouveemanagement.repository.LoginRepositoryCallback
+import com.example.kouveemanagement.repository.ProductRepositoryCallback
 import com.example.kouveemanagement.repository.Repository
 
+//LOGIN
 class LoginPresenter(private val view: LoginView, private val repository: Repository) {
 
     fun loginPost(id: String, password: String) {
@@ -26,6 +29,7 @@ class LoginPresenter(private val view: LoginView, private val repository: Reposi
     }
 }
 
+//EMPLOYEE
 class EmployeePresenter(private val view: EmployeeView, private val repository: Repository) {
 
     fun getAllEmployee(){
@@ -93,4 +97,25 @@ class EmployeePresenter(private val view: EmployeeView, private val repository: 
             }
         })
     }
+}
+
+//PRODUCT
+class ProductPresenter(private val view : ProductView, private val repository: Repository){
+
+    fun getAllProduct(){
+        view.showLoading()
+
+        repository.getAllProduct(object : ProductRepositoryCallback<ProductResponse> {
+            override fun productSuccess(data: ProductResponse?) {
+                view.productSuccess(data)
+                view.hideLoading()
+            }
+
+            override fun productFailed() {
+                view.productFailed()
+                view.hideLoading()
+            }
+        })
+    }
+
 }

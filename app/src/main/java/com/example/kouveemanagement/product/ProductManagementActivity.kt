@@ -26,10 +26,10 @@ class ProductManagementActivity : AppCompatActivity() {
             override fun createFragment(position: Int): Fragment {
                 return when(position){
                     0 -> {
-                        AddProductFragment.newInstance()
+                        AllProductFragment.newInstance()
                     }
                     else -> {
-                        AllProductFragment.newInstance()
+                        AddProductFragment.newInstance()
                     }
                 }
             }
@@ -37,8 +37,8 @@ class ProductManagementActivity : AppCompatActivity() {
 
         TabLayoutMediator(tablayout, viewpager) {tab, position ->
             tab.text = when(position) {
-                0 -> "Add"
-                else -> "Show All"
+                0 -> "Show All"
+                else -> "Add"
             }
         }.attach()
     }

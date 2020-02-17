@@ -10,3 +10,8 @@ interface EmployeeRepositoryCallback<EmployeeResponse> {
     fun employeeFailed()
 }
 
+interface ProductRepositoryCallback<ProductResponse> {
+    fun productSuccess(data: ProductResponse?)
+    fun productFailed()
+}
+
