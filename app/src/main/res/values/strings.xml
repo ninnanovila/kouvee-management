@@ -1,0 +1,47 @@
+<resources>
+    <string name="app_name">KouveeManagement</string>
+
+    <!--STRING UNTUK MENU-->
+    <string-array name="owner_menu">
+        <item>Employee</item>
+        <item>Customer</item>
+        <item>Service</item>
+        <item>Pet Type</item>
+        <item>Pet Size</item>
+        <item>Supplier</item>
+        <item>Product</item>
+        <item>Product Order</item>
+        <item>Customer Pet</item>
+        <item>Product Transaction</item>
+        <item>Service Transaction</item>
+    </string-array>
+
+    <!--MENU DESC-->
+    <string-array name="owner_desc">
+        <item>Description of Employee Menu</item>
+        <item>Description of Customer Menu</item>
+        <item>Description of Service Menu</item>
+        <item>Description of Pet Type Menu</item>
+        <item>Description of Pet Size Menu</item>
+        <item>Description of Supplier Menu</item>
+        <item>Description of Product Menu</item>
+        <item>Description of Product Orde Menur</item>
+        <item>Description of Customer Pet Menu</item>
+        <item>Description of Product Transaction Menu</item>
+        <item>Description of Service Transaction Menu</item>
+    </string-array>
+
+    <!--STRING DATA-->
+    <string name="content_desc">Image</string>
+    <string name="login">Login</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="add">Add</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="save">Save</string>
+    <string name="choose">Choose</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>
