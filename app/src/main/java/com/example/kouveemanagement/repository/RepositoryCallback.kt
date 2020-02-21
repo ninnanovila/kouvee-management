@@ -15,3 +15,7 @@ interface ProductRepositoryCallback<ProductResponse> {
     fun productFailed()
 }
 
+interface UploadPhotoProductRepositoryCallback<ResponseBody> {
+    fun uploadProductSuccess(data: ResponseBody?)
+    fun uploadProductFailed()
+}

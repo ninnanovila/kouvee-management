@@ -1,6 +1,9 @@
 package com.example.kouveemanagement.api
 
 import com.example.kouveemanagement.model.*
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -27,7 +30,27 @@ interface ApiInterface {
     @DELETE("employee/{id}/{last_emp}")
     fun deleteEmployee(@Path("id")id: String, @Path("last_emp")last_emp: String): Call<EmployeeResponse>
 
-//    CUSTOMER
+    //    PRODUCT
+    @GET("product")
+    fun getAllProduct(): Call<ProductResponse>
+
+    @GET("product/{id}")
+    fun getProductById(@Path("id")id: String): Call<ProductResponse>
+
+    @Multipart
+    @POST("product/photo/{id}")
+    fun uploadPhotoProduct(@Path("id")id: String, @Part photo: MultipartBody.Part): Call<ResponseBody>
+
+    @POST("product")
+    fun addProduct(@Body product: Product): Call<ProductResponse>
+
+    @PUT("product/{id}")
+    fun editProduct(@Path("id")id: String, @Body product: Product): Call<ProductResponse>
+
+    @DELETE("product/{id}/{last_emp}")
+    fun deleteProduct(@Path("id")id: String, @Path("last_emp")last_emp: String): Call<ProductResponse>
+
+    //    CUSTOMER
     @GET("customer")
     fun getAllCustomer(): Call<CustomerResponse>
 
@@ -43,23 +66,5 @@ interface ApiInterface {
     @DELETE("customer/{id}")
     fun deleteCustomer(@Path("id")id: String): Call<CustomerResponse>
 
-//    PRODUCT
-    @GET("product")
-    fun getAllProduct(): Call<ProductResponse>
-
-    @GET("product/{id}")
-    fun getProductById(@Path("id")id: String): Call<ProductResponse>
-
-    @GET("product/photo/{path}")
-    fun getPhotoOfProduct(@Path("path")path: String): Call<ProductResponse>
-
-    @POST("product")
-    fun addProduct(@Body product: Product): Call<ProductResponse>
-
-    @PUT("product/{id}")
-    fun editProduct(@Path("id")id: String, @Body product: Product): Call<ProductResponse>
-
-    @DELETE("product/{id}/{last_emp}")
-    fun deleteProduct(@Path("id")id: String, @Path("last_emp")last_emp: String): Call<ProductResponse>
 
 }

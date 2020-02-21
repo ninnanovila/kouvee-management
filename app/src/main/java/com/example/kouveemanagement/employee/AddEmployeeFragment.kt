@@ -59,7 +59,7 @@ class AddEmployeeFragment : Fragment(), EmployeeView {
         val role = role.text.toString()
         val last_emp = "0"
 
-        employee = Employee(name, address, birthdate, phone_number, role, birthdate, last_emp)
+        employee = Employee(null, name, address, birthdate, phone_number, role, birthdate, last_emp)
     }
 
     fun showDatePicker(){

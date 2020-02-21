@@ -1,13 +1,10 @@
 package com.example.kouveemanagement.presenter
 
-import com.example.kouveemanagement.model.Employee
-import com.example.kouveemanagement.model.EmployeeResponse
-import com.example.kouveemanagement.model.LoginResponse
-import com.example.kouveemanagement.model.ProductResponse
-import com.example.kouveemanagement.repository.EmployeeRepositoryCallback
-import com.example.kouveemanagement.repository.LoginRepositoryCallback
-import com.example.kouveemanagement.repository.ProductRepositoryCallback
-import com.example.kouveemanagement.repository.Repository
+import com.example.kouveemanagement.model.*
+import com.example.kouveemanagement.repository.*
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.ResponseBody
 
 //LOGIN
 class LoginPresenter(private val view: LoginView, private val repository: Repository) {
@@ -118,4 +115,40 @@ class ProductPresenter(private val view : ProductView, private val repository: R
         })
     }
 
+    fun addProduct(product: Product){
+        view.showLoading()
+
+        repository.addProduct(product, object : ProductRepositoryCallback<ProductResponse> {
+            override fun productSuccess(data: ProductResponse?) {
+                view.productSuccess(data)
+                view.hideLoading()
+            }
+
+            override fun productFailed() {
+                view.productFailed()
+                view.hideLoading()
+            }
+        })
+    }
+
+}
+
+//UPLOAD IMAGE
+class UploadProductImage(private val view: UploadPhotoProductView, private val repository: Repository){
+
+    fun uploadPhotoProduct(id: String, photo: MultipartBody.Part){
+        view.showLoading()
+
+        repository.uploadPhotoProduct(id, photo, object : UploadPhotoProductRepositoryCallback<ResponseBody> {
+            override fun uploadProductSuccess(data: ResponseBody?) {
+                view.uploadProductSuccess(data)
+                view.hideLoading()
+            }
+
+            override fun uploadProductFailed() {
+                view.uploadProductFailed()
+                view.hideLoading()
+            }
+        })
+    }
 }
