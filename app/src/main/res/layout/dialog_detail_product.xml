@@ -1,65 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".product.EditProductActivity">
+    android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/image_product"
+        android:id="@+id/photo"
         android:layout_width="100dp"
         android:layout_height="100dp"/>
 
-    <Button
-        android:id="@+id/btn_choose"
-        android:text="@string/choose"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <EditText
+    <TextView
         android:id="@+id/name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <EditText
+    <TextView
         android:id="@+id/unit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <EditText
+    <TextView
         android:id="@+id/stock"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <EditText
+    <TextView
         android:id="@+id/min_stock"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <EditText
+    <TextView
         android:id="@+id/price"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
         <Button
-            android:id="@+id/btn_save"
-            android:text="@string/save"
-            android:layout_width="wrap_content"
+            android:id="@+id/btn_edit"
+            android:text="@string/edit"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
-        <Button
-            android:id="@+id/btn_delete"
-            android:text="@string/delete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
     </LinearLayout>
 
 </LinearLayout>

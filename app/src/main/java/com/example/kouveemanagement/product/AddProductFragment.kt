@@ -15,7 +15,6 @@ import com.example.kouveemanagement.presenter.ProductView
 import com.example.kouveemanagement.repository.Repository
 import kotlinx.android.synthetic.main.fragment_add_product.*
 
-
 /**
  * A simple [Fragment] subclass.
  */

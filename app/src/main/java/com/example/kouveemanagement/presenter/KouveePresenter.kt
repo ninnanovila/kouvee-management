@@ -79,10 +79,10 @@ class EmployeePresenter(private val view: EmployeeView, private val repository: 
         })
     }
 
-    fun deleteEmployee(id: String, last_emp: String){
+    fun deleteEmployee(id: String){
         view.showLoading()
 
-        repository.deleteEmployee(id,last_emp, object : EmployeeRepositoryCallback<EmployeeResponse> {
+        repository.deleteEmployee(id, object : EmployeeRepositoryCallback<EmployeeResponse> {
             override fun employeeSuccess(data: EmployeeResponse?) {
                 view.employeeSuccess(data)
                 view.hideLoading()
@@ -130,6 +130,40 @@ class ProductPresenter(private val view : ProductView, private val repository: R
             }
         })
     }
+
+    fun editProduct(id: String, product: Product){
+
+        view.showLoading()
+
+        repository.editProduct(id, product, object : ProductRepositoryCallback<ProductResponse> {
+            override fun productSuccess(data: ProductResponse?) {
+                view.productSuccess(data)
+                view.hideLoading()
+            }
+
+            override fun productFailed() {
+                view.productFailed()
+                view.hideLoading()
+            }
+        })
+    }
+
+    fun deleteProduct(id: String){
+        view.showLoading()
+
+        repository.deleteProduct(id, object : ProductRepositoryCallback<ProductResponse> {
+            override fun productSuccess(data: ProductResponse?) {
+                view.productSuccess(data)
+                view.hideLoading()
+            }
+
+            override fun productFailed() {
+                view.productFailed()
+                view.hideLoading()
+            }
+        })
+    }
+
 
 }
 

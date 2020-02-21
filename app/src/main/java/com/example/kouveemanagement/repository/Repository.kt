@@ -93,9 +93,9 @@ class Repository {
         })
     }
 
-    fun deleteEmployee(id: String, last_emp: String, callback: EmployeeRepositoryCallback<EmployeeResponse>) {
+    fun deleteEmployee(id: String, callback: EmployeeRepositoryCallback<EmployeeResponse>) {
 
-        ApiClient().services.deleteEmployee(id, last_emp).enqueue(object : Callback<EmployeeResponse?> {
+        ApiClient().services.deleteEmployee(id).enqueue(object : Callback<EmployeeResponse?> {
             override fun onFailure(call: Call<EmployeeResponse?>, t: Throwable) {
                 callback.employeeFailed()
             }
@@ -151,6 +151,47 @@ class Repository {
                     callback.productFailed()
                 }
             }
+        })
+    }
+
+    fun editProduct(id: String, product: Product, callback: ProductRepositoryCallback<ProductResponse>) {
+
+        ApiClient().services.editProduct(id, product).enqueue(object : Callback<ProductResponse?> {
+            override fun onFailure(call: Call<ProductResponse?>, t: Throwable) {
+                callback.productFailed()
+            }
+
+            override fun onResponse(
+                call: Call<ProductResponse?>,
+                response: Response<ProductResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.productSuccess(response.body())
+                }else{
+                    callback.productFailed()
+                }
+            }
+        })
+    }
+
+    fun deleteProduct(id: String, callback: ProductRepositoryCallback<ProductResponse>) {
+
+        ApiClient().services.deleteProduct(id).enqueue(object : Callback<ProductResponse?> {
+            override fun onFailure(call: Call<ProductResponse?>, t: Throwable) {
+                callback.productFailed()
+            }
+
+            override fun onResponse(
+                call: Call<ProductResponse?>,
+                response: Response<ProductResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.productSuccess(response.body())
+                }else{
+                    callback.productFailed()
+                }
+            }
+
         })
     }
 

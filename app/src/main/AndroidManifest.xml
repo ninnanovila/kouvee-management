@@ -16,7 +16,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".product.EditProductActivity"></activity>
+        <activity android:name=".product.EditProductActivity" />
         <activity android:name=".employee.EditEmployeeActivity" />
         <activity android:name=".product.ProductManagementActivity" />
         <activity android:name=".employee.EmployeeManagementActivity" />

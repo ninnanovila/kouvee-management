@@ -2,6 +2,7 @@ package com.example.kouveemanagement.employee
 
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.model.Employee
@@ -35,7 +36,7 @@ class EditEmployeeActivity : AppCompatActivity(), EmployeeView {
 
         btn_delete.setOnClickListener {
             presenter = EmployeePresenter(this, Repository())
-            presenter.deleteEmployee(id, last_emp)
+            presenter.deleteEmployee(id)
         }
     }
 
@@ -68,7 +69,7 @@ class EditEmployeeActivity : AppCompatActivity(), EmployeeView {
         val day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
 
         birthdate.setOnClickListener {
-            val datePickerDialog = DatePickerDialog(this, DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
+            val datePickerDialog = DatePickerDialog(this, DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
                 birthdate.setText("$year-$month-$dayOfMonth")
             }, year, month,day)
             datePickerDialog.show()
@@ -84,11 +85,11 @@ class EditEmployeeActivity : AppCompatActivity(), EmployeeView {
     }
 
     override fun employeeSuccess(data: EmployeeResponse?) {
-
+        Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
     }
 
     override fun employeeFailed() {
-
+        Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
     }
 
 

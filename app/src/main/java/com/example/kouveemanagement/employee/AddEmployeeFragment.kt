@@ -72,7 +72,7 @@ class AddEmployeeFragment : Fragment(), EmployeeView {
             val datePickerDialog =
                 context?.let { it1 ->
                     DatePickerDialog(it1, DatePickerDialog.OnDateSetListener {
-                            view, year, month, dayOfMonth -> birthdate.setText("$year-$month-$dayOfMonth")
+                            _, year, month, dayOfMonth -> birthdate.setText("$year-$month-$dayOfMonth")
                     }, year, month, day)
                 }
             datePickerDialog?.show()
@@ -88,11 +88,11 @@ class AddEmployeeFragment : Fragment(), EmployeeView {
     }
 
     override fun employeeSuccess(data: EmployeeResponse?) {
-        Toast.makeText(context, "Success To Add", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
     }
 
     override fun employeeFailed() {
-        Toast.makeText(context, "Failed To Add", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show()
     }
 
 

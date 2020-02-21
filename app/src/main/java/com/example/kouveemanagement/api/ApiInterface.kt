@@ -21,6 +21,9 @@ interface ApiInterface {
     @GET("employee/{id}")
     fun getEmployeeById(@Path("id")id: String): Call<EmployeeResponse>
 
+    @POST("employee/search")
+    fun getEmployeeBySearch(@Field("name")input: String): Call<EmployeeResponse>
+
     @POST("employee")
     fun addEmployee(@Body employee: Employee): Call<EmployeeResponse>
 
@@ -28,14 +31,17 @@ interface ApiInterface {
     fun editEmployee(@Path("id")id: String, @Body employee: Employee): Call<EmployeeResponse>
 
     @DELETE("employee/{id}/{last_emp}")
-    fun deleteEmployee(@Path("id")id: String, @Path("last_emp")last_emp: String): Call<EmployeeResponse>
+    fun deleteEmployee(@Path("id")id: String): Call<EmployeeResponse>
 
-    //    PRODUCT
+//    PRODUCT
     @GET("product")
     fun getAllProduct(): Call<ProductResponse>
 
     @GET("product/{id}")
     fun getProductById(@Path("id")id: String): Call<ProductResponse>
+
+    @POST("product/search")
+    fun getProductBySearch(@Field("name")input: String): Call<ProductResponse>
 
     @Multipart
     @POST("product/photo/{id}")
@@ -48,9 +54,9 @@ interface ApiInterface {
     fun editProduct(@Path("id")id: String, @Body product: Product): Call<ProductResponse>
 
     @DELETE("product/{id}/{last_emp}")
-    fun deleteProduct(@Path("id")id: String, @Path("last_emp")last_emp: String): Call<ProductResponse>
+    fun deleteProduct(@Path("id")id: String): Call<ProductResponse>
 
-    //    CUSTOMER
+//    CUSTOMER
     @GET("customer")
     fun getAllCustomer(): Call<CustomerResponse>
 
