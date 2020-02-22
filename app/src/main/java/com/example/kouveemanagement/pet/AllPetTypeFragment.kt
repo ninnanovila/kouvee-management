@@ -11,7 +11,6 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.adapter.PetRecyclerViewAdapter
 import com.example.kouveemanagement.model.PetType
@@ -104,11 +103,8 @@ class AllPetTypeFragment : Fragment(), PetTypeView {
         val btn_save = dialog.findViewById<Button>(R.id.btn_save)
         val btn_delete = dialog.findViewById<Button>(R.id.btn_delete)
 
+        val id = petType.id.toString()
         name.setText(petType.name)
-
-        val newName = name.text.toString()
-
-        val petType = PetType(petType.id.toString(), newName)
 
         AlertDialog.Builder(context)
             .setView(dialog)
@@ -116,11 +112,13 @@ class AllPetTypeFragment : Fragment(), PetTypeView {
             .show()
 
         btn_save.setOnClickListener {
-            presenter.editPetType(petType.id.toString(), petType)
+            val newName = name.text.toString()
+            val petType = PetType(id, newName)
+            presenter.editPetType(id, petType)
         }
 
         btn_delete.setOnClickListener {
-            presenter.deletePetType(petType.id.toString())
+            presenter.deletePetType(id)
         }
     }
 

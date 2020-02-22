@@ -20,6 +20,8 @@ import com.example.kouveemanagement.presenter.PetSizePresenter
 import com.example.kouveemanagement.presenter.PetSizeView
 import com.example.kouveemanagement.repository.Repository
 import kotlinx.android.synthetic.main.fragment_all_pet_size.*
+import okhttp3.internal.notify
+import okhttp3.internal.notifyAll
 
 /**
  * A simple [Fragment] subclass.
@@ -87,6 +89,7 @@ class AllPetSizeFragment : Fragment(), PetSizeView {
                 }
             }
 
+            recyclerview.adapter?.notifyDataSetChanged()
         }
 
         Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
@@ -105,9 +108,7 @@ class AllPetSizeFragment : Fragment(), PetSizeView {
         val btn_delete = dialog.findViewById<Button>(R.id.btn_delete)
 
         val id = petSize.id.toString()
-        val newName = name.text
-
-        val newPetSize = PetSize(id, newName.toString())
+        name.setText(petSize.name)
 
         AlertDialog.Builder(context)
             .setView(dialog)
@@ -115,6 +116,8 @@ class AllPetSizeFragment : Fragment(), PetSizeView {
             .show()
 
         btn_save.setOnClickListener {
+            val newName = name.text.toString()
+            val newPetSize = PetSize(id, newName)
             presenter.editPetSize(id, newPetSize)
         }
 
