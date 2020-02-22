@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kouveemanagement.adapter.MenuRecyclerViewAdapter
+import com.example.kouveemanagement.customer.CustomerManagementActivity
 import com.example.kouveemanagement.employee.EmployeeManagementActivity
 import com.example.kouveemanagement.model.Menu
 import com.example.kouveemanagement.product.ProductManagementActivity
@@ -39,7 +40,7 @@ class OwnerActivity : AppCompatActivity() {
         recyclerview.adapter = MenuRecyclerViewAdapter(menu) {
             when(it.name) {
                 "Employee" -> startActivity<EmployeeManagementActivity>()
-                "Customer" -> startActivity<EmployeeManagementActivity>()
+                "Customer" -> startActivity<CustomerManagementActivity>()
                 "Service" -> startActivity<EmployeeManagementActivity>()
                 "Pet Type" -> startActivity<EmployeeManagementActivity>()
                 "Pet Size" -> startActivity<EmployeeManagementActivity>()

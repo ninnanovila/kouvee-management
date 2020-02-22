@@ -185,3 +185,70 @@ class UploadProductImage(private val view: UploadPhotoProductView, private val r
         })
     }
 }
+
+class CustomerPresenter(private val view: CustomerView, private val repository: Repository){
+
+    fun getAllCustomer(){
+        view.showLoading()
+
+        repository.getAllCustomer(object : CustomerRepositoryCallback<CustomerResponse> {
+            override fun customerSuccess(data: CustomerResponse?) {
+                view.customerSuccess(data)
+                view.hideLoading()
+            }
+
+            override fun customerFailed() {
+                view.customerFailed()
+                view.hideLoading()
+            }
+        })
+    }
+
+    fun addCustomer(customer: Customer){
+        view.showLoading()
+
+        repository.addCustomer(customer,object : CustomerRepositoryCallback<CustomerResponse> {
+            override fun customerSuccess(data: CustomerResponse?) {
+                view.customerSuccess(data)
+                view.hideLoading()
+            }
+
+            override fun customerFailed() {
+                view.customerFailed()
+                view.hideLoading()
+            }
+        })
+    }
+
+    fun editCustomer(id: String, customer: Customer){
+        view.showLoading()
+
+        repository.editCustomer(id, customer, object : CustomerRepositoryCallback<CustomerResponse> {
+            override fun customerSuccess(data: CustomerResponse?) {
+                view.customerSuccess(data)
+                view.hideLoading()
+            }
+
+            override fun customerFailed() {
+                view.customerFailed()
+                view.hideLoading()
+            }
+        })
+    }
+
+    fun deleteCustomer(id: String, last_emp: String){
+        view.showLoading()
+
+        repository.deleteCustomer(id,last_emp, object : CustomerRepositoryCallback<CustomerResponse> {
+            override fun customerSuccess(data: CustomerResponse?) {
+                view.customerSuccess(data)
+                view.hideLoading()
+            }
+
+            override fun customerFailed() {
+                view.customerFailed()
+                view.hideLoading()
+            }
+        })
+    }
+}

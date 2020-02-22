@@ -215,4 +215,88 @@ class Repository {
         })
     }
 
+//    CUSTOMER
+    fun getAllCustomer(callback: CustomerRepositoryCallback<CustomerResponse>) {
+
+        ApiClient().services.getAllCustomer().enqueue(object : Callback<CustomerResponse?> {
+            override fun onFailure(call: Call<CustomerResponse?>, t: Throwable) {
+                callback.customerFailed()
+            }
+
+            override fun onResponse(
+                call: Call<CustomerResponse?>,
+                response: Response<CustomerResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.customerSuccess(response.body())
+                }else{
+                    callback.customerFailed()
+                }
+            }
+        })
+    }
+
+    fun addCustomer(customer: Customer, callback: CustomerRepositoryCallback<CustomerResponse>) {
+
+        ApiClient().services.addCustomer(customer).enqueue(object : Callback<CustomerResponse?> {
+            override fun onFailure(call: Call<CustomerResponse?>, t: Throwable) {
+                callback.customerFailed()
+            }
+
+            override fun onResponse(
+                call: Call<CustomerResponse?>,
+                response: Response<CustomerResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.customerSuccess(response.body())
+                }else{
+                    callback.customerFailed()
+                }
+            }
+
+        })
+    }
+
+    fun editCustomer(id: String, customer: Customer, callback: CustomerRepositoryCallback<CustomerResponse>) {
+
+        ApiClient().services.editCustomer(id, customer).enqueue(object : Callback<CustomerResponse?> {
+            override fun onFailure(call: Call<CustomerResponse?>, t: Throwable) {
+                callback.customerFailed()
+            }
+
+            override fun onResponse(
+                call: Call<CustomerResponse?>,
+                response: Response<CustomerResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.customerSuccess(response.body())
+                }else{
+                    callback.customerFailed()
+                }
+            }
+
+        })
+    }
+
+    fun deleteCustomer(id: String, last_emp: String, callback: CustomerRepositoryCallback<CustomerResponse>) {
+
+        ApiClient().services.deleteCustomer(id, last_emp).enqueue(object : Callback<CustomerResponse?> {
+            override fun onFailure(call: Call<CustomerResponse?>, t: Throwable) {
+                callback.customerFailed()
+            }
+
+            override fun onResponse(
+                call: Call<CustomerResponse?>,
+                response: Response<CustomerResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.customerSuccess(response.body())
+                }else{
+                    callback.customerFailed()
+                }
+            }
+
+        })
+    }
+
 }
