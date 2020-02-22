@@ -9,9 +9,7 @@ data class PetType(
     @SerializedName("id")
     var id: String? = null,
     @SerializedName("name")
-    var name: String? = null,
-    @SerializedName("last_emp")
-    var last_emp: String? = null
+    var name: String? = null
 ): Parcelable
 
 data class PetTypeResponse(

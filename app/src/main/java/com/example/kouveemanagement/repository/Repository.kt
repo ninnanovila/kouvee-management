@@ -299,4 +299,169 @@ class Repository {
         })
     }
 
+//    PET SIZE
+
+    fun getAllPetSize(callback: PetSizeRepositoryCallback<PetSizeResponse>) {
+
+        ApiClient().services.getAllPetSize().enqueue(object : Callback<PetSizeResponse?> {
+            override fun onFailure(call: Call<PetSizeResponse?>, t: Throwable) {
+                callback.petSizeFailed()
+            }
+
+            override fun onResponse(
+                call: Call<PetSizeResponse?>,
+                response: Response<PetSizeResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.petSizeSuccess(response.body())
+                }else{
+                    callback.petSizeFailed()
+                }
+            }
+        })
+    }
+
+    fun addPetSize(petSize: PetSize, callback: PetSizeRepositoryCallback<PetSizeResponse>) {
+
+        ApiClient().services.addPetSize(petSize).enqueue(object : Callback<PetSizeResponse?> {
+            override fun onFailure(call: Call<PetSizeResponse?>, t: Throwable) {
+                callback.petSizeFailed()
+            }
+
+            override fun onResponse(
+                call: Call<PetSizeResponse?>,
+                response: Response<PetSizeResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.petSizeSuccess(response.body())
+                }else{
+                    callback.petSizeFailed()
+                }
+            }
+        })
+    }
+
+    fun editPetSize(id: String, petSize: PetSize, callback: PetSizeRepositoryCallback<PetSizeResponse>) {
+
+        ApiClient().services.editPetSize(id, petSize).enqueue(object : Callback<PetSizeResponse?> {
+            override fun onFailure(call: Call<PetSizeResponse?>, t: Throwable) {
+                callback.petSizeFailed()
+            }
+
+            override fun onResponse(
+                call: Call<PetSizeResponse?>,
+                response: Response<PetSizeResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.petSizeSuccess(response.body())
+                }else{
+                    callback.petSizeFailed()
+                }
+            }
+        })
+    }
+
+    fun deletePetSize(id: String, callback: PetSizeRepositoryCallback<PetSizeResponse>) {
+
+        ApiClient().services.deletePetSize(id).enqueue(object : Callback<PetSizeResponse?> {
+            override fun onFailure(call: Call<PetSizeResponse?>, t: Throwable) {
+                callback.petSizeFailed()
+            }
+
+            override fun onResponse(
+                call: Call<PetSizeResponse?>,
+                response: Response<PetSizeResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.petSizeSuccess(response.body())
+                }else{
+                    callback.petSizeFailed()
+                }
+            }
+
+        })
+    }
+
+
+//    PET TYPE
+
+    fun getAllPetType(callback: PetTypeRepositoryCallback<PetTypeResponse>) {
+
+        ApiClient().services.getAllPetType().enqueue(object : Callback<PetTypeResponse?> {
+            override fun onFailure(call: Call<PetTypeResponse?>, t: Throwable) {
+                callback.petTypeFailed()
+            }
+
+            override fun onResponse(
+                call: Call<PetTypeResponse?>,
+                response: Response<PetTypeResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.petTypeSuccess(response.body())
+                }else{
+                    callback.petTypeFailed()
+                }
+            }
+        })
+    }
+
+    fun addPetType(petType: PetType, callback: PetTypeRepositoryCallback<PetTypeResponse>) {
+
+        ApiClient().services.addPetType(petType).enqueue(object : Callback<PetTypeResponse?> {
+            override fun onFailure(call: Call<PetTypeResponse?>, t: Throwable) {
+                callback.petTypeFailed()
+            }
+
+            override fun onResponse(
+                call: Call<PetTypeResponse?>,
+                response: Response<PetTypeResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.petTypeSuccess(response.body())
+                }else{
+                    callback.petTypeFailed()
+                }
+            }
+        })
+    }
+
+    fun editPetType(id: String, petType: PetType, callback: PetTypeRepositoryCallback<PetTypeResponse>) {
+
+        ApiClient().services.editPetType(id, petType).enqueue(object : Callback<PetTypeResponse?> {
+            override fun onFailure(call: Call<PetTypeResponse?>, t: Throwable) {
+                callback.petTypeFailed()
+            }
+
+            override fun onResponse(
+                call: Call<PetTypeResponse?>,
+                response: Response<PetTypeResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.petTypeSuccess(response.body())
+                }else{
+                    callback.petTypeFailed()
+                }
+            }
+        })
+    }
+
+    fun deletePetType(id: String, callback: PetTypeRepositoryCallback<PetTypeResponse>) {
+
+        ApiClient().services.deletePetType(id).enqueue(object : Callback<PetTypeResponse?> {
+            override fun onFailure(call: Call<PetTypeResponse?>, t: Throwable) {
+                callback.petTypeFailed()
+            }
+
+            override fun onResponse(
+                call: Call<PetTypeResponse?>,
+                response: Response<PetTypeResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.petTypeSuccess(response.body())
+                }else{
+                    callback.petTypeFailed()
+                }
+            }
+        })
+    }
 }

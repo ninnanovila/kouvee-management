@@ -74,4 +74,42 @@ interface ApiInterface {
     @DELETE("customer/{id}/{last_emp}")
     fun deleteCustomer(@Path("id")id: String, @Path("last_emp")last_Emp: String): Call<CustomerResponse>
 
+//    PET SIZE
+    @GET("pet_size")
+    fun getAllPetSize(): Call<PetSizeResponse>
+
+    @GET("pet_size/{id}")
+    fun getPetSizeById(@Path("id")id: String): Call<PetSizeResponse>
+
+    @POST("pet_size/search")
+    fun getPetSizeBySearch(@Field("name")input: String): Call<PetSizeResponse>
+
+    @POST("pet_size")
+    fun addPetSize(@Body petSize: PetSize): Call<PetSizeResponse>
+
+    @PUT("pet_size/{id}")
+    fun editPetSize(@Path("id")id: String, @Body petSize: PetSize): Call<PetSizeResponse>
+
+    @DELETE("pet_size/{id}")
+    fun deletePetSize(@Path("id")id: String): Call<PetSizeResponse>
+
+//    PET TYPE
+    @GET("pet_type")
+    fun getAllPetType(): Call<PetTypeResponse>
+
+    @GET("pet_type/{id}")
+    fun getPetTypeById(@Path("id")id: String): Call<PetTypeResponse>
+
+    @POST("pet_type/search")
+    fun getPetTypeBySearch(@Field("name")input: String): Call<PetTypeResponse>
+
+    @POST("pet_type")
+    fun addPetType(@Body petType: PetType): Call<PetTypeResponse>
+
+    @PUT("pet_type/{id}")
+    fun editPetType(@Path("id")id: String, @Body petType: PetType): Call<PetTypeResponse>
+
+    @DELETE("pet_type/{id}")
+    fun deletePetType(@Path("id")id: String): Call<PetTypeResponse>
+
 }

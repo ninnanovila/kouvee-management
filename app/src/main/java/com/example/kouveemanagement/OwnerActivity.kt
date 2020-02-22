@@ -8,6 +8,7 @@ import com.example.kouveemanagement.adapter.MenuRecyclerViewAdapter
 import com.example.kouveemanagement.customer.CustomerManagementActivity
 import com.example.kouveemanagement.employee.EmployeeManagementActivity
 import com.example.kouveemanagement.model.Menu
+import com.example.kouveemanagement.pet.PetManagementActivity
 import com.example.kouveemanagement.product.ProductManagementActivity
 import kotlinx.android.synthetic.main.activity_owner.*
 import org.jetbrains.anko.startActivity
@@ -39,14 +40,15 @@ class OwnerActivity : AppCompatActivity() {
         recyclerview.layoutManager = LinearLayoutManager(this)
         recyclerview.adapter = MenuRecyclerViewAdapter(menu) {
             when(it.name) {
+                //DATA MASTER
                 "Employee" -> startActivity<EmployeeManagementActivity>()
                 "Customer" -> startActivity<CustomerManagementActivity>()
                 "Service" -> startActivity<EmployeeManagementActivity>()
-                "Pet Type" -> startActivity<EmployeeManagementActivity>()
-                "Pet Size" -> startActivity<EmployeeManagementActivity>()
+                "Pet Type and Size" -> startActivity<PetManagementActivity>()
                 "Supplier" -> startActivity<EmployeeManagementActivity>()
                 "Product" -> startActivity<ProductManagementActivity>()
                 "Customer Pet" -> startActivity<EmployeeManagementActivity>()
+                //TRANSACTION
                 "Product Order" -> startActivity<EmployeeManagementActivity>()
                 "Product Transaction" -> startActivity<EmployeeManagementActivity>()
                 "Service Transaction" -> startActivity<EmployeeManagementActivity>()

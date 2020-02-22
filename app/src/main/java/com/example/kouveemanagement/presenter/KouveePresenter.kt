@@ -186,6 +186,7 @@ class UploadProductImage(private val view: UploadPhotoProductView, private val r
     }
 }
 
+//CUSTOMER
 class CustomerPresenter(private val view: CustomerView, private val repository: Repository){
 
     fun getAllCustomer(){
@@ -247,6 +248,145 @@ class CustomerPresenter(private val view: CustomerView, private val repository: 
 
             override fun customerFailed() {
                 view.customerFailed()
+                view.hideLoading()
+            }
+        })
+    }
+}
+
+//PET SIZE
+class PetSizePresenter(private val view: PetSizeView, private val repository: Repository){
+
+    fun getAllPetSize(){
+        view.showLoading()
+
+        repository.getAllPetSize(object : PetSizeRepositoryCallback<PetSizeResponse> {
+            override fun petSizeSuccess(data: PetSizeResponse?) {
+                view.petSizeSuccess(data)
+                view.hideLoading()
+            }
+
+            override fun petSizeFailed() {
+                view.petSizeFailed()
+                view.hideLoading()
+            }
+
+        })
+    }
+
+    fun addPetSize(petSize: PetSize){
+        view.showLoading()
+
+        repository.addPetSize(petSize, object : PetSizeRepositoryCallback<PetSizeResponse> {
+            override fun petSizeSuccess(data: PetSizeResponse?) {
+                view.petSizeSuccess(data)
+                view.hideLoading()
+            }
+
+            override fun petSizeFailed() {
+                view.petSizeFailed()
+                view.hideLoading()
+            }
+        })
+    }
+
+    fun editPetSize(id: String, petSize: PetSize){
+
+        view.showLoading()
+
+        repository.editPetSize(id, petSize, object : PetSizeRepositoryCallback<PetSizeResponse> {
+            override fun petSizeSuccess(data: PetSizeResponse?) {
+                view.petSizeSuccess(data)
+                view.hideLoading()
+            }
+
+            override fun petSizeFailed() {
+                view.petSizeFailed()
+                view.hideLoading()
+            }
+        })
+    }
+
+    fun deletePetSize(id: String){
+
+        view.showLoading()
+
+        repository.deletePetSize(id, object : PetSizeRepositoryCallback<PetSizeResponse>{
+            override fun petSizeSuccess(data: PetSizeResponse?) {
+                view.petSizeSuccess(data)
+                view.hideLoading()
+            }
+
+            override fun petSizeFailed() {
+                view.petSizeFailed()
+                view.hideLoading()
+            }
+        })
+    }
+}
+
+//PET TYPE
+class PetTypePresenter(private val view: PetTypeView, private val repository: Repository){
+
+    fun getAllPetType(){
+        view.showLoading()
+
+        repository.getAllPetType(object : PetTypeRepositoryCallback<PetTypeResponse> {
+            override fun petTypeSuccess(data: PetTypeResponse?) {
+                view.petTypeSuccess(data)
+                view.hideLoading()
+            }
+
+            override fun petTypeFailed() {
+                view.petTypeFailed()
+                view.hideLoading()
+            }
+        })
+    }
+
+    fun addPetType(petType: PetType){
+        view.showLoading()
+
+        repository.addPetType(petType, object : PetTypeRepositoryCallback<PetTypeResponse> {
+            override fun petTypeSuccess(data: PetTypeResponse?) {
+                view.petTypeSuccess(data)
+                view.hideLoading()
+            }
+
+            override fun petTypeFailed() {
+                view.petTypeFailed()
+                view.hideLoading()
+            }
+        })
+    }
+
+    fun editPetType(id: String, petType: PetType){
+        view.showLoading()
+
+        repository.editPetType(id, petType, object : PetTypeRepositoryCallback<PetTypeResponse> {
+            override fun petTypeSuccess(data: PetTypeResponse?) {
+                view.petTypeSuccess(data)
+                view.hideLoading()
+            }
+
+            override fun petTypeFailed() {
+                view.petTypeFailed()
+                view.hideLoading()
+            }
+        })
+    }
+
+    fun deletePetType(id: String){
+        view.showLoading()
+
+        repository.deletePetType(id, object : PetTypeRepositoryCallback<PetTypeResponse> {
+            override fun petTypeSuccess(data: PetTypeResponse?) {
+                view.petTypeSuccess(data)
+                view.hideLoading()
+            }
+
+            override fun petTypeFailed() {
+                view.petTypeFailed()
                 view.hideLoading()
             }
         })

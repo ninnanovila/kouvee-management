@@ -1,9 +1,6 @@
 package com.example.kouveemanagement.presenter
 
-import com.example.kouveemanagement.model.CustomerResponse
-import com.example.kouveemanagement.model.EmployeeResponse
-import com.example.kouveemanagement.model.LoginResponse
-import com.example.kouveemanagement.model.ProductResponse
+import com.example.kouveemanagement.model.*
 import com.example.kouveemanagement.repository.*
 import okhttp3.ResponseBody
 
@@ -28,6 +25,16 @@ interface UploadPhotoProductView : UploadPhotoProductRepositoryCallback<Response
 }
 
 interface CustomerView: CustomerRepositoryCallback<CustomerResponse> {
+    fun showLoading()
+    fun hideLoading()
+}
+
+interface PetSizeView: PetSizeRepositoryCallback<PetSizeResponse> {
+    fun showLoading()
+    fun hideLoading()
+}
+
+interface PetTypeView: PetTypeRepositoryCallback<PetTypeResponse> {
     fun showLoading()
     fun hideLoading()
 }

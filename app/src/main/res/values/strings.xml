@@ -6,8 +6,7 @@
         <item>Employee</item>
         <item>Customer</item>
         <item>Service</item>
-        <item>Pet Type</item>
-        <item>Pet Size</item>
+        <item>Pet Type and Size</item>
         <item>Supplier</item>
         <item>Product</item>
         <item>Product Order</item>
@@ -21,8 +20,7 @@
         <item>Description of Employee Menu</item>
         <item>Description of Customer Menu</item>
         <item>Description of Service Menu</item>
-        <item>Description of Pet Type Menu</item>
-        <item>Description of Pet Size Menu</item>
+        <item>Description of Pet Type and Size Menu</item>
         <item>Description of Supplier Menu</item>
         <item>Description of Product Menu</item>
         <item>Description of Product Orde Menur</item>
