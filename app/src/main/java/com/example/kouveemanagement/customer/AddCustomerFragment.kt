@@ -58,7 +58,7 @@ class AddCustomerFragment : Fragment(), CustomerView {
         val phone_number = phone_number.text.toString()
         val last_emp = "0"
 
-        customer = Customer(null, name, address, birthdate, phone_number, last_emp)
+        customer = Customer(null, name, address, birthdate, phone_number, null, null, null, last_emp)
     }
 
     fun showDatePicker(){

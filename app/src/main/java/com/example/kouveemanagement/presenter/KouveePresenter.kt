@@ -392,3 +392,69 @@ class PetTypePresenter(private val view: PetTypeView, private val repository: Re
         })
     }
 }
+
+//SUPPLIER
+class SupplierPresenter(private val view: SupplierView, private val repository: Repository){
+
+    fun getAllSupplier(){
+        view.showLoading()
+
+        repository.getAllSupplier(object : SupplierRepositoryCallback<SupplierResponse> {
+            override fun supplierSuccess(data: SupplierResponse?) {
+                view.supplierSuccess(data)
+                view.hideLoading()
+            }
+
+            override fun supplierFailed() {
+                view.supplierFailed()
+                view.hideLoading()
+            }
+        })
+    }
+
+    fun addSupplier(supplier: Supplier){
+        view.showLoading()
+
+        repository.addSupplier(supplier, object : SupplierRepositoryCallback<SupplierResponse> {
+            override fun supplierSuccess(data: SupplierResponse?) {
+                view.supplierSuccess(data)
+                view.hideLoading()
+            }
+
+            override fun supplierFailed() {
+                view.supplierFailed()
+                view.hideLoading()
+            }
+        })
+    }
+
+    fun editSupplier(id: String, supplier: Supplier){
+        view.showLoading()
+        repository.editSupplier(id, supplier, object : SupplierRepositoryCallback<SupplierResponse> {
+            override fun supplierSuccess(data: SupplierResponse?) {
+                view.supplierSuccess(data)
+                view.hideLoading()
+            }
+
+            override fun supplierFailed() {
+                view.supplierFailed()
+                view.hideLoading()
+            }
+        })
+    }
+
+    fun deleteSupplier(id: String){
+        view.showLoading()
+        repository.deleteSupplier(id, object : SupplierRepositoryCallback<SupplierResponse> {
+            override fun supplierSuccess(data: SupplierResponse?) {
+                view.supplierSuccess(data)
+                view.hideLoading()
+            }
+
+            override fun supplierFailed() {
+                view.supplierFailed()
+                view.hideLoading()
+            }
+        })
+    }
+}

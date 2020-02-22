@@ -13,11 +13,8 @@ data class Supplier(
     @SerializedName("address")
     var address: String? = null,
     @SerializedName("phone_number")
-    var phone_number: String? = null,
-    @SerializedName("last_emp")
-    var last_emp: String? = null
+    var phone_number: String? = null
 ): Parcelable
-
 
 data class SupplierResponse(
     val status: String,

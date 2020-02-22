@@ -16,6 +16,12 @@ data class Customer(
     var birthdate: String? = null,
     @SerializedName("phone_number")
     var phone_number: String? = null,
+    @SerializedName("created_at")
+    var created_at: String? = null,
+    @SerializedName("updated_at")
+    var updated_at: String? = null,
+    @SerializedName("deleted_at")
+    var deleted_at: String? = null,
     @SerializedName("last_emp")
     var last_emp: String? = null
 ) : Parcelable

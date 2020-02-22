@@ -464,4 +464,87 @@ class Repository {
             }
         })
     }
+
+    //SUPPLIER
+
+    fun getAllSupplier(callback: SupplierRepositoryCallback<SupplierResponse>) {
+
+        ApiClient().services.getAllSupplier().enqueue(object : Callback<SupplierResponse?> {
+            override fun onFailure(call: Call<SupplierResponse?>, t: Throwable) {
+                callback.supplierFailed()
+            }
+
+            override fun onResponse(
+                call: Call<SupplierResponse?>,
+                response: Response<SupplierResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.supplierSuccess(response.body())
+                }else{
+                    callback.supplierFailed()
+                }
+            }
+
+        })
+    }
+
+    fun addSupplier(supplier: Supplier, callback: SupplierRepositoryCallback<SupplierResponse>) {
+
+        ApiClient().services.addSupplier(supplier).enqueue(object : Callback<SupplierResponse?> {
+            override fun onFailure(call: Call<SupplierResponse?>, t: Throwable) {
+                callback.supplierFailed()
+            }
+
+            override fun onResponse(
+                call: Call<SupplierResponse?>,
+                response: Response<SupplierResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.supplierSuccess(response.body())
+                }else{
+                    callback.supplierFailed()
+                }
+            }
+        })
+    }
+
+    fun editSupplier(id: String, supplier: Supplier, callback: SupplierRepositoryCallback<SupplierResponse>) {
+
+        ApiClient().services.editSupplier(id, supplier).enqueue(object : Callback<SupplierResponse?> {
+            override fun onFailure(call: Call<SupplierResponse?>, t: Throwable) {
+                callback.supplierFailed()
+            }
+
+            override fun onResponse(
+                call: Call<SupplierResponse?>,
+                response: Response<SupplierResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.supplierSuccess(response.body())
+                }else{
+                    callback.supplierFailed()
+                }
+            }
+        })
+    }
+
+    fun deleteSupplier(id: String, callback: SupplierRepositoryCallback<SupplierResponse>) {
+
+        ApiClient().services.deleteSupplier(id).enqueue(object : Callback<SupplierResponse?> {
+            override fun onFailure(call: Call<SupplierResponse?>, t: Throwable) {
+                callback.supplierFailed()
+            }
+
+            override fun onResponse(
+                call: Call<SupplierResponse?>,
+                response: Response<SupplierResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.supplierSuccess(response.body())
+                }else{
+                    callback.supplierFailed()
+                }
+            }
+        })
+    }
 }

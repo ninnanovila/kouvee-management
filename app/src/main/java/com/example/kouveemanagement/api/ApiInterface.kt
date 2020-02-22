@@ -112,4 +112,22 @@ interface ApiInterface {
     @DELETE("pet_type/{id}")
     fun deletePetType(@Path("id")id: String): Call<PetTypeResponse>
 
+//    SUPPLIER
+    @GET("supplier")
+    fun getAllSupplier(): Call<SupplierResponse>
+
+    @GET("supplier/{id}")
+    fun getSupplierById(@Path("id")id: String): Call<SupplierResponse>
+
+    @POST("supplier/search")
+    fun getSupplierBySearch(@Field("name")input: String): Call<SupplierResponse>
+
+    @POST("supplier")
+    fun addSupplier(@Body supplier: Supplier): Call<SupplierResponse>
+
+    @PUT("supplier/{id}")
+    fun editSupplier(@Path("id")id: String, @Body supplier: Supplier): Call<SupplierResponse>
+
+    @DELETE("supplier/{id}")
+    fun deleteSupplier(@Path("id")id: String): Call<SupplierResponse>
 }

@@ -38,3 +38,8 @@ interface PetTypeView: PetTypeRepositoryCallback<PetTypeResponse> {
     fun showLoading()
     fun hideLoading()
 }
+
+interface SupplierView: SupplierRepositoryCallback<SupplierResponse> {
+    fun showLoading()
+    fun hideLoading()
+}

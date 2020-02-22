@@ -54,7 +54,7 @@ class AddProductFragment : Fragment(), ProductView {
         val min_stock = min_stock.text.toString()
         val price = price.text.toString()
 
-        product = Product(null, name, unit, stock.toInt(), min_stock.toInt(), price.toDouble(), null, null)
+        product = Product(null, name, unit, stock.toInt(), min_stock.toInt(), price.toDouble(), null)
     }
 
     override fun showLoading() {

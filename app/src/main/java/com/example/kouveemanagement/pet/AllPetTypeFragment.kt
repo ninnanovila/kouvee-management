@@ -113,8 +113,8 @@ class AllPetTypeFragment : Fragment(), PetTypeView {
 
         btn_save.setOnClickListener {
             val newName = name.text.toString()
-            val petType = PetType(id, newName)
-            presenter.editPetType(id, petType)
+            val newPetType = PetType(id, newName)
+            presenter.editPetType(id, newPetType)
         }
 
         btn_delete.setOnClickListener {

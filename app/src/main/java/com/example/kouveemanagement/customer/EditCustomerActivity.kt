@@ -57,7 +57,7 @@ class EditCustomerActivity : AppCompatActivity(), CustomerView {
         val phone_number = phone_number.text.toString()
         val last_emp = "0"
 
-        customer = Customer(id, name, address, birthdate, phone_number, last_emp)
+        customer = Customer(id, name, address, birthdate, phone_number, null, null, null, last_emp)
     }
 
     fun showDatePicker(){

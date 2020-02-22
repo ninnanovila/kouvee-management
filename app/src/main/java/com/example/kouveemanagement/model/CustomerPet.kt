@@ -18,6 +18,12 @@ data class CustomerPet(
     var name: String? = null,
     @SerializedName("birthdate")
     var birthdate: String? = null,
+    @SerializedName("created_at")
+    var created_at: String? = null,
+    @SerializedName("updated_at")
+    var updated_at: String? = null,
+    @SerializedName("deleted_at")
+    var deleted_at: String? = null,
     @SerializedName("last_emp")
     var last_emp: String? = null
 ): Parcelable

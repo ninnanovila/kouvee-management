@@ -60,11 +60,10 @@ class EditProductActivity : AppCompatActivity(), ProductView {
         val name = name.text.toString()
         val unit = unit.text.toString()
         val stock = stock.text.toString()
-        val min_stock = min_stock.text.toString()
+        val minStock = min_stock.text.toString()
         val price = price.text.toString()
 
-        product = Product(id, name, unit, stock.toInt(), min_stock.toInt(), price.toDouble(), null, null)
-
+        product = Product(id, name, unit, stock.toInt(), minStock.toInt(), price.toDouble(), null)
     }
 
     override fun showLoading() {

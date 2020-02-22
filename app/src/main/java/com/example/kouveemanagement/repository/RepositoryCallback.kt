@@ -34,3 +34,8 @@ interface PetTypeRepositoryCallback<PetTypeResponse> {
     fun petTypeSuccess(data: PetTypeResponse?)
     fun petTypeFailed()
 }
+
+interface SupplierRepositoryCallback<SupplierResponse> {
+    fun supplierSuccess(data: SupplierResponse?)
+    fun supplierFailed()
+}

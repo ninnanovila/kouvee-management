@@ -57,9 +57,8 @@ class EditEmployeeActivity : AppCompatActivity(), EmployeeView {
         val birthdate = birthdate.text.toString()
         val phone_number = phone_number.text.toString()
         val role = role.text.toString()
-        val last_emp = "0"
 
-        employee = Employee(id, name, address, birthdate, phone_number, role, null, last_emp)
+        employee = Employee(id, name, address, birthdate, phone_number, role, null)
     }
 
     fun showDatePicker(){
