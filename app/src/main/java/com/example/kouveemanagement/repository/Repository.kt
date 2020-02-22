@@ -1,5 +1,6 @@
 package com.example.kouveemanagement.repository
 
+import android.util.Log
 import com.example.kouveemanagement.api.ApiClient
 import com.example.kouveemanagement.model.*
 import okhttp3.MultipartBody
@@ -77,6 +78,7 @@ class Repository {
 
         ApiClient().services.editEmployee(id, employee).enqueue(object : Callback<EmployeeResponse?> {
             override fun onFailure(call: Call<EmployeeResponse?>, t: Throwable) {
+                Log.d("FAILED", "WHY?", t)
                 callback.employeeFailed()
             }
 

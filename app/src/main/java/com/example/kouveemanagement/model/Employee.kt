@@ -26,6 +26,7 @@ data class Employee(
 
 
 data class EmployeeResponse(
+    val status: String,
     @SerializedName("result")
     val employees: List<Employee>
 )

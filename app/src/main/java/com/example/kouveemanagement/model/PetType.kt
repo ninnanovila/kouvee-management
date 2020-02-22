@@ -15,6 +15,7 @@ data class PetType(
 ): Parcelable
 
 data class PetTypeResponse(
+    val status: String,
     @SerializedName("result")
     val pettype: List<PetType>
 )

@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -97,6 +98,7 @@ class AllProductFragment : Fragment(), ProductView {
         val min_stock = dialog.findViewById<TextView>(R.id.min_stock)
         val price = dialog.findViewById<TextView>(R.id.price)
         val photo = dialog.findViewById<ImageView>(R.id.photo)
+        val btn_edit = dialog.findViewById<Button>(R.id.btn_edit)
 
         name.text = product.name.toString()
         unit.text = product.unit.toString()

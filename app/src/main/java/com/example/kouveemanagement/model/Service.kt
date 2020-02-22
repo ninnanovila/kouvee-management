@@ -22,6 +22,7 @@ data class Service(
 
 
 data class ServiceResponse(
+    val status: String,
     @SerializedName("result")
     val services: List<Service>
 )

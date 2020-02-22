@@ -20,6 +20,7 @@ data class Supplier(
 
 
 data class SupplierResponse(
+    val status: String,
     @SerializedName("result")
     val suppliers: List<Supplier>
 )

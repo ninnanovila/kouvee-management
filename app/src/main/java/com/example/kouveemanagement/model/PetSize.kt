@@ -16,6 +16,7 @@ data class PetSize(
 
 
 data class PetSizeResponse(
+    val status: String,
     @SerializedName("result")
     val petsize: List<PetSize>
 )

@@ -2,7 +2,6 @@ package com.example.kouveemanagement.api
 
 import com.example.kouveemanagement.model.*
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
@@ -53,7 +52,7 @@ interface ApiInterface {
     @PUT("product/{id}")
     fun editProduct(@Path("id")id: String, @Body product: Product): Call<ProductResponse>
 
-    @DELETE("product/{id}/{last_emp}")
+    @DELETE("product/{id}")
     fun deleteProduct(@Path("id")id: String): Call<ProductResponse>
 
 //    CUSTOMER
@@ -63,14 +62,16 @@ interface ApiInterface {
     @GET("customer/{id}")
     fun getCustomerById(@Path("id")id: String): Call<CustomerResponse>
 
+    @POST("customer/search")
+    fun getCustomerBySearch(@Field("name")input: String): Call<CustomerResponse>
+
     @POST("customer")
     fun addCustomer(@Body customer: Customer): Call<CustomerResponse>
 
     @PUT("customer/{id}")
     fun editCustomer(@Path("id")id: String, @Body customer: Customer): Call<CustomerResponse>
 
-    @DELETE("customer/{id}")
-    fun deleteCustomer(@Path("id")id: String): Call<CustomerResponse>
-
+    @DELETE("customer/{id}/{last_emp}")
+    fun deleteCustomer(@Path("id")id: String, @Path("last_emp")last_Emp: String): Call<CustomerResponse>
 
 }

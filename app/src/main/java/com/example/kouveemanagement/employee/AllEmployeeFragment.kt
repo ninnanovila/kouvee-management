@@ -3,7 +3,6 @@ package com.example.kouveemanagement.employee
 
 import android.app.AlertDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,11 +18,8 @@ import com.example.kouveemanagement.model.EmployeeResponse
 import com.example.kouveemanagement.presenter.EmployeePresenter
 import com.example.kouveemanagement.presenter.EmployeeView
 import com.example.kouveemanagement.repository.Repository
-import kotlinx.android.synthetic.main.dialog_detail_employee.*
 import kotlinx.android.synthetic.main.fragment_all_employee.*
-import org.jetbrains.anko.support.v4.find
 import org.jetbrains.anko.support.v4.startActivity
-import org.w3c.dom.Text
 
 /**
  * A simple [Fragment] subclass.

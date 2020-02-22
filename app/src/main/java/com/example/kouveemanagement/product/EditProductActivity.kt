@@ -49,9 +49,9 @@ class EditProductActivity : AppCompatActivity(), ProductView {
 
         name.setText(product?.name)
         unit.setText(product?.unit)
-        product?.stock?.let { stock.setText(it) }
-        product?.min_stock?.let { min_stock.setText(it) }
-        product?.price?.toInt()?.let { price.setText(it) }
+        product?.stock?.toString()?.let { stock.setText(it) }
+        product?.min_stock?.toString()?.let { min_stock.setText(it) }
+        product?.price?.toString()?.let { price.setText(it) }
 
         product?.photo.let { Picasso.get().load(base_url+product?.photo.toString()).fit().into(image_product) }
     }

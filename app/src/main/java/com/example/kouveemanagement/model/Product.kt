@@ -25,6 +25,7 @@ data class Product(
 ): Parcelable
 
 data class ProductResponse(
+    val status: String,
     @SerializedName("result")
     val products: List<Product>
 )

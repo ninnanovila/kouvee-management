@@ -24,6 +24,7 @@ data class CustomerPet(
 
 
 data class CustomerPetResponse(
+    val status: String,
     @SerializedName("result")
     val customerpets: List<CustomerPet>
 )

@@ -22,6 +22,7 @@ data class Customer(
 
 
 data class CustomerResponse(
+    val status: String,
     @SerializedName("result")
     val customers: List<Customer>
 )
