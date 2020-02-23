@@ -29,9 +29,26 @@
         <item>Description of Service Transaction Menu</item>
     </string-array>
 
+
+    <!--STRING UNTUK MENU-->
+    <string-array name="cs_menu">
+        <item>Customer</item>
+        <item>Customer Pet</item>
+        <item>Product Transaction</item>
+        <item>Service Transaction</item>
+    </string-array>
+
+    <!--MENU DESC-->
+    <string-array name="cs_desc">
+        <item>Description of Customer Menu</item>
+        <item>Description of Customer Pet Menu</item>
+        <item>Description of Product Transaction Menu</item>
+        <item>Description of Service Transaction Menu</item>
+    </string-array>
+
     <!--STRING DATA-->
     <string name="content_desc">Image</string>
-    <string name="login">Login</string>
+    <string name="login">Log In</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="add">Add</string>
@@ -43,5 +60,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="login_id">Input your id</string>
     <string name="login_password">Input your password</string>
+    <string name="logout">Log Out</string>
 
 </resources>
