@@ -83,7 +83,7 @@ class AllPetTypeFragment : Fragment(), PetTypeView {
                 PetRecyclerViewAdapter("type", petTypes, {
                     showDialog(it)
                     Toast.makeText(context, it.id, Toast.LENGTH_SHORT).show()
-                }, emptyList(),{})
+                }, mutableListOf(),{})
             }
 
         }

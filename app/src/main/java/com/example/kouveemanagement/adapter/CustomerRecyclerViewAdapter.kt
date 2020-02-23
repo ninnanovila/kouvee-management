@@ -9,7 +9,7 @@ import com.example.kouveemanagement.R
 import com.example.kouveemanagement.model.Customer
 import kotlinx.android.extensions.LayoutContainer
 
-class CustomerRecyclerViewAdapter(private val customers: List<Customer>, private val listener: (Customer) -> Unit) : RecyclerView.Adapter<CustomerRecyclerViewAdapter.ViewHolder>() {
+class CustomerRecyclerViewAdapter(private val customers: MutableList<Customer>, private val listener: (Customer) -> Unit) : RecyclerView.Adapter<CustomerRecyclerViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val viewHolder = LayoutInflater.from(parent.context)

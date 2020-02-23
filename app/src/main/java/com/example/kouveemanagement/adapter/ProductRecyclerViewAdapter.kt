@@ -11,7 +11,7 @@ import com.example.kouveemanagement.model.Product
 import com.squareup.picasso.Picasso
 import kotlinx.android.extensions.LayoutContainer
 
-class ProductRecyclerViewAdapter (private val products : List<Product>, private val listener: (Product) -> Unit) : RecyclerView.Adapter<ProductRecyclerViewAdapter.ViewHolder>(){
+class ProductRecyclerViewAdapter (private val products : MutableList<Product>, private val listener: (Product) -> Unit) : RecyclerView.Adapter<ProductRecyclerViewAdapter.ViewHolder>(){
 
     override fun onCreateViewHolder(
         parent: ViewGroup,

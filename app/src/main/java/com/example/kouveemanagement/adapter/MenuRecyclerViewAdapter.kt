@@ -9,7 +9,7 @@ import com.example.kouveemanagement.R
 import com.example.kouveemanagement.model.Menu
 import kotlinx.android.extensions.LayoutContainer
 
-class MenuRecyclerViewAdapter (private val menu: List<Menu>, private val listener: (Menu) -> Unit) : RecyclerView.Adapter<MenuRecyclerViewAdapter.ViewHolder>() {
+class MenuRecyclerViewAdapter (private val menu: MutableList<Menu>, private val listener: (Menu) -> Unit) : RecyclerView.Adapter<MenuRecyclerViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val viewHolder = LayoutInflater.from(parent.context)

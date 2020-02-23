@@ -10,6 +10,7 @@ import com.example.kouveemanagement.presenter.SupplierPresenter
 import com.example.kouveemanagement.presenter.SupplierView
 import com.example.kouveemanagement.repository.Repository
 import kotlinx.android.synthetic.main.activity_edit_supplier.*
+import org.jetbrains.anko.startActivity
 
 class EditSupplierActivity : AppCompatActivity(), SupplierView {
 
@@ -61,7 +62,7 @@ class EditSupplierActivity : AppCompatActivity(), SupplierView {
 
     override fun supplierSuccess(data: SupplierResponse?) {
         Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
-
+        startActivity<SupplierManagementActivity>()
     }
 
     override fun supplierFailed() {

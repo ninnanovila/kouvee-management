@@ -83,7 +83,7 @@ class AllPetSizeFragment : Fragment(), PetSizeView {
 
             recyclerview.layoutManager = LinearLayoutManager(context)
             recyclerview.adapter = context?.let {
-                PetRecyclerViewAdapter("size", emptyList(), {}, petSizes){
+                PetRecyclerViewAdapter("size", mutableListOf(), {}, petSizes){
                     showDialog(it)
                     Toast.makeText(context, it.id, Toast.LENGTH_SHORT).show()
                 }

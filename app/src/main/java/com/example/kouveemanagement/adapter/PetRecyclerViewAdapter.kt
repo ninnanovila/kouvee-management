@@ -10,7 +10,7 @@ import com.example.kouveemanagement.model.PetSize
 import com.example.kouveemanagement.model.PetType
 import kotlinx.android.extensions.LayoutContainer
 
-class PetRecyclerViewAdapter(private val id: String, private val type: List<PetType>, private val listenerT: (PetType) -> Unit, private val size: List<PetSize>, private val listenerS: (PetSize) -> Unit) : RecyclerView.Adapter<PetRecyclerViewAdapter.ViewHolder>()  {
+class PetRecyclerViewAdapter(private val id: String, private val type: MutableList<PetType>, private val listenerT: (PetType) -> Unit, private val size: MutableList<PetSize>, private val listenerS: (PetSize) -> Unit) : RecyclerView.Adapter<PetRecyclerViewAdapter.ViewHolder>()  {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,

@@ -41,5 +41,7 @@
     <string name="choose">Choose</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="login_id">Input your id</string>
+    <string name="login_password">Input your password</string>
 
 </resources>

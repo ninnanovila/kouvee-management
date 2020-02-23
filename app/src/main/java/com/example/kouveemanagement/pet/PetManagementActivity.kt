@@ -43,5 +43,9 @@ class PetManagementActivity : AppCompatActivity() {
                 else -> "Pet Type"
             }
         }.attach()
+
+        recreate()
     }
+
+
 }
