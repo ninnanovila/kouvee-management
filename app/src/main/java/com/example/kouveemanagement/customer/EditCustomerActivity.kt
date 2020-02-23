@@ -26,16 +26,14 @@ class EditCustomerActivity : AppCompatActivity(), CustomerView {
 
         setData()
         showDatePicker()
+        presenter = CustomerPresenter(this, Repository())
 
         btn_save.setOnClickListener {
             getData()
-
-            presenter = CustomerPresenter(this, Repository())
             presenter.editCustomer(id, customer)
         }
 
         btn_delete.setOnClickListener {
-            presenter = CustomerPresenter(this, Repository())
             presenter.deleteCustomer(id, last_emp)
         }
     }

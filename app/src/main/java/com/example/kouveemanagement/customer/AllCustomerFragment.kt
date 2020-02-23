@@ -65,7 +65,7 @@ class AllCustomerFragment : Fragment(), CustomerView {
         }else{
 
             for (i in temp.indices){
-                customers.add(i, temp.get(i))
+                customers.add(i, temp[i])
             }
 
             recyclerview.layoutManager = LinearLayoutManager(context)

@@ -21,8 +21,7 @@ class MainActivity : AppCompatActivity(), LoginView {
         loginPresenter = LoginPresenter(this, Repository())
 
         btn_login.setOnClickListener {
-            startActivity<OwnerActivity>()
-//            loginPresenter.loginPost(id_login.text.toString(), password_login.text.toString())
+            loginPresenter.loginPost(id_login.text.toString(), password_login.text.toString())
         }
     }
 
@@ -36,9 +35,9 @@ class MainActivity : AppCompatActivity(), LoginView {
         //start another activity
         Toast.makeText(this, "Success!", Toast.LENGTH_SHORT).show()
         when(data?.employee?.role){
-            "Owner" -> startActivity<OwnerActivity>()
+            "Admin" -> startActivity<OwnerActivity>()
             "Customer Service" -> startActivity<CustomerServiceActivity>()
-            "Kasir" -> Toast.makeText(this, "Chasier can not log in", Toast.LENGTH_SHORT).show()
+            "Cashier" -> Toast.makeText(this, "Chasier can not log in", Toast.LENGTH_SHORT).show()
         }
 
     }

@@ -466,7 +466,6 @@ class Repository {
     }
 
     //SUPPLIER
-
     fun getAllSupplier(callback: SupplierRepositoryCallback<SupplierResponse>) {
 
         ApiClient().services.getAllSupplier().enqueue(object : Callback<SupplierResponse?> {

@@ -10,6 +10,7 @@ import com.example.kouveemanagement.employee.EmployeeManagementActivity
 import com.example.kouveemanagement.model.Menu
 import com.example.kouveemanagement.pet.PetManagementActivity
 import com.example.kouveemanagement.product.ProductManagementActivity
+import com.example.kouveemanagement.supplier.SupplierManagementActivity
 import kotlinx.android.synthetic.main.activity_owner.*
 import org.jetbrains.anko.startActivity
 
@@ -43,10 +44,10 @@ class OwnerActivity : AppCompatActivity() {
                 //DATA MASTER
                 "Employee" -> startActivity<EmployeeManagementActivity>()
                 "Customer" -> startActivity<CustomerManagementActivity>()
-                "Service" -> startActivity<EmployeeManagementActivity>()
                 "Pet Type and Size" -> startActivity<PetManagementActivity>()
-                "Supplier" -> startActivity<EmployeeManagementActivity>()
+                "Supplier" -> startActivity<SupplierManagementActivity>()
                 "Product" -> startActivity<ProductManagementActivity>()
+                "Service" -> startActivity<EmployeeManagementActivity>()
                 "Customer Pet" -> startActivity<EmployeeManagementActivity>()
                 //TRANSACTION
                 "Product Order" -> startActivity<EmployeeManagementActivity>()
