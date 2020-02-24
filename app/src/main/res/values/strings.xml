@@ -61,5 +61,12 @@
     <string name="login_id">Input your id</string>
     <string name="login_password">Input your password</string>
     <string name="logout">Log Out</string>
+    <string name="home">HOME</string>
+    <string name="supplier_management">Supplier Management</string>
+    <string name="name">Name</string>
+    <string name="address">Address</string>
+    <string name="phone_number">Phone number</string>
+    <string name="add_supplier">Add Supplier</string>
+    <string name="edit_supplier">Edit Supplier</string>
 
 </resources>

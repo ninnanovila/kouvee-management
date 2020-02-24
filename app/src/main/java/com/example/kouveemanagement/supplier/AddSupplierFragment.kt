@@ -46,6 +46,10 @@ class AddSupplierFragment : Fragment(), SupplierView {
             presenter = SupplierPresenter(this, Repository())
             presenter.addSupplier(supplier)
         }
+
+        btn_close.setOnClickListener {
+            activity?.supportFragmentManager?.beginTransaction()?.remove(this)?.commit()
+        }
     }
 
     fun getData(){
@@ -57,18 +61,19 @@ class AddSupplierFragment : Fragment(), SupplierView {
 
 
     override fun showLoading() {
-
+        btn_add.visibility = View.INVISIBLE
+        progressbar.visibility = View.VISIBLE
     }
 
     override fun hideLoading() {
-
+        progressbar.visibility = View.INVISIBLE
+        btn_add.visibility = View.VISIBLE
     }
 
     override fun supplierSuccess(data: SupplierResponse?) {
         Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
         val intent = Intent(activity, SupplierManagementActivity::class.java)
         startActivity(intent)
-
     }
 
     override fun supplierFailed() {

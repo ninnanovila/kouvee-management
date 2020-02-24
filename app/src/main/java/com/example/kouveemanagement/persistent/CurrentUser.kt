@@ -1,7 +1,6 @@
 package com.example.kouveemanagement.persistent
 
 import androidx.room.*
-import retrofit2.http.DELETE
 
 @Entity(tableName = "current_user")
 data class CurrentUser(

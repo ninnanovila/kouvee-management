@@ -1,12 +1,9 @@
 package com.example.kouveemanagement
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.view.WindowManager
 import android.widget.Toast
-import androidx.core.view.isInvisible
-import androidx.core.view.isVisible
+import androidx.appcompat.app.AppCompatActivity
 import androidx.room.Room
 import com.example.kouveemanagement.model.Employee
 import com.example.kouveemanagement.model.LoginResponse
@@ -16,7 +13,6 @@ import com.example.kouveemanagement.presenter.LoginPresenter
 import com.example.kouveemanagement.presenter.LoginView
 import com.example.kouveemanagement.repository.Repository
 import kotlinx.android.synthetic.main.activity_main.*
-import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.startActivity
 
 class MainActivity : AppCompatActivity(), LoginView {
@@ -25,6 +21,7 @@ class MainActivity : AppCompatActivity(), LoginView {
 
     companion object {
         var database: AppDatabase? = null
+        var currentUser: CurrentUser? = null
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,6 +29,7 @@ class MainActivity : AppCompatActivity(), LoginView {
         setContentView(R.layout.activity_main)
 
         database = Room.databaseBuilder(this, AppDatabase::class.java, "kouvee-db").build()
+        checkCurrentUser()
 
         loginPresenter = LoginPresenter(this, Repository())
 
@@ -51,13 +49,16 @@ class MainActivity : AppCompatActivity(), LoginView {
     }
 
     override fun loginSuccess(data: LoginResponse?) {
-        //start another activity
-        Toast.makeText(this, "Success!", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Success, welcome!", Toast.LENGTH_SHORT).show()
         data?.employee?.let { insertCurrentUser(it) }
         when(data?.employee?.role){
             "Admin" -> startActivity<OwnerActivity>()
             "Customer Service" -> startActivity<CustomerServiceActivity>()
-            "Cashier" -> Toast.makeText(this, "Chasier can not log in", Toast.LENGTH_SHORT).show()
+            "Cashier" -> Toast.makeText(this, "Cashier can not log in", Toast.LENGTH_SHORT).show()
+        }
+
+        if(data?.employee?.role.equals("Cashier")){
+            deleteCurrentUser()
         }
     }
 
@@ -65,10 +66,31 @@ class MainActivity : AppCompatActivity(), LoginView {
         Toast.makeText(this, "Failed!", Toast.LENGTH_SHORT).show()
     }
 
+    private fun checkCurrentUser(){
+        val thread = Thread {
+            currentUser = database?.currentUserDao()?.getCurrentuser()
+
+            when(currentUser?.user_role){
+                "Admin" -> startActivity<OwnerActivity>()
+                "Customer Service" -> startActivity<CustomerServiceActivity>()
+            }
+        }
+        thread.start()
+    }
+
     private fun insertCurrentUser(employee: Employee){
         val thread = Thread {
-            val currentUser = CurrentUser(employee.id.toString(), employee.name.toString(), employee.role.toString())
-            database?.currentUserDao()?.insertCurrentUser(currentUser)
+            currentUser = CurrentUser(employee.id.toString(), employee.name.toString(), employee.role.toString())
+            database?.clearAllTables()
+            database?.currentUserDao()?.insertCurrentUser(currentUser!!)
+        }
+        thread.start()
+    }
+
+    private fun deleteCurrentUser(){
+        val thread = Thread {
+            database?.clearAllTables()
+            currentUser?.let { database?.currentUserDao()?.deleteCurrentUser(it) }
         }
         thread.start()
     }

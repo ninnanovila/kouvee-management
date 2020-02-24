@@ -3,6 +3,7 @@ package com.example.kouveemanagement.supplier
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import com.example.kouveemanagement.OwnerActivity
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.model.Supplier
 import com.example.kouveemanagement.model.SupplierResponse
@@ -34,6 +35,10 @@ class EditSupplierActivity : AppCompatActivity(), SupplierView {
         btn_delete.setOnClickListener {
             presenter.deleteSupplier(id)
         }
+
+        btn_home.setOnClickListener {
+            startActivity<OwnerActivity>()
+        }
     }
 
     private fun setData(){
@@ -43,6 +48,9 @@ class EditSupplierActivity : AppCompatActivity(), SupplierView {
         name.setText(supplier?.name)
         address.setText(supplier?.address)
         phone_number.setText(supplier?.phone_number)
+        created_at.text = supplier?.created_at
+        updated_at.text = supplier?.updated_at
+        deleted_at.text = supplier?.deleted_at
     }
 
     fun getData(){
@@ -67,5 +75,10 @@ class EditSupplierActivity : AppCompatActivity(), SupplierView {
 
     override fun supplierFailed() {
         Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        startActivity<SupplierManagementActivity>()
     }
 }

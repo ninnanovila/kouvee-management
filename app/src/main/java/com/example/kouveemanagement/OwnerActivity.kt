@@ -1,8 +1,9 @@
 package com.example.kouveemanagement
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.room.Room
 import com.example.kouveemanagement.adapter.MenuRecyclerViewAdapter
@@ -10,6 +11,7 @@ import com.example.kouveemanagement.customer.CustomerManagementActivity
 import com.example.kouveemanagement.employee.EmployeeManagementActivity
 import com.example.kouveemanagement.model.Menu
 import com.example.kouveemanagement.persistent.AppDatabase
+import com.example.kouveemanagement.persistent.CurrentUser
 import com.example.kouveemanagement.pet.PetManagementActivity
 import com.example.kouveemanagement.product.ProductManagementActivity
 import com.example.kouveemanagement.supplier.SupplierManagementActivity
@@ -22,6 +24,7 @@ class OwnerActivity : AppCompatActivity() {
 
     companion object {
         var database: AppDatabase? = null
+        var currentUser: CurrentUser? = null
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,6 +37,10 @@ class OwnerActivity : AppCompatActivity() {
         setMenu()
 
         getCurrentUser()
+
+        btn_logout.setOnClickListener {
+            showLogoutConfirm()
+        }
     }
 
     private fun menuInitialization(){
@@ -70,13 +77,37 @@ class OwnerActivity : AppCompatActivity() {
 
     private fun getCurrentUser(){
         val thread = Thread {
-            val currentUser = database?.currentUserDao()?.getCurrentuser()
+            currentUser = database?.currentUserDao()?.getCurrentuser()
 
             id.text = currentUser?.user_id
             name.text = currentUser?.user_name
             role.text = currentUser?.user_role
         }
         thread.start()
+    }
+
+    private fun showLogoutConfirm(){
+        val confirm = AlertDialog.Builder(this)
+            .setTitle("Confirmation")
+            .setMessage("Are you sure to log out ?")
+
+        confirm.setNegativeButton("NO") { _, _ ->
+            Toast.makeText(this, "Stay here.", Toast.LENGTH_SHORT).show()
+        }
+
+        confirm.setPositiveButton("YES") { _, _ ->
+            val thread = Thread {
+                currentUser?.let { database?.currentUserDao()?.deleteCurrentUser(it) }
+                database?.clearAllTables()
+                startActivity<MainActivity>()
+            }
+            thread.start()
+        }
+        confirm.show()
+    }
+
+    override fun onBackPressed() {
+        showLogoutConfirm()
     }
 
 
