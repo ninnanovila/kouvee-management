@@ -68,5 +68,8 @@
     <string name="phone_number">Phone number</string>
     <string name="add_supplier">Add Supplier</string>
     <string name="edit_supplier">Edit Supplier</string>
+    <string name="customer_management">Customer Management</string>
+    <string name="add_customer">Add Customer</string>
+    <string name="birthdate">Birthdate</string>
 
 </resources>

@@ -2,6 +2,7 @@ package com.example.kouveemanagement.customer
 
 
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -16,6 +17,14 @@ import com.example.kouveemanagement.presenter.CustomerPresenter
 import com.example.kouveemanagement.presenter.CustomerView
 import com.example.kouveemanagement.repository.Repository
 import kotlinx.android.synthetic.main.fragment_add_customer.*
+import kotlinx.android.synthetic.main.fragment_add_customer.address
+import kotlinx.android.synthetic.main.fragment_add_customer.btn_add
+import kotlinx.android.synthetic.main.fragment_add_customer.btn_close
+import kotlinx.android.synthetic.main.fragment_add_customer.name
+import kotlinx.android.synthetic.main.fragment_add_customer.phone_number
+import kotlinx.android.synthetic.main.fragment_add_customer.progressbar
+import kotlinx.android.synthetic.main.fragment_add_supplier.*
+import org.jetbrains.anko.support.v4.startActivity
 import java.util.*
 
 /**
@@ -46,6 +55,10 @@ class AddCustomerFragment : Fragment(), CustomerView {
 
             presenter = CustomerPresenter(this, Repository())
             presenter.addCustomer(customer)
+        }
+
+        btn_close.setOnClickListener {
+            activity?.supportFragmentManager?.beginTransaction()?.remove(this)?.commit()
         }
 
         showDatePicker()
@@ -79,15 +92,18 @@ class AddCustomerFragment : Fragment(), CustomerView {
     }
 
     override fun showLoading() {
-
+        btn_add.visibility = View.INVISIBLE
+        progressbar.visibility = View.VISIBLE
     }
 
     override fun hideLoading() {
-
+        progressbar.visibility = View.INVISIBLE
+        btn_add.visibility = View.VISIBLE
     }
 
     override fun customerSuccess(data: CustomerResponse?) {
         Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
+        startActivity<CustomerManagementActivity>()
     }
 
     override fun customerFailed() {

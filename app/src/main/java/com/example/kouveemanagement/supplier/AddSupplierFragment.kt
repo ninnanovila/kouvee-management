@@ -15,6 +15,7 @@ import com.example.kouveemanagement.presenter.SupplierPresenter
 import com.example.kouveemanagement.presenter.SupplierView
 import com.example.kouveemanagement.repository.Repository
 import kotlinx.android.synthetic.main.fragment_add_supplier.*
+import org.jetbrains.anko.support.v4.startActivity
 
 
 /**
@@ -72,8 +73,7 @@ class AddSupplierFragment : Fragment(), SupplierView {
 
     override fun supplierSuccess(data: SupplierResponse?) {
         Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
-        val intent = Intent(activity, SupplierManagementActivity::class.java)
-        startActivity(intent)
+        startActivity<SupplierManagementActivity>()
     }
 
     override fun supplierFailed() {

@@ -2,6 +2,7 @@ package com.example.kouveemanagement.supplier
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import com.example.kouveemanagement.OwnerActivity
 import com.example.kouveemanagement.R
@@ -16,7 +17,6 @@ import org.jetbrains.anko.startActivity
 class EditSupplierActivity : AppCompatActivity(), SupplierView {
 
     private lateinit var id: String
-    private lateinit var last_emp: String
     private lateinit var presenter: SupplierPresenter
     private lateinit var supplier: Supplier
 
@@ -44,7 +44,6 @@ class EditSupplierActivity : AppCompatActivity(), SupplierView {
     private fun setData(){
         val supplier: Supplier? = intent.getParcelableExtra("supplier")
         id = supplier?.id.toString()
-        last_emp = "0"
         name.setText(supplier?.name)
         address.setText(supplier?.address)
         phone_number.setText(supplier?.phone_number)
@@ -62,10 +61,15 @@ class EditSupplierActivity : AppCompatActivity(), SupplierView {
     }
 
     override fun showLoading() {
-
+        progressbar.visibility = View.VISIBLE
+        btn_save.visibility = View.INVISIBLE
+        btn_delete.visibility = View.INVISIBLE
     }
 
     override fun hideLoading() {
+        progressbar.visibility = View.INVISIBLE
+        btn_save.visibility = View.VISIBLE
+        btn_delete.visibility = View.VISIBLE
     }
 
     override fun supplierSuccess(data: SupplierResponse?) {
