@@ -2,7 +2,9 @@ package com.example.kouveemanagement.product
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
+import com.example.kouveemanagement.OwnerActivity
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.model.Product
 import com.example.kouveemanagement.model.ProductResponse
@@ -11,6 +13,7 @@ import com.example.kouveemanagement.presenter.ProductView
 import com.example.kouveemanagement.repository.Repository
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_edit_product.*
+import org.jetbrains.anko.startActivity
 
 class EditProductActivity : AppCompatActivity(), ProductView {
 
@@ -23,15 +26,14 @@ class EditProductActivity : AppCompatActivity(), ProductView {
         setContentView(R.layout.activity_edit_product)
 
         setData()
+        presenter = ProductPresenter(this, Repository())
 
         btn_save.setOnClickListener {
             getData()
-            presenter = ProductPresenter(this, Repository())
             presenter.editProduct(id, product)
         }
 
         btn_delete.setOnClickListener {
-            presenter = ProductPresenter(this, Repository())
             presenter.deleteProduct(id)
         }
 
@@ -52,6 +54,8 @@ class EditProductActivity : AppCompatActivity(), ProductView {
         product?.stock?.toString()?.let { stock.setText(it) }
         product?.min_stock?.toString()?.let { min_stock.setText(it) }
         product?.price?.toString()?.let { price.setText(it) }
+        created_at.text = product?.created_at
+        updated_at.text = product?.updated_at
 
         product?.photo.let { Picasso.get().load(base_url+product?.photo.toString()).fit().into(image_product) }
     }
@@ -67,19 +71,25 @@ class EditProductActivity : AppCompatActivity(), ProductView {
     }
 
     override fun showLoading() {
-
+        progressbar.visibility = View.VISIBLE
     }
 
     override fun hideLoading() {
-
+        progressbar.visibility = View.INVISIBLE
     }
 
     override fun productSuccess(data: ProductResponse?) {
         Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
+        startActivity<OwnerActivity>()
     }
 
     override fun productFailed() {
         Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        startActivity<OwnerActivity>()
     }
 
 

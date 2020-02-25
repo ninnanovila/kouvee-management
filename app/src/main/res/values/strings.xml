@@ -29,7 +29,6 @@
         <item>Description of Service Transaction Menu</item>
     </string-array>
 
-
     <!--STRING UNTUK MENU-->
     <string-array name="cs_menu">
         <item>Customer</item>
@@ -77,5 +76,10 @@
     <string name="add_size">Add Size</string>
     <string name="add_type">Add type</string>
     <string name="add_pet">Add Pet</string>
+    <string name="add_product">Add Product</string>
+    <string name="unit">Unit</string>
+    <string name="stock">Stock</string>
+    <string name="minimum_stock">Minimum stock</string>
+    <string name="price">Price</string>
 
 </resources>

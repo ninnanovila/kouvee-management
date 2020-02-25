@@ -224,6 +224,9 @@ class PetManagementActivity : AppCompatActivity(), PetSizeView, PetTypeView {
         }
 
         fab_add.setOnClickListener {
+            isRotate = Animation.rotateFab(fab_menu, !isRotate)
+            Animation.showOut(fab_add)
+            Animation.showOut(fab_search)
             val fragment: Fragment = AddPetFragment.newInstance()
             val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
             transaction.replace(R.id.container, fragment).commit()

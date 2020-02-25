@@ -13,7 +13,12 @@ import com.example.kouveemanagement.model.ProductResponse
 import com.example.kouveemanagement.presenter.ProductPresenter
 import com.example.kouveemanagement.presenter.ProductView
 import com.example.kouveemanagement.repository.Repository
+import kotlinx.android.synthetic.main.fragment_add_customer.*
 import kotlinx.android.synthetic.main.fragment_add_product.*
+import kotlinx.android.synthetic.main.fragment_add_product.btn_add
+import kotlinx.android.synthetic.main.fragment_add_product.name
+import kotlinx.android.synthetic.main.fragment_add_product.progressbar
+import org.jetbrains.anko.support.v4.startActivity
 
 /**
  * A simple [Fragment] subclass.
@@ -58,19 +63,22 @@ class AddProductFragment : Fragment(), ProductView {
     }
 
     override fun showLoading() {
-
+        btn_add.visibility = View.INVISIBLE
+        progressbar.visibility = View.VISIBLE
     }
 
     override fun hideLoading() {
-
+        progressbar.visibility = View.INVISIBLE
+        btn_add.visibility = View.VISIBLE
     }
 
     override fun productSuccess(data: ProductResponse?) {
-        Toast.makeText(context, "Success To Add", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
+        startActivity<ProductManagementActivity>()
     }
 
     override fun productFailed() {
-        Toast.makeText(context, "Failed To Add", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show()
     }
 
 }

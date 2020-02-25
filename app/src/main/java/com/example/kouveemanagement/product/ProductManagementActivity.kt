@@ -1,47 +1,137 @@
 package com.example.kouveemanagement.product
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.app.AlertDialog
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.fragment.app.FragmentTransaction
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.kouveemanagement.Animation
+import com.example.kouveemanagement.OwnerActivity
 import com.example.kouveemanagement.R
-import com.google.android.material.tabs.TabLayoutMediator
+import com.example.kouveemanagement.adapter.ProductRecyclerViewAdapter
+import com.example.kouveemanagement.model.Product
+import com.example.kouveemanagement.model.ProductResponse
+import com.example.kouveemanagement.presenter.ProductPresenter
+import com.example.kouveemanagement.presenter.ProductView
+import com.example.kouveemanagement.repository.Repository
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_product_management.*
+import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.support.v4.startActivity
 
-class ProductManagementActivity : AppCompatActivity() {
+class ProductManagementActivity : AppCompatActivity(), ProductView {
+
+    private var products: MutableList<Product> = mutableListOf()
+    private lateinit var presenter: ProductPresenter
+
+    private lateinit var dialog: View
+    private var isRotate = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product_management)
-
-        setTabLayout()
+        presenter = ProductPresenter(this, Repository())
+        presenter.getAllProduct()
+        btn_home.setOnClickListener {
+            startActivity<OwnerActivity>()
+        }
+        fabAnimation()
     }
 
-    private fun setTabLayout(){
-        viewpager.adapter = object : FragmentStateAdapter(this) {
-            override fun getItemCount(): Int {
-                return 2
-            }
+    override fun showLoading() {
+        progressbar.visibility = View.VISIBLE
+    }
 
-            override fun createFragment(position: Int): Fragment {
-                return when(position){
-                    0 -> {
-                        AllProductFragment.newInstance()
-                    }
-                    else -> {
-                        AddProductFragment.newInstance()
-                    }
-                }
+    override fun hideLoading() {
+        progressbar.visibility = View.INVISIBLE
+    }
+
+    override fun productSuccess(data: ProductResponse?) {
+        val temp: List<Product> = data?.products ?: emptyList()
+        if (temp.isEmpty()){
+            Toast.makeText(this, "No Result", Toast.LENGTH_SHORT).show()
+        }else{
+            for (i in temp.indices){
+                products.add(i, temp[i])
+            }
+            recyclerview.layoutManager = LinearLayoutManager(this)
+            recyclerview.adapter = ProductRecyclerViewAdapter(products) {
+                showDialog(it)
+                Toast.makeText(this, it.id, Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    override fun productFailed() {
+        Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun showDialog(product: Product){
+
+        val base_url = "https://gregpetshop.berusahapastibisakok.tech/api/product/photo/"
+
+        val dialog = LayoutInflater.from(this).inflate(R.layout.dialog_detail_product, null)
+
+        val name = dialog.findViewById<TextView>(R.id.name)
+        val unit = dialog.findViewById<TextView>(R.id.unit)
+        val stock = dialog.findViewById<TextView>(R.id.stock)
+        val min_stock = dialog.findViewById<TextView>(R.id.min_stock)
+        val price = dialog.findViewById<TextView>(R.id.price)
+        val photo = dialog.findViewById<ImageView>(R.id.photo)
+        val btn_close = dialog.findViewById<ImageButton>(R.id.btn_close)
+        val btn_edit = dialog.findViewById<Button>(R.id.btn_edit)
+
+        name.text = product.name.toString()
+        unit.text = product.unit.toString()
+        stock.text = product.stock.toString()
+        min_stock.text = product.min_stock.toString()
+        price.text = product.price.toString()
+        product.photo.let { Picasso.get().load(base_url+product.photo.toString()).fit().into(photo) }
+
+        val infoDialog = androidx.appcompat.app.AlertDialog.Builder(this)
+            .setView(dialog)
+            .show()
+
+        btn_edit.setOnClickListener {
+            startActivity<EditProductActivity>("product" to product)
+        }
+
+        btn_close.setOnClickListener {
+            infoDialog.dismiss()
+        }
+
+    }
+
+    private fun fabAnimation(){
+
+        Animation.init(fab_add)
+        Animation.init(fab_search)
+
+        fab_menu.setOnClickListener {
+            isRotate = Animation.rotateFab(it, !isRotate)
+            if (isRotate){
+                Animation.showIn(fab_add)
+                Animation.showIn(fab_search)
+            }else{
+                Animation.showOut(fab_add)
+                Animation.showOut(fab_search)
             }
         }
 
-        TabLayoutMediator(tablayout, viewpager) {tab, position ->
-            tab.text = when(position) {
-                0 -> "Show All"
-                else -> "Add"
-            }
-        }.attach()
+        fab_add.setOnClickListener {
+            val fragment: Fragment = AddProductFragment.newInstance()
+            val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.container, fragment).commit()
+        }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        startActivity<OwnerActivity>()
     }
 
 }

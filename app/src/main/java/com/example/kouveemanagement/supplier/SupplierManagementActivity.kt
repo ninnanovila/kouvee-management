@@ -125,6 +125,9 @@ class SupplierManagementActivity : AppCompatActivity(), SupplierView {
         }
 
         fab_add.setOnClickListener {
+            isRotate = Animation.rotateFab(fab_menu, !isRotate)
+            Animation.showOut(fab_add)
+            Animation.showOut(fab_search)
             val fragment: Fragment = AddSupplierFragment.newInstance()
             val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
             transaction.replace(R.id.container, fragment).commit()

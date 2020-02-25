@@ -12,9 +12,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.kouveemanagement.Animation
-import com.example.kouveemanagement.OwnerActivity
-import com.example.kouveemanagement.R
+import com.example.kouveemanagement.*
 import com.example.kouveemanagement.adapter.CustomerRecyclerViewAdapter
 import com.example.kouveemanagement.model.Customer
 import com.example.kouveemanagement.model.CustomerResponse
@@ -35,17 +33,13 @@ class CustomerManagementActivity : AppCompatActivity(), CustomerView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_customer_management)
-
         presenter = CustomerPresenter(this, Repository())
         presenter.getAllCustomer()
-
         btn_home.setOnClickListener {
             startActivity<OwnerActivity>()
         }
-
         fabAnimation()
     }
-
 
     override fun showLoading() {
         progressbar.visibility = View.VISIBLE
@@ -121,6 +115,9 @@ class CustomerManagementActivity : AppCompatActivity(), CustomerView {
         }
 
         fab_add.setOnClickListener {
+            isRotate = Animation.rotateFab(fab_menu, !isRotate)
+            Animation.showOut(fab_add)
+            Animation.showOut(fab_search)
             val fragment: Fragment = AddCustomerFragment.newInstance()
             val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
             transaction.replace(R.id.container, fragment).commit()
@@ -129,7 +126,11 @@ class CustomerManagementActivity : AppCompatActivity(), CustomerView {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        startActivity<OwnerActivity>()
+
+        if (MainActivity.currentUser?.user_role == "Admin")
+            startActivity<OwnerActivity>()
+        else
+            startActivity<CustomerServiceActivity>()
     }
 
 }
