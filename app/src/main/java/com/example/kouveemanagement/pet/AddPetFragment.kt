@@ -17,7 +17,7 @@ import com.example.kouveemanagement.presenter.PetSizeView
 import com.example.kouveemanagement.presenter.PetTypePresenter
 import com.example.kouveemanagement.presenter.PetTypeView
 import com.example.kouveemanagement.repository.Repository
-import kotlinx.android.synthetic.main.fragment_all_pet_size.*
+import kotlinx.android.synthetic.main.fragment_add_pet.*
 import org.jetbrains.anko.support.v4.startActivity
 
 /**
@@ -40,7 +40,7 @@ class AddPetFragment : Fragment(), PetSizeView, PetTypeView {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_all_pet_size, container, false)
+        return inflater.inflate(R.layout.fragment_add_pet, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
