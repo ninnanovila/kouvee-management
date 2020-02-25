@@ -71,5 +71,8 @@
     <string name="customer_management">Customer Management</string>
     <string name="add_customer">Add Customer</string>
     <string name="birthdate">Birthdate</string>
+    <string name="pet_management">Pet Management</string>
+    <string name="pet_size">Pet Size</string>
+    <string name="pet_type">Pet Type</string>
 
 </resources>

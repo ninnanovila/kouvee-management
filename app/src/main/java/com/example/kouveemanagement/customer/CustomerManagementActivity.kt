@@ -56,23 +56,17 @@ class CustomerManagementActivity : AppCompatActivity(), CustomerView {
     }
 
     override fun customerSuccess(data: CustomerResponse?) {
-
         val temp: List<Customer> = data?.customers ?: emptyList()
-
         if (temp.isEmpty()){
             Toast.makeText(this, "No Result", Toast.LENGTH_SHORT).show()
         }else{
-
             for (i in temp.indices){
                 customers.add(i, temp[i])
             }
-
             recyclerview.layoutManager = LinearLayoutManager(this)
-            recyclerview.adapter = this.let {
-                CustomerRecyclerViewAdapter(customers) {
-                    showDialog(it)
-                    Toast.makeText(this, it.id, Toast.LENGTH_LONG).show()
-                }
+            recyclerview.adapter = CustomerRecyclerViewAdapter(customers) {
+                showDialog(it)
+                Toast.makeText(this, it.id, Toast.LENGTH_LONG).show()
             }
         }
     }
