@@ -74,5 +74,8 @@
     <string name="pet_management">Pet Management</string>
     <string name="pet_size">Pet Size</string>
     <string name="pet_type">Pet Type</string>
+    <string name="add_size">Add Size</string>
+    <string name="add_type">Add type</string>
+    <string name="add_pet">Add Pet</string>
 
 </resources>

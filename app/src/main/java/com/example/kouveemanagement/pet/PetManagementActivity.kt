@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.kouveemanagement.Animation
@@ -122,9 +123,9 @@ class PetManagementActivity : AppCompatActivity(), PetSizeView, PetTypeView {
         }
 
         fab_add.setOnClickListener {
-//            val fragment: Fragment = AddCustomerFragment.newInstance()
-//            val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
-//            transaction.replace(R.id.container, fragment).commit()
+            val fragment: Fragment = AddPetFragment.newInstance()
+            val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.container, fragment).commit()
         }
     }
 
