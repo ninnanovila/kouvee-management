@@ -13,7 +13,6 @@ import com.example.kouveemanagement.model.ProductResponse
 import com.example.kouveemanagement.presenter.ProductPresenter
 import com.example.kouveemanagement.presenter.ProductView
 import com.example.kouveemanagement.repository.Repository
-import kotlinx.android.synthetic.main.fragment_add_customer.*
 import kotlinx.android.synthetic.main.fragment_add_product.*
 import kotlinx.android.synthetic.main.fragment_add_product.btn_add
 import kotlinx.android.synthetic.main.fragment_add_product.name
@@ -48,6 +47,10 @@ class AddProductFragment : Fragment(), ProductView {
 
             presenter = ProductPresenter(this, Repository())
             presenter.addProduct(product)
+        }
+
+        btn_close.setOnClickListener {
+            activity?.supportFragmentManager?.beginTransaction()?.remove(this)?.commit()
         }
 
     }

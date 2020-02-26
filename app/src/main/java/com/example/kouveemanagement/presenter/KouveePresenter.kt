@@ -167,20 +167,20 @@ class ProductPresenter(private val view : ProductView, private val repository: R
 }
 
 //UPLOAD IMAGE
-class UploadProductImage(private val view: UploadPhotoProductView, private val repository: Repository){
+class UploadImagePresenter(private val view: UploadPhotoProductView, private val repository: Repository){
 
     fun uploadPhotoProduct(id: String, photo: MultipartBody.Part){
-        view.showLoading()
+        view.showProgress()
 
         repository.uploadPhotoProduct(id, photo, object : UploadPhotoProductRepositoryCallback<ResponseBody> {
             override fun uploadProductSuccess(data: ResponseBody?) {
                 view.uploadProductSuccess(data)
-                view.hideLoading()
+                view.hideProgress()
             }
 
             override fun uploadProductFailed() {
                 view.uploadProductFailed()
-                view.hideLoading()
+                view.hideProgress()
             }
         })
     }

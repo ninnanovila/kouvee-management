@@ -20,8 +20,8 @@ interface ProductView : ProductRepositoryCallback<ProductResponse> {
 }
 
 interface UploadPhotoProductView : UploadPhotoProductRepositoryCallback<ResponseBody> {
-    fun showLoading()
-    fun hideLoading()
+    fun showProgress()
+    fun hideProgress()
 }
 
 interface CustomerView: CustomerRepositoryCallback<CustomerResponse> {

@@ -81,5 +81,7 @@
     <string name="stock">Stock</string>
     <string name="minimum_stock">Minimum stock</string>
     <string name="price">Price</string>
+    <string name="product_management">Product Management</string>
+    <string name="upload">Upload</string>
 
 </resources>

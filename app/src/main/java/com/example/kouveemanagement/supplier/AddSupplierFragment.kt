@@ -1,7 +1,6 @@
 package com.example.kouveemanagement.supplier
 
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -79,6 +78,5 @@ class AddSupplierFragment : Fragment(), SupplierView {
     override fun supplierFailed() {
         Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show()
     }
-
 
 }

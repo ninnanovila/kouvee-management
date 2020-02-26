@@ -95,4 +95,14 @@ class MainActivity : AppCompatActivity(), LoginView {
         thread.start()
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        if (currentUser!=null){
+            deleteCurrentUser()
+            finishAffinity()
+        }else{
+            finishAffinity()
+        }
+    }
+
 }

@@ -1,6 +1,5 @@
 package com.example.kouveemanagement.product
 
-import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +7,7 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.kouveemanagement.Animation
 import com.example.kouveemanagement.OwnerActivity
 import com.example.kouveemanagement.R
@@ -21,7 +20,6 @@ import com.example.kouveemanagement.repository.Repository
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_product_management.*
 import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.support.v4.startActivity
 
 class ProductManagementActivity : AppCompatActivity(), ProductView {
 
@@ -58,7 +56,7 @@ class ProductManagementActivity : AppCompatActivity(), ProductView {
             for (i in temp.indices){
                 products.add(i, temp[i])
             }
-            recyclerview.layoutManager = LinearLayoutManager(this)
+            recyclerview.layoutManager = GridLayoutManager(this, 2)
             recyclerview.adapter = ProductRecyclerViewAdapter(products) {
                 showDialog(it)
                 Toast.makeText(this, it.id, Toast.LENGTH_LONG).show()
@@ -74,7 +72,7 @@ class ProductManagementActivity : AppCompatActivity(), ProductView {
 
         val base_url = "https://gregpetshop.berusahapastibisakok.tech/api/product/photo/"
 
-        val dialog = LayoutInflater.from(this).inflate(R.layout.dialog_detail_product, null)
+        dialog = LayoutInflater.from(this).inflate(R.layout.dialog_detail_product, null)
 
         val name = dialog.findViewById<TextView>(R.id.name)
         val unit = dialog.findViewById<TextView>(R.id.unit)
@@ -123,6 +121,9 @@ class ProductManagementActivity : AppCompatActivity(), ProductView {
         }
 
         fab_add.setOnClickListener {
+            isRotate = Animation.rotateFab(fab_menu, !isRotate)
+            Animation.showOut(fab_add)
+            Animation.showOut(fab_search)
             val fragment: Fragment = AddProductFragment.newInstance()
             val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
             transaction.replace(R.id.container, fragment).commit()
