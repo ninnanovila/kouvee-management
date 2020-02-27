@@ -39,3 +39,8 @@ interface SupplierRepositoryCallback<SupplierResponse> {
     fun supplierSuccess(data: SupplierResponse?)
     fun supplierFailed()
 }
+
+interface ServiceRepositoryCallback<ServiceResponse> {
+    fun serviceSuccess(data: ServiceResponse?)
+    fun serviceFailed()
+}

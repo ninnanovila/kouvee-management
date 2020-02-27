@@ -16,6 +16,8 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".service.EditServiceActivity"></activity>
+        <activity android:name=".service.ServiceManagementActivity" />
         <activity android:name=".supplier.EditSupplierActivity" />
         <activity android:name=".supplier.SupplierManagementActivity" />
         <activity android:name=".pet.PetManagementActivity" />

@@ -43,3 +43,8 @@ interface SupplierView: SupplierRepositoryCallback<SupplierResponse> {
     fun showLoading()
     fun hideLoading()
 }
+
+interface ServiceView: ServiceRepositoryCallback<ServiceResponse> {
+    fun showLoading()
+    fun hideLoading()
+}

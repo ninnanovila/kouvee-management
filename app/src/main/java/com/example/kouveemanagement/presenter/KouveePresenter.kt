@@ -458,3 +458,63 @@ class SupplierPresenter(private val view: SupplierView, private val repository: 
         })
     }
 }
+
+//SERVICE
+class ServicePresenter(private val view: ServiceView, private val repository: Repository){
+
+    fun getAllService(){
+        view.showLoading()
+        repository.getAllService(object : ServiceRepositoryCallback<ServiceResponse> {
+            override fun serviceSuccess(data: ServiceResponse?) {
+                view.serviceSuccess(data)
+                view.hideLoading()
+            }
+            override fun serviceFailed() {
+                view.serviceFailed()
+                view.hideLoading()
+            }
+        })
+    }
+
+    fun addService(service: Service){
+        view.showLoading()
+        repository.addService(service, object : ServiceRepositoryCallback<ServiceResponse> {
+            override fun serviceSuccess(data: ServiceResponse?) {
+                view.serviceSuccess(data)
+                view.hideLoading()
+            }
+            override fun serviceFailed() {
+                view.serviceFailed()
+                view.hideLoading()
+            }
+        })
+    }
+
+    fun editService(id: String, service: Service){
+        view.showLoading()
+        repository.editService(id, service, object : ServiceRepositoryCallback<ServiceResponse>{
+            override fun serviceSuccess(data: ServiceResponse?) {
+                view.serviceSuccess(data)
+                view.hideLoading()
+            }
+            override fun serviceFailed() {
+                view.serviceFailed()
+                view.hideLoading()
+            }
+        })
+    }
+
+    fun deleteService(id: String){
+        view.showLoading()
+        repository.deleteService(id, object : ServiceRepositoryCallback<ServiceResponse> {
+            override fun serviceSuccess(data: ServiceResponse?) {
+                view.serviceSuccess(data)
+                view.hideLoading()
+            }
+            override fun serviceFailed() {
+                view.serviceFailed()
+                view.hideLoading()
+            }
+        })
+    }
+}

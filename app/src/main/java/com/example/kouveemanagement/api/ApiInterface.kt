@@ -130,4 +130,24 @@ interface ApiInterface {
 
     @DELETE("supplier/{id}")
     fun deleteSupplier(@Path("id")id: String): Call<SupplierResponse>
+
+//    SERVICE
+    @GET("service")
+    fun getAllService(): Call<ServiceResponse>
+
+    @GET("service/{id}")
+    fun getServiceById(@Path("id")id: String): Call<ServiceResponse>
+
+    @GET("service/search")
+    fun getServiceBySearch(@Field("name")input: String): Call<ServiceResponse>
+
+    @POST("service")
+    fun addService(@Body service: Service): Call<ServiceResponse>
+
+    @PUT("service/{id}")
+    fun editService(@Path("id")id: String, @Body service: Service): Call<ServiceResponse>
+
+    @DELETE("service/{id}")
+    fun deleteService(@Path("id")id: String): Call<ServiceResponse>
+
 }

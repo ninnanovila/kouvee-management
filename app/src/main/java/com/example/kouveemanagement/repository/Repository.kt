@@ -546,4 +546,83 @@ class Repository {
             }
         })
     }
+
+    //SERVICE
+    fun getAllService(callback: ServiceRepositoryCallback<ServiceResponse>) {
+
+        ApiClient().services.getAllService().enqueue(object : Callback<ServiceResponse?> {
+            override fun onFailure(call: Call<ServiceResponse?>, t: Throwable) {
+                callback.serviceFailed()
+            }
+
+            override fun onResponse(
+                call: Call<ServiceResponse?>,
+                response: Response<ServiceResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.serviceSuccess(response.body())
+                }else{
+                    callback.serviceFailed()
+                }
+            }
+        })
+    }
+
+    fun addService(service: Service, callback: ServiceRepositoryCallback<ServiceResponse>) {
+
+        ApiClient().services.addService(service).enqueue(object : Callback<ServiceResponse?> {
+            override fun onFailure(call: Call<ServiceResponse?>, t: Throwable) {
+                callback.serviceFailed()
+            }
+
+            override fun onResponse(
+                call: Call<ServiceResponse?>,
+                response: Response<ServiceResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.serviceSuccess(response.body())
+                }else{
+                    callback.serviceFailed()
+                }
+            }
+        })
+    }
+
+    fun editService(id: String, service: Service, callback: ServiceRepositoryCallback<ServiceResponse>) {
+        ApiClient().services.editService(id, service).enqueue(object : Callback<ServiceResponse?> {
+            override fun onFailure(call: Call<ServiceResponse?>, t: Throwable) {
+                callback.serviceFailed()
+            }
+
+            override fun onResponse(
+                call: Call<ServiceResponse?>,
+                response: Response<ServiceResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.serviceSuccess(response.body())
+                }else{
+                    callback.serviceFailed()
+                }
+            }
+        })
+    }
+
+    fun deleteService(id: String, callback : ServiceRepositoryCallback<ServiceResponse>){
+        ApiClient().services.deleteService(id).enqueue(object : Callback<ServiceResponse?> {
+            override fun onFailure(call: Call<ServiceResponse?>, t: Throwable) {
+                callback.serviceFailed()
+            }
+
+            override fun onResponse(
+                call: Call<ServiceResponse?>,
+                response: Response<ServiceResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.serviceSuccess(response.body())
+                }else{
+                    callback.serviceFailed()
+                }
+            }
+        })
+    }
 }

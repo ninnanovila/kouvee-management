@@ -139,7 +139,7 @@ class EditProductActivity : AppCompatActivity(), ProductView, UploadPhotoProduct
         var fileUri: Uri? = null
         val img = getExternalFilesDir("")
         if (img!=null){
-            fileUri = Uri.fromFile(File(img.path, "profile.png"))
+            fileUri = Uri.fromFile(File(img.path, "profile.jpeg"))
         }
         return fileUri
     }
@@ -156,9 +156,8 @@ class EditProductActivity : AppCompatActivity(), ProductView, UploadPhotoProduct
         val thread: Thread = object : Thread() {
             override fun run() {
                 val bos = ByteArrayOutputStream()
-                bitmap?.compress(Bitmap.CompressFormat.PNG, 0, bos)
+                bitmap?.compress(Bitmap.CompressFormat.JPEG, 10, bos)
                 byteArray = bos.toByteArray()
-//                runOnUiThread { frameLayout.setVisibility(View.VISIBLE) }
             }
         }
         thread.start()
@@ -247,9 +246,15 @@ class EditProductActivity : AppCompatActivity(), ProductView, UploadPhotoProduct
     }
 
     override fun showProgress() {
+        progressbar_img.visibility = View.VISIBLE
+        btn_choose.visibility = View.INVISIBLE
+        btn_upload.visibility = View.INVISIBLE
     }
 
     override fun hideProgress() {
+        progressbar_img.visibility = View.INVISIBLE
+        btn_choose.visibility = View.VISIBLE
+        btn_upload.visibility = View.VISIBLE
     }
 
     override fun uploadProductSuccess(data: ResponseBody?) {
