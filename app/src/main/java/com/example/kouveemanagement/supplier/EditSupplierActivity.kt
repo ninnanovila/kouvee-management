@@ -52,7 +52,7 @@ class EditSupplierActivity : AppCompatActivity(), SupplierView {
         deleted_at.text = supplier?.deleted_at
     }
 
-    fun getData(){
+    private fun getData(){
         val name = name.text.toString()
         val address = address.text.toString()
         val phone_number = phone_number.text.toString()

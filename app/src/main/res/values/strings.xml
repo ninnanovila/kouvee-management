@@ -83,5 +83,8 @@
     <string name="price">Price</string>
     <string name="product_management">Product Management</string>
     <string name="upload">Upload</string>
+    <string name="service_management">Service Management</string>
+    <string name="edit_service">Edit Service</string>
+    <string name="add_service">Add Service</string>
 
 </resources>

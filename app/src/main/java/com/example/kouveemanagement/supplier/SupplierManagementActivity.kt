@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kouveemanagement.Animation
 import com.example.kouveemanagement.OwnerActivity
 import com.example.kouveemanagement.R
-import com.example.kouveemanagement.adapter.SupplierRcyclerViewAdapter
+import com.example.kouveemanagement.adapter.SupplierRecyclerViewAdapter
 import com.example.kouveemanagement.model.Supplier
 import com.example.kouveemanagement.model.SupplierResponse
 import com.example.kouveemanagement.presenter.SupplierPresenter
@@ -69,7 +69,7 @@ class SupplierManagementActivity : AppCompatActivity(), SupplierView {
 
             recyclerview.layoutManager = LinearLayoutManager(this)
             recyclerview.adapter = this.let {
-                SupplierRcyclerViewAdapter(suppliers) {
+                SupplierRecyclerViewAdapter(suppliers) {
                     showDialog(it)
                     Toast.makeText(this, it.id, Toast.LENGTH_LONG).show()
                 }

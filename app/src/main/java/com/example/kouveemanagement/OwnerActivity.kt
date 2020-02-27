@@ -14,6 +14,7 @@ import com.example.kouveemanagement.persistent.AppDatabase
 import com.example.kouveemanagement.persistent.CurrentUser
 import com.example.kouveemanagement.pet.PetManagementActivity
 import com.example.kouveemanagement.product.ProductManagementActivity
+import com.example.kouveemanagement.service.ServiceManagementActivity
 import com.example.kouveemanagement.supplier.SupplierManagementActivity
 import kotlinx.android.synthetic.main.activity_owner.*
 import org.jetbrains.anko.startActivity
@@ -64,7 +65,7 @@ class OwnerActivity : AppCompatActivity() {
                 "Pet Type and Size" -> startActivity<PetManagementActivity>()
                 "Supplier" -> startActivity<SupplierManagementActivity>()
                 "Product" -> startActivity<ProductManagementActivity>()
-                "Service" -> startActivity<EmployeeManagementActivity>()
+                "Service" -> startActivity<ServiceManagementActivity>()
                 "Customer Pet" -> startActivity<EmployeeManagementActivity>()
                 //TRANSACTION
                 "Product Order" -> startActivity<EmployeeManagementActivity>()

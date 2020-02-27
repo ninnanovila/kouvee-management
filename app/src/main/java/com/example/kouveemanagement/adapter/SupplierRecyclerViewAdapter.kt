@@ -9,7 +9,7 @@ import com.example.kouveemanagement.R
 import com.example.kouveemanagement.model.Supplier
 import kotlinx.android.extensions.LayoutContainer
 
-class SupplierRcyclerViewAdapter(private val suppliers: MutableList<Supplier>, private val listener: (Supplier) -> Unit) : RecyclerView.Adapter<SupplierRcyclerViewAdapter.ViewHolder>() {
+class SupplierRecyclerViewAdapter(private val suppliers: MutableList<Supplier>, private val listener: (Supplier) -> Unit) : RecyclerView.Adapter<SupplierRecyclerViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
