@@ -44,3 +44,8 @@ interface ServiceRepositoryCallback<ServiceResponse> {
     fun serviceSuccess(data: ServiceResponse?)
     fun serviceFailed()
 }
+
+interface CustomerPetRepositoryCallback<CustomerPetResponse> {
+    fun customerPetSuccess(data: CustomerPetResponse?)
+    fun customerPetFailed()
+}

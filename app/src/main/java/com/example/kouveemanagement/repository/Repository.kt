@@ -625,4 +625,81 @@ class Repository {
             }
         })
     }
+
+    //CUSTOMER PET
+    fun getAllCustomerPet(callback: CustomerPetRepositoryCallback<CustomerPetResponse>){
+        ApiClient().services.getAllCustomerPet().enqueue(object : Callback<CustomerPetResponse?> {
+            override fun onFailure(call: Call<CustomerPetResponse?>, t: Throwable) {
+                callback.customerPetFailed()
+            }
+
+            override fun onResponse(
+                call: Call<CustomerPetResponse?>,
+                response: Response<CustomerPetResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.customerPetSuccess(response.body())
+                }else{
+                    callback.customerPetFailed()
+                }
+            }
+        })
+    }
+
+    fun addCustomerPet(customerPet: CustomerPet, callback: CustomerPetRepositoryCallback<CustomerPetResponse>){
+        ApiClient().services.addCustomerPet(customerPet).enqueue(object : Callback<CustomerPetResponse?>{
+            override fun onFailure(call: Call<CustomerPetResponse?>, t: Throwable) {
+                callback.customerPetFailed()
+            }
+
+            override fun onResponse(
+                call: Call<CustomerPetResponse?>,
+                response: Response<CustomerPetResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.customerPetSuccess(response.body())
+                }else{
+                    callback.customerPetFailed()
+                }
+            }
+        })
+    }
+
+    fun editCustomerPet(id: String, customerPet: CustomerPet, callback: CustomerPetRepositoryCallback<CustomerPetResponse>){
+        ApiClient().services.editCustomerPet(id, customerPet).enqueue(object : Callback<CustomerPetResponse?>{
+            override fun onFailure(call: Call<CustomerPetResponse?>, t: Throwable) {
+                callback.customerPetFailed()
+            }
+
+            override fun onResponse(
+                call: Call<CustomerPetResponse?>,
+                response: Response<CustomerPetResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.customerPetSuccess(response.body())
+                }else{
+                    callback.customerPetFailed()
+                }
+            }
+        })
+    }
+
+    fun deleteCustomerPet(id: String, callback: CustomerPetRepositoryCallback<CustomerPetResponse>){
+        ApiClient().services.deleteCustomerPet(id).enqueue(object : Callback<CustomerPetResponse?> {
+            override fun onFailure(call: Call<CustomerPetResponse?>, t: Throwable) {
+                callback.customerPetFailed()
+            }
+
+            override fun onResponse(
+                call: Call<CustomerPetResponse?>,
+                response: Response<CustomerPetResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.customerPetSuccess(response.body())
+                }else{
+                    callback.customerPetFailed()
+                }
+            }
+        })
+    }
 }

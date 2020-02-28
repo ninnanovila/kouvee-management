@@ -138,7 +138,7 @@ interface ApiInterface {
     @GET("service/{id}")
     fun getServiceById(@Path("id")id: String): Call<ServiceResponse>
 
-    @GET("service/search")
+    @POST("service/search")
     fun getServiceBySearch(@Field("name")input: String): Call<ServiceResponse>
 
     @POST("service")
@@ -150,4 +150,22 @@ interface ApiInterface {
     @DELETE("service/{id}")
     fun deleteService(@Path("id")id: String): Call<ServiceResponse>
 
+//    CUSTOMER PET
+    @GET("customer_pet")
+    fun getAllCustomerPet(): Call<CustomerPetResponse>
+
+    @GET("customer_pet/{id}")
+    fun getCustomerPetById(@Path("id")id: String): Call<CustomerPetResponse>
+
+    @POST("customer_pet/search")
+    fun getCustomerPetBySearch(@Field("name")input: String): Call<CustomerPetResponse>
+
+    @POST("customer_pet")
+    fun addCustomerPet(@Body customerPet: CustomerPet): Call<CustomerPetResponse>
+
+    @PUT("customer_pet/{id}")
+    fun editCustomerPet(@Path("id")id: String, @Body customerPet: CustomerPet): Call<CustomerPetResponse>
+
+    @DELETE("customer_pet/{id}")
+    fun deleteCustomerPet(@Path("id")id: String): Call<CustomerPetResponse>
 }

@@ -86,5 +86,6 @@
     <string name="service_management">Service Management</string>
     <string name="edit_service">Edit Service</string>
     <string name="add_service">Add Service</string>
+    <string name="customer_pet_management">Customer Pet Management</string>
 
 </resources>

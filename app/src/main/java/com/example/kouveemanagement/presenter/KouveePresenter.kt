@@ -518,3 +518,66 @@ class ServicePresenter(private val view: ServiceView, private val repository: Re
         })
     }
 }
+
+//CUSTOMER PET
+class CustomerPetPresenter(private val view: CustomerPetView, private val repository: Repository){
+    fun getAllCustomerPet(){
+        view.showLoading()
+        repository.getAllCustomerPet(object : CustomerPetRepositoryCallback<CustomerPetResponse> {
+            override fun customerPetSuccess(data: CustomerPetResponse?) {
+                view.customerPetSuccess(data)
+                view.hideLoading()
+            }
+
+            override fun customerPetFailed() {
+                view.customerPetFailed()
+                view.hideLoading()
+            }
+        })
+    }
+
+    fun addCustomerPet(customerPet: CustomerPet){
+        view.showLoading()
+        repository.addCustomerPet(customerPet, object : CustomerPetRepositoryCallback<CustomerPetResponse>{
+            override fun customerPetSuccess(data: CustomerPetResponse?) {
+                view.customerPetSuccess(data)
+                view.hideLoading()
+            }
+
+            override fun customerPetFailed() {
+                view.customerPetFailed()
+                view.hideLoading()
+            }
+        })
+    }
+
+    fun editCustomerPet(id: String, customerPet: CustomerPet){
+        view.showLoading()
+        repository.editCustomerPet(id, customerPet, object : CustomerPetRepositoryCallback<CustomerPetResponse>{
+            override fun customerPetSuccess(data: CustomerPetResponse?) {
+                view.customerPetSuccess(data)
+                view.hideLoading()
+            }
+
+            override fun customerPetFailed() {
+                view.customerPetFailed()
+                view.hideLoading()
+            }
+        })
+    }
+
+    fun deleteCustomerPet(id: String){
+        view.showLoading()
+        repository.deleteCustomerPet(id, object : CustomerPetRepositoryCallback<CustomerPetResponse>{
+            override fun customerPetSuccess(data: CustomerPetResponse?) {
+                view.customerPetSuccess(data)
+                view.hideLoading()
+            }
+
+            override fun customerPetFailed() {
+                view.customerPetFailed()
+                view.hideLoading()
+            }
+        })
+    }
+}

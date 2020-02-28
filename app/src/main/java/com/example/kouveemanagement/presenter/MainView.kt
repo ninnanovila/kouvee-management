@@ -48,3 +48,8 @@ interface ServiceView: ServiceRepositoryCallback<ServiceResponse> {
     fun showLoading()
     fun hideLoading()
 }
+
+interface CustomerPetView: CustomerPetRepositoryCallback<CustomerPetResponse> {
+    fun showLoading()
+    fun hideLoading()
+}
