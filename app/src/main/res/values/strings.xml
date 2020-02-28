@@ -91,5 +91,9 @@
     <string name="type">Type</string>
     <string name="edit_customer_pet">Edit Customer Pet</string>
     <string name="employee_management">Employee Management</string>
+    <string name="add_employee">Add Employee</string>
+    <string name="role">Role</string>
+    <string name="edit_employee">Edit Employee</string>
+    <string name="search">Search</string>
 
 </resources>

@@ -16,6 +16,7 @@ import com.example.kouveemanagement.presenter.EmployeePresenter
 import com.example.kouveemanagement.presenter.EmployeeView
 import com.example.kouveemanagement.repository.Repository
 import kotlinx.android.synthetic.main.fragment_add_employee.*
+import org.jetbrains.anko.support.v4.startActivity
 import java.util.*
 
 /**
@@ -43,11 +44,12 @@ class AddEmployeeFragment : Fragment(), EmployeeView {
 
         btn_add.setOnClickListener {
             getData()
-
             presenter = EmployeePresenter(this, Repository())
             presenter.addEmployee(employee)
         }
-
+        btn_close.setOnClickListener {
+            activity?.supportFragmentManager?.beginTransaction()?.remove(this)?.commit()
+        }
         showDatePicker()
     }
 
@@ -57,16 +59,13 @@ class AddEmployeeFragment : Fragment(), EmployeeView {
         val birthdate = birthdate.text.toString()
         val phone_number = phone_number.text.toString()
         val role = role.text.toString()
-
         employee = Employee(null, name, address, birthdate, phone_number, role, birthdate)
     }
 
     fun showDatePicker(){
-
         val year = Calendar.getInstance().get(Calendar.YEAR)
         val month = Calendar.getInstance().get(Calendar.MONTH)
         val day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
-
         birthdate.setOnClickListener {
             val datePickerDialog =
                 context?.let { it1 ->
@@ -79,20 +78,22 @@ class AddEmployeeFragment : Fragment(), EmployeeView {
     }
 
     override fun showLoading() {
-
+        btn_add.visibility = View.INVISIBLE
+        progressbar.visibility = View.VISIBLE
     }
 
     override fun hideLoading() {
-
+        progressbar.visibility = View.INVISIBLE
+        btn_add.visibility = View.VISIBLE
     }
 
     override fun employeeSuccess(data: EmployeeResponse?) {
         Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
+        startActivity<EmployeeManagementActivity>()
     }
 
     override fun employeeFailed() {
         Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show()
     }
-
 
 }
