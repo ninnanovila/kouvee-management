@@ -53,7 +53,7 @@ class AddServiceFragment : Fragment(), ServiceView {
         val name = name.text.toString()
         val price = price.text.toString()
 
-        service = Service(null, "1", "1", name, price.toDouble())
+        service = Service(null, "1", name, price.toDouble())
     }
 
     override fun showLoading() {

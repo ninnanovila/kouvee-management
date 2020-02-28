@@ -8,8 +8,6 @@ import kotlinx.android.parcel.Parcelize
 data class Service(
     @SerializedName("id")
     var id: String? = null,
-    @SerializedName("id_type")
-    var id_type: String? = null,
     @SerializedName("id_size")
     var id_size: String? = null,
     @SerializedName("name")

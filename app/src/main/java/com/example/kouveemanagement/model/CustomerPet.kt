@@ -12,8 +12,6 @@ data class CustomerPet(
     var id_customer: String? = null,
     @SerializedName("id_type")
     var id_type: String? = null,
-    @SerializedName("id_size")
-    var id_size: String? = null,
     @SerializedName("name")
     var name: String? = null,
     @SerializedName("birthdate")

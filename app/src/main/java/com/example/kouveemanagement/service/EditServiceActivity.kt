@@ -55,7 +55,7 @@ class EditServiceActivity : AppCompatActivity(), ServiceView {
         val name = name.text.toString()
         val price = price.text.toString()
 
-        service = Service(id, "1", "1", name, price.toDouble(), null, null, null)
+        service = Service(id, "1",name, price.toDouble(), null, null, null)
     }
 
     override fun showLoading() {
