@@ -9,6 +9,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kouveemanagement.*
 import com.example.kouveemanagement.adapter.CustomerPetRecyclerViewAdapter
@@ -34,10 +36,7 @@ class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView {
         presenter = CustomerPetPresenter(this, Repository())
         presenter.getAllCustomerPet()
         btn_home.setOnClickListener {
-            if (MainActivity.currentUser?.user_role == "Admin")
-                startActivity<OwnerActivity>()
-            else
-                startActivity<CustomerServiceActivity>()
+            startActivity<CustomerServiceActivity>()
         }
         fabAnimation()
     }
@@ -60,6 +59,7 @@ class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView {
             }
             recyclerview.layoutManager = LinearLayoutManager(this)
             recyclerview.adapter = CustomerPetRecyclerViewAdapter(customerpet){
+                showDialog(it)
                 Toast.makeText(this, it.id, Toast.LENGTH_LONG).show()
             }
         }
@@ -85,7 +85,7 @@ class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView {
             .show()
 
         btn_edit.setOnClickListener {
-
+            startActivity<EditCustometPetActivity>("customerpet" to customerPet)
         }
 
         btn_close.setOnClickListener {
@@ -113,17 +113,14 @@ class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView {
             isRotate = Animation.rotateFab(fab_menu, !isRotate)
             Animation.showOut(fab_add)
             Animation.showOut(fab_search)
-//            val fragment: Fragment = AddCustomerFragment.newInstance()
-//            val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
-//            transaction.replace(R.id.container, fragment).commit()
+            val fragment: Fragment = AddCustomerPetFragment.newInstance()
+            val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.container, fragment).commit()
         }
     }
 
     override fun onBackPressed() {
         super.onBackPressed()
-        if (MainActivity.currentUser?.user_role == "Admin")
-            startActivity<OwnerActivity>()
-        else
-            startActivity<CustomerServiceActivity>()
+        startActivity<CustomerServiceActivity>()
     }
 }

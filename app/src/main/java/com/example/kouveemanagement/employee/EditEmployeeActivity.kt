@@ -11,6 +11,7 @@ import com.example.kouveemanagement.presenter.EmployeePresenter
 import com.example.kouveemanagement.presenter.EmployeeView
 import com.example.kouveemanagement.repository.Repository
 import kotlinx.android.synthetic.main.activity_edit_employee.*
+import org.jetbrains.anko.startActivity
 import java.util.*
 
 class EditEmployeeActivity : AppCompatActivity(), EmployeeView {
@@ -89,6 +90,11 @@ class EditEmployeeActivity : AppCompatActivity(), EmployeeView {
 
     override fun employeeFailed() {
         Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        startActivity<EmployeeManagementActivity>()
     }
 
 

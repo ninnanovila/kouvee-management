@@ -61,16 +61,13 @@ class OwnerActivity : AppCompatActivity() {
             when(it.name) {
                 //DATA MASTER
                 "Employee" -> startActivity<EmployeeManagementActivity>()
-                "Customer" -> startActivity<CustomerManagementActivity>()
                 "Pet Type and Size" -> startActivity<PetManagementActivity>()
                 "Supplier" -> startActivity<SupplierManagementActivity>()
                 "Product" -> startActivity<ProductManagementActivity>()
                 "Service" -> startActivity<ServiceManagementActivity>()
-                "Customer Pet" -> startActivity<EmployeeManagementActivity>()
                 //TRANSACTION
-                "Product Order" -> startActivity<EmployeeManagementActivity>()
-                "Product Transaction" -> startActivity<EmployeeManagementActivity>()
-                "Service Transaction" -> startActivity<EmployeeManagementActivity>()
+                "Order Product" -> startActivity<EmployeeManagementActivity>()
+                else -> Toast.makeText(this, "Sorry, you can not access that.", Toast.LENGTH_SHORT).show()
             }
             Toast.makeText(this, "Yeay!", Toast.LENGTH_SHORT).show()
         }

@@ -4,29 +4,21 @@
     <!--STRING UNTUK MENU-->
     <string-array name="owner_menu">
         <item>Employee</item>
-        <item>Customer</item>
         <item>Service</item>
         <item>Pet Type and Size</item>
         <item>Supplier</item>
         <item>Product</item>
-        <item>Product Order</item>
-        <item>Customer Pet</item>
-        <item>Product Transaction</item>
-        <item>Service Transaction</item>
+        <item>Order Product</item>
     </string-array>
 
     <!--MENU DESC-->
     <string-array name="owner_desc">
         <item>Description of Employee Menu</item>
-        <item>Description of Customer Menu</item>
         <item>Description of Service Menu</item>
         <item>Description of Pet Type and Size Menu</item>
         <item>Description of Supplier Menu</item>
         <item>Description of Product Menu</item>
-        <item>Description of Product Orde Menur</item>
-        <item>Description of Customer Pet Menu</item>
-        <item>Description of Product Transaction Menu</item>
-        <item>Description of Service Transaction Menu</item>
+        <item>Description of Order Product Menur</item>
     </string-array>
 
     <!--STRING UNTUK MENU-->
@@ -45,6 +37,12 @@
         <item>Description of Service Transaction Menu</item>
     </string-array>
 
+    <!--MANAGEMENT TITLE-->
+    <string name="supplier_management">Supplier Management</string>
+    <string name="customer_management">Customer Management</string>
+
+
+
     <!--STRING DATA-->
     <string name="content_desc">Image</string>
     <string name="login">Log In</string>
@@ -57,17 +55,18 @@
     <string name="choose">Choose</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
     <string name="login_id">Input your id</string>
     <string name="login_password">Input your password</string>
     <string name="logout">Log Out</string>
+
     <string name="home">HOME</string>
-    <string name="supplier_management">Supplier Management</string>
+
     <string name="name">Name</string>
     <string name="address">Address</string>
     <string name="phone_number">Phone number</string>
     <string name="add_supplier">Add Supplier</string>
     <string name="edit_supplier">Edit Supplier</string>
-    <string name="customer_management">Customer Management</string>
     <string name="add_customer">Add Customer</string>
     <string name="birthdate">Birthdate</string>
     <string name="pet_management">Pet Management</string>
@@ -87,5 +86,10 @@
     <string name="edit_service">Edit Service</string>
     <string name="add_service">Add Service</string>
     <string name="customer_pet_management">Customer Pet Management</string>
+    <string name="add_customer_pet">Add Customer Pet</string>
+    <string name="customer">Customer</string>
+    <string name="type">Type</string>
+    <string name="edit_customer_pet">Edit Customer Pet</string>
+    <string name="employee_management">Employee Management</string>
 
 </resources>

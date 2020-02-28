@@ -42,7 +42,6 @@ class AddSupplierFragment : Fragment(), SupplierView {
 
         btn_add.setOnClickListener {
             getData()
-
             presenter = SupplierPresenter(this, Repository())
             presenter.addSupplier(supplier)
         }

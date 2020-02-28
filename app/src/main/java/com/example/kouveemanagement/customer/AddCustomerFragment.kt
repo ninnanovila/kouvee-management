@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import com.example.kouveemanagement.MainActivity
 
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.model.Customer
@@ -32,6 +33,7 @@ import java.util.*
  */
 class AddCustomerFragment : Fragment(), CustomerView {
 
+    private lateinit var last_emp: String
     private lateinit var customer: Customer
     private lateinit var presenter: CustomerPresenter
 
@@ -49,18 +51,15 @@ class AddCustomerFragment : Fragment(), CustomerView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        last_emp = MainActivity.currentUser?.user_id.toString()
         btn_add.setOnClickListener {
             getData()
-
             presenter = CustomerPresenter(this, Repository())
             presenter.addCustomer(customer)
         }
-
         btn_close.setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()?.remove(this)?.commit()
         }
-
         showDatePicker()
     }
 
@@ -69,17 +68,13 @@ class AddCustomerFragment : Fragment(), CustomerView {
         val address = address.text.toString()
         val birthdate = birthdate.text.toString()
         val phone_number = phone_number.text.toString()
-        val last_emp = "0"
-
         customer = Customer(null, name, address, birthdate, phone_number, null, null, null, last_emp)
     }
 
-    fun showDatePicker(){
-
+    private fun showDatePicker(){
         val year = Calendar.getInstance().get(Calendar.YEAR)
         val month = Calendar.getInstance().get(Calendar.MONTH)
         val day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
-
         birthdate.setOnClickListener {
             val datePickerDialog =
                 context?.let { it1 ->

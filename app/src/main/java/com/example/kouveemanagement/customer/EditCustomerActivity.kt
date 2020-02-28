@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import com.example.kouveemanagement.CustomerServiceActivity
 import com.example.kouveemanagement.MainActivity
 import com.example.kouveemanagement.OwnerActivity
 import com.example.kouveemanagement.R
@@ -27,29 +28,25 @@ class EditCustomerActivity : AppCompatActivity(), CustomerView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_customer)
-
         setData()
         showDatePicker()
         presenter = CustomerPresenter(this, Repository())
-
+        last_emp = MainActivity.currentUser?.user_id.toString()
         btn_save.setOnClickListener {
             getData()
             presenter.editCustomer(id, customer)
         }
-
         btn_delete.setOnClickListener {
             presenter.deleteCustomer(id, last_emp)
         }
-
         btn_home.setOnClickListener {
-            startActivity<OwnerActivity>()
+            startActivity<CustomerServiceActivity>()
         }
     }
 
     private fun setData(){
         val customer: Customer? = intent.getParcelableExtra("customer")
         id = customer?.id.toString()
-        last_emp = "0"
         name.setText(customer?.name)
         address.setText(customer?.address)
         birthdate.setText(customer?.birthdate)
@@ -65,17 +62,13 @@ class EditCustomerActivity : AppCompatActivity(), CustomerView {
         val address = address.text.toString()
         val birthdate = birthdate.text.toString()
         val phone_number = phone_number.text.toString()
-        val last_emp = MainActivity.currentUser?.user_id
-
         customer = Customer(id, name, address, birthdate, phone_number, null, null, null, last_emp)
     }
 
-    fun showDatePicker(){
-
+    private fun showDatePicker(){
         val year = Calendar.getInstance().get(Calendar.YEAR)
         val month = Calendar.getInstance().get(Calendar.MONTH)
         val day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
-
         birthdate.setOnClickListener {
             val datePickerDialog = DatePickerDialog(this, DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
                 birthdate.setText("$year-$month-$dayOfMonth")

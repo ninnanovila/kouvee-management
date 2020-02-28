@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.room.Room
 import com.example.kouveemanagement.adapter.MenuRecyclerViewAdapter
 import com.example.kouveemanagement.customer.CustomerManagementActivity
+import com.example.kouveemanagement.customerpet.CustomerPetManagementActivity
 import com.example.kouveemanagement.employee.EmployeeManagementActivity
 import com.example.kouveemanagement.model.Menu
 import com.example.kouveemanagement.persistent.AppDatabase
@@ -57,10 +58,11 @@ class CustomerServiceActivity : AppCompatActivity() {
             when(it.name) {
                 //DATA MASTER
                 "Customer" -> startActivity<CustomerManagementActivity>()
-                "Customer Pet" -> startActivity<EmployeeManagementActivity>()
+                "Customer Pet" -> startActivity<CustomerPetManagementActivity>()
                 //TRANSACTION
                 "Product Transaction" -> startActivity<EmployeeManagementActivity>()
                 "Service Transaction" -> startActivity<EmployeeManagementActivity>()
+                else -> Toast.makeText(this, "Sorry, you can not access that.", Toast.LENGTH_SHORT).show()
             }
             Toast.makeText(this, "Yeay!", Toast.LENGTH_SHORT).show()
         }

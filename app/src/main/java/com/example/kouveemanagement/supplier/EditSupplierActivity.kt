@@ -23,19 +23,15 @@ class EditSupplierActivity : AppCompatActivity(), SupplierView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_supplier)
-
         setData()
         presenter = SupplierPresenter(this, Repository())
-
         btn_save.setOnClickListener {
             getData()
             presenter.editSupplier(id, supplier)
         }
-
         btn_delete.setOnClickListener {
             presenter.deleteSupplier(id)
         }
-
         btn_home.setOnClickListener {
             startActivity<OwnerActivity>()
         }
@@ -56,7 +52,6 @@ class EditSupplierActivity : AppCompatActivity(), SupplierView {
         val name = name.text.toString()
         val address = address.text.toString()
         val phone_number = phone_number.text.toString()
-
         supplier = Supplier(id, name, address, phone_number, null, null, null)
     }
 

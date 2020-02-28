@@ -36,10 +36,7 @@ class CustomerManagementActivity : AppCompatActivity(), CustomerView {
         presenter = CustomerPresenter(this, Repository())
         presenter.getAllCustomer()
         btn_home.setOnClickListener {
-            if (MainActivity.currentUser?.user_role == "Admin")
-                startActivity<OwnerActivity>()
-            else
-                startActivity<CustomerServiceActivity>()
+            startActivity<CustomerServiceActivity>()
         }
         fabAnimation()
     }
@@ -129,11 +126,7 @@ class CustomerManagementActivity : AppCompatActivity(), CustomerView {
 
     override fun onBackPressed() {
         super.onBackPressed()
-
-        if (MainActivity.currentUser?.user_role == "Admin")
-            startActivity<OwnerActivity>()
-        else
-            startActivity<CustomerServiceActivity>()
+        startActivity<CustomerServiceActivity>()
     }
 
 }

@@ -130,7 +130,6 @@ class EditProductActivity : AppCompatActivity(), ProductView, UploadPhotoProduct
 
 
     //IMAGE
-
     private val IMAGE_RESULT = 200
     var bitmap: Bitmap? = null
     var byteArray: ByteArray? = null
