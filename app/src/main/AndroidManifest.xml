@@ -13,10 +13,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
+        android:theme="@style/Theme.AppCompat"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".customerpet.EditCustometPetActivity"></activity>
+        <activity android:name=".customerpet.EditCustometPetActivity" />
         <activity android:name=".customerpet.CustomerPetManagementActivity" />
         <activity android:name=".service.EditServiceActivity" />
         <activity android:name=".service.ServiceManagementActivity" />

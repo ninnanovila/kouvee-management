@@ -192,7 +192,7 @@ class EditProductActivity : AppCompatActivity(), ProductView, UploadPhotoProduct
 
         var mainIntent: Intent? = intents[intents.size - 1]
         for (intent in intents) {
-            if (intent.component.className == "com.android.documentsui.DocumentsActivity") {
+            if (intent.component?.className == "com.android.documentsui.DocumentsActivity") {
                 mainIntent = intent
                 break
             }
