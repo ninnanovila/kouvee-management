@@ -1,13 +1,12 @@
 package com.example.kouveemanagement.customer
 
 import android.app.DatePickerDialog
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.example.kouveemanagement.CustomerServiceActivity
 import com.example.kouveemanagement.MainActivity
-import com.example.kouveemanagement.OwnerActivity
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.model.Customer
 import com.example.kouveemanagement.model.CustomerResponse
@@ -21,7 +20,7 @@ import java.util.*
 class EditCustomerActivity : AppCompatActivity(), CustomerView {
 
     private lateinit var id: String
-    private lateinit var last_emp: String
+    private lateinit var lastEmp: String
     private lateinit var presenter: CustomerPresenter
     private lateinit var customer: Customer
 
@@ -31,13 +30,13 @@ class EditCustomerActivity : AppCompatActivity(), CustomerView {
         setData()
         showDatePicker()
         presenter = CustomerPresenter(this, Repository())
-        last_emp = MainActivity.currentUser?.user_id.toString()
+        lastEmp = MainActivity.currentUser?.user_id.toString()
         btn_save.setOnClickListener {
             getData()
             presenter.editCustomer(id, customer)
         }
         btn_delete.setOnClickListener {
-            presenter.deleteCustomer(id, last_emp)
+            presenter.deleteCustomer(id, lastEmp)
         }
         btn_home.setOnClickListener {
             startActivity<CustomerServiceActivity>()
@@ -51,18 +50,18 @@ class EditCustomerActivity : AppCompatActivity(), CustomerView {
         address.setText(customer?.address)
         birthdate.setText(customer?.birthdate)
         phone_number.setText(customer?.phone_number)
-        created_at.text = customer?.created_at
-        updated_at.text = customer?.updated_at
-        deleted_at.text = customer?.deleted_at
-        last_emptv.text = customer?.last_emp
+        created_at.setText(customer?.created_at)
+        updated_at.setText(customer?.updated_at)
+        deleted_at.setText(customer?.deleted_at)
+        last_emptv.setText(customer?.last_emp)
     }
 
     fun getData(){
         val name = name.text.toString()
         val address = address.text.toString()
-        val birthdate = birthdate.text.toString()
-        val phone_number = phone_number.text.toString()
-        customer = Customer(id, name, address, birthdate, phone_number, null, null, null, last_emp)
+        val birthday = birthdate.text.toString()
+        val phoneNumber = phone_number.text.toString()
+        customer = Customer(id, name, address, birthday, phoneNumber, null, null, null, lastEmp)
     }
 
     private fun showDatePicker(){
@@ -84,7 +83,7 @@ class EditCustomerActivity : AppCompatActivity(), CustomerView {
     }
 
     override fun hideCustomerLoading() {
-        progressbar.visibility = View.INVISIBLE
+        progressbar.visibility = View.GONE
         btn_save.visibility = View.VISIBLE
         btn_delete.visibility = View.VISIBLE
     }

@@ -30,10 +30,12 @@ class AddCustomerPetFragment : Fragment(), CustomerPetView, CustomerView, PetTyp
     private var nameDropdown: MutableList<String> = arrayListOf()
     private var idCustomer: MutableList<String> = arrayListOf()
     private lateinit var presenterC: CustomerPresenter
+    private lateinit var id_customer: String
 
     private var typeDropdown: MutableList<String> = arrayListOf()
     private var idType: MutableList<String> = arrayListOf()
     private lateinit var presenterT: PetTypePresenter
+    private lateinit var id_type: String
 
     companion object{
         fun newInstance() = AddCustomerPetFragment()
@@ -68,14 +70,6 @@ class AddCustomerPetFragment : Fragment(), CustomerPetView, CustomerView, PetTyp
     fun getData(){
         val name =  name.text.toString()
         val birthdate = birthdate.text.toString()
-        var id_customer: String = ""
-        customer_dropdown.setOnItemClickListener { _, _, position, _ ->
-            id_customer = idCustomer[position]
-        }
-        var id_type: String = ""
-        type_dropdown.setOnItemClickListener { _, _, position, _ ->
-            id_type = idType[position]
-        }
         customerPet = CustomerPet(null, id_customer,id_type, name, birthdate, null, null, null, last_emp)
     }
 
@@ -131,11 +125,9 @@ class AddCustomerPetFragment : Fragment(), CustomerPetView, CustomerView, PetTyp
     }
 
     override fun showCustomerLoading() {
-
     }
 
     override fun hideCustomerLoading() {
-
     }
 
     private fun setCustomerDropdown(){
@@ -143,10 +135,13 @@ class AddCustomerPetFragment : Fragment(), CustomerPetView, CustomerView, PetTyp
             ArrayAdapter<String>(it, android.R.layout.simple_spinner_dropdown_item, nameDropdown)
         }
         customer_dropdown.setAdapter(adapter)
+        customer_dropdown.setOnItemClickListener { _, _, position, _ ->
+            id_customer = idCustomer[position]
+            Toast.makeText(context, "ID CUSTOMER : $id_customer", Toast.LENGTH_LONG).show()
+        }
     }
 
     override fun showPetTypeLoading() {
-
     }
 
     override fun hidePetTypeLoading() {
@@ -174,6 +169,10 @@ class AddCustomerPetFragment : Fragment(), CustomerPetView, CustomerView, PetTyp
             ArrayAdapter<String>(it, android.R.layout.simple_spinner_dropdown_item, typeDropdown)
         }
         type_dropdown.setAdapter(adapter)
+        type_dropdown.setOnItemClickListener { _, _, position, _ ->
+            id_type = idType[position]
+            Toast.makeText(context, "ID TYPE : $id_type", Toast.LENGTH_LONG).show()
+        }
     }
 
 }

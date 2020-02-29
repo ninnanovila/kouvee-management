@@ -1,17 +1,13 @@
 package com.example.kouveemanagement.customer
 
-
 import android.app.DatePickerDialog
-import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import com.example.kouveemanagement.MainActivity
-
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.model.Customer
 import com.example.kouveemanagement.model.CustomerResponse
@@ -19,13 +15,6 @@ import com.example.kouveemanagement.presenter.CustomerPresenter
 import com.example.kouveemanagement.presenter.CustomerView
 import com.example.kouveemanagement.repository.Repository
 import kotlinx.android.synthetic.main.fragment_add_customer.*
-import kotlinx.android.synthetic.main.fragment_add_customer.address
-import kotlinx.android.synthetic.main.fragment_add_customer.btn_add
-import kotlinx.android.synthetic.main.fragment_add_customer.btn_close
-import kotlinx.android.synthetic.main.fragment_add_customer.name
-import kotlinx.android.synthetic.main.fragment_add_customer.phone_number
-import kotlinx.android.synthetic.main.fragment_add_customer.progressbar
-import kotlinx.android.synthetic.main.fragment_add_supplier.*
 import org.jetbrains.anko.support.v4.startActivity
 import java.util.*
 
@@ -34,7 +23,7 @@ import java.util.*
  */
 class AddCustomerFragment : Fragment(), CustomerView {
 
-    private lateinit var last_emp: String
+    private lateinit var lastEmp: String
     private lateinit var customer: Customer
     private lateinit var presenter: CustomerPresenter
 
@@ -52,7 +41,7 @@ class AddCustomerFragment : Fragment(), CustomerView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        last_emp = MainActivity.currentUser?.user_id.toString()
+        lastEmp = MainActivity.currentUser?.user_id.toString()
         btn_add.setOnClickListener {
             getData()
             presenter = CustomerPresenter(this, Repository())
@@ -67,9 +56,9 @@ class AddCustomerFragment : Fragment(), CustomerView {
     fun getData(){
         val name = name.text.toString()
         val address = address.text.toString()
-        val birthdate = birthdate.text.toString()
-        val phone_number = phone_number.text.toString()
-        customer = Customer(null, name, address, birthdate, phone_number, null, null, null, last_emp)
+        val birthday = birthdate.text.toString()
+        val phoneNumber = phone_number.text.toString()
+        customer = Customer(null, name, address, birthday, phoneNumber, null, null, null, lastEmp)
     }
 
     private fun showDatePicker(){

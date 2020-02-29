@@ -85,21 +85,6 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-
-        <EditText
-            android:id="@+id/id_customer"
-            android:hint="@string/customer"
-            android:layout_margin="8dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <EditText
-            android:id="@+id/id_type"
-            android:hint="@string/type"
-            android:layout_margin="8dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
         <Button
             android:id="@+id/btn_add"
             android:text="@string/add"
