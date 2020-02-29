@@ -19,9 +19,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <Button
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btn_home"
-            android:text="@string/home"
+            android:src="@drawable/ic_home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorAccent"
+            app:backgroundTint="@color/colorAccent"
+            app:fabSize="mini"/>
+
+        <ImageView
+            android:src="@drawable/ic_next"
+            android:layout_marginStart="8dp"
+            android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
@@ -29,7 +39,8 @@
             android:text="@string/product_management"
             android:textSize="24sp"
             android:textColor="@android:color/white"
-            android:layout_marginStart="24dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </LinearLayout>

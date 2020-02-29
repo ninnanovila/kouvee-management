@@ -28,21 +28,21 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/linearLayout2">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/id"
                 android:textColor="@android:color/white"
                 android:layout_margin="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/name"
                 android:textColor="@android:color/white"
                 android:layout_margin="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/role"
                 android:textColor="@android:color/white"
                 android:layout_margin="8dp"
@@ -63,6 +63,7 @@
 
             <ImageView
                 android:layout_gravity="center"
+                android:src="@drawable/ic_account"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:contentDescription="@string/content_desc" />
@@ -73,7 +74,8 @@
                 android:textSize="12sp"
                 android:layout_gravity="center"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent" />
+                android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.Button.TextButton"/>
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

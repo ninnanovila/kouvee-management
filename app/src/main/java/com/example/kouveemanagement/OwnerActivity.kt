@@ -31,14 +31,10 @@ class OwnerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         menuInitialization()
-
         database = Room.databaseBuilder(this, AppDatabase::class.java, "kouvee-db").build()
-
         setContentView(R.layout.activity_owner)
         setMenu()
-
         getCurrentUser()
-
         btn_logout.setOnClickListener {
             showLogoutConfirm()
         }
@@ -47,9 +43,7 @@ class OwnerActivity : AppCompatActivity() {
     private fun menuInitialization(){
         val name = resources.getStringArray(R.array.owner_menu)
         val desc = resources.getStringArray(R.array.owner_desc)
-
         menu.clear()
-
         for (i in name.indices){
             menu.add(Menu(name[i], desc[i]))
         }
@@ -76,7 +70,6 @@ class OwnerActivity : AppCompatActivity() {
     private fun getCurrentUser(){
         val thread = Thread {
             currentUser = database?.currentUserDao()?.getCurrentuser()
-
             id.text = currentUser?.user_id
             name.text = currentUser?.user_name
             role.text = currentUser?.user_role
@@ -88,11 +81,9 @@ class OwnerActivity : AppCompatActivity() {
         val confirm = AlertDialog.Builder(this)
             .setTitle("Confirmation")
             .setMessage("Are you sure to log out ?")
-
         confirm.setNegativeButton("NO") { _, _ ->
             Toast.makeText(this, "Stay here.", Toast.LENGTH_SHORT).show()
         }
-
         confirm.setPositiveButton("YES") { _, _ ->
             val thread = Thread {
                 currentUser?.let { database?.currentUserDao()?.deleteCurrentUser(it) }
@@ -107,6 +98,5 @@ class OwnerActivity : AppCompatActivity() {
     override fun onBackPressed() {
         showLogoutConfirm()
     }
-
 
 }

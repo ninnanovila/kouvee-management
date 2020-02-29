@@ -95,5 +95,6 @@
     <string name="role">Role</string>
     <string name="edit_employee">Edit Employee</string>
     <string name="search">Search</string>
+    <string name="edit_product">Edit Product</string>
 
 </resources>
