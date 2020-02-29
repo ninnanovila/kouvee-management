@@ -46,11 +46,11 @@ class ServiceManagementActivity : AppCompatActivity(), ServiceView {
         fabAnimation()
     }
 
-    override fun showLoading() {
+    override fun showServiceLoading() {
         progressbar.visibility = View.VISIBLE
     }
 
-    override fun hideLoading() {
+    override fun hideServiceLoading() {
         progressbar.visibility = View.INVISIBLE
     }
 

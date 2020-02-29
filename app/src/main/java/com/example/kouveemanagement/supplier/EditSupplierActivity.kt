@@ -55,13 +55,13 @@ class EditSupplierActivity : AppCompatActivity(), SupplierView {
         supplier = Supplier(id, name, address, phone_number, null, null, null)
     }
 
-    override fun showLoading() {
+    override fun showSupplierLoading() {
         progressbar.visibility = View.VISIBLE
         btn_save.visibility = View.INVISIBLE
         btn_delete.visibility = View.INVISIBLE
     }
 
-    override fun hideLoading() {
+    override fun hideSupplierLoading() {
         progressbar.visibility = View.INVISIBLE
         btn_save.visibility = View.VISIBLE
         btn_delete.visibility = View.VISIBLE

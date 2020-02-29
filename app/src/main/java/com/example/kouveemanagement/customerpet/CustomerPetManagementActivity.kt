@@ -41,11 +41,11 @@ class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView {
         fabAnimation()
     }
 
-    override fun showLoading() {
+    override fun showCustomerPetLoading() {
         progressbar.visibility = View.VISIBLE
     }
 
-    override fun hideLoading() {
+    override fun hideCustomerPetLoading() {
         progressbar.visibility = View.INVISIBLE
     }
 

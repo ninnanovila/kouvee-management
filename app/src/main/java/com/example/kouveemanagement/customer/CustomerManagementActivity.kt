@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.WindowManager
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
@@ -41,11 +42,11 @@ class CustomerManagementActivity : AppCompatActivity(), CustomerView {
         fabAnimation()
     }
 
-    override fun showLoading() {
+    override fun showCustomerLoading() {
         progressbar.visibility = View.VISIBLE
     }
 
-    override fun hideLoading() {
+    override fun hideCustomerLoading() {
         progressbar.visibility = View.INVISIBLE
     }
 

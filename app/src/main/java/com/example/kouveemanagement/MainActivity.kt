@@ -38,12 +38,12 @@ class MainActivity : AppCompatActivity(), LoginView {
         }
     }
 
-    override fun showLoading() {
+    override fun showLoginLoading() {
         btn_login.visibility = View.INVISIBLE
         progressbar.visibility = View.VISIBLE
     }
 
-    override fun hideLoading() {
+    override fun hideLoginLoading() {
         progressbar.visibility = View.INVISIBLE
         btn_login.visibility = View.VISIBLE
     }

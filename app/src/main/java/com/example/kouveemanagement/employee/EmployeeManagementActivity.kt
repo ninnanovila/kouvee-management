@@ -43,11 +43,11 @@ class EmployeeManagementActivity : AppCompatActivity(), EmployeeView {
         fabAnimation()
     }
 
-    override fun showLoading() {
+    override fun showEmployeeLoading() {
         progressbar.visibility = View.VISIBLE
     }
 
-    override fun hideLoading() {
+    override fun hideEmployeeLoading() {
         progressbar.visibility = View.INVISIBLE
     }
 

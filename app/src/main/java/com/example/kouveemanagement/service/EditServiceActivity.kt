@@ -58,13 +58,13 @@ class EditServiceActivity : AppCompatActivity(), ServiceView {
         service = Service(id, "1",name, price.toDouble(), null, null, null)
     }
 
-    override fun showLoading() {
+    override fun showServiceLoading() {
         progressbar.visibility = View.VISIBLE
         btn_save.visibility = View.INVISIBLE
         btn_delete.visibility = View.INVISIBLE
     }
 
-    override fun hideLoading() {
+    override fun hideServiceLoading() {
         progressbar.visibility = View.INVISIBLE
         btn_save.visibility = View.VISIBLE
         btn_delete.visibility = View.VISIBLE

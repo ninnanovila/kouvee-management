@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.Toast
 import com.example.kouveemanagement.MainActivity
 
@@ -86,12 +87,12 @@ class AddCustomerFragment : Fragment(), CustomerView {
         }
     }
 
-    override fun showLoading() {
+    override fun showCustomerLoading() {
         btn_add.visibility = View.INVISIBLE
         progressbar.visibility = View.VISIBLE
     }
 
-    override fun hideLoading() {
+    override fun hideCustomerLoading() {
         progressbar.visibility = View.INVISIBLE
         btn_add.visibility = View.VISIBLE
     }

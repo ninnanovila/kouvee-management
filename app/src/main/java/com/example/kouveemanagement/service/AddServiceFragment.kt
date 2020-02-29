@@ -56,12 +56,12 @@ class AddServiceFragment : Fragment(), ServiceView {
         service = Service(null, "1", name, price.toDouble())
     }
 
-    override fun showLoading() {
+    override fun showServiceLoading() {
         btn_add.visibility = View.INVISIBLE
         progressbar.visibility = View.VISIBLE
     }
 
-    override fun hideLoading() {
+    override fun hideServiceLoading() {
         progressbar.visibility = View.INVISIBLE
         btn_add.visibility = View.VISIBLE    }
 

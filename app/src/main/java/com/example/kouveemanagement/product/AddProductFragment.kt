@@ -65,12 +65,12 @@ class AddProductFragment : Fragment(), ProductView {
         product = Product(null, name, unit, stock.toInt(), min_stock.toInt(), price.toDouble(), null)
     }
 
-    override fun showLoading() {
+    override fun showProductLoading() {
         btn_add.visibility = View.INVISIBLE
         progressbar.visibility = View.VISIBLE
     }
 
-    override fun hideLoading() {
+    override fun hideProductLoading() {
         progressbar.visibility = View.INVISIBLE
         btn_add.visibility = View.VISIBLE
     }

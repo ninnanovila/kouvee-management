@@ -57,7 +57,7 @@ class PetManagementActivity : AppCompatActivity(), PetSizeView, PetTypeView {
         fabAnimation()
     }
 
-    override fun showLoading() {
+    override fun showPetSizeLoading() {
         dialog = LayoutInflater.from(this).inflate(R.layout.dialog_detail_pet, null)
 
         dialog.btn_save.visibility = View.INVISIBLE
@@ -66,13 +66,13 @@ class PetManagementActivity : AppCompatActivity(), PetSizeView, PetTypeView {
         progressbar.visibility = View.VISIBLE
     }
 
-    override fun hideLoading() {
+    override fun hidePetSizeLoading() {
         dialog = LayoutInflater.from(this).inflate(R.layout.dialog_detail_pet, null)
 
         dialog.btn_save.visibility = View.VISIBLE
         dialog.btn_delete.visibility = View.VISIBLE
         dialog.progressbar.visibility = View.INVISIBLE
-        progressbar.visibility = View.INVISIBLE
+        progressbar.visibility = View.GONE
     }
 
     override fun petSizeSuccess(data: PetSizeResponse?) {
@@ -101,6 +101,12 @@ class PetManagementActivity : AppCompatActivity(), PetSizeView, PetTypeView {
 
     override fun petSizeFailed() {
         Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun showPetTypeLoading() {
+    }
+
+    override fun hidePetTypeLoading() {
     }
 
     override fun petTypeSuccess(data: PetTypeResponse?) {

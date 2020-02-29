@@ -74,16 +74,16 @@ class AddPetFragment : Fragment(), PetSizeView, PetTypeView {
         petType = PetType(null, name, null, null, null)
     }
 
-    override fun showLoading() {
+    override fun showPetTypeLoading() {
         btn_add_s.visibility = View.INVISIBLE
         btn_add_t.visibility = View.INVISIBLE
         progressbar.visibility = View.VISIBLE
     }
 
-    override fun hideLoading() {
+    override fun hidePetTypeLoading() {
         btn_add_s.visibility = View.VISIBLE
         btn_add_t.visibility = View.VISIBLE
-        progressbar.visibility = View.INVISIBLE
+        progressbar.visibility = View.GONE
     }
 
     override fun petTypeSuccess(data: PetTypeResponse?) {
@@ -93,6 +93,18 @@ class AddPetFragment : Fragment(), PetSizeView, PetTypeView {
 
     override fun petTypeFailed() {
         Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun showPetSizeLoading() {
+        btn_add_s.visibility = View.INVISIBLE
+        btn_add_t.visibility = View.INVISIBLE
+        progressbar.visibility = View.VISIBLE
+    }
+
+    override fun hidePetSizeLoading() {
+        btn_add_s.visibility = View.VISIBLE
+        btn_add_t.visibility = View.VISIBLE
+        progressbar.visibility = View.GONE
     }
 
     override fun petSizeSuccess(data: PetSizeResponse?) {

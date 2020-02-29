@@ -5,51 +5,51 @@ import com.example.kouveemanagement.repository.*
 import okhttp3.ResponseBody
 
 interface LoginView : LoginRepositoryCallback<LoginResponse> {
-    fun showLoading()
-    fun hideLoading()
+    fun showLoginLoading()
+    fun hideLoginLoading()
 }
 
 interface EmployeeView : EmployeeRepositoryCallback<EmployeeResponse> {
-    fun showLoading()
-    fun hideLoading()
+    fun showEmployeeLoading()
+    fun hideEmployeeLoading()
 }
 
 interface ProductView : ProductRepositoryCallback<ProductResponse> {
-    fun showLoading()
-    fun hideLoading()
+    fun showProductLoading()
+    fun hideProductLoading()
 }
 
 interface UploadPhotoProductView : UploadPhotoProductRepositoryCallback<ResponseBody> {
-    fun showProgress()
-    fun hideProgress()
+    fun showUploadProgress()
+    fun hideUploadProgress()
 }
 
 interface CustomerView: CustomerRepositoryCallback<CustomerResponse> {
-    fun showLoading()
-    fun hideLoading()
+    fun showCustomerLoading()
+    fun hideCustomerLoading()
 }
 
 interface PetSizeView: PetSizeRepositoryCallback<PetSizeResponse> {
-    fun showLoading()
-    fun hideLoading()
+    fun showPetSizeLoading()
+    fun hidePetSizeLoading()
 }
 
 interface PetTypeView: PetTypeRepositoryCallback<PetTypeResponse> {
-    fun showLoading()
-    fun hideLoading()
+    fun showPetTypeLoading()
+    fun hidePetTypeLoading()
 }
 
 interface SupplierView: SupplierRepositoryCallback<SupplierResponse> {
-    fun showLoading()
-    fun hideLoading()
+    fun showSupplierLoading()
+    fun hideSupplierLoading()
 }
 
 interface ServiceView: ServiceRepositoryCallback<ServiceResponse> {
-    fun showLoading()
-    fun hideLoading()
+    fun showServiceLoading()
+    fun hideServiceLoading()
 }
 
 interface CustomerPetView: CustomerPetRepositoryCallback<CustomerPetResponse> {
-    fun showLoading()
-    fun hideLoading()
+    fun showCustomerPetLoading()
+    fun hideCustomerPetLoading()
 }

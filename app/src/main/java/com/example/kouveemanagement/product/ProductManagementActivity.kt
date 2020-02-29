@@ -40,11 +40,11 @@ class ProductManagementActivity : AppCompatActivity(), ProductView {
         fabAnimation()
     }
 
-    override fun showLoading() {
+    override fun showProductLoading() {
         progressbar.visibility = View.VISIBLE
     }
 
-    override fun hideLoading() {
+    override fun hideProductLoading() {
         progressbar.visibility = View.INVISIBLE
     }
 

@@ -102,13 +102,13 @@ class EditProductActivity : AppCompatActivity(), ProductView, UploadPhotoProduct
         product = Product(id, name, unit, stock.toInt(), minStock.toInt(), price.toDouble(), null)
     }
 
-    override fun showLoading() {
+    override fun showProductLoading() {
         progressbar.visibility = View.VISIBLE
         btn_save.visibility = View.INVISIBLE
         btn_delete.visibility = View.INVISIBLE
     }
 
-    override fun hideLoading() {
+    override fun hideProductLoading() {
         progressbar.visibility = View.INVISIBLE
         btn_save.visibility = View.VISIBLE
         btn_delete.visibility = View.VISIBLE
@@ -244,13 +244,13 @@ class EditProductActivity : AppCompatActivity(), ProductView, UploadPhotoProduct
         }
     }
 
-    override fun showProgress() {
+    override fun showUploadProgress() {
         progressbar_img.visibility = View.VISIBLE
         btn_choose.visibility = View.INVISIBLE
         btn_upload.visibility = View.INVISIBLE
     }
 
-    override fun hideProgress() {
+    override fun hideUploadProgress() {
         progressbar_img.visibility = View.INVISIBLE
         btn_choose.visibility = View.VISIBLE
         btn_upload.visibility = View.VISIBLE

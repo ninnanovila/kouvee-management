@@ -77,13 +77,13 @@ class EditCustomerActivity : AppCompatActivity(), CustomerView {
         }
     }
 
-    override fun showLoading() {
+    override fun showCustomerLoading() {
         progressbar.visibility = View.VISIBLE
         btn_save.visibility = View.INVISIBLE
         btn_delete.visibility = View.INVISIBLE
     }
 
-    override fun hideLoading() {
+    override fun hideCustomerLoading() {
         progressbar.visibility = View.INVISIBLE
         btn_save.visibility = View.VISIBLE
         btn_delete.visibility = View.VISIBLE

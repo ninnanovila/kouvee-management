@@ -44,11 +44,11 @@ class SupplierManagementActivity : AppCompatActivity(), SupplierView {
         fabAnimation()
     }
 
-    override fun showLoading() {
+    override fun showSupplierLoading() {
         progressbar.visibility = View.VISIBLE
     }
 
-    override fun hideLoading() {
+    override fun hideSupplierLoading() {
         progressbar.visibility = View.INVISIBLE
     }
 
