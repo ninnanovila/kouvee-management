@@ -58,13 +58,13 @@ class EditCustomerPetActivity : AppCompatActivity(), CustomerPetView {
         idCustomerList = CustomerPetManagementActivity.idCustomerList
         typeDropdown = CustomerPetManagementActivity.nameTypeDropdown
         idTypeList = CustomerPetManagementActivity.idTypeList
-
         for (i in idCustomerList.indices){
             if (idCustomerList[i] == customerPet.id_customer){
                 position = i
+                idCustomer = idCustomerList[i]
+                idType = idTypeList[i]
             }
         }
-
         val adapterC = ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, nameDropdown)
         customer_dropdown.setAdapter(adapterC)
         customer_dropdown.setText(nameDropdown[position], true)
@@ -72,7 +72,6 @@ class EditCustomerPetActivity : AppCompatActivity(), CustomerPetView {
             idCustomer = idCustomerList[position]
             Toast.makeText(this, "ID CUSTOMER : $idCustomer", Toast.LENGTH_LONG).show()
         }
-
         val adapterT = ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, typeDropdown)
         type_dropdown.setAdapter(adapterT)
         type_dropdown.setText(typeDropdown[position], true)

@@ -85,22 +85,22 @@ class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView, Cust
         dialog = LayoutInflater.from(this).inflate(R.layout.dialog_detail_customer_pet, null)
 
         val name = dialog.findViewById<TextView>(R.id.name)
-        val birthdate = dialog.findViewById<TextView>(R.id.birthdate)
-        val btn_close = dialog.findViewById<ImageButton>(R.id.btn_close)
-        val btn_edit = dialog.findViewById<Button>(R.id.btn_edit)
+        val birthday = dialog.findViewById<TextView>(R.id.birthdate)
+        val btnClose = dialog.findViewById<ImageButton>(R.id.btn_close)
+        val btnEdit = dialog.findViewById<Button>(R.id.btn_edit)
 
         name.text = customerPet.name.toString()
-        birthdate.text = customerPet.birthdate.toString()
+        birthday.text = customerPet.birthdate.toString()
 
         val infoDialog = AlertDialog.Builder(this)
             .setView(dialog)
             .show()
 
-        btn_edit.setOnClickListener {
+        btnEdit.setOnClickListener {
             startActivity<EditCustomerPetActivity>("customerpet" to customerPet)
         }
 
-        btn_close.setOnClickListener {
+        btnClose.setOnClickListener {
             infoDialog.dismiss()
         }
     }
@@ -147,9 +147,18 @@ class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView, Cust
         if (temp.isEmpty()){
             Toast.makeText(this, "No Result", Toast.LENGTH_SHORT).show()
         }else{
-            for (i in temp.indices){
-                nameCustomerDropdown.add(i, temp[i].name.toString())
-                idCustomerList.add(i, temp[i].id.toString())
+            if (nameCustomerDropdown.isNotEmpty()){
+                nameCustomerDropdown.clear()
+                idCustomerList.clear()
+                for (i in temp.indices){
+                    nameCustomerDropdown.add(i, temp[i].name.toString())
+                    idCustomerList.add(i, temp[i].id.toString())
+                }
+            }else{
+                for (i in temp.indices){
+                    nameCustomerDropdown.add(i, temp[i].name.toString())
+                    idCustomerList.add(i, temp[i].id.toString())
+                }
             }
         }
     }
@@ -169,9 +178,18 @@ class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView, Cust
         if (temp.isEmpty()){
             Toast.makeText(this, "No Result", Toast.LENGTH_SHORT).show()
         }else{
-            for (i in temp.indices){
-                nameTypeDropdown.add(i, temp[i].name.toString())
-                idTypeList.add(i, temp[i].id.toString())
+            if (nameTypeDropdown.isNotEmpty()){
+                nameTypeDropdown.clear()
+                idTypeList.clear()
+                for (i in temp.indices){
+                    nameTypeDropdown.add(i, temp[i].name.toString())
+                    idTypeList.add(i, temp[i].id.toString())
+                }
+            }else{
+                for (i in temp.indices){
+                    nameTypeDropdown.add(i, temp[i].name.toString())
+                    idTypeList.add(i, temp[i].id.toString())
+                }
             }
         }
     }

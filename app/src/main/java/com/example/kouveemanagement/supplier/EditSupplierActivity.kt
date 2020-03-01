@@ -43,16 +43,16 @@ class EditSupplierActivity : AppCompatActivity(), SupplierView {
         name.setText(supplier?.name)
         address.setText(supplier?.address)
         phone_number.setText(supplier?.phone_number)
-        created_at.text = supplier?.created_at
-        updated_at.text = supplier?.updated_at
-        deleted_at.text = supplier?.deleted_at
+        created_at.setText(supplier?.created_at)
+        updated_at.setText(supplier?.updated_at)
+        deleted_at.setText(supplier?.deleted_at)
     }
 
     private fun getData(){
         val name = name.text.toString()
         val address = address.text.toString()
-        val phone_number = phone_number.text.toString()
-        supplier = Supplier(id, name, address, phone_number, null, null, null)
+        val phoneNumber = phone_number.text.toString()
+        supplier = Supplier(id, name, address, phoneNumber, null, null, null)
     }
 
     override fun showSupplierLoading() {
@@ -62,7 +62,7 @@ class EditSupplierActivity : AppCompatActivity(), SupplierView {
     }
 
     override fun hideSupplierLoading() {
-        progressbar.visibility = View.INVISIBLE
+        progressbar.visibility = View.GONE
         btn_save.visibility = View.VISIBLE
         btn_delete.visibility = View.VISIBLE
     }

@@ -41,14 +41,11 @@ class AddProductFragment : Fragment(), ProductView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         btn_add.setOnClickListener {
             getData()
-
             presenter = ProductPresenter(this, Repository())
             presenter.addProduct(product)
         }
-
         btn_close.setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()?.remove(this)?.commit()
         }
@@ -59,10 +56,9 @@ class AddProductFragment : Fragment(), ProductView {
         val name = name.text.toString()
         val unit = unit.text.toString()
         val stock = stock.text.toString()
-        val min_stock = min_stock.text.toString()
+        val minStock = min_stock.text.toString()
         val price = price.text.toString()
-
-        product = Product(null, name, unit, stock.toInt(), min_stock.toInt(), price.toDouble(), null)
+        product = Product(null, name, unit, stock.toInt(), minStock.toInt(), price.toDouble(), null)
     }
 
     override fun showProductLoading() {

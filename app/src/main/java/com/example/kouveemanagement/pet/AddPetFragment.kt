@@ -45,23 +45,19 @@ class AddPetFragment : Fragment(), PetSizeView, PetTypeView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         btn_add_s.setOnClickListener {
             getPetSize()
             presenterSize = PetSizePresenter(this, Repository())
             presenterSize.addPetSize(petSize)
         }
-
         btn_add_t.setOnClickListener {
             getPetType()
             presenterType = PetTypePresenter(this, Repository())
             presenterType.addPetType(petType)
         }
-
         btn_close.setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()?.remove(this)?.commit()
         }
-
     }
 
     private fun getPetSize(){

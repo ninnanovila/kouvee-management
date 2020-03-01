@@ -72,39 +72,31 @@ class CustomerManagementActivity : AppCompatActivity(), CustomerView {
     }
 
     private fun showDialog(customer: Customer){
-
         dialog = LayoutInflater.from(this).inflate(R.layout.dialog_detail_customer, null)
-
         val name = dialog.findViewById<TextView>(R.id.name)
         val address = dialog.findViewById<TextView>(R.id.address)
         val phoneNumber = dialog.findViewById<TextView>(R.id.phone_number)
         val birthday = dialog.findViewById<TextView>(R.id.birthdate)
         val btnClose = dialog.findViewById<ImageButton>(R.id.btn_close)
         val btnEdit = dialog.findViewById<Button>(R.id.btn_edit)
-
         name.text = customer.name.toString()
         address.text = customer.address.toString()
         birthday.text = customer.birthdate.toString()
         phoneNumber.text = customer.phone_number.toString()
-
         val infoDialog = AlertDialog.Builder(this)
             .setView(dialog)
             .show()
-
         btnEdit.setOnClickListener {
             startActivity<EditCustomerActivity>("customer" to customer)
         }
-
         btnClose.setOnClickListener {
             infoDialog.dismiss()
         }
     }
 
     private fun fabAnimation(){
-
         Animation.init(fab_add)
         Animation.init(fab_search)
-
         fab_menu.setOnClickListener {
             isRotate = Animation.rotateFab(it, !isRotate)
             if (isRotate){
@@ -115,7 +107,6 @@ class CustomerManagementActivity : AppCompatActivity(), CustomerView {
                 Animation.showOut(fab_search)
             }
         }
-
         fab_add.setOnClickListener {
             isRotate = Animation.rotateFab(fab_menu, !isRotate)
             Animation.showOut(fab_add)

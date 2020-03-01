@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.model.Service
@@ -23,6 +24,10 @@ class AddServiceFragment : Fragment(), ServiceView {
     private lateinit var service: Service
     private lateinit var presenter: ServicePresenter
 
+    private var sizeDropdown: MutableList<String> = arrayListOf()
+    private var idSizeList: MutableList<String> = arrayListOf()
+    private lateinit var idSize: String
+
     companion object {
         fun newInstance() = AddServiceFragment()
     }
@@ -37,23 +42,23 @@ class AddServiceFragment : Fragment(), ServiceView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        sizeDropdown = ServiceManagementActivity.namePetSize
+        idSizeList = ServiceManagementActivity.idPetSize
         btn_add.setOnClickListener {
             getData()
             presenter = ServicePresenter(this, Repository())
             presenter.addService(service)
         }
-
         btn_close.setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()?.remove(this)?.commit()
         }
+        setSizeDropDown()
     }
 
     private fun getData(){
         val name = name.text.toString()
         val price = price.text.toString()
-
-        service = Service(null, "1", name, price.toDouble())
+        service = Service(null, idSize, name, price.toDouble())
     }
 
     override fun showServiceLoading() {
@@ -62,8 +67,9 @@ class AddServiceFragment : Fragment(), ServiceView {
     }
 
     override fun hideServiceLoading() {
-        progressbar.visibility = View.INVISIBLE
-        btn_add.visibility = View.VISIBLE    }
+        progressbar.visibility = View.GONE
+        btn_add.visibility = View.VISIBLE
+    }
 
     override fun serviceSuccess(data: ServiceResponse?) {
         Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
@@ -72,6 +78,17 @@ class AddServiceFragment : Fragment(), ServiceView {
 
     override fun serviceFailed() {
         Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun setSizeDropDown(){
+        val adapter = context?.let {
+            ArrayAdapter<String>(it, android.R.layout.simple_spinner_dropdown_item, sizeDropdown)
+        }
+        size_dropdown.setAdapter(adapter)
+        size_dropdown.setOnItemClickListener { _, _, position, _ ->
+            idSize = idSizeList[position]
+            Toast.makeText(context, "ID SIZE : $idSize", Toast.LENGTH_LONG).show()
+        }
     }
 
 }

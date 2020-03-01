@@ -54,8 +54,8 @@ class AddSupplierFragment : Fragment(), SupplierView {
     fun getData(){
         val name = name.text.toString()
         val address = address.text.toString()
-        val phone_number = phone_number.text.toString()
-        supplier = Supplier(null, name, address, phone_number, null, null, null)
+        val phoneNumber = phone_number.text.toString()
+        supplier = Supplier(null, name, address, phoneNumber, null, null, null)
     }
 
 
@@ -65,7 +65,7 @@ class AddSupplierFragment : Fragment(), SupplierView {
     }
 
     override fun hideSupplierLoading() {
-        progressbar.visibility = View.INVISIBLE
+        progressbar.visibility = View.GONE
         btn_add.visibility = View.VISIBLE
     }
 

@@ -15,7 +15,8 @@
         android:background="@color/colorOrange"
         android:layout_gravity="end|top"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/content_desc" />
 
     <LinearLayout
         android:layout_margin="16dp"
@@ -40,6 +41,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/name"
+                android:inputType="text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
         </com.google.android.material.textfield.TextInputLayout>
