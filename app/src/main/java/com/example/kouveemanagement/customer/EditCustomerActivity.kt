@@ -52,7 +52,11 @@ class EditCustomerActivity : AppCompatActivity(), CustomerView {
         phone_number.setText(customer?.phone_number)
         created_at.setText(customer?.created_at)
         updated_at.setText(customer?.updated_at)
-        deleted_at.setText(customer?.deleted_at)
+        if (customer?.deleted_at.isNullOrEmpty()){
+            deleted_at.setText("-")
+        }else{
+            deleted_at.setText(customer?.deleted_at)
+        }
         last_emptv.setText(customer?.last_emp)
     }
 

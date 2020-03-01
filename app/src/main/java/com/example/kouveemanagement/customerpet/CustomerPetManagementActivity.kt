@@ -14,15 +14,13 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kouveemanagement.*
 import com.example.kouveemanagement.adapter.CustomerPetRecyclerViewAdapter
-import com.example.kouveemanagement.model.CustomerPet
-import com.example.kouveemanagement.model.CustomerPetResponse
-import com.example.kouveemanagement.presenter.CustomerPetPresenter
-import com.example.kouveemanagement.presenter.CustomerPetView
+import com.example.kouveemanagement.model.*
+import com.example.kouveemanagement.presenter.*
 import com.example.kouveemanagement.repository.Repository
 import kotlinx.android.synthetic.main.activity_customer_pet_management.*
 import org.jetbrains.anko.startActivity
 
-class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView {
+class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView, CustomerView, PetTypeView {
 
     private var customerpet: MutableList<CustomerPet> = mutableListOf()
     private lateinit var presenter: CustomerPetPresenter
@@ -30,11 +28,25 @@ class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView {
     private lateinit var dialog: View
     private var isRotate = false
 
+    private lateinit var presenterC: CustomerPresenter
+    private lateinit var presenterT: PetTypePresenter
+
+    companion object{
+        var nameCustomerDropdown: MutableList<String> = arrayListOf()
+        var idCustomerList: MutableList<String> = arrayListOf()
+        var nameTypeDropdown: MutableList<String> = arrayListOf()
+        var idTypeList: MutableList<String> = arrayListOf()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_customer_pet_management)
         presenter = CustomerPetPresenter(this, Repository())
         presenter.getAllCustomerPet()
+        presenterC = CustomerPresenter(this, Repository())
+        presenterC.getAllCustomer()
+        presenterT = PetTypePresenter(this, Repository())
+        presenterT.getAllPetType()
         btn_home.setOnClickListener {
             startActivity<CustomerServiceActivity>()
         }
@@ -85,7 +97,7 @@ class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView {
             .show()
 
         btn_edit.setOnClickListener {
-            startActivity<EditCustometPetActivity>("customerpet" to customerPet)
+            startActivity<EditCustomerPetActivity>("customerpet" to customerPet)
         }
 
         btn_close.setOnClickListener {
@@ -122,5 +134,49 @@ class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView {
     override fun onBackPressed() {
         super.onBackPressed()
         startActivity<CustomerServiceActivity>()
+    }
+
+    override fun showCustomerLoading() {
+    }
+
+    override fun hideCustomerLoading() {
+    }
+
+    override fun customerSuccess(data: CustomerResponse?) {
+        val temp: List<Customer> = data?.customers ?: emptyList()
+        if (temp.isEmpty()){
+            Toast.makeText(this, "No Result", Toast.LENGTH_SHORT).show()
+        }else{
+            for (i in temp.indices){
+                nameCustomerDropdown.add(i, temp[i].name.toString())
+                idCustomerList.add(i, temp[i].id.toString())
+            }
+        }
+    }
+
+    override fun customerFailed() {
+        Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun showPetTypeLoading() {
+    }
+
+    override fun hidePetTypeLoading() {
+    }
+
+    override fun petTypeSuccess(data: PetTypeResponse?) {
+        val temp: List<PetType> = data?.pettype ?: emptyList()
+        if (temp.isEmpty()){
+            Toast.makeText(this, "No Result", Toast.LENGTH_SHORT).show()
+        }else{
+            for (i in temp.indices){
+                nameTypeDropdown.add(i, temp[i].name.toString())
+                idTypeList.add(i, temp[i].id.toString())
+            }
+        }
+    }
+
+    override fun petTypeFailed() {
+        Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
     }
 }

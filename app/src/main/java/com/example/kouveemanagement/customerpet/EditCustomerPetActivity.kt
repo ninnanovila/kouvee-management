@@ -4,6 +4,7 @@ import android.app.DatePickerDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import com.example.kouveemanagement.CustomerServiceActivity
 import com.example.kouveemanagement.MainActivity
@@ -17,12 +18,20 @@ import kotlinx.android.synthetic.main.activity_edit_customet_pet.*
 import org.jetbrains.anko.startActivity
 import java.util.*
 
-class EditCustometPetActivity : AppCompatActivity(), CustomerPetView {
+class EditCustomerPetActivity : AppCompatActivity(), CustomerPetView {
 
     private lateinit var id: String
-    private lateinit var last_emp: String
+    private lateinit var lastEmp: String
     private lateinit var presenter: CustomerPetPresenter
     private lateinit var customerpet: CustomerPet
+
+    private var nameDropdown: MutableList<String> = arrayListOf()
+    private var idCustomerList: MutableList<String> = arrayListOf()
+    private lateinit var idCustomer: String
+
+    private var typeDropdown: MutableList<String> = arrayListOf()
+    private var idTypeList: MutableList<String> = arrayListOf()
+    private lateinit var idType: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +39,7 @@ class EditCustometPetActivity : AppCompatActivity(), CustomerPetView {
         setData()
         showDatePicker()
         presenter = CustomerPetPresenter(this, Repository())
-        last_emp = MainActivity.currentUser?.user_id.toString()
+        lastEmp = MainActivity.currentUser?.user_id.toString()
         btn_save.setOnClickListener {
             getData()
             presenter.editCustomerPet(id, customerpet)
@@ -43,25 +52,52 @@ class EditCustometPetActivity : AppCompatActivity(), CustomerPetView {
         }
     }
 
+    private fun setDropdown(customerPet: CustomerPet){
+        var position = 0
+        nameDropdown = CustomerPetManagementActivity.nameCustomerDropdown
+        idCustomerList = CustomerPetManagementActivity.idCustomerList
+        typeDropdown = CustomerPetManagementActivity.nameTypeDropdown
+        idTypeList = CustomerPetManagementActivity.idTypeList
+
+        for (i in idCustomerList.indices){
+            if (idCustomerList[i] == customerPet.id_customer){
+                position = i
+            }
+        }
+
+        val adapterC = ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, nameDropdown)
+        customer_dropdown.setAdapter(adapterC)
+        customer_dropdown.setText(nameDropdown[position], true)
+        customer_dropdown.setOnItemClickListener { _, _, position, _ ->
+            idCustomer = idCustomerList[position]
+            Toast.makeText(this, "ID CUSTOMER : $idCustomer", Toast.LENGTH_LONG).show()
+        }
+
+        val adapterT = ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, typeDropdown)
+        type_dropdown.setAdapter(adapterT)
+        type_dropdown.setText(typeDropdown[position], true)
+        type_dropdown.setOnItemClickListener { _, _, position, _ ->
+            idType = idTypeList[position]
+            Toast.makeText(this, "ID TYPE : $idType", Toast.LENGTH_LONG).show()
+        }
+    }
+
     private fun setData(){
         val customerPet: CustomerPet? = intent.getParcelableExtra("customerpet")
         id = customerPet?.id.toString()
         name.setText(customerPet?.name)
         birthdate.setText(customerPet?.birthdate)
-        type.setText(customerPet?.id_type)
-        customer.setText(customerPet?.id_customer)
-        created_at.text = customerPet?.created_at
-        updated_at.text = customerPet?.updated_at
-        deleted_at.text = customerPet?.deleted_at
-        last_emptv.text = customerPet?.last_emp
+        created_at.setText(customerPet?.created_at)
+        updated_at.setText(customerPet?.updated_at)
+        deleted_at.setText(customerPet?.deleted_at)
+        last_emptv.setText(customerPet?.last_emp)
+        customerPet?.let { setDropdown(it) }
     }
 
     fun getData(){
         val name = name.text.toString()
         val birthdate = birthdate.text.toString()
-        val type = type.text.toString()
-        val customer = customer.text.toString()
-        customerpet = CustomerPet(id, customer, type, name, birthdate, null, null, null, last_emp)
+        customerpet = CustomerPet(id, idCustomer, idType, name, birthdate, null, null, null, lastEmp)
     }
 
     private fun showDatePicker(){
@@ -83,7 +119,7 @@ class EditCustometPetActivity : AppCompatActivity(), CustomerPetView {
     }
 
     override fun hideCustomerPetLoading() {
-        progressbar.visibility = View.INVISIBLE
+        progressbar.visibility = View.GONE
         btn_save.visibility = View.VISIBLE
         btn_delete.visibility = View.VISIBLE
     }

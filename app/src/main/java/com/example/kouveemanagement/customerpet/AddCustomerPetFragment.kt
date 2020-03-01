@@ -17,25 +17,22 @@ import kotlinx.android.synthetic.main.fragment_add_customer_pet.*
 import org.jetbrains.anko.support.v4.startActivity
 import java.util.*
 
-
 /**
  * A simple [Fragment] subclass.
  */
-class AddCustomerPetFragment : Fragment(), CustomerPetView, CustomerView, PetTypeView{
+class AddCustomerPetFragment : Fragment(), CustomerPetView{
 
-    private lateinit var last_emp: String
+    private lateinit var lastEmp: String
     private lateinit var customerPet: CustomerPet
     private lateinit var presenter: CustomerPetPresenter
 
     private var nameDropdown: MutableList<String> = arrayListOf()
-    private var idCustomer: MutableList<String> = arrayListOf()
-    private lateinit var presenterC: CustomerPresenter
-    private lateinit var id_customer: String
+    private var idCustomerList: MutableList<String> = arrayListOf()
+    private lateinit var idCustomer: String
 
     private var typeDropdown: MutableList<String> = arrayListOf()
-    private var idType: MutableList<String> = arrayListOf()
-    private lateinit var presenterT: PetTypePresenter
-    private lateinit var id_type: String
+    private var idTypeList: MutableList<String> = arrayListOf()
+    private lateinit var idType: String
 
     companion object{
         fun newInstance() = AddCustomerPetFragment()
@@ -51,11 +48,11 @@ class AddCustomerPetFragment : Fragment(), CustomerPetView, CustomerView, PetTyp
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        presenterC = CustomerPresenter(this, Repository())
-        presenterC.getAllCustomer()
-        presenterT = PetTypePresenter(this, Repository())
-        presenterT.getAllPetType()
-        last_emp = MainActivity.currentUser?.user_id.toString()
+        nameDropdown = CustomerPetManagementActivity.nameCustomerDropdown
+        idCustomerList = CustomerPetManagementActivity.idCustomerList
+        typeDropdown = CustomerPetManagementActivity.nameTypeDropdown
+        idTypeList = CustomerPetManagementActivity.idTypeList
+        lastEmp = MainActivity.currentUser?.user_id.toString()
         btn_add.setOnClickListener {
             getData()
             presenter = CustomerPetPresenter(this, Repository())
@@ -65,12 +62,14 @@ class AddCustomerPetFragment : Fragment(), CustomerPetView, CustomerView, PetTyp
             activity?.supportFragmentManager?.beginTransaction()?.remove(this)?.commit()
         }
         showDatePicker()
+        setCustomerDropdown()
+        setTypeDropDown()
     }
 
     fun getData(){
         val name =  name.text.toString()
-        val birthdate = birthdate.text.toString()
-        customerPet = CustomerPet(null, id_customer,id_type, name, birthdate, null, null, null, last_emp)
+        val birthday = birthdate.text.toString()
+        customerPet = CustomerPet(null, idCustomer,idType, name, birthday, null, null, null, lastEmp)
     }
 
     private fun showDatePicker(){
@@ -107,61 +106,15 @@ class AddCustomerPetFragment : Fragment(), CustomerPetView, CustomerView, PetTyp
         btn_add.visibility = View.VISIBLE
     }
 
-    override fun customerSuccess(data: CustomerResponse?) {
-        val temp: List<Customer> = data?.customers ?: emptyList()
-        if (temp.isEmpty()){
-            Toast.makeText(context, "No Result", Toast.LENGTH_SHORT).show()
-        }else{
-            for (i in temp.indices){
-                nameDropdown.add(i, temp[i].name.toString())
-                idCustomer.add(i, temp[i].id.toString())
-            }
-            setCustomerDropdown()
-        }
-    }
-
-    override fun customerFailed() {
-        Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show()
-    }
-
-    override fun showCustomerLoading() {
-    }
-
-    override fun hideCustomerLoading() {
-    }
-
     private fun setCustomerDropdown(){
         val adapter = context?.let {
             ArrayAdapter<String>(it, android.R.layout.simple_spinner_dropdown_item, nameDropdown)
         }
         customer_dropdown.setAdapter(adapter)
         customer_dropdown.setOnItemClickListener { _, _, position, _ ->
-            id_customer = idCustomer[position]
-            Toast.makeText(context, "ID CUSTOMER : $id_customer", Toast.LENGTH_LONG).show()
+            idCustomer = idCustomerList[position]
+            Toast.makeText(context, "ID CUSTOMER : $idCustomer", Toast.LENGTH_LONG).show()
         }
-    }
-
-    override fun showPetTypeLoading() {
-    }
-
-    override fun hidePetTypeLoading() {
-    }
-
-    override fun petTypeSuccess(data: PetTypeResponse?) {
-        val temp: List<PetType> = data?.pettype ?: emptyList()
-        if (temp.isEmpty()){
-            Toast.makeText(context, "No Result", Toast.LENGTH_SHORT).show()
-        }else{
-            for (i in temp.indices){
-                typeDropdown.add(i, temp[i].name.toString())
-                idType.add(i, temp[i].id.toString())
-            }
-            setTypeDropDown()
-        }
-    }
-
-    override fun petTypeFailed() {
-        Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show()
     }
 
     private fun setTypeDropDown(){
@@ -170,8 +123,8 @@ class AddCustomerPetFragment : Fragment(), CustomerPetView, CustomerView, PetTyp
         }
         type_dropdown.setAdapter(adapter)
         type_dropdown.setOnItemClickListener { _, _, position, _ ->
-            id_type = idType[position]
-            Toast.makeText(context, "ID TYPE : $id_type", Toast.LENGTH_LONG).show()
+            idType = idTypeList[position]
+            Toast.makeText(context, "ID TYPE : $idType", Toast.LENGTH_LONG).show()
         }
     }
 
