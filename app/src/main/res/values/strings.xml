@@ -42,7 +42,6 @@
     <string name="customer_management">Customer Management</string>
 
 
-
     <!--STRING DATA-->
     <string name="content_desc">Image</string>
     <string name="login">Log In</string>
@@ -101,5 +100,11 @@
     <string name="updated_at">Updated at</string>
     <string name="deleted_at">Deleted at</string>
     <string name="last_employee">Last employee</string>
+    <string name="search_result">Search Result</string>
+    <string name="employee">Employee</string>
+    <string name="supplier">Supplier</string>
+    <string name="product">Product</string>
+    <string name="service">Service</string>
+    <string name="customer_pet">Customer Pet</string>
 
 </resources>

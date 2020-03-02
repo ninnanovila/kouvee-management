@@ -34,7 +34,6 @@ class Repository {
 
 //    EMPLOYEE
     fun getAllEmployee(callback: EmployeeRepositoryCallback<EmployeeResponse>) {
-
         ApiClient().services.getAllEmployee().enqueue(object : Callback<EmployeeResponse?> {
             override fun onFailure(call: Call<EmployeeResponse?>, t: Throwable) {
                 callback.employeeFailed()
@@ -51,6 +50,25 @@ class Repository {
                 }
             }
 
+        })
+    }
+
+    fun getEmployeeBySearch(query: String, callback: EmployeeRepositoryCallback<EmployeeResponse>){
+        ApiClient().services.getEmployeeBySearch(query).enqueue(object : Callback<EmployeeResponse?> {
+            override fun onFailure(call: Call<EmployeeResponse?>, t: Throwable) {
+                callback.employeeFailed()
+            }
+
+            override fun onResponse(
+                call: Call<EmployeeResponse?>,
+                response: Response<EmployeeResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.employeeSuccess(response.body())
+                }else{
+                    callback.employeeFailed()
+                }
+            }
         })
     }
 
@@ -117,7 +135,6 @@ class Repository {
 
 //    PRODUCT
     fun getAllProduct(callback: ProductRepositoryCallback<ProductResponse>) {
-
         ApiClient().services.getAllProduct().enqueue(object : Callback<ProductResponse?> {
             override fun onFailure(call: Call<ProductResponse?>, t: Throwable) {
                 callback.productFailed()
@@ -136,8 +153,26 @@ class Repository {
         })
     }
 
-    fun addProduct(product: Product, callback: ProductRepositoryCallback<ProductResponse>) {
+    fun getProductBySearch(query: String, callback: ProductRepositoryCallback<ProductResponse>){
+        ApiClient().services.getProductBySearch(query).enqueue(object : Callback<ProductResponse?>{
+            override fun onFailure(call: Call<ProductResponse?>, t: Throwable) {
+                callback.productFailed()
+            }
 
+            override fun onResponse(
+                call: Call<ProductResponse?>,
+                response: Response<ProductResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.productSuccess(response.body())
+                }else{
+                    callback.productFailed()
+                }
+            }
+        })
+    }
+
+    fun addProduct(product: Product, callback: ProductRepositoryCallback<ProductResponse>) {
         ApiClient().services.addProduct(product).enqueue(object : Callback<ProductResponse?> {
             override fun onFailure(call: Call<ProductResponse?>, t: Throwable) {
                 callback.productFailed()
@@ -157,7 +192,6 @@ class Repository {
     }
 
     fun editProduct(id: String, product: Product, callback: ProductRepositoryCallback<ProductResponse>) {
-
         ApiClient().services.editProduct(id, product).enqueue(object : Callback<ProductResponse?> {
             override fun onFailure(call: Call<ProductResponse?>, t: Throwable) {
                 callback.productFailed()
@@ -177,7 +211,6 @@ class Repository {
     }
 
     fun deleteProduct(id: String, callback: ProductRepositoryCallback<ProductResponse>) {
-
         ApiClient().services.deleteProduct(id).enqueue(object : Callback<ProductResponse?> {
             override fun onFailure(call: Call<ProductResponse?>, t: Throwable) {
                 callback.productFailed()
@@ -215,10 +248,28 @@ class Repository {
         })
     }
 
-//    CUSTOMER
+    //CUSTOMER
     fun getAllCustomer(callback: CustomerRepositoryCallback<CustomerResponse>) {
-
         ApiClient().services.getAllCustomer().enqueue(object : Callback<CustomerResponse?> {
+            override fun onFailure(call: Call<CustomerResponse?>, t: Throwable) {
+                callback.customerFailed()
+            }
+
+            override fun onResponse(
+                call: Call<CustomerResponse?>,
+                response: Response<CustomerResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.customerSuccess(response.body())
+                }else{
+                    callback.customerFailed()
+                }
+            }
+        })
+    }
+
+    fun getCustomerBySearch(query: String, callback: CustomerRepositoryCallback<CustomerResponse>){
+        ApiClient().services.getCustomerBySearch(query).enqueue(object : Callback<CustomerResponse?> {
             override fun onFailure(call: Call<CustomerResponse?>, t: Throwable) {
                 callback.customerFailed()
             }
@@ -300,10 +351,28 @@ class Repository {
     }
 
 //    PET SIZE
-
     fun getAllPetSize(callback: PetSizeRepositoryCallback<PetSizeResponse>) {
 
         ApiClient().services.getAllPetSize().enqueue(object : Callback<PetSizeResponse?> {
+            override fun onFailure(call: Call<PetSizeResponse?>, t: Throwable) {
+                callback.petSizeFailed()
+            }
+
+            override fun onResponse(
+                call: Call<PetSizeResponse?>,
+                response: Response<PetSizeResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.petSizeSuccess(response.body())
+                }else{
+                    callback.petSizeFailed()
+                }
+            }
+        })
+    }
+
+    fun getPetSizeBySearch(query: String, callback: PetSizeRepositoryCallback<PetSizeResponse>) {
+        ApiClient().services.getPetSizeBySearch(query).enqueue(object : Callback<PetSizeResponse?> {
             override fun onFailure(call: Call<PetSizeResponse?>, t: Throwable) {
                 callback.petSizeFailed()
             }
@@ -362,7 +431,6 @@ class Repository {
     }
 
     fun deletePetSize(id: String, callback: PetSizeRepositoryCallback<PetSizeResponse>) {
-
         ApiClient().services.deletePetSize(id).enqueue(object : Callback<PetSizeResponse?> {
             override fun onFailure(call: Call<PetSizeResponse?>, t: Throwable) {
                 callback.petSizeFailed()
@@ -378,16 +446,32 @@ class Repository {
                     callback.petSizeFailed()
                 }
             }
-
         })
     }
 
 
 //    PET TYPE
-
     fun getAllPetType(callback: PetTypeRepositoryCallback<PetTypeResponse>) {
-
         ApiClient().services.getAllPetType().enqueue(object : Callback<PetTypeResponse?> {
+            override fun onFailure(call: Call<PetTypeResponse?>, t: Throwable) {
+                callback.petTypeFailed()
+            }
+
+            override fun onResponse(
+                call: Call<PetTypeResponse?>,
+                response: Response<PetTypeResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.petTypeSuccess(response.body())
+                }else{
+                    callback.petTypeFailed()
+                }
+            }
+        })
+    }
+
+    fun getPetTypeBySearch(query: String, callback: PetTypeRepositoryCallback<PetTypeResponse>){
+        ApiClient().services.getPetTypeBySearch(query).enqueue(object : Callback<PetTypeResponse>{
             override fun onFailure(call: Call<PetTypeResponse?>, t: Throwable) {
                 callback.petTypeFailed()
             }
@@ -487,6 +571,25 @@ class Repository {
         })
     }
 
+    fun getSupplierBySearch(query: String, callback: SupplierRepositoryCallback<SupplierResponse>){
+        ApiClient().services.getSupplierBySearch(query).enqueue(object : Callback<SupplierResponse?> {
+            override fun onFailure(call: Call<SupplierResponse?>, t: Throwable) {
+                callback.supplierFailed()
+            }
+
+            override fun onResponse(
+                call: Call<SupplierResponse?>,
+                response: Response<SupplierResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.supplierSuccess(response.body())
+                }else{
+                    callback.supplierFailed()
+                }
+            }
+        })
+    }
+
     fun addSupplier(supplier: Supplier, callback: SupplierRepositoryCallback<SupplierResponse>) {
 
         ApiClient().services.addSupplier(supplier).enqueue(object : Callback<SupplierResponse?> {
@@ -568,6 +671,25 @@ class Repository {
         })
     }
 
+    fun getServiceBySearch(query: String, callback: ServiceRepositoryCallback<ServiceResponse>){
+        ApiClient().services.getServiceBySearch(query).enqueue(object : Callback<ServiceResponse?>{
+            override fun onFailure(call: Call<ServiceResponse?>, t: Throwable) {
+                callback.serviceFailed()
+            }
+
+            override fun onResponse(
+                call: Call<ServiceResponse?>,
+                response: Response<ServiceResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.serviceSuccess(response.body())
+                }else{
+                    callback.serviceFailed()
+                }
+            }
+        })
+    }
+
     fun addService(service: Service, callback: ServiceRepositoryCallback<ServiceResponse>) {
 
         ApiClient().services.addService(service).enqueue(object : Callback<ServiceResponse?> {
@@ -629,6 +751,25 @@ class Repository {
     //CUSTOMER PET
     fun getAllCustomerPet(callback: CustomerPetRepositoryCallback<CustomerPetResponse>){
         ApiClient().services.getAllCustomerPet().enqueue(object : Callback<CustomerPetResponse?> {
+            override fun onFailure(call: Call<CustomerPetResponse?>, t: Throwable) {
+                callback.customerPetFailed()
+            }
+
+            override fun onResponse(
+                call: Call<CustomerPetResponse?>,
+                response: Response<CustomerPetResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.customerPetSuccess(response.body())
+                }else{
+                    callback.customerPetFailed()
+                }
+            }
+        })
+    }
+
+    fun getCustomerPetBySearch(query: String, callback: CustomerPetRepositoryCallback<CustomerPetResponse>){
+        ApiClient().services.getCustomerPetBySearch(query).enqueue(object : Callback<CustomerPetResponse?>{
             override fun onFailure(call: Call<CustomerPetResponse?>, t: Throwable) {
                 callback.customerPetFailed()
             }

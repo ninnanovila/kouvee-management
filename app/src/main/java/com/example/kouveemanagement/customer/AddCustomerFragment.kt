@@ -43,9 +43,11 @@ class AddCustomerFragment : Fragment(), CustomerView {
         super.onViewCreated(view, savedInstanceState)
         lastEmp = MainActivity.currentUser?.user_id.toString()
         btn_add.setOnClickListener {
-            getData()
-            presenter = CustomerPresenter(this, Repository())
-            presenter.addCustomer(customer)
+            if (isValid()){
+                getData()
+                presenter = CustomerPresenter(this, Repository())
+                presenter.addCustomer(customer)
+            }
         }
         btn_close.setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()?.remove(this)?.commit()
@@ -54,11 +56,11 @@ class AddCustomerFragment : Fragment(), CustomerView {
     }
 
     fun getData(){
-        val name = name.text.toString()
-        val address = address.text.toString()
-        val birthday = birthdate.text.toString()
-        val phoneNumber = phone_number.text.toString()
-        customer = Customer(null, name, address, birthday, phoneNumber, null, null, null, lastEmp)
+        val inputName = name.text.toString()
+        val inputAddress = address.text.toString()
+        val inputBirthday = birthdate.text.toString()
+        val inputPhoneNumber = phone_number.text.toString()
+        customer = Customer(null, inputName, inputAddress, inputBirthday, inputPhoneNumber, null, null, null, lastEmp)
     }
 
     private fun showDatePicker(){
@@ -74,6 +76,26 @@ class AddCustomerFragment : Fragment(), CustomerView {
                 }
             datePickerDialog?.show()
         }
+    }
+
+    private fun isValid(): Boolean {
+        if (name.text.toString() == ""){
+            name.error = "Please fill this"
+            return false
+        }
+        if (address.text.toString() == ""){
+            address.error = "Please fill this"
+            return false
+        }
+        if (birthdate.text.toString() == ""){
+            birthdate.error = "Please fill this"
+            return false
+        }
+        if (phone_number.text.toString() == ""){
+            phone_number.error = "Please fill this"
+            return false
+        }
+        return true
     }
 
     override fun showCustomerLoading() {

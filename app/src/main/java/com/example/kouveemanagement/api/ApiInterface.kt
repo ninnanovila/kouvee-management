@@ -20,6 +20,7 @@ interface ApiInterface {
     @GET("employee/{id}")
     fun getEmployeeById(@Path("id")id: String): Call<EmployeeResponse>
 
+    @FormUrlEncoded
     @POST("employee/search")
     fun getEmployeeBySearch(@Field("name")input: String): Call<EmployeeResponse>
 
@@ -39,6 +40,7 @@ interface ApiInterface {
     @GET("product/{id}")
     fun getProductById(@Path("id")id: String): Call<ProductResponse>
 
+    @FormUrlEncoded
     @POST("product/search")
     fun getProductBySearch(@Field("name")input: String): Call<ProductResponse>
 
@@ -62,6 +64,7 @@ interface ApiInterface {
     @GET("customer/{id}")
     fun getCustomerById(@Path("id")id: String): Call<CustomerResponse>
 
+    @FormUrlEncoded
     @POST("customer/search")
     fun getCustomerBySearch(@Field("name")input: String): Call<CustomerResponse>
 
@@ -81,6 +84,7 @@ interface ApiInterface {
     @GET("pet_size/{id}")
     fun getPetSizeById(@Path("id")id: String): Call<PetSizeResponse>
 
+    @FormUrlEncoded
     @POST("pet_size/search")
     fun getPetSizeBySearch(@Field("name")input: String): Call<PetSizeResponse>
 
@@ -100,6 +104,7 @@ interface ApiInterface {
     @GET("pet_type/{id}")
     fun getPetTypeById(@Path("id")id: String): Call<PetTypeResponse>
 
+    @FormUrlEncoded
     @POST("pet_type/search")
     fun getPetTypeBySearch(@Field("name")input: String): Call<PetTypeResponse>
 
@@ -119,6 +124,7 @@ interface ApiInterface {
     @GET("supplier/{id}")
     fun getSupplierById(@Path("id")id: String): Call<SupplierResponse>
 
+    @FormUrlEncoded
     @POST("supplier/search")
     fun getSupplierBySearch(@Field("name")input: String): Call<SupplierResponse>
 
@@ -138,6 +144,7 @@ interface ApiInterface {
     @GET("service/{id}")
     fun getServiceById(@Path("id")id: String): Call<ServiceResponse>
 
+    @FormUrlEncoded
     @POST("service/search")
     fun getServiceBySearch(@Field("name")input: String): Call<ServiceResponse>
 
@@ -157,6 +164,7 @@ interface ApiInterface {
     @GET("customer_pet/{id}")
     fun getCustomerPetById(@Path("id")id: String): Call<CustomerPetResponse>
 
+    @FormUrlEncoded
     @POST("customer_pet/search")
     fun getCustomerPetBySearch(@Field("name")input: String): Call<CustomerPetResponse>
 

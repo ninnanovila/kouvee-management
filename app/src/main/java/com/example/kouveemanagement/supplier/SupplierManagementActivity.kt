@@ -95,22 +95,6 @@ class SupplierManagementActivity : AppCompatActivity(), SupplierView {
         }
     }
 
-    private fun showSearchDialog(){
-        val dialog = LayoutInflater.from(this).inflate(R.layout.dialog_search, null)
-
-        val btn_search = dialog.findViewById<Button>(R.id.btn_search)
-        val btn_close = dialog.findViewById<ImageButton>(R.id.btn_close)
-
-        val searchDialog = AlertDialog.Builder(this)
-            .setView(dialog)
-            .show()
-
-        btn_close.setOnClickListener {
-            searchDialog.dismiss()
-        }
-
-    }
-
     private fun fabAnimation(){
         Animation.init(fab_add)
         Animation.init(fab_search)
@@ -131,9 +115,6 @@ class SupplierManagementActivity : AppCompatActivity(), SupplierView {
             val fragment: Fragment = AddSupplierFragment.newInstance()
             val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
             transaction.replace(R.id.container, fragment).commit()
-        }
-        fab_search.setOnClickListener {
-            showSearchDialog()
         }
     }
 

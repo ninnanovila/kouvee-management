@@ -10,13 +10,11 @@ class LoginPresenter(private val view: LoginView, private val repository: Reposi
 
     fun loginPost(id: String, password: String) {
         view.showLoginLoading()
-
         repository.loginPost(id, password, object : LoginRepositoryCallback<LoginResponse> {
             override fun loginSuccess(data: LoginResponse?) {
                 view.loginSuccess(data)
                 view.hideLoginLoading()
             }
-
             override fun loginFailed() {
                 view.loginFailed()
                 view.hideLoginLoading()
@@ -30,8 +28,21 @@ class EmployeePresenter(private val view: EmployeeView, private val repository: 
 
     fun getAllEmployee(){
         view.showEmployeeLoading()
-
         repository.getAllEmployee(object : EmployeeRepositoryCallback<EmployeeResponse> {
+            override fun employeeSuccess(data: EmployeeResponse?) {
+                view.employeeSuccess(data)
+                view.hideEmployeeLoading()
+            }
+            override fun employeeFailed() {
+                view.employeeFailed()
+                view.hideEmployeeLoading()
+            }
+        })
+    }
+
+    fun getEmployeeBySearch(query: String){
+        view.showEmployeeLoading()
+        repository.getEmployeeBySearch(query, object : EmployeeRepositoryCallback<EmployeeResponse>{
             override fun employeeSuccess(data: EmployeeResponse?) {
                 view.employeeSuccess(data)
                 view.hideEmployeeLoading()
@@ -41,7 +52,6 @@ class EmployeePresenter(private val view: EmployeeView, private val repository: 
                 view.employeeFailed()
                 view.hideEmployeeLoading()
             }
-
         })
     }
 
@@ -100,13 +110,25 @@ class ProductPresenter(private val view : ProductView, private val repository: R
 
     fun getAllProduct(){
         view.showProductLoading()
-
         repository.getAllProduct(object : ProductRepositoryCallback<ProductResponse> {
             override fun productSuccess(data: ProductResponse?) {
                 view.productSuccess(data)
                 view.hideProductLoading()
             }
+            override fun productFailed() {
+                view.productFailed()
+                view.hideProductLoading()
+            }
+        })
+    }
 
+    fun getProductBySearch(query: String){
+        view.showProductLoading()
+        repository.getProductBySearch(query, object : ProductRepositoryCallback<ProductResponse> {
+            override fun productSuccess(data: ProductResponse?) {
+                view.productSuccess(data)
+                view.hideProductLoading()
+            }
             override fun productFailed() {
                 view.productFailed()
                 view.hideProductLoading()
@@ -116,13 +138,11 @@ class ProductPresenter(private val view : ProductView, private val repository: R
 
     fun addProduct(product: Product){
         view.showProductLoading()
-
         repository.addProduct(product, object : ProductRepositoryCallback<ProductResponse> {
             override fun productSuccess(data: ProductResponse?) {
                 view.productSuccess(data)
                 view.hideProductLoading()
             }
-
             override fun productFailed() {
                 view.productFailed()
                 view.hideProductLoading()
@@ -131,15 +151,12 @@ class ProductPresenter(private val view : ProductView, private val repository: R
     }
 
     fun editProduct(id: String, product: Product){
-
         view.showProductLoading()
-
         repository.editProduct(id, product, object : ProductRepositoryCallback<ProductResponse> {
             override fun productSuccess(data: ProductResponse?) {
                 view.productSuccess(data)
                 view.hideProductLoading()
             }
-
             override fun productFailed() {
                 view.productFailed()
                 view.hideProductLoading()
@@ -149,13 +166,11 @@ class ProductPresenter(private val view : ProductView, private val repository: R
 
     fun deleteProduct(id: String){
         view.showProductLoading()
-
         repository.deleteProduct(id, object : ProductRepositoryCallback<ProductResponse> {
             override fun productSuccess(data: ProductResponse?) {
                 view.productSuccess(data)
                 view.hideProductLoading()
             }
-
             override fun productFailed() {
                 view.productFailed()
                 view.hideProductLoading()
@@ -171,13 +186,11 @@ class UploadImagePresenter(private val view: UploadPhotoProductView, private val
 
     fun uploadPhotoProduct(id: String, photo: MultipartBody.Part){
         view.showUploadProgress()
-
         repository.uploadPhotoProduct(id, photo, object : UploadPhotoProductRepositoryCallback<ResponseBody> {
             override fun uploadProductSuccess(data: ResponseBody?) {
                 view.uploadProductSuccess(data)
                 view.hideUploadProgress()
             }
-
             override fun uploadProductFailed() {
                 view.uploadProductFailed()
                 view.hideUploadProgress()
@@ -191,13 +204,25 @@ class CustomerPresenter(private val view: CustomerView, private val repository: 
 
     fun getAllCustomer(){
         view.showCustomerLoading()
-
         repository.getAllCustomer(object : CustomerRepositoryCallback<CustomerResponse> {
             override fun customerSuccess(data: CustomerResponse?) {
                 view.customerSuccess(data)
                 view.hideCustomerLoading()
             }
+            override fun customerFailed() {
+                view.customerFailed()
+                view.hideCustomerLoading()
+            }
+        })
+    }
 
+    fun getCustomerBySearch(query: String){
+        view.showCustomerLoading()
+        repository.getCustomerBySearch(query, object : CustomerRepositoryCallback<CustomerResponse>{
+            override fun customerSuccess(data: CustomerResponse?) {
+                view.customerSuccess(data)
+                view.hideCustomerLoading()
+            }
             override fun customerFailed() {
                 view.customerFailed()
                 view.hideCustomerLoading()
@@ -207,13 +232,11 @@ class CustomerPresenter(private val view: CustomerView, private val repository: 
 
     fun addCustomer(customer: Customer){
         view.showCustomerLoading()
-
         repository.addCustomer(customer,object : CustomerRepositoryCallback<CustomerResponse> {
             override fun customerSuccess(data: CustomerResponse?) {
                 view.customerSuccess(data)
                 view.hideCustomerLoading()
             }
-
             override fun customerFailed() {
                 view.customerFailed()
                 view.hideCustomerLoading()
@@ -223,13 +246,11 @@ class CustomerPresenter(private val view: CustomerView, private val repository: 
 
     fun editCustomer(id: String, customer: Customer){
         view.showCustomerLoading()
-
         repository.editCustomer(id, customer, object : CustomerRepositoryCallback<CustomerResponse> {
             override fun customerSuccess(data: CustomerResponse?) {
                 view.customerSuccess(data)
                 view.hideCustomerLoading()
             }
-
             override fun customerFailed() {
                 view.customerFailed()
                 view.hideCustomerLoading()
@@ -239,13 +260,11 @@ class CustomerPresenter(private val view: CustomerView, private val repository: 
 
     fun deleteCustomer(id: String, last_emp: String){
         view.showCustomerLoading()
-
         repository.deleteCustomer(id,last_emp, object : CustomerRepositoryCallback<CustomerResponse> {
             override fun customerSuccess(data: CustomerResponse?) {
                 view.customerSuccess(data)
                 view.hideCustomerLoading()
             }
-
             override fun customerFailed() {
                 view.customerFailed()
                 view.hideCustomerLoading()
@@ -259,30 +278,39 @@ class PetSizePresenter(private val view: PetSizeView, private val repository: Re
 
     fun getAllPetSize(){
         view.showPetSizeLoading()
-
         repository.getAllPetSize(object : PetSizeRepositoryCallback<PetSizeResponse> {
             override fun petSizeSuccess(data: PetSizeResponse?) {
                 view.petSizeSuccess(data)
                 view.hidePetSizeLoading()
             }
-
             override fun petSizeFailed() {
                 view.petSizeFailed()
                 view.hidePetSizeLoading()
             }
+        })
+    }
 
+    fun getPetSizeBySearch(query: String){
+        view.showPetSizeLoading()
+        repository.getPetSizeBySearch(query, object : PetSizeRepositoryCallback<PetSizeResponse>{
+            override fun petSizeSuccess(data: PetSizeResponse?) {
+                view.petSizeSuccess(data)
+                view.hidePetSizeLoading()
+            }
+            override fun petSizeFailed() {
+                view.petSizeFailed()
+                view.hidePetSizeLoading()
+            }
         })
     }
 
     fun addPetSize(petSize: PetSize){
         view.showPetSizeLoading()
-
         repository.addPetSize(petSize, object : PetSizeRepositoryCallback<PetSizeResponse> {
             override fun petSizeSuccess(data: PetSizeResponse?) {
                 view.petSizeSuccess(data)
                 view.hidePetSizeLoading()
             }
-
             override fun petSizeFailed() {
                 view.petSizeFailed()
                 view.hidePetSizeLoading()
@@ -291,15 +319,12 @@ class PetSizePresenter(private val view: PetSizeView, private val repository: Re
     }
 
     fun editPetSize(id: String, petSize: PetSize){
-
         view.showPetSizeLoading()
-
         repository.editPetSize(id, petSize, object : PetSizeRepositoryCallback<PetSizeResponse> {
             override fun petSizeSuccess(data: PetSizeResponse?) {
                 view.petSizeSuccess(data)
                 view.hidePetSizeLoading()
             }
-
             override fun petSizeFailed() {
                 view.petSizeFailed()
                 view.hidePetSizeLoading()
@@ -308,15 +333,12 @@ class PetSizePresenter(private val view: PetSizeView, private val repository: Re
     }
 
     fun deletePetSize(id: String){
-
         view.showPetSizeLoading()
-
         repository.deletePetSize(id, object : PetSizeRepositoryCallback<PetSizeResponse>{
             override fun petSizeSuccess(data: PetSizeResponse?) {
                 view.petSizeSuccess(data)
                 view.hidePetSizeLoading()
             }
-
             override fun petSizeFailed() {
                 view.petSizeFailed()
                 view.hidePetSizeLoading()
@@ -330,13 +352,25 @@ class PetTypePresenter(private val view: PetTypeView, private val repository: Re
 
     fun getAllPetType(){
         view.showPetTypeLoading()
-
         repository.getAllPetType(object : PetTypeRepositoryCallback<PetTypeResponse> {
             override fun petTypeSuccess(data: PetTypeResponse?) {
                 view.petTypeSuccess(data)
                 view.hidePetTypeLoading()
             }
+            override fun petTypeFailed() {
+                view.petTypeFailed()
+                view.hidePetTypeLoading()
+            }
+        })
+    }
 
+    fun getPetTypeBySearch(query: String){
+        view.showPetTypeLoading()
+        repository.getPetTypeBySearch(query, object : PetTypeRepositoryCallback<PetTypeResponse>{
+            override fun petTypeSuccess(data: PetTypeResponse?) {
+                view.petTypeSuccess(data)
+                view.hidePetTypeLoading()
+            }
             override fun petTypeFailed() {
                 view.petTypeFailed()
                 view.hidePetTypeLoading()
@@ -346,13 +380,11 @@ class PetTypePresenter(private val view: PetTypeView, private val repository: Re
 
     fun addPetType(petType: PetType){
         view.showPetTypeLoading()
-
         repository.addPetType(petType, object : PetTypeRepositoryCallback<PetTypeResponse> {
             override fun petTypeSuccess(data: PetTypeResponse?) {
                 view.petTypeSuccess(data)
                 view.hidePetTypeLoading()
             }
-
             override fun petTypeFailed() {
                 view.petTypeFailed()
                 view.hidePetTypeLoading()
@@ -362,13 +394,11 @@ class PetTypePresenter(private val view: PetTypeView, private val repository: Re
 
     fun editPetType(id: String, petType: PetType){
         view.showPetTypeLoading()
-
         repository.editPetType(id, petType, object : PetTypeRepositoryCallback<PetTypeResponse> {
             override fun petTypeSuccess(data: PetTypeResponse?) {
                 view.petTypeSuccess(data)
                 view.hidePetTypeLoading()
             }
-
             override fun petTypeFailed() {
                 view.petTypeFailed()
                 view.hidePetTypeLoading()
@@ -378,13 +408,11 @@ class PetTypePresenter(private val view: PetTypeView, private val repository: Re
 
     fun deletePetType(id: String){
         view.showPetTypeLoading()
-
         repository.deletePetType(id, object : PetTypeRepositoryCallback<PetTypeResponse> {
             override fun petTypeSuccess(data: PetTypeResponse?) {
                 view.petTypeSuccess(data)
                 view.hidePetTypeLoading()
             }
-
             override fun petTypeFailed() {
                 view.petTypeFailed()
                 view.hidePetTypeLoading()
@@ -398,13 +426,25 @@ class SupplierPresenter(private val view: SupplierView, private val repository: 
 
     fun getAllSupplier(){
         view.showSupplierLoading()
-
         repository.getAllSupplier(object : SupplierRepositoryCallback<SupplierResponse> {
             override fun supplierSuccess(data: SupplierResponse?) {
                 view.supplierSuccess(data)
                 view.hideSupplierLoading()
             }
+            override fun supplierFailed() {
+                view.supplierFailed()
+                view.hideSupplierLoading()
+            }
+        })
+    }
 
+    fun getSupplierBySearch(query: String){
+        view.showSupplierLoading()
+        repository.getSupplierBySearch(query, object : SupplierRepositoryCallback<SupplierResponse>{
+            override fun supplierSuccess(data: SupplierResponse?) {
+                view.supplierSuccess(data)
+                view.hideSupplierLoading()
+            }
             override fun supplierFailed() {
                 view.supplierFailed()
                 view.hideSupplierLoading()
@@ -414,13 +454,11 @@ class SupplierPresenter(private val view: SupplierView, private val repository: 
 
     fun addSupplier(supplier: Supplier){
         view.showSupplierLoading()
-
         repository.addSupplier(supplier, object : SupplierRepositoryCallback<SupplierResponse> {
             override fun supplierSuccess(data: SupplierResponse?) {
                 view.supplierSuccess(data)
                 view.hideSupplierLoading()
             }
-
             override fun supplierFailed() {
                 view.supplierFailed()
                 view.hideSupplierLoading()
@@ -435,7 +473,6 @@ class SupplierPresenter(private val view: SupplierView, private val repository: 
                 view.supplierSuccess(data)
                 view.hideSupplierLoading()
             }
-
             override fun supplierFailed() {
                 view.supplierFailed()
                 view.hideSupplierLoading()
@@ -450,7 +487,6 @@ class SupplierPresenter(private val view: SupplierView, private val repository: 
                 view.supplierSuccess(data)
                 view.hideSupplierLoading()
             }
-
             override fun supplierFailed() {
                 view.supplierFailed()
                 view.hideSupplierLoading()
@@ -465,6 +501,20 @@ class ServicePresenter(private val view: ServiceView, private val repository: Re
     fun getAllService(){
         view.showServiceLoading()
         repository.getAllService(object : ServiceRepositoryCallback<ServiceResponse> {
+            override fun serviceSuccess(data: ServiceResponse?) {
+                view.serviceSuccess(data)
+                view.hideServiceLoading()
+            }
+            override fun serviceFailed() {
+                view.serviceFailed()
+                view.hideServiceLoading()
+            }
+        })
+    }
+
+    fun getServiceBySearch(query: String){
+        view.showServiceLoading()
+        repository.getServiceBySearch(query, object : ServiceRepositoryCallback<ServiceResponse>{
             override fun serviceSuccess(data: ServiceResponse?) {
                 view.serviceSuccess(data)
                 view.hideServiceLoading()
@@ -528,7 +578,20 @@ class CustomerPetPresenter(private val view: CustomerPetView, private val reposi
                 view.customerPetSuccess(data)
                 view.hideCustomerPetLoading()
             }
+            override fun customerPetFailed() {
+                view.customerPetFailed()
+                view.hideCustomerPetLoading()
+            }
+        })
+    }
 
+    fun getCustomerPetBySearch(query: String){
+        view.showCustomerPetLoading()
+        repository.getCustomerPetBySearch(query, object : CustomerPetRepositoryCallback<CustomerPetResponse>{
+            override fun customerPetSuccess(data: CustomerPetResponse?) {
+                view.customerPetSuccess(data)
+                view.hideCustomerPetLoading()
+            }
             override fun customerPetFailed() {
                 view.customerPetFailed()
                 view.hideCustomerPetLoading()
@@ -543,7 +606,6 @@ class CustomerPetPresenter(private val view: CustomerPetView, private val reposi
                 view.customerPetSuccess(data)
                 view.hideCustomerPetLoading()
             }
-
             override fun customerPetFailed() {
                 view.customerPetFailed()
                 view.hideCustomerPetLoading()
@@ -558,7 +620,6 @@ class CustomerPetPresenter(private val view: CustomerPetView, private val reposi
                 view.customerPetSuccess(data)
                 view.hideCustomerPetLoading()
             }
-
             override fun customerPetFailed() {
                 view.customerPetFailed()
                 view.hideCustomerPetLoading()
@@ -573,7 +634,6 @@ class CustomerPetPresenter(private val view: CustomerPetView, private val reposi
                 view.customerPetSuccess(data)
                 view.hideCustomerPetLoading()
             }
-
             override fun customerPetFailed() {
                 view.customerPetFailed()
                 view.hideCustomerPetLoading()

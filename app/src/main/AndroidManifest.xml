@@ -16,6 +16,7 @@
         android:theme="@style/AppTheme.NoActionBar"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".search.SearchResultActivity"></activity>
         <activity android:name=".customerpet.EditCustomerPetActivity" />
         <activity android:name=".customerpet.CustomerPetManagementActivity" />
         <activity android:name=".service.EditServiceActivity" />
