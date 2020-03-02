@@ -2,6 +2,9 @@ package com.example.kouveemanagement
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.widget.ImageButton
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,6 +16,7 @@ import com.example.kouveemanagement.employee.EmployeeManagementActivity
 import com.example.kouveemanagement.model.Menu
 import com.example.kouveemanagement.persistent.AppDatabase
 import com.example.kouveemanagement.persistent.CurrentUser
+import com.example.kouveemanagement.search.SearchResultActivity
 import kotlinx.android.synthetic.main.activity_customer_service.*
 import org.jetbrains.anko.startActivity
 
@@ -28,16 +32,15 @@ class CustomerServiceActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         menuInitialization()
-
         database = Room.databaseBuilder(this, AppDatabase::class.java, "kouvee-db").build()
-
         setContentView(R.layout.activity_customer_service)
         setMenu()
-
         getCurrentUser()
-
         btn_logout.setOnClickListener {
             showLogoutConfirm()
+        }
+        fab_search.setOnClickListener {
+            showDialogSearch()
         }
     }
 
@@ -101,5 +104,40 @@ class CustomerServiceActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         showLogoutConfirm()
+    }
+
+    //SEARCH
+    private fun showDialogSearch(){
+        val dialog = LayoutInflater.from(this).inflate(R.layout.dialog_search, null)
+
+        val searchView = dialog.findViewById<SearchView>(R.id.search_view)
+        val btnClose = dialog.findViewById<ImageButton>(R.id.btn_close)
+
+        val searchDialog = AlertDialog.Builder(this)
+            .setView(dialog)
+            .show()
+
+        btnClose.setOnClickListener {
+            searchDialog.dismiss()
+        }
+
+        getResultSearch(searchView)
+    }
+
+    private fun getResultSearch(searchView: SearchView){
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                if (query.isNullOrEmpty()){
+                    return false
+                }
+                Toast.makeText(this@CustomerServiceActivity, "Search for $query", Toast.LENGTH_LONG).show()
+                startActivity<SearchResultActivity>("query" to query)
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return false
+            }
+        })
     }
 }

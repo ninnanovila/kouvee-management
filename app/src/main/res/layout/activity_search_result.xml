@@ -21,6 +21,7 @@
             android:layout_height="wrap_content"/>
 
         <TextView
+            android:id="@+id/tv_emp"
             android:text="@string/employee"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
@@ -40,6 +41,7 @@
             tools:listitem="@layout/item_customer" />
 
         <TextView
+            android:id="@+id/tv_pettype"
             android:text="@string/pet_type"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
@@ -59,6 +61,7 @@
             tools:listitem="@layout/item_pet" />
 
         <TextView
+            android:id="@+id/tv_petsize"
             android:text="@string/pet_size"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
@@ -78,6 +81,7 @@
             tools:listitem="@layout/item_pet"/>
 
         <TextView
+            android:id="@+id/tv_supplier"
             android:text="@string/supplier"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
@@ -97,6 +101,7 @@
             tools:listitem="@layout/item_supplier"/>
 
         <TextView
+            android:id="@+id/tv_product"
             android:text="@string/product"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
@@ -116,6 +121,7 @@
             tools:listitem="@layout/item_product"/>
 
         <TextView
+            android:id="@+id/tv_service"
             android:text="@string/service"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
@@ -135,6 +141,7 @@
             tools:listitem="@layout/item_service"/>
 
         <TextView
+            android:id="@+id/tv_customer"
             android:text="@string/customer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
@@ -154,6 +161,7 @@
             tools:listitem="@layout/item_customer"/>
 
         <TextView
+            android:id="@+id/tv_customerpet"
             android:text="@string/customer_pet"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>

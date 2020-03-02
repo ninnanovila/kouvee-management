@@ -47,29 +47,27 @@ class SearchResultActivity : AppCompatActivity(),
         role = MainActivity.currentUser?.user_role.toString()
         val query: String? = intent.getStringExtra("query")
 
-        empPresenter = EmployeePresenter(this, Repository())
-        query?.let { empPresenter.getEmployeeBySearch(it) }
-
-        pettypePresenter = PetTypePresenter(this, Repository())
-        query?.let { pettypePresenter.getPetTypeBySearch(it) }
-
-        petsizePresenter = PetSizePresenter(this, Repository())
-        query?.let { petsizePresenter.getPetSizeBySearch(it) }
-
-        supplierPresenter = SupplierPresenter(this, Repository())
-        query?.let { supplierPresenter.getSupplierBySearch(it) }
-
-        productPresenter = ProductPresenter(this, Repository())
-        query?.let { productPresenter.getProductBySearch(it) }
-
-        servicePresenter = ServicePresenter(this, Repository())
-        query?.let { servicePresenter.getServiceBySearch(it) }
-
-        customerPresenter = CustomerPresenter(this, Repository())
-        query?.let { customerPresenter.getCustomerBySearch(it) }
-
-        customerPetPresenter = CustomerPetPresenter(this, Repository())
-        query?.let { customerPetPresenter.getCustomerPetBySearch(it) }
+        if (role == "Admin"){
+            setVisibleOwner()
+            empPresenter = EmployeePresenter(this, Repository())
+            query?.let { empPresenter.getEmployeeBySearch(it) }
+            pettypePresenter = PetTypePresenter(this, Repository())
+            query?.let { pettypePresenter.getPetTypeBySearch(it) }
+            petsizePresenter = PetSizePresenter(this, Repository())
+            query?.let { petsizePresenter.getPetSizeBySearch(it) }
+            supplierPresenter = SupplierPresenter(this, Repository())
+            query?.let { supplierPresenter.getSupplierBySearch(it) }
+            productPresenter = ProductPresenter(this, Repository())
+            query?.let { productPresenter.getProductBySearch(it) }
+            servicePresenter = ServicePresenter(this, Repository())
+            query?.let { servicePresenter.getServiceBySearch(it) }
+        }else{
+            setVisibleCustomerService()
+            customerPresenter = CustomerPresenter(this, Repository())
+            query?.let { customerPresenter.getCustomerBySearch(it) }
+            customerPetPresenter = CustomerPetPresenter(this, Repository())
+            query?.let { customerPetPresenter.getCustomerPetBySearch(it) }
+        }
     }
 
     override fun onBackPressed() {
@@ -288,5 +286,19 @@ class SearchResultActivity : AppCompatActivity(),
 
     override fun customerPetFailed() {
         Toast.makeText(this, "Customer pet failed", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun setVisibleOwner(){
+        tv_customer.visibility = View.GONE
+        tv_customerpet.visibility = View.GONE
+    }
+
+    private fun setVisibleCustomerService(){
+        tv_emp.visibility = View.GONE
+        tv_petsize.visibility = View.GONE
+        tv_pettype.visibility = View.GONE
+        tv_product.visibility = View.GONE
+        tv_service.visibility = View.GONE
+        tv_supplier.visibility = View.GONE
     }
 }
