@@ -21,7 +21,7 @@
         <item>Description of Order Product Menur</item>
     </string-array>
 
-    <!--STRING UNTUK MENU-->
+    <!--STRING FOR MENU-->
     <string-array name="cs_menu">
         <item>Customer</item>
         <item>Customer Pet</item>
