@@ -40,7 +40,54 @@
     <!--MANAGEMENT TITLE-->
     <string name="supplier_management">Supplier Management</string>
     <string name="customer_management">Customer Management</string>
+    <string name="pet_management">Pet Management</string>
+    <string name="product_management">Product Management</string>
+    <string name="service_management">Service Management</string>
+    <string name="customer_pet_management">Customer Pet Management</string>
+    <string name="employee_management">Employee Management</string>
 
+    <!--ADD-->
+    <string name="add_size">Add Size</string>
+    <string name="add_type">Add Type</string>
+    <string name="add_pet">Add Pet</string>
+    <string name="add_product">Add Product</string>
+    <string name="add_service">Add Service</string>
+    <string name="add_customer_pet">Add Customer Pet</string>
+    <string name="add_employee">Add Employee</string>
+    <string name="add_customer">Add Customer</string>
+    <string name="add_supplier">Add Supplier</string>
+
+    <!--EDIT-->
+    <string name="edit_supplier">Edit Supplier</string>
+    <string name="edit_service">Edit Service</string>
+    <string name="edit_customer_pet">Edit Customer Pet</string>
+    <string name="edit_employee">Edit Employee</string>
+    <string name="edit_product">Edit Product</string>
+    <string name="edit_customer">Edit Customer</string>
+
+    <!--SEARCH-->
+    <string name="search">Search</string>
+    <string name="search_result">Search Result</string>
+
+    <!--DATA MASTER TITLE-->
+    <string name="customer">Customer</string>
+    <string name="pet_size">Pet Size</string>
+    <string name="pet_type">Pet Type</string>
+    <string name="employee">Employee</string>
+    <string name="supplier">Supplier</string>
+    <string name="product">Product</string>
+    <string name="service">Service</string>
+    <string name="customer_pet">Customer Pet</string>
+
+    <!--LOG-->
+    <string name="created_at">Created at</string>
+    <string name="updated_at">Updated at</string>
+    <string name="deleted_at">Deleted at</string>
+    <string name="last_employee">Last employee</string>
+
+    <!--LOGIN-->
+    <string name="login_id">Input your id</string>
+    <string name="login_password">Input your password</string>
 
     <!--STRING DATA-->
     <string name="content_desc">Image</string>
@@ -52,59 +99,23 @@
     <string name="delete">Delete</string>
     <string name="save">Save</string>
     <string name="choose">Choose</string>
-
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
-    <string name="login_id">Input your id</string>
-    <string name="login_password">Input your password</string>
     <string name="logout">Log Out</string>
 
-    <string name="home">HOME</string>
-
+    <!--FORM-->
     <string name="name">Name</string>
     <string name="address">Address</string>
     <string name="phone_number">Phone number</string>
-    <string name="add_supplier">Add Supplier</string>
-    <string name="edit_supplier">Edit Supplier</string>
-    <string name="add_customer">Add Customer</string>
-    <string name="birthdate">Birthdate</string>
-    <string name="pet_management">Pet Management</string>
-    <string name="pet_size">Pet Size</string>
-    <string name="pet_type">Pet Type</string>
-    <string name="add_size">Add Size</string>
-    <string name="add_type">Add type</string>
-    <string name="add_pet">Add Pet</string>
-    <string name="add_product">Add Product</string>
     <string name="unit">Unit</string>
     <string name="stock">Stock</string>
     <string name="minimum_stock">Minimum stock</string>
     <string name="price">Price</string>
-    <string name="product_management">Product Management</string>
-    <string name="upload">Upload</string>
-    <string name="service_management">Service Management</string>
-    <string name="edit_service">Edit Service</string>
-    <string name="add_service">Add Service</string>
-    <string name="customer_pet_management">Customer Pet Management</string>
-    <string name="add_customer_pet">Add Customer Pet</string>
-    <string name="customer">Customer</string>
+    <string name="birthdate">Birthdate</string>
     <string name="type">Type</string>
-    <string name="edit_customer_pet">Edit Customer Pet</string>
-    <string name="employee_management">Employee Management</string>
-    <string name="add_employee">Add Employee</string>
     <string name="role">Role</string>
-    <string name="edit_employee">Edit Employee</string>
-    <string name="search">Search</string>
-    <string name="edit_product">Edit Product</string>
-    <string name="edit_customer">Edit Customer</string>
-    <string name="created_at">Created at</string>
-    <string name="updated_at">Updated at</string>
-    <string name="deleted_at">Deleted at</string>
-    <string name="last_employee">Last employee</string>
-    <string name="search_result">Search Result</string>
-    <string name="employee">Employee</string>
-    <string name="supplier">Supplier</string>
-    <string name="product">Product</string>
-    <string name="service">Service</string>
-    <string name="customer_pet">Customer Pet</string>
+    <string name="upload">Upload</string>
+    <string name="home">Home</string>
+
+    <!--NEW FRAGMENT-->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
