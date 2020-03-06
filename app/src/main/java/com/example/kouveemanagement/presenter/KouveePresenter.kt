@@ -641,3 +641,179 @@ class CustomerPetPresenter(private val view: CustomerPetView, private val reposi
         })
     }
 }
+
+//ORDER PRODUCT
+class OrderProductPresenter(private val view: OrderProductView, private val repository: Repository){
+
+    fun getAllOrderProduct(){
+        view.showOrderProductLoading()
+        repository.getAllOrderProduct(object : OrderProductRepositoryCallback<OrderProductResponse>{
+            override fun orderProductSuccess(data: OrderProductResponse?) {
+                view.orderProductSuccess(data)
+                view.hideOrderProductLoading()
+            }
+            override fun orderProductFailed() {
+                view.orderProductFailed()
+                view.hideOrderProductLoading()
+            }
+        })
+    }
+
+    fun addOrderProduct(orderProduct: OrderProduct){
+        view.showOrderProductLoading()
+        repository.addOrderProduct(orderProduct, object : OrderProductRepositoryCallback<OrderProductResponse>{
+            override fun orderProductSuccess(data: OrderProductResponse?) {
+                view.orderProductSuccess(data)
+                view.hideOrderProductLoading()
+            }
+            override fun orderProductFailed() {
+                view.orderProductFailed()
+                view.hideOrderProductLoading()
+            }
+        })
+    }
+
+    fun editOrderProduct(id: String, orderProduct: OrderProduct){
+        view.showOrderProductLoading()
+        repository.editOrderProduct(id, orderProduct, object : OrderProductRepositoryCallback<OrderProductResponse>{
+            override fun orderProductSuccess(data: OrderProductResponse?) {
+                view.orderProductSuccess(data)
+                view.hideOrderProductLoading()
+            }
+            override fun orderProductFailed() {
+                view.orderProductFailed()
+                view.hideOrderProductLoading()
+            }
+        })
+    }
+
+    fun deleteOrderProduct(id: String){
+        view.showOrderProductLoading()
+        repository.deleteOrderProduct(id, object : OrderProductRepositoryCallback<OrderProductResponse>{
+            override fun orderProductSuccess(data: OrderProductResponse?) {
+                view.orderProductSuccess(data)
+                view.hideOrderProductLoading()
+            }
+            override fun orderProductFailed() {
+                view.orderProductFailed()
+                view.hideOrderProductLoading()
+            }
+        })
+    }
+
+    fun editTotalOrderProduct(id: String){
+        view.showOrderProductLoading()
+        repository.editTotalOrderProduct(id, object : OrderProductRepositoryCallback<OrderProductResponse>{
+            override fun orderProductSuccess(data: OrderProductResponse?) {
+                view.orderProductSuccess(data)
+                view.hideOrderProductLoading()
+            }
+            override fun orderProductFailed() {
+                view.orderProductFailed()
+                view.hideOrderProductLoading()
+            }
+        })
+    }
+
+    fun editDoneOrderProduct(id: String){
+        view.showOrderProductLoading()
+        repository.editDoneOrderProduct(id, object : OrderProductRepositoryCallback<OrderProductResponse>{
+            override fun orderProductSuccess(data: OrderProductResponse?) {
+                view.orderProductSuccess(data)
+                view.hideOrderProductLoading()
+            }
+            override fun orderProductFailed() {
+                view.orderProductFailed()
+                view.hideOrderProductLoading()
+            }
+        })
+    }
+
+    fun editPrintOrderProduct(id: String){
+        view.showOrderProductLoading()
+        repository.editPrintOrderProduct(id, object : OrderProductRepositoryCallback<OrderProductResponse>{
+            override fun orderProductSuccess(data: OrderProductResponse?) {
+                view.orderProductSuccess(data)
+                view.hideOrderProductLoading()
+            }
+            override fun orderProductFailed() {
+                view.orderProductFailed()
+                view.hideOrderProductLoading()
+            }
+        })
+    }
+}
+
+//DETAIL ORDER PRODUCT
+class DetailOrderProductPresenter(private val view: DetailOrderProductView, private val repository: Repository){
+
+    fun getAllDetailOrderProduct(){
+        view.showDetailOrderProductLoading()
+        repository.getAllDetailOrderProduct(object : DetailOrderProductRepositoryCallback<DetailOrderProductResponse>{
+            override fun detailOrderProductSuccess(data: DetailOrderProductResponse?) {
+                view.detailOrderProductSuccess(data)
+                view.hideDetailOrderProductLoading()
+            }
+            override fun detailOrderProductFailed() {
+                view.detailOrderProductFailed()
+                view.hideDetailOrderProductLoading()
+            }
+        })
+    }
+
+    fun getDetailOrderProductByOrderId(id: String){
+        view.showDetailOrderProductLoading()
+        repository.getDetailOrderProductByOrderId(id, object : DetailOrderProductRepositoryCallback<DetailOrderProductResponse>{
+            override fun detailOrderProductSuccess(data: DetailOrderProductResponse?) {
+                view.detailOrderProductSuccess(data)
+                view.hideDetailOrderProductLoading()
+            }
+            override fun detailOrderProductFailed() {
+                view.detailOrderProductFailed()
+                view.hideDetailOrderProductLoading()
+            }
+        })
+    }
+
+    fun addDetailOrderProduct(detailOrderProduct: DetailOrderProduct){
+        view.showDetailOrderProductLoading()
+        repository.addDetailOrderProduct(detailOrderProduct, object : DetailOrderProductRepositoryCallback<DetailOrderProductResponse>{
+            override fun detailOrderProductSuccess(data: DetailOrderProductResponse?) {
+                view.detailOrderProductSuccess(data)
+                view.hideDetailOrderProductLoading()
+            }
+            override fun detailOrderProductFailed() {
+                view.detailOrderProductFailed()
+                view.hideDetailOrderProductLoading()
+            }
+        })
+    }
+
+    fun editDetailOrderProduct(id: String, detailOrderProduct: DetailOrderProduct){
+        view.showDetailOrderProductLoading()
+        repository.editDetailOrderProduct(id, detailOrderProduct, object : DetailOrderProductRepositoryCallback<DetailOrderProductResponse>{
+            override fun detailOrderProductSuccess(data: DetailOrderProductResponse?) {
+                view.detailOrderProductSuccess(data)
+                view.hideDetailOrderProductLoading()
+            }
+            override fun detailOrderProductFailed() {
+                view.detailOrderProductFailed()
+                view.hideDetailOrderProductLoading()
+            }
+        })
+    }
+
+    fun deleteDetailOrderProduct(id: String){
+        view.showDetailOrderProductLoading()
+        repository.deleteDetailOrderProduct(id, object : DetailOrderProductRepositoryCallback<DetailOrderProductResponse>{
+            override fun detailOrderProductSuccess(data: DetailOrderProductResponse?) {
+                view.detailOrderProductSuccess(data)
+                view.hideDetailOrderProductLoading()
+            }
+            override fun detailOrderProductFailed() {
+                view.detailOrderProductFailed()
+                view.hideDetailOrderProductLoading()
+            }
+        })
+    }
+}

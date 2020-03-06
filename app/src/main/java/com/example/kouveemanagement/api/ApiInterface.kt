@@ -188,23 +188,23 @@ interface ApiInterface {
     fun editOrderProduct(@Path("id")id: String, @Body orderProduct: OrderProduct): Call<OrderProductResponse>
 
     @DELETE("order_product/{id}")
-    fun deleteOrdeProduct(@Path("id")id: String): Call<OrderProductResponse>
+    fun deleteOrderProduct(@Path("id")id: String): Call<OrderProductResponse>
 
     @PUT("order_product/total/{id}")
-    fun editTotalOrderProduct(@Path("id")id: String, @Body orderProduct: OrderProduct): Call<OrderProductResponse>
+    fun editTotalOrderProduct(@Path("id")id: String): Call<OrderProductResponse>
 
     @PUT("order_product/done/{id}")
-    fun editDoneOrderProduct(@Path("id")id: String, @Body orderProduct: OrderProduct): Call<OrderProductResponse>
+    fun editDoneOrderProduct(@Path("id")id: String): Call<OrderProductResponse>
 
     @PUT("order_product/print/{id}")
-    fun editPrintOrderProduct(@Path("id")id: String, @Body orderProduct: OrderProduct): Call<OrderProductResponse>
+    fun editPrintOrderProduct(@Path("id")id: String): Call<OrderProductResponse>
 
 //  DETAIL ORDER PRODUCT
     @GET("detail_order_product")
     fun getAllDetailOrderProduct(): Call<DetailOrderProductResponse>
 
     @GET("detail_order_product/{id_product}")
-    fun getDetailOrderProductByIdOrderProduct(@Path("id_order")id: String): Call<DetailOrderProductResponse>
+    fun getDetailOrderProductByOrderId(@Path("id_order")id: String): Call<DetailOrderProductResponse>
 
     @POST("detail_order_product")
     fun addDetailOrderProduct(@Body detailOrderProduct: DetailOrderProduct): Call<DetailOrderProductResponse>

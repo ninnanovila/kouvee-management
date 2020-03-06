@@ -843,4 +843,229 @@ class Repository {
             }
         })
     }
+
+//    ORDER PRODUCT
+    fun getAllOrderProduct(callback: OrderProductRepositoryCallback<OrderProductResponse>){
+        ApiClient().services.getAllOrderProduct().enqueue(object : Callback<OrderProductResponse?>{
+            override fun onFailure(call: Call<OrderProductResponse?>, t: Throwable) {
+                callback.orderProductFailed()
+            }
+
+            override fun onResponse(
+                call: Call<OrderProductResponse?>,
+                response: Response<OrderProductResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.orderProductSuccess(response.body())
+                }else{
+                    callback.orderProductFailed()
+                }
+            }
+        })
+    }
+
+    fun addOrderProduct(orderProduct: OrderProduct, callback: OrderProductRepositoryCallback<OrderProductResponse>){
+        ApiClient().services.addOrderProduct(orderProduct).enqueue(object : Callback<OrderProductResponse?>{
+            override fun onFailure(call: Call<OrderProductResponse?>, t: Throwable) {
+                callback.orderProductFailed()
+            }
+
+            override fun onResponse(
+                call: Call<OrderProductResponse?>,
+                response: Response<OrderProductResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.orderProductSuccess(response.body())
+                }else{
+                    callback.orderProductFailed()
+                }
+            }
+        })
+    }
+
+    fun editOrderProduct(id: String, orderProduct: OrderProduct, callback: OrderProductRepositoryCallback<OrderProductResponse>){
+        ApiClient().services.editOrderProduct(id, orderProduct).enqueue(object : Callback<OrderProductResponse?>{
+            override fun onFailure(call: Call<OrderProductResponse?>, t: Throwable) {
+                callback.orderProductFailed()
+            }
+
+            override fun onResponse(
+                call: Call<OrderProductResponse?>,
+                response: Response<OrderProductResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.orderProductSuccess(response.body())
+                }else{
+                    callback.orderProductFailed()
+                }
+            }
+        })
+    }
+
+    fun deleteOrderProduct(id: String, callback: OrderProductRepositoryCallback<OrderProductResponse>){
+        ApiClient().services.deleteOrderProduct(id).enqueue(object : Callback<OrderProductResponse?>{
+            override fun onFailure(call: Call<OrderProductResponse?>, t: Throwable) {
+                callback.orderProductFailed()
+            }
+
+            override fun onResponse(
+                call: Call<OrderProductResponse?>,
+                response: Response<OrderProductResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.orderProductSuccess(response.body())
+                }else{
+                    callback.orderProductFailed()
+                }
+            }
+        })
+    }
+
+    fun editTotalOrderProduct(id: String, callback: OrderProductRepositoryCallback<OrderProductResponse>){
+        ApiClient().services.editTotalOrderProduct(id).enqueue(object : Callback<OrderProductResponse?>{
+            override fun onFailure(call: Call<OrderProductResponse?>, t: Throwable) {
+                callback.orderProductFailed()
+            }
+
+            override fun onResponse(
+                call: Call<OrderProductResponse?>,
+                response: Response<OrderProductResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.orderProductSuccess(response.body())
+                }else{
+                    callback.orderProductFailed()
+                }
+            }
+        })
+    }
+
+    fun editDoneOrderProduct(id: String, callback: OrderProductRepositoryCallback<OrderProductResponse>){
+        ApiClient().services.editDoneOrderProduct(id).enqueue(object : Callback<OrderProductResponse>{
+            override fun onFailure(call: Call<OrderProductResponse?>, t: Throwable) {
+                callback.orderProductFailed()
+            }
+
+            override fun onResponse(
+                call: Call<OrderProductResponse?>,
+                response: Response<OrderProductResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.orderProductSuccess(response.body())
+                }else{
+                    callback.orderProductFailed()
+                }
+            }
+        })
+    }
+
+    fun editPrintOrderProduct(id: String, callback: OrderProductRepositoryCallback<OrderProductResponse>){
+        ApiClient().services.editPrintOrderProduct(id).enqueue(object : Callback<OrderProductResponse?>{
+            override fun onFailure(call: Call<OrderProductResponse?>, t: Throwable) {
+                callback.orderProductFailed()
+            }
+
+            override fun onResponse(
+                call: Call<OrderProductResponse?>,
+                response: Response<OrderProductResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.orderProductSuccess(response.body())
+                }else{
+                    callback.orderProductFailed()
+                }
+            }
+        })
+    }
+
+//    DETAIL ORDER PRODUCT
+    fun getAllDetailOrderProduct(callback: DetailOrderProductRepositoryCallback<DetailOrderProductResponse>){
+        ApiClient().services.getAllDetailOrderProduct().enqueue(object : Callback<DetailOrderProductResponse?>{
+            override fun onFailure(call: Call<DetailOrderProductResponse?>, t: Throwable) {
+                callback.detailOrderProductFailed()
+            }
+            override fun onResponse(
+                call: Call<DetailOrderProductResponse?>,
+                response: Response<DetailOrderProductResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.detailOrderProductSuccess(response.body())
+                }else{
+                    callback.detailOrderProductFailed()
+                }
+            }
+        })
+    }
+
+    fun getDetailOrderProductByOrderId(id: String, callback: DetailOrderProductRepositoryCallback<DetailOrderProductResponse>){
+        ApiClient().services.getDetailOrderProductByOrderId(id).enqueue(object : Callback<DetailOrderProductResponse?>{
+            override fun onFailure(call: Call<DetailOrderProductResponse?>, t: Throwable) {
+                callback.detailOrderProductFailed()
+            }
+            override fun onResponse(
+                call: Call<DetailOrderProductResponse?>,
+                response: Response<DetailOrderProductResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.detailOrderProductSuccess(response.body())
+                }else{
+                    callback.detailOrderProductFailed()
+                }
+            }
+        })
+    }
+
+    fun addDetailOrderProduct(detailOrderProduct: DetailOrderProduct, callback: DetailOrderProductRepositoryCallback<DetailOrderProductResponse>){
+        ApiClient().services.addDetailOrderProduct(detailOrderProduct).enqueue(object : Callback<DetailOrderProductResponse?>{
+            override fun onFailure(call: Call<DetailOrderProductResponse?>, t: Throwable) {
+                callback.detailOrderProductFailed()
+            }
+            override fun onResponse(
+                call: Call<DetailOrderProductResponse?>,
+                response: Response<DetailOrderProductResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.detailOrderProductSuccess(response.body())
+                }else{
+                    callback.detailOrderProductFailed()
+                }
+            }
+        })
+    }
+
+    fun editDetailOrderProduct(id: String, detailOrderProduct: DetailOrderProduct, callback: DetailOrderProductRepositoryCallback<DetailOrderProductResponse>){
+        ApiClient().services.editDetailOrderProduct(id, detailOrderProduct).enqueue(object : Callback<DetailOrderProductResponse?>{
+            override fun onFailure(call: Call<DetailOrderProductResponse?>, t: Throwable) {
+                callback.detailOrderProductFailed()
+            }
+            override fun onResponse(
+                call: Call<DetailOrderProductResponse?>,
+                response: Response<DetailOrderProductResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.detailOrderProductSuccess(response.body())
+                }else{
+                    callback.detailOrderProductFailed()
+                }
+            }
+        })
+    }
+
+    fun deleteDetailOrderProduct(id: String, callback: DetailOrderProductRepositoryCallback<DetailOrderProductResponse>){
+        ApiClient().services.deleteDetailOrderProduct(id).enqueue(object : Callback<DetailOrderProductResponse?>{
+            override fun onFailure(call: Call<DetailOrderProductResponse?>, t: Throwable) {
+                callback.detailOrderProductFailed()
+            }
+            override fun onResponse(
+                call: Call<DetailOrderProductResponse?>,
+                response: Response<DetailOrderProductResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.detailOrderProductSuccess(response.body())
+                }else{
+                    callback.detailOrderProductFailed()
+                }
+            }
+        })
+    }
 }

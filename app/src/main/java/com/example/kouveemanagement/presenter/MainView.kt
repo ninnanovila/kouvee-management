@@ -53,3 +53,13 @@ interface CustomerPetView: CustomerPetRepositoryCallback<CustomerPetResponse> {
     fun showCustomerPetLoading()
     fun hideCustomerPetLoading()
 }
+
+interface OrderProductView: OrderProductRepositoryCallback<OrderProductResponse> {
+    fun showOrderProductLoading()
+    fun hideOrderProductLoading()
+}
+
+interface DetailOrderProductView: DetailOrderProductRepositoryCallback<DetailOrderProductResponse> {
+    fun showDetailOrderProductLoading()
+    fun hideDetailOrderProductLoading()
+}

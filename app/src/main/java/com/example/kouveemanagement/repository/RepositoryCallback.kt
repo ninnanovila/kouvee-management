@@ -49,3 +49,13 @@ interface CustomerPetRepositoryCallback<CustomerPetResponse> {
     fun customerPetSuccess(data: CustomerPetResponse?)
     fun customerPetFailed()
 }
+
+interface OrderProductRepositoryCallback<OrderProductResponse> {
+    fun orderProductSuccess(data: OrderProductResponse?)
+    fun orderProductFailed()
+}
+
+interface DetailOrderProductRepositoryCallback<DetailOrderProductResponse> {
+    fun detailOrderProductSuccess(data: DetailOrderProductResponse?)
+    fun detailOrderProductFailed()
+}
