@@ -26,7 +26,6 @@ data class Customer(
     var last_emp: String? = null
 ) : Parcelable
 
-
 data class CustomerResponse(
     val status: String,
     @SerializedName("result")
