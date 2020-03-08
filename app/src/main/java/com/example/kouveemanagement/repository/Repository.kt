@@ -1033,8 +1033,8 @@ class Repository {
         })
     }
 
-    fun editDetailOrderProduct(id: String, detailOrderProduct: DetailOrderProduct, callback: DetailOrderProductRepositoryCallback<DetailOrderProductResponse>){
-        ApiClient().services.editDetailOrderProduct(id, detailOrderProduct).enqueue(object : Callback<DetailOrderProductResponse?>{
+    fun editDetailOrderProduct(detailOrderProduct: DetailOrderProduct, callback: DetailOrderProductRepositoryCallback<DetailOrderProductResponse>){
+        ApiClient().services.editDetailOrderProduct(detailOrderProduct).enqueue(object : Callback<DetailOrderProductResponse?>{
             override fun onFailure(call: Call<DetailOrderProductResponse?>, t: Throwable) {
                 callback.detailOrderProductFailed()
             }
@@ -1051,8 +1051,8 @@ class Repository {
         })
     }
 
-    fun deleteDetailOrderProduct(id: String, callback: DetailOrderProductRepositoryCallback<DetailOrderProductResponse>){
-        ApiClient().services.deleteDetailOrderProduct(id).enqueue(object : Callback<DetailOrderProductResponse?>{
+    fun deleteDetailOrderProduct(id_order: String, id_product: String, callback: DetailOrderProductRepositoryCallback<DetailOrderProductResponse>){
+        ApiClient().services.deleteDetailOrderProduct(id_order, id_product).enqueue(object : Callback<DetailOrderProductResponse?>{
             override fun onFailure(call: Call<DetailOrderProductResponse?>, t: Throwable) {
                 callback.detailOrderProductFailed()
             }

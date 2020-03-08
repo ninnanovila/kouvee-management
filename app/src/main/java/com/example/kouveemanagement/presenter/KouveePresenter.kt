@@ -789,9 +789,9 @@ class DetailOrderProductPresenter(private val view: DetailOrderProductView, priv
         })
     }
 
-    fun editDetailOrderProduct(id: String, detailOrderProduct: DetailOrderProduct){
+    fun editDetailOrderProduct(detailOrderProduct: DetailOrderProduct){
         view.showDetailOrderProductLoading()
-        repository.editDetailOrderProduct(id, detailOrderProduct, object : DetailOrderProductRepositoryCallback<DetailOrderProductResponse>{
+        repository.editDetailOrderProduct(detailOrderProduct, object : DetailOrderProductRepositoryCallback<DetailOrderProductResponse>{
             override fun detailOrderProductSuccess(data: DetailOrderProductResponse?) {
                 view.detailOrderProductSuccess(data)
                 view.hideDetailOrderProductLoading()
@@ -803,9 +803,9 @@ class DetailOrderProductPresenter(private val view: DetailOrderProductView, priv
         })
     }
 
-    fun deleteDetailOrderProduct(id: String){
+    fun deleteDetailOrderProduct(id_order: String, id_product: String){
         view.showDetailOrderProductLoading()
-        repository.deleteDetailOrderProduct(id, object : DetailOrderProductRepositoryCallback<DetailOrderProductResponse>{
+        repository.deleteDetailOrderProduct(id_order, id_product, object : DetailOrderProductRepositoryCallback<DetailOrderProductResponse>{
             override fun detailOrderProductSuccess(data: DetailOrderProductResponse?) {
                 view.detailOrderProductSuccess(data)
                 view.hideDetailOrderProductLoading()

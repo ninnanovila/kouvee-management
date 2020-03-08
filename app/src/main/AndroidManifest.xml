@@ -16,7 +16,9 @@
         android:theme="@style/AppTheme.NoActionBar"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".orderproduct.OrderProductActivity"></activity>
+        <activity android:name=".orderproduct.EditDetailOrderProduct"></activity>
+        <activity android:name=".orderproduct.AddOrderProductActivity" />
+        <activity android:name=".orderproduct.OrderProductActivity" />
         <activity android:name=".search.SearchResultActivity" />
         <activity android:name=".customerpet.EditCustomerPetActivity" />
         <activity android:name=".customerpet.CustomerPetManagementActivity" />

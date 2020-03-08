@@ -203,16 +203,16 @@ interface ApiInterface {
     @GET("detail_order_product")
     fun getAllDetailOrderProduct(): Call<DetailOrderProductResponse>
 
-    @GET("detail_order_product/{id_product}")
+    @GET("detail_order_product/{id_order}")
     fun getDetailOrderProductByOrderId(@Path("id_order")id: String): Call<DetailOrderProductResponse>
 
     @POST("detail_order_product")
     fun addDetailOrderProduct(@Body detailOrderProduct: DetailOrderProduct): Call<DetailOrderProductResponse>
 
-    @POST("detail_order_product/{id}")
-    fun editDetailOrderProduct(@Path("id")id: String, @Body detailOrderProduct: DetailOrderProduct): Call<DetailOrderProductResponse>
+    @PUT("detail_order_product")
+    fun editDetailOrderProduct(@Body detailOrderProduct: DetailOrderProduct): Call<DetailOrderProductResponse>
 
-    @DELETE("detail_order_product/{id}")
-    fun deleteDetailOrderProduct(@Path("id")id: String): Call<DetailOrderProductResponse>
+    @DELETE("detail_order_product/{id_order}/{id_product}")
+    fun deleteDetailOrderProduct(@Path("id_order")id_order: String, @Path("id_product")id_product: String): Call<DetailOrderProductResponse>
 
 }

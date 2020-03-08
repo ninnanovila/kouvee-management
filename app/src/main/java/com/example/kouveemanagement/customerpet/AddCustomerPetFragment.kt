@@ -102,7 +102,7 @@ class AddCustomerPetFragment : Fragment(), CustomerPetView{
     }
 
     override fun hideCustomerPetLoading() {
-        progressbar.visibility = View.INVISIBLE
+        progressbar.visibility = View.GONE
         btn_add.visibility = View.VISIBLE
     }
 

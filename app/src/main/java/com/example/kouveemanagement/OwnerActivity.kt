@@ -12,6 +12,7 @@ import androidx.room.Room
 import com.example.kouveemanagement.adapter.MenuRecyclerViewAdapter
 import com.example.kouveemanagement.employee.EmployeeManagementActivity
 import com.example.kouveemanagement.model.Menu
+import com.example.kouveemanagement.orderproduct.OrderProductActivity
 import com.example.kouveemanagement.persistent.AppDatabase
 import com.example.kouveemanagement.persistent.CurrentUser
 import com.example.kouveemanagement.pet.PetManagementActivity
@@ -66,7 +67,7 @@ class OwnerActivity : AppCompatActivity() {
                 "Product" -> startActivity<ProductManagementActivity>()
                 "Service" -> startActivity<ServiceManagementActivity>()
                 //TRANSACTION
-                "Order Product" -> startActivity<EmployeeManagementActivity>()
+                "Order Product" -> startActivity<OrderProductActivity>()
                 else -> Toast.makeText(this, "Sorry, you can not access that.", Toast.LENGTH_SHORT).show()
             }
             Toast.makeText(this, "Yeay!", Toast.LENGTH_SHORT).show()

@@ -45,7 +45,7 @@ class ProductManagementActivity : AppCompatActivity(), ProductView {
     }
 
     override fun hideProductLoading() {
-        progressbar.visibility = View.INVISIBLE
+        progressbar.visibility = View.GONE
     }
 
     override fun productSuccess(data: ProductResponse?) {
