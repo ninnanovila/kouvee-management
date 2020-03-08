@@ -93,12 +93,19 @@ class OrderProductActivity : AppCompatActivity(), OrderProductView, SupplierView
     private fun showDetail(orderProductInput: OrderProduct){
         dialogAlert = AlertDialog.Builder(this)
             .setTitle("Edit")
-            .setMessage("Are you sure to edit order product?")
-            .setPositiveButton("YES"){ _, _ ->
+            .setMessage("What will you do with this order product?")
+            .setPositiveButton("EDIT"){ _, _ ->
                 orderProduct = orderProductInput
                 startActivity<AddOrderProductActivity>()
             }
-            .setNegativeButton("NO",null)
+            .setNegativeButton("DONE"){ _, _ ->
+                if(orderProductInput.printed_at.equals("")){
+                    Toast.makeText(this, "Please print to done it.", Toast.LENGTH_LONG).show()
+                }else{
+                    orderProduct = orderProductInput
+                    startActivity<EditOrderProductActivity>()
+                }
+            }
             .show()
     }
 
