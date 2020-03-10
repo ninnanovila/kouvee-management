@@ -215,4 +215,61 @@ interface ApiInterface {
     @DELETE("detail_order_product/{id_order}/{id_product}")
     fun deleteDetailOrderProduct(@Path("id_order")id_order: String, @Path("id_product")id_product: String): Call<DetailOrderProductResponse>
 
+//  TRANSACTION
+    @GET("transaction")
+    fun getAllTransaction(): Call<TransactionResponse>
+
+    @POST("transaction")
+    fun addTransaction(@Body transaction: Transaction): Call<TransactionResponse>
+
+    @PUT("transaction/{id}")
+    fun editTotalTransaction(@Path("id")id: String): Call<TransactionResponse>
+
+    @PUT("transaction/done/{id}")
+    fun editDoneTransaction(@Path("id")id: String, @Body transaction: Transaction): Call<TransactionResponse>
+
+    @PUT("transaction/status/{id}")
+    fun editStatusTransaction(@Path("id")id: String, @Body transaction: Transaction): Call<TransactionResponse>
+
+    @DELETE("transaction/{id}")
+    fun cancelTransaction(@Path("id")id: String): Call<TransactionResponse>
+
+//  DETAIL PRODUCT TRANSACTION
+    @GET("detail_product_transaction")
+    fun getAllDetailProductTransaction(): Call<DetailProductTransactionResponse>
+
+    @POST("detail_product_transaction")
+    fun addDetailProductTransaction(@Body detailProductTransaction: DetailProductTransaction): Call<DetailProductTransactionResponse>
+
+    @PUT("detail_product_transaction")
+    fun editDetailProductTransaction(@Body detailProductTransaction: DetailProductTransaction): Call<DetailProductTransactionResponse>
+
+    @DELETE("detail_product_transaction/{id_transaction}/{id_product}")
+    fun deleteDetailProductTransaction(@Path("id_transaction")id_transaction: String, @Path("id_product")id_product: String): Call<DetailProductTransactionResponse>
+
+    @GET("detail_product_transaction/{id_transaction}")
+    fun getDetailProductTransactionByIdTransaction(@Path("id_transaction")id_transaction: String): Call<DetailProductTransactionResponse>
+
+    @DELETE("detail_product_transaction/{id_transaction}")
+    fun deleteAllDetailProductTransaction(@Path("id_transaction")id_transaction: String): Call<DetailProductTransactionResponse>
+
+//  DETAIL SERVICE TRANSACTION
+    @GET("detail_service_transaction")
+    fun getAllDetailServiceTransaction(): Call<DetailServiceTransactionResponse>
+
+    @POST("detail_service_transaction")
+    fun addDetailServiceTransaction(@Body detailServiceTransaction: DetailServiceTransaction): Call<DetailServiceTransactionResponse>
+
+    @PUT("detail_service_transaction")
+    fun editDetailServiceTransaction(@Body detailServiceTransaction: DetailServiceTransaction): Call<DetailServiceTransactionResponse>
+
+    @DELETE("detail_service_transaction/{id_transaction}/{id_service}")
+    fun deleteDetailServiceTransaction(@Path("id_transaction")id_transaction: String, @Path("id_service")id_service: String): Call<DetailServiceTransactionResponse>
+
+    @GET("detail_service_transaction/{id_transaction}")
+    fun getDetailServiceTransactionByIdTransaction(@Path("id_transaction")id_transaction: String): Call<DetailServiceTransactionResponse>
+
+    @DELETE("detail_service_transaction/{id_transaction}")
+    fun deleteAllDetailServiceTransaction(@Path("id_transaction")id_transaction: String): Call<DetailServiceTransactionResponse>
+
 }

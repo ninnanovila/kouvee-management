@@ -63,3 +63,18 @@ interface DetailOrderProductView: DetailOrderProductRepositoryCallback<DetailOrd
     fun showDetailOrderProductLoading()
     fun hideDetailOrderProductLoading()
 }
+
+interface TransactionView: TransactionRepositoryCallback<TransactionResponse> {
+    fun showTransactionLoading()
+    fun hideTransactionLoading()
+}
+
+interface DetailProductTransactionView: DetailProductTransactionRepositoryCallback<DetailProductTransactionResponse> {
+    fun showDetailProductTransactionLoading()
+    fun hideDetailProductTransactionLoading()
+}
+
+interface DetailServiceTransactionView: DetailServiceTransactionRepositoryCallback<DetailServiceTransactionResponse> {
+    fun showDetailServiceTransactionLoading()
+    fun hideDetailServiceTransactionLoading()
+}

@@ -817,3 +817,267 @@ class DetailOrderProductPresenter(private val view: DetailOrderProductView, priv
         })
     }
 }
+
+//TRANSACTION
+class TransactionPresenter(private val view: TransactionView, private val repository: Repository){
+
+    fun getAllTransaction(){
+        view.showTransactionLoading()
+        repository.getAllTransaction(object : TransactionRepositoryCallback<TransactionResponse>{
+            override fun transactionSuccess(data: TransactionResponse?) {
+                view.transactionSuccess(data)
+                view.hideTransactionLoading()
+            }
+            override fun transactionFailed() {
+                view.transactionFailed()
+                view.hideTransactionLoading()
+            }
+        })
+    }
+
+    fun addTransaction(transaction: Transaction){
+        view.showTransactionLoading()
+        repository.addTransaction(transaction, object : TransactionRepositoryCallback<TransactionResponse>{
+            override fun transactionSuccess(data: TransactionResponse?) {
+                view.transactionSuccess(data)
+                view.hideTransactionLoading()
+            }
+            override fun transactionFailed() {
+                view.transactionFailed()
+                view.hideTransactionLoading()
+            }
+        })
+    }
+
+    fun editTotalTransaction(id: String){
+        view.showTransactionLoading()
+        repository.editTotalTransaction(id, object : TransactionRepositoryCallback<TransactionResponse>{
+            override fun transactionSuccess(data: TransactionResponse?) {
+                view.transactionSuccess(data)
+                view.hideTransactionLoading()
+            }
+            override fun transactionFailed() {
+                view.transactionFailed()
+                view.hideTransactionLoading()
+            }
+        })
+    }
+
+    fun editDoneTransaction(id: String, transaction: Transaction){
+        view.showTransactionLoading()
+        repository.editDoneTransaction(id, transaction, object : TransactionRepositoryCallback<TransactionResponse>{
+            override fun transactionSuccess(data: TransactionResponse?) {
+                view.transactionSuccess(data)
+                view.hideTransactionLoading()
+            }
+            override fun transactionFailed() {
+                view.transactionFailed()
+                view.hideTransactionLoading()
+            }
+        })
+    }
+
+    fun editStatusTransaction(id: String, transaction: Transaction){
+        view.showTransactionLoading()
+        repository.editStatusTransaction(id, transaction, object : TransactionRepositoryCallback<TransactionResponse>{
+            override fun transactionSuccess(data: TransactionResponse?) {
+                view.transactionSuccess(data)
+                view.hideTransactionLoading()
+            }
+            override fun transactionFailed() {
+                view.transactionFailed()
+                view.hideTransactionLoading()
+            }
+        })
+    }
+
+    fun cancelTransaction(id: String){
+        view.showTransactionLoading()
+        repository.cancelTransaction(id, object : TransactionRepositoryCallback<TransactionResponse>{
+            override fun transactionSuccess(data: TransactionResponse?) {
+                view.transactionSuccess(data)
+                view.hideTransactionLoading()
+            }
+            override fun transactionFailed() {
+                view.transactionFailed()
+                view.hideTransactionLoading()
+            }
+        })
+    }
+}
+
+//DETAIL PRODUCT TRANSACTION
+class DetailProductTransactionPresenter(private val view: DetailProductTransactionView, private val repository: Repository){
+
+    fun getAllDetailProductTransaction(){
+        view.showDetailProductTransactionLoading()
+        repository.getAllDetailProductTransaction(object : DetailProductTransactionRepositoryCallback<DetailProductTransactionResponse>{
+            override fun detailProductTransactionSuccess(data: DetailProductTransactionResponse?) {
+                view.detailProductTransactionSuccess(data)
+                view.hideDetailProductTransactionLoading()
+            }
+            override fun detailProductTransactionFailed() {
+                view.detailProductTransactionFailed()
+                view.hideDetailProductTransactionLoading()
+            }
+        })
+    }
+
+    fun addDetailProductTransaction(detailProductTransaction: DetailProductTransaction){
+        view.showDetailProductTransactionLoading()
+        repository.addDetailProductTransaction(detailProductTransaction, object : DetailProductTransactionRepositoryCallback<DetailProductTransactionResponse>{
+            override fun detailProductTransactionSuccess(data: DetailProductTransactionResponse?) {
+                view.detailProductTransactionSuccess(data)
+                view.hideDetailProductTransactionLoading()
+            }
+            override fun detailProductTransactionFailed() {
+                view.detailProductTransactionFailed()
+                view.hideDetailProductTransactionLoading()
+            }
+        })
+    }
+
+    fun editDetailProductTransaction(detailProductTransaction: DetailProductTransaction){
+        view.showDetailProductTransactionLoading()
+        repository.editDetailProductTransaction(detailProductTransaction, object : DetailProductTransactionRepositoryCallback<DetailProductTransactionResponse>{
+            override fun detailProductTransactionSuccess(data: DetailProductTransactionResponse?) {
+                view.detailProductTransactionSuccess(data)
+                view.hideDetailProductTransactionLoading()
+            }
+            override fun detailProductTransactionFailed() {
+                view.detailProductTransactionFailed()
+                view.hideDetailProductTransactionLoading()
+            }
+        })
+    }
+
+    fun deleteDetailProductTransaction(id_transaction: String, id_product: String){
+        view.showDetailProductTransactionLoading()
+        repository.deleteDetailProductTransaction(id_transaction, id_product, object : DetailProductTransactionRepositoryCallback<DetailProductTransactionResponse>{
+            override fun detailProductTransactionSuccess(data: DetailProductTransactionResponse?) {
+                view.detailProductTransactionSuccess(data)
+                view.hideDetailProductTransactionLoading()
+            }
+            override fun detailProductTransactionFailed() {
+                view.detailProductTransactionFailed()
+                view.hideDetailProductTransactionLoading()
+            }
+        })
+    }
+
+    fun getDetailProductTransactionByIdTransaction(id_transaction: String){
+        view.showDetailProductTransactionLoading()
+        repository.getDetailProductTransactionByIdTransaction(id_transaction, object : DetailProductTransactionRepositoryCallback<DetailProductTransactionResponse>{
+            override fun detailProductTransactionSuccess(data: DetailProductTransactionResponse?) {
+                view.detailProductTransactionSuccess(data)
+                view.hideDetailProductTransactionLoading()
+            }
+            override fun detailProductTransactionFailed() {
+                view.detailProductTransactionFailed()
+                view.hideDetailProductTransactionLoading()
+            }
+        })
+    }
+
+    fun deleteAllDetailProductTransaction(id_transaction: String){
+        view.showDetailProductTransactionLoading()
+        repository.deleteAllDetailProductTransaction(id_transaction, object : DetailProductTransactionRepositoryCallback<DetailProductTransactionResponse>{
+            override fun detailProductTransactionSuccess(data: DetailProductTransactionResponse?) {
+                view.detailProductTransactionSuccess(data)
+                view.hideDetailProductTransactionLoading()
+            }
+            override fun detailProductTransactionFailed() {
+                view.detailProductTransactionFailed()
+                view.hideDetailProductTransactionLoading()
+            }
+        })
+    }
+}
+
+//DETAIL SERVICE TRANSACTION
+class DetailServiceTransactionPresenter(private val view: DetailServiceTransactionView, private val repository: Repository){
+
+    fun getAllDetailServiceTransaction(){
+        view.showDetailServiceTransactionLoading()
+        repository.getAllDetailServiceTransaction(object : DetailServiceTransactionRepositoryCallback<DetailServiceTransactionResponse>{
+            override fun detailServiceTransactionSuccess(data: DetailServiceTransactionResponse?) {
+                view.detailServiceTransactionSuccess(data)
+                view.hideDetailServiceTransactionLoading()
+            }
+            override fun detailServiceTransactionFailed() {
+                view.detailServiceTransactionFailed()
+                view.hideDetailServiceTransactionLoading()
+            }
+        })
+    }
+
+    fun addDetailServiceTransaction(detailServiceTransaction: DetailServiceTransaction){
+        view.showDetailServiceTransactionLoading()
+        repository.addDetailServiceTransaction(detailServiceTransaction, object : DetailServiceTransactionRepositoryCallback<DetailServiceTransactionResponse>{
+            override fun detailServiceTransactionSuccess(data: DetailServiceTransactionResponse?) {
+                view.detailServiceTransactionSuccess(data)
+                view.hideDetailServiceTransactionLoading()
+            }
+            override fun detailServiceTransactionFailed() {
+                view.detailServiceTransactionFailed()
+                view.hideDetailServiceTransactionLoading()
+            }
+        })
+    }
+
+    fun editDetailServiceTransaction(detailServiceTransaction: DetailServiceTransaction){
+        view.showDetailServiceTransactionLoading()
+        repository.editDetailServiceTransaction(detailServiceTransaction, object : DetailServiceTransactionRepositoryCallback<DetailServiceTransactionResponse>{
+            override fun detailServiceTransactionSuccess(data: DetailServiceTransactionResponse?) {
+                view.detailServiceTransactionSuccess(data)
+                view.hideDetailServiceTransactionLoading()
+            }
+            override fun detailServiceTransactionFailed() {
+                view.detailServiceTransactionFailed()
+                view.hideDetailServiceTransactionLoading()
+            }
+        })
+    }
+
+    fun deleteDetailServiceTransaction(id_transaction: String, id_service: String){
+        view.showDetailServiceTransactionLoading()
+        repository.deleteDetailServiceTransaction(id_transaction, id_service, object : DetailServiceTransactionRepositoryCallback<DetailServiceTransactionResponse>{
+            override fun detailServiceTransactionSuccess(data: DetailServiceTransactionResponse?) {
+                view.detailServiceTransactionSuccess(data)
+                view.hideDetailServiceTransactionLoading()
+            }
+            override fun detailServiceTransactionFailed() {
+                view.detailServiceTransactionFailed()
+                view.hideDetailServiceTransactionLoading()
+            }
+        })
+    }
+
+    fun getDetailServiceTransactionByIdTransaction(id_transaction: String){
+        view.showDetailServiceTransactionLoading()
+        repository.getDetailServiceTransactionByIdTransaction(id_transaction, object : DetailServiceTransactionRepositoryCallback<DetailServiceTransactionResponse>{
+            override fun detailServiceTransactionSuccess(data: DetailServiceTransactionResponse?) {
+                view.detailServiceTransactionSuccess(data)
+                view.hideDetailServiceTransactionLoading()
+            }
+            override fun detailServiceTransactionFailed() {
+                view.detailServiceTransactionFailed()
+                view.hideDetailServiceTransactionLoading()
+            }
+        })
+    }
+
+    fun deleteAllDetailServiceTransaction(id_transaction: String){
+        view.showDetailServiceTransactionLoading()
+        repository.deleteAllDetailServiceTransaction(id_transaction, object : DetailServiceTransactionRepositoryCallback<DetailServiceTransactionResponse>{
+            override fun detailServiceTransactionSuccess(data: DetailServiceTransactionResponse?) {
+                view.detailServiceTransactionSuccess(data)
+                view.hideDetailServiceTransactionLoading()
+            }
+            override fun detailServiceTransactionFailed() {
+                view.detailServiceTransactionFailed()
+                view.hideDetailServiceTransactionLoading()
+            }
+        })
+    }
+}

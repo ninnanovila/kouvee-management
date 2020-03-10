@@ -71,6 +71,10 @@ class AddOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOrd
             state = "print"
             presenter.editPrintOrderProduct(orderProduct.id.toString())
         }
+        btn_delete.setOnClickListener {
+            state = "delete"
+            presenter.deleteOrderProduct(orderProduct.id.toString())
+        }
         setData()
     }
 
@@ -101,8 +105,12 @@ class AddOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOrd
             "edit" -> {
                 startActivity<AddOrderProductActivity>()
             }
+            "delete" -> {
+                Toast.makeText(this, "Success Delete Order Product", Toast.LENGTH_SHORT).show()
+                startActivity<OrderProductActivity>()
+            }
             else -> {
-                Toast.makeText(this, "Success Add Detail Order Product", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
             }
         }
     }

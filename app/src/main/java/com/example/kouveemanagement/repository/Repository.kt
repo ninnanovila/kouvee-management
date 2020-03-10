@@ -1068,4 +1068,331 @@ class Repository {
             }
         })
     }
+
+//  TRANSACTION
+    fun getAllTransaction(callback: TransactionRepositoryCallback<TransactionResponse>){
+        ApiClient().services.getAllTransaction().enqueue(object : Callback<TransactionResponse?>{
+            override fun onFailure(call: Call<TransactionResponse?>, t: Throwable) {
+                callback.transactionFailed()
+            }
+            override fun onResponse(
+                call: Call<TransactionResponse?>,
+                response: Response<TransactionResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.transactionSuccess(response.body())
+                }else{
+                    callback.transactionFailed()
+                }
+            }
+        })
+    }
+
+    fun addTransaction(transaction: Transaction, callback: TransactionRepositoryCallback<TransactionResponse>){
+        ApiClient().services.addTransaction(transaction).enqueue(object : Callback<TransactionResponse?>{
+            override fun onFailure(call: Call<TransactionResponse?>, t: Throwable) {
+                callback.transactionFailed()
+            }
+            override fun onResponse(
+                call: Call<TransactionResponse?>,
+                response: Response<TransactionResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.transactionSuccess(response.body())
+                }else{
+                    callback.transactionFailed()
+                }
+            }
+        })
+    }
+
+    fun editTotalTransaction(id: String, callback: TransactionRepositoryCallback<TransactionResponse>){
+        ApiClient().services.editTotalTransaction(id).enqueue(object : Callback<TransactionResponse?>{
+            override fun onFailure(call: Call<TransactionResponse?>, t: Throwable) {
+                callback.transactionFailed()
+            }
+            override fun onResponse(
+                call: Call<TransactionResponse?>,
+                response: Response<TransactionResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.transactionSuccess(response.body())
+                }else{
+                    callback.transactionFailed()
+                }
+            }
+        })
+    }
+
+    fun editDoneTransaction(id: String, transaction: Transaction, callback: TransactionRepositoryCallback<TransactionResponse>){
+        ApiClient().services.editDoneTransaction(id, transaction).enqueue(object : Callback<TransactionResponse?>{
+            override fun onFailure(call: Call<TransactionResponse?>, t: Throwable) {
+                callback.transactionFailed()
+            }
+            override fun onResponse(
+                call: Call<TransactionResponse?>,
+                response: Response<TransactionResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.transactionSuccess(response.body())
+                }else{
+                    callback.transactionFailed()
+                }
+            }
+        })
+    }
+
+    fun editStatusTransaction(id: String, transaction: Transaction, callback: TransactionRepositoryCallback<TransactionResponse>){
+        ApiClient().services.editStatusTransaction(id, transaction).enqueue(object : Callback<TransactionResponse?>{
+            override fun onFailure(call: Call<TransactionResponse?>, t: Throwable) {
+                callback.transactionFailed()
+            }
+            override fun onResponse(
+                call: Call<TransactionResponse?>,
+                response: Response<TransactionResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.transactionSuccess(response.body())
+                }else{
+                    callback.transactionFailed()
+                }
+            }
+        })
+    }
+
+    fun cancelTransaction(id: String, callback: TransactionRepositoryCallback<TransactionResponse>){
+        ApiClient().services.cancelTransaction(id).enqueue(object : Callback<TransactionResponse?>{
+            override fun onFailure(call: Call<TransactionResponse?>, t: Throwable) {
+                callback.transactionFailed()
+            }
+            override fun onResponse(
+                call: Call<TransactionResponse?>,
+                response: Response<TransactionResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.transactionSuccess(response.body())
+                }else{
+                    callback.transactionFailed()
+                }
+            }
+        })
+    }
+
+//  DETAIL PRODUCT TRANSACTION
+    fun getAllDetailProductTransaction(callback: DetailProductTransactionRepositoryCallback<DetailProductTransactionResponse>){
+        ApiClient().services.getAllDetailProductTransaction().enqueue(object : Callback<DetailProductTransactionResponse?>{
+            override fun onFailure(call: Call<DetailProductTransactionResponse?>, t: Throwable) {
+                callback.detailProductTransactionFailed()
+            }
+            override fun onResponse(
+                call: Call<DetailProductTransactionResponse?>,
+                response: Response<DetailProductTransactionResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.detailProductTransactionSuccess(response.body())
+                }else{
+                    callback.detailProductTransactionFailed()
+                }
+            }
+        })
+    }
+
+    fun addDetailProductTransaction(detailProductTransaction: DetailProductTransaction, callback: DetailProductTransactionRepositoryCallback<DetailProductTransactionResponse>){
+        ApiClient().services.addDetailProductTransaction(detailProductTransaction).enqueue(object : Callback<DetailProductTransactionResponse?>{
+            override fun onFailure(call: Call<DetailProductTransactionResponse?>, t: Throwable) {
+                callback.detailProductTransactionFailed()
+            }
+            override fun onResponse(
+                call: Call<DetailProductTransactionResponse?>,
+                response: Response<DetailProductTransactionResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.detailProductTransactionSuccess(response.body())
+                }else{
+                    callback.detailProductTransactionFailed()
+                }
+            }
+        })
+    }
+
+    fun editDetailProductTransaction(detailProductTransaction: DetailProductTransaction, callback: DetailProductTransactionRepositoryCallback<DetailProductTransactionResponse>){
+        ApiClient().services.editDetailProductTransaction(detailProductTransaction).enqueue(object : Callback<DetailProductTransactionResponse?>{
+            override fun onFailure(call: Call<DetailProductTransactionResponse?>, t: Throwable) {
+                callback.detailProductTransactionFailed()
+            }
+            override fun onResponse(
+                call: Call<DetailProductTransactionResponse?>,
+                response: Response<DetailProductTransactionResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.detailProductTransactionSuccess(response.body())
+                }else{
+                    callback.detailProductTransactionFailed()
+                }
+            }
+        })
+    }
+
+    fun deleteDetailProductTransaction(id_transaction: String, id_product: String, callback: DetailProductTransactionRepositoryCallback<DetailProductTransactionResponse>){
+        ApiClient().services.deleteDetailProductTransaction(id_transaction, id_product).enqueue(object : Callback<DetailProductTransactionResponse?>{
+            override fun onFailure(call: Call<DetailProductTransactionResponse?>, t: Throwable) {
+                callback.detailProductTransactionFailed()
+            }
+            override fun onResponse(
+                call: Call<DetailProductTransactionResponse?>,
+                response: Response<DetailProductTransactionResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.detailProductTransactionSuccess(response.body())
+                }else{
+                    callback.detailProductTransactionFailed()
+                }
+            }
+        })
+    }
+
+    fun getDetailProductTransactionByIdTransaction(id_transaction: String, callback: DetailProductTransactionRepositoryCallback<DetailProductTransactionResponse>){
+        ApiClient().services.getDetailProductTransactionByIdTransaction(id_transaction).enqueue(object : Callback<DetailProductTransactionResponse?>{
+            override fun onFailure(call: Call<DetailProductTransactionResponse?>, t: Throwable) {
+                callback.detailProductTransactionFailed()
+            }
+            override fun onResponse(
+                call: Call<DetailProductTransactionResponse?>,
+                response: Response<DetailProductTransactionResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.detailProductTransactionSuccess(response.body())
+                }else{
+                    callback.detailProductTransactionFailed()
+                }
+            }
+        })
+    }
+
+    fun deleteAllDetailProductTransaction(id_transaction: String, callback: DetailProductTransactionRepositoryCallback<DetailProductTransactionResponse>){
+        ApiClient().services.deleteAllDetailProductTransaction(id_transaction).enqueue(object : Callback<DetailProductTransactionResponse?>{
+            override fun onFailure(call: Call<DetailProductTransactionResponse?>, t: Throwable) {
+                callback.detailProductTransactionFailed()
+            }
+            override fun onResponse(
+                call: Call<DetailProductTransactionResponse?>,
+                response: Response<DetailProductTransactionResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.detailProductTransactionSuccess(response.body())
+                }else{
+                    callback.detailProductTransactionFailed()
+                }
+            }
+        })
+    }
+
+//  DETAIL SERVICE TRANSACTION
+    fun getAllDetailServiceTransaction(callback: DetailServiceTransactionRepositoryCallback<DetailServiceTransactionResponse>){
+        ApiClient().services.getAllDetailServiceTransaction().enqueue(object : Callback<DetailServiceTransactionResponse?>{
+            override fun onFailure(call: Call<DetailServiceTransactionResponse?>, t: Throwable) {
+                callback.detailServiceTransactionFailed()
+            }
+            override fun onResponse(
+                call: Call<DetailServiceTransactionResponse?>,
+                response: Response<DetailServiceTransactionResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.detailServiceTransactionSuccess(response.body())
+                }else{
+                    callback.detailServiceTransactionFailed()
+                }
+            }
+        })
+    }
+
+    fun addDetailServiceTransaction(detailServiceTransaction: DetailServiceTransaction, callback: DetailServiceTransactionRepositoryCallback<DetailServiceTransactionResponse>){
+        ApiClient().services.addDetailServiceTransaction(detailServiceTransaction).enqueue(object : Callback<DetailServiceTransactionResponse?>{
+            override fun onFailure(call: Call<DetailServiceTransactionResponse?>, t: Throwable) {
+                callback.detailServiceTransactionFailed()
+            }
+            override fun onResponse(
+                call: Call<DetailServiceTransactionResponse?>,
+                response: Response<DetailServiceTransactionResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.detailServiceTransactionSuccess(response.body())
+                }else{
+                    callback.detailServiceTransactionFailed()
+                }
+            }
+        })
+    }
+
+    fun editDetailServiceTransaction(detailServiceTransaction: DetailServiceTransaction, callback: DetailServiceTransactionRepositoryCallback<DetailServiceTransactionResponse>){
+        ApiClient().services.editDetailServiceTransaction(detailServiceTransaction).enqueue(object : Callback<DetailServiceTransactionResponse?>{
+            override fun onFailure(call: Call<DetailServiceTransactionResponse?>, t: Throwable) {
+                callback.detailServiceTransactionFailed()
+            }
+            override fun onResponse(
+                call: Call<DetailServiceTransactionResponse?>,
+                response: Response<DetailServiceTransactionResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.detailServiceTransactionSuccess(response.body())
+                }else{
+                    callback.detailServiceTransactionFailed()
+                }
+            }
+        })
+    }
+
+    fun deleteDetailServiceTransaction(id_transaction: String, id_service: String, callback: DetailServiceTransactionRepositoryCallback<DetailServiceTransactionResponse>){
+        ApiClient().services.deleteDetailServiceTransaction(id_transaction, id_service).enqueue(object : Callback<DetailServiceTransactionResponse?>{
+            override fun onFailure(call: Call<DetailServiceTransactionResponse?>, t: Throwable) {
+                callback.detailServiceTransactionFailed()
+            }
+            override fun onResponse(
+                call: Call<DetailServiceTransactionResponse?>,
+                response: Response<DetailServiceTransactionResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.detailServiceTransactionSuccess(response.body())
+                }else{
+                    callback.detailServiceTransactionFailed()
+                }
+            }
+        })
+    }
+
+    fun getDetailServiceTransactionByIdTransaction(id_transaction: String, callback: DetailServiceTransactionRepositoryCallback<DetailServiceTransactionResponse>){
+        ApiClient().services.getDetailServiceTransactionByIdTransaction(id_transaction).enqueue(object : Callback<DetailServiceTransactionResponse?>{
+            override fun onFailure(call: Call<DetailServiceTransactionResponse?>, t: Throwable) {
+                callback.detailServiceTransactionFailed()
+            }
+            override fun onResponse(
+                call: Call<DetailServiceTransactionResponse?>,
+                response: Response<DetailServiceTransactionResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.detailServiceTransactionSuccess(response.body())
+                }else{
+                    callback.detailServiceTransactionFailed()
+                }
+            }
+        })
+    }
+
+    fun deleteAllDetailServiceTransaction(id_transaction: String, callback: DetailServiceTransactionRepositoryCallback<DetailServiceTransactionResponse>){
+        ApiClient().services.deleteAllDetailServiceTransaction(id_transaction).enqueue(object : Callback<DetailServiceTransactionResponse?>{
+            override fun onFailure(call: Call<DetailServiceTransactionResponse?>, t: Throwable) {
+                callback.detailServiceTransactionFailed()
+            }
+            override fun onResponse(
+                call: Call<DetailServiceTransactionResponse?>,
+                response: Response<DetailServiceTransactionResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.detailServiceTransactionSuccess(response.body())
+                }else{
+                    callback.detailServiceTransactionFailed()
+                }
+            }
+        })
+    }
 }

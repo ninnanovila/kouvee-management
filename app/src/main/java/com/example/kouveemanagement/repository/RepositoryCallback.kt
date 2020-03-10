@@ -59,3 +59,18 @@ interface DetailOrderProductRepositoryCallback<DetailOrderProductResponse> {
     fun detailOrderProductSuccess(data: DetailOrderProductResponse?)
     fun detailOrderProductFailed()
 }
+
+interface TransactionRepositoryCallback<TransactionResponse>{
+    fun transactionSuccess(data: TransactionResponse?)
+    fun transactionFailed()
+}
+
+interface DetailProductTransactionRepositoryCallback<DetailProductTransactionResponse>{
+    fun detailProductTransactionSuccess(data: DetailProductTransactionResponse?)
+    fun detailProductTransactionFailed()
+}
+
+interface DetailServiceTransactionRepositoryCallback<DetailServiceTransactionResponse>{
+    fun detailServiceTransactionSuccess(data: DetailServiceTransactionResponse?)
+    fun detailServiceTransactionFailed()
+}

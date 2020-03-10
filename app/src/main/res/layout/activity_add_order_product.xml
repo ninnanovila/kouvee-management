@@ -98,6 +98,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <Button
+                android:id="@+id/btn_delete"
+                android:text="@string/delete"
+                android:layout_margin="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <Button
                 android:id="@+id/btn_edit"
                 android:text="@string/edit"
                 android:layout_margin="8dp"
