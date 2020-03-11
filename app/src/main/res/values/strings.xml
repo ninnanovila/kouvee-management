@@ -25,16 +25,14 @@
     <string-array name="cs_menu">
         <item>Customer</item>
         <item>Customer Pet</item>
-        <item>Product Transaction</item>
-        <item>Service Transaction</item>
+        <item>Transaction</item>
     </string-array>
 
     <!--MENU DESC-->
     <string-array name="cs_desc">
         <item>Description of Customer Menu</item>
         <item>Description of Customer Pet Menu</item>
-        <item>Description of Product Transaction Menu</item>
-        <item>Description of Service Transaction Menu</item>
+        <item>Transaction Menu</item>
     </string-array>
 
     <!--MANAGEMENT TITLE-->
@@ -56,6 +54,8 @@
     <string name="add_employee">Add Employee</string>
     <string name="add_customer">Add Customer</string>
     <string name="add_supplier">Add Supplier</string>
+    <string name="add_order_product">Add Order Product</string>
+    <string name="add_detail_order_product">Add Detail Order Product</string>
 
     <!--EDIT-->
     <string name="edit_supplier">Edit Supplier</string>
@@ -64,6 +64,7 @@
     <string name="edit_employee">Edit Employee</string>
     <string name="edit_product">Edit Product</string>
     <string name="edit_customer">Edit Customer</string>
+    <string name="edit_detail_order_product">Edit Detail Order Product</string>
 
     <!--SEARCH-->
     <string name="search">Search</string>
@@ -78,6 +79,10 @@
     <string name="product">Product</string>
     <string name="service">Service</string>
     <string name="customer_pet">Customer Pet</string>
+
+    <!--OTHER TITLE-->
+    <string name="order_product">Order Product</string>
+    <string name="transaction">Transaction</string>
 
     <!--LOG-->
     <string name="created_at">Created at</string>
@@ -114,15 +119,12 @@
     <string name="role">Role</string>
     <string name="upload">Upload</string>
     <string name="home">Home</string>
+    <string name="quantity">Quantity</string>
+    <string name="done">Done</string>
+    <string name="print">Print</string>
 
     <!--NEW FRAGMENT-->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="order_product">Order Product</string>
-    <string name="add_order_product">Add Order Product</string>
-    <string name="add_detail_order_product">Add Detail Order Product</string>
-    <string name="quantity">Quantity</string>
-    <string name="done">Done</string>
-    <string name="edit_detail_order_product">Edit Detail Order Product</string>
-    <string name="print">Print</string>
+    <string name="add_detail_product_transaction">Add Detail Product Transaction</string>
 
 </resources>

@@ -835,9 +835,9 @@ class TransactionPresenter(private val view: TransactionView, private val reposi
         })
     }
 
-    fun addTransaction(transaction: Transaction){
+    fun addTransaction(type: String, transaction: Transaction){
         view.showTransactionLoading()
-        repository.addTransaction(transaction, object : TransactionRepositoryCallback<TransactionResponse>{
+        repository.addTransaction(type, transaction, object : TransactionRepositoryCallback<TransactionResponse>{
             override fun transactionSuccess(data: TransactionResponse?) {
                 view.transactionSuccess(data)
                 view.hideTransactionLoading()

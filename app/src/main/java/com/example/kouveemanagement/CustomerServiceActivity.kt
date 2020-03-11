@@ -17,6 +17,7 @@ import com.example.kouveemanagement.model.Menu
 import com.example.kouveemanagement.persistent.AppDatabase
 import com.example.kouveemanagement.persistent.CurrentUser
 import com.example.kouveemanagement.search.SearchResultActivity
+import com.example.kouveemanagement.transaction.TransactionActivity
 import kotlinx.android.synthetic.main.activity_customer_service.*
 import org.jetbrains.anko.startActivity
 
@@ -63,8 +64,7 @@ class CustomerServiceActivity : AppCompatActivity() {
                 "Customer" -> startActivity<CustomerManagementActivity>()
                 "Customer Pet" -> startActivity<CustomerPetManagementActivity>()
                 //TRANSACTION
-                "Product Transaction" -> startActivity<EmployeeManagementActivity>()
-                "Service Transaction" -> startActivity<EmployeeManagementActivity>()
+                "Transaction" -> startActivity<TransactionActivity>()
                 else -> Toast.makeText(this, "Sorry, you can not access that.", Toast.LENGTH_SHORT).show()
             }
             Toast.makeText(this, "Yeay!", Toast.LENGTH_SHORT).show()

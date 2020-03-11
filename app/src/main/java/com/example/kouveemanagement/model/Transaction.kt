@@ -17,7 +17,15 @@ data class Transaction(
     @SerializedName("payment")
     var payment: String? = null,
     @SerializedName("status")
-    var status: String? = null
+    var status: String? = null,
+    @SerializedName("created_at")
+    var created_at: String? = null,
+    @SerializedName("updated_at")
+    var updated_at: String? = null,
+    @SerializedName("last_cs")
+    var last_cs: String? = null,
+    @SerializedName("last_cr")
+    var last_cr: String? = null
 ) : Parcelable
 
 data class TransactionResponse(

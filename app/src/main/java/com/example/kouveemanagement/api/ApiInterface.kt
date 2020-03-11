@@ -219,8 +219,8 @@ interface ApiInterface {
     @GET("transaction")
     fun getAllTransaction(): Call<TransactionResponse>
 
-    @POST("transaction")
-    fun addTransaction(@Body transaction: Transaction): Call<TransactionResponse>
+    @POST("transaction/{type}")
+    fun addTransaction(@Path("type")type: String, @Body transaction: Transaction): Call<TransactionResponse>
 
     @PUT("transaction/{id}")
     fun editTotalTransaction(@Path("id")id: String): Call<TransactionResponse>

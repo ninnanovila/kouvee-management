@@ -47,9 +47,9 @@ class AddOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOrd
         setContentView(R.layout.activity_add_order_product)
         orderProduct = OrderProductActivity.orderProduct
         idOrderProduct = orderProduct.id.toString()
-        presenter = OrderProductPresenter(this, Repository())
         nameDropdown = OrderProductActivity.nameDropdown
         idDropdown = OrderProductActivity.idDropdown
+        presenter = OrderProductPresenter(this, Repository())
         presenter.editTotalOrderProduct(orderProduct.id.toString())
         presenterD = DetailOrderProductPresenter(this, Repository())
         presenterD.getDetailOrderProductByOrderId(orderProduct.id.toString())
@@ -188,7 +188,7 @@ class AddOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOrd
     private fun showEditSupplier(){
         dialog = LayoutInflater.from(this).inflate(R.layout.item_choose, null)
         val adapter =
-            ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, nameDropdown)
+            ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, nameDropdown)
         val dropdown = dialog.findViewById<AutoCompleteTextView>(R.id.dropdown)
         val btnAdd = dialog.findViewById<Button>(R.id.btn_add)
         val btnSave = dialog.findViewById<Button>(R.id.btn_save)

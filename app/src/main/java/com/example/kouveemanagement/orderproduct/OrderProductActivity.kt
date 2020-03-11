@@ -31,11 +31,11 @@ class OrderProductActivity : AppCompatActivity(), OrderProductView, SupplierView
     private lateinit var dialog: View
     private lateinit var infoDialog: AlertDialog
     private lateinit var dialogAlert: AlertDialog
-    private var isRotate = false
 
     private lateinit var presenterS: SupplierPresenter
-
     private lateinit var supplierId: String
+
+    private var isRotate = false
     private var add: String = "0"
 
     companion object{
@@ -87,7 +87,7 @@ class OrderProductActivity : AppCompatActivity(), OrderProductView, SupplierView
     }
 
     override fun orderProductFailed() {
-        Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Failed Order Product", Toast.LENGTH_SHORT).show()
     }
 
     private fun showDetail(orderProductInput: OrderProduct){

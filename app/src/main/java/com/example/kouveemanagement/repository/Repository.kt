@@ -1088,8 +1088,8 @@ class Repository {
         })
     }
 
-    fun addTransaction(transaction: Transaction, callback: TransactionRepositoryCallback<TransactionResponse>){
-        ApiClient().services.addTransaction(transaction).enqueue(object : Callback<TransactionResponse?>{
+    fun addTransaction(type: String, transaction: Transaction, callback: TransactionRepositoryCallback<TransactionResponse>){
+        ApiClient().services.addTransaction(type, transaction).enqueue(object : Callback<TransactionResponse?>{
             override fun onFailure(call: Call<TransactionResponse?>, t: Throwable) {
                 callback.transactionFailed()
             }
