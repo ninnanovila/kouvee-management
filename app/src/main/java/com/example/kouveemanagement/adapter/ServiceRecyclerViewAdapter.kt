@@ -7,7 +7,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.model.Service
+import com.example.kouveemanagement.service.ServiceManagementActivity
 import kotlinx.android.extensions.LayoutContainer
+import java.util.*
 
 
 class ServiceRecyclerViewAdapter(private val services: MutableList<Service>, private val listener: (Service) -> Unit) : RecyclerView.Adapter<ServiceRecyclerViewAdapter.ViewHolder>() {
@@ -24,7 +26,25 @@ class ServiceRecyclerViewAdapter(private val services: MutableList<Service>, pri
         holder.bindItem(services[position], listener)
     }
 
-    class ViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView), LayoutContainer {
+    fun filterData(input: String){
+        var input = input
+        input = input.toLowerCase(Locale.getDefault())
+        ServiceManagementActivity.services.clear()
+        if (input.isEmpty()){
+            ServiceManagementActivity.services.addAll(services)
+        }else{
+            var i = 0
+            while (i < services.size){
+                if (services[i].name?.toLowerCase(Locale.getDefault())?.contains(input)!!){
+                    ServiceManagementActivity.services.add(services[i])
+                }
+                i++
+            }
+        }
+        notifyDataSetChanged()
+    }
+
+    inner class ViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView), LayoutContainer {
 
         private var id: TextView = itemView.findViewById(R.id.id)
         private var name: TextView = itemView.findViewById(R.id.name)

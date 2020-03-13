@@ -4,10 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
@@ -30,8 +27,9 @@ import org.jetbrains.anko.startActivity
 
 class ServiceManagementActivity : AppCompatActivity(), ServiceView, PetSizeView {
 
-    private var services: MutableList<Service> = mutableListOf()
+    private var servicesList: MutableList<Service> = mutableListOf()
     private lateinit var presenter: ServicePresenter
+    private lateinit var adapter: ServiceRecyclerViewAdapter
 
     private lateinit var dialog: View
     private var isRotate = false
@@ -41,6 +39,7 @@ class ServiceManagementActivity : AppCompatActivity(), ServiceView, PetSizeView 
     companion object {
         var namePetSize: MutableList<String> = arrayListOf()
         var idPetSize: MutableList<String> = arrayListOf()
+        var services: MutableList<Service> = mutableListOf()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,6 +52,26 @@ class ServiceManagementActivity : AppCompatActivity(), ServiceView, PetSizeView 
         btn_home.setOnClickListener{
             startActivity<OwnerActivity>()
         }
+        search_view.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                val adapter = ServiceRecyclerViewAdapter(servicesList) {}
+                recyclerview.adapter = ServiceRecyclerViewAdapter(services){
+                    showDialog(it)
+                }
+                query?.let { adapter.filterData(it) }
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                val adapter = ServiceRecyclerViewAdapter(servicesList) {}
+                recyclerview.adapter = ServiceRecyclerViewAdapter(services){
+                    showDialog(it)
+                }
+                newText?.let { adapter.filterData(it) }
+                return false
+            }
+
+        })
         fabAnimation()
     }
 
@@ -70,10 +89,10 @@ class ServiceManagementActivity : AppCompatActivity(), ServiceView, PetSizeView 
             Toast.makeText(this, "No Result", Toast.LENGTH_SHORT).show()
         }else{
             for (i in temp.indices){
-                services.add(i, temp[i])
+                servicesList.add(i, temp[i])
             }
             recyclerview.layoutManager = LinearLayoutManager(this)
-            recyclerview.adapter = ServiceRecyclerViewAdapter(services){
+            recyclerview.adapter = ServiceRecyclerViewAdapter(servicesList){
                 showDialog(it)
                 Toast.makeText(this, it.id, Toast.LENGTH_LONG).show()
             }

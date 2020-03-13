@@ -14,7 +14,7 @@
         android:layout_height="200dp"/>
 
     <LinearLayout
-        android:id="@+id/linearlayout"
+        android:id="@+id/linearLayout1"
         android:orientation="horizontal"
         android:layout_margin="16dp"
         android:layout_width="match_parent"
@@ -47,6 +47,12 @@
             android:layout_height="wrap_content"/>
     </LinearLayout>
 
+    <SearchView
+        android:id="@+id/search_view"
+        android:layout_below="@id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
     <ProgressBar
         android:id="@+id/progressbar"
         android:layout_centerInParent="true"
@@ -56,7 +62,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview"
-        android:layout_below="@id/linearlayout"
+        android:layout_below="@id/search_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:listitem="@layout/item_service" />

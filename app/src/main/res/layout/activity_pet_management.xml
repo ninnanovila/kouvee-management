@@ -15,7 +15,7 @@
         android:layout_height="200dp"/>
 
     <LinearLayout
-        android:id="@+id/linearlayout"
+        android:id="@+id/linearLayout1"
         android:orientation="horizontal"
         android:layout_margin="16dp"
         android:layout_width="match_parent"
@@ -61,7 +61,7 @@
         android:layout_margin="4dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/linearlayout">
+        android:layout_below="@id/linearLayout1">
 
         <TextView
             android:textColor="@android:color/white"
