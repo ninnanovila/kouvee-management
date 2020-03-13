@@ -8,9 +8,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.model.DetailProductTransaction
 import com.example.kouveemanagement.model.DetailServiceTransaction
+import com.example.kouveemanagement.model.Product
+import com.example.kouveemanagement.model.Service
 import kotlinx.android.extensions.LayoutContainer
 
-class DetailTransactionRecyclerViewAdapter(private val id: String, private val detailProducts: MutableList<DetailProductTransaction>, private val listenerP: (DetailProductTransaction) -> Unit, private val detailServices: MutableList<DetailServiceTransaction>, private val listenerS: (DetailServiceTransaction) -> Unit) : RecyclerView.Adapter<DetailTransactionRecyclerViewAdapter.ViewHolder>() {
+class DetailTransactionRecyclerViewAdapter(private val id: String,
+                                           private val detailProducts: MutableList<DetailProductTransaction>, private val listenerP: (DetailProductTransaction) -> Unit, private val products: MutableList<Product>,
+                                           private val detailServices: MutableList<DetailServiceTransaction>, private val listenerS: (DetailServiceTransaction) -> Unit, private val services: MutableList<Service>)
+    : RecyclerView.Adapter<DetailTransactionRecyclerViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val viewHolder = LayoutInflater.from(parent.context)
@@ -27,9 +32,9 @@ class DetailTransactionRecyclerViewAdapter(private val id: String, private val d
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         if (id == "service"){
-            holder.bindService(detailServices[position], listenerS)
+            holder.bindService(detailServices[position], listenerS, services)
         }else{
-            holder.bindProduct(detailProducts[position], listenerP)
+            holder.bindProduct(detailProducts[position], listenerP, products)
         }
     }
 
@@ -39,8 +44,12 @@ class DetailTransactionRecyclerViewAdapter(private val id: String, private val d
         private var quantity: TextView = itemView.findViewById(R.id.quantity)
         private var subtotal: TextView = itemView.findViewById(R.id.subtotal)
 
-        fun bindProduct(detailProductTransaction: DetailProductTransaction, listener: (DetailProductTransaction) -> Unit){
-            id.text = detailProductTransaction.id_product
+        fun bindProduct(detailProductTransaction: DetailProductTransaction, listener: (DetailProductTransaction) -> Unit, products: MutableList<Product>){
+            for (product in products){
+                if (detailProductTransaction.id_product.equals(product.id)){
+                    id.text = product.name
+                }
+            }
             quantity.text = detailProductTransaction.quantity.toString()
             subtotal.text = detailProductTransaction.subtotal_price.toString()
             containerView.setOnClickListener {
@@ -48,8 +57,12 @@ class DetailTransactionRecyclerViewAdapter(private val id: String, private val d
             }
         }
 
-        fun bindService(detailServiceTransaction: DetailServiceTransaction, listener: (DetailServiceTransaction) -> Unit){
-            id.text = detailServiceTransaction.id_service
+        fun bindService(detailServiceTransaction: DetailServiceTransaction, listener: (DetailServiceTransaction) -> Unit, services: MutableList<Service>){
+            for (service in services){
+                if (detailServiceTransaction.id_service.equals(service.id)){
+                    id.text = service.name
+                }
+            }
             quantity.text = detailServiceTransaction.quantity.toString()
             subtotal.text = detailServiceTransaction.subtotal_price.toString()
             containerView.setOnClickListener {

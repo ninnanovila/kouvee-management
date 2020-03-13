@@ -35,25 +35,25 @@ class AddPetFragment : Fragment(), PetSizeView, PetTypeView {
         fun newInstance() = AddPetFragment()
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_add_pet, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         btn_add_s.setOnClickListener {
-            getPetSize()
-            presenterSize = PetSizePresenter(this, Repository())
-            presenterSize.addPetSize(petSize)
+            if (isValid()){
+                getPetSize()
+                presenterSize = PetSizePresenter(this, Repository())
+                presenterSize.addPetSize(petSize)
+            }
         }
         btn_add_t.setOnClickListener {
-            getPetType()
-            presenterType = PetTypePresenter(this, Repository())
-            presenterType.addPetType(petType)
+            if (isValid()){
+                getPetType()
+                presenterType = PetTypePresenter(this, Repository())
+                presenterType.addPetType(petType)
+            }
         }
         btn_close.setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()?.remove(this)?.commit()
@@ -70,6 +70,14 @@ class AddPetFragment : Fragment(), PetSizeView, PetTypeView {
         petType = PetType(null, name, null, null, null)
     }
 
+    private fun isValid(): Boolean{
+        if (name.text.isNullOrEmpty()){
+            name.error = R.string.error_name.toString()
+            return false
+        }
+        return true
+    }
+
     override fun showPetTypeLoading() {
         btn_add_s.visibility = View.INVISIBLE
         btn_add_t.visibility = View.INVISIBLE
@@ -83,12 +91,12 @@ class AddPetFragment : Fragment(), PetSizeView, PetTypeView {
     }
 
     override fun petTypeSuccess(data: PetTypeResponse?) {
-        Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "Success Pet Type", Toast.LENGTH_SHORT).show()
         startActivity<PetManagementActivity>()
     }
 
     override fun petTypeFailed() {
-        Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "Failed Pet Type", Toast.LENGTH_SHORT).show()
     }
 
     override fun showPetSizeLoading() {
@@ -104,12 +112,12 @@ class AddPetFragment : Fragment(), PetSizeView, PetTypeView {
     }
 
     override fun petSizeSuccess(data: PetSizeResponse?) {
-        Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "Success Pet Size", Toast.LENGTH_SHORT).show()
         startActivity<PetManagementActivity>()
     }
 
     override fun petSizeFailed() {
-        Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "Failed Pet Size", Toast.LENGTH_SHORT).show()
     }
 
 }

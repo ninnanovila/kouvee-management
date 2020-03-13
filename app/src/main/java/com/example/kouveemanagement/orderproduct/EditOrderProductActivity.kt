@@ -8,31 +8,29 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kouveemanagement.OwnerActivity
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.adapter.DetailOrderProductRecyclerViewAdapter
-import com.example.kouveemanagement.model.DetailOrderProduct
-import com.example.kouveemanagement.model.DetailOrderProductResponse
-import com.example.kouveemanagement.model.OrderProduct
-import com.example.kouveemanagement.model.OrderProductResponse
-import com.example.kouveemanagement.presenter.DetailOrderProductPresenter
-import com.example.kouveemanagement.presenter.DetailOrderProductView
-import com.example.kouveemanagement.presenter.OrderProductPresenter
-import com.example.kouveemanagement.presenter.OrderProductView
+import com.example.kouveemanagement.model.*
+import com.example.kouveemanagement.presenter.*
 import com.example.kouveemanagement.repository.Repository
 import kotlinx.android.synthetic.main.activity_edit_order_product.*
 import org.jetbrains.anko.startActivity
 
-class EditOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOrderProductView {
+class EditOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOrderProductView, ProductView {
 
     private lateinit var presenter: OrderProductPresenter
+    private lateinit var orderProduct: OrderProduct
+    private lateinit var idOrderProduct: String
 
     private var detailOrderProducts: MutableList<DetailOrderProduct> = mutableListOf()
     private lateinit var presenterD: DetailOrderProductPresenter
 
-    private lateinit var orderProduct: OrderProduct
-    private lateinit var idOrderProduct: String
+    private lateinit var presenterP: ProductPresenter
+    private var products: MutableList<Product> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_order_product)
+        presenterP = ProductPresenter(this, Repository())
+        presenterP.getAllProduct()
         orderProduct = OrderProductActivity.orderProduct
         idOrderProduct = orderProduct.id.toString()
         setData(orderProduct)
@@ -86,13 +84,13 @@ class EditOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOr
     override fun detailOrderProductSuccess(data: DetailOrderProductResponse?) {
         val temp: List<DetailOrderProduct> = data?.detailOrderProducts ?: emptyList()
         if (temp.isEmpty()){
-            Toast.makeText(this, "No Result", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Empty Detail Order Product", Toast.LENGTH_SHORT).show()
         }else{
             for (i in temp.indices){
                 detailOrderProducts.add(i, temp[i])
             }
             recyclerview.layoutManager = LinearLayoutManager(this)
-            recyclerview.adapter = DetailOrderProductRecyclerViewAdapter(detailOrderProducts){
+            recyclerview.adapter = DetailOrderProductRecyclerViewAdapter(products, detailOrderProducts){
                 Toast.makeText(this, it.id_order, Toast.LENGTH_LONG).show()
             }
         }
@@ -100,5 +98,25 @@ class EditOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOr
 
     override fun detailOrderProductFailed() {
         Toast.makeText(this, "Failed Detail Order Product", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun showProductLoading() {
+    }
+
+    override fun hideProductLoading() {
+    }
+
+    override fun productSuccess(data: ProductResponse?) {
+        val temp: List<Product> = data?.products ?: emptyList()
+        if (temp.isEmpty()){
+            Toast.makeText(this, "Empty Product", Toast.LENGTH_SHORT).show()
+        }else{
+            products.addAll(temp)
+            Toast.makeText(this, "Success Product", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    override fun productFailed() {
+        Toast.makeText(this, "Failed Product", Toast.LENGTH_SHORT).show()
     }
 }

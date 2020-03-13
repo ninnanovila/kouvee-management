@@ -29,12 +29,10 @@ class SupplierRecyclerViewAdapter(private val suppliers: MutableList<Supplier>, 
     class ViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView),
         LayoutContainer {
 
-        private var id: TextView = itemView.findViewById(R.id.id)
         private var name: TextView = itemView.findViewById(R.id.name)
         private var phone_number: TextView = itemView.findViewById(R.id.phone_number)
 
         fun bindItem(supplier: Supplier, listener: (Supplier) -> Unit) {
-            id.text = supplier.id
             name.text = supplier.name
             phone_number.text = supplier.phone_number
 

@@ -24,6 +24,7 @@ class AddServiceFragment : Fragment(), ServiceView {
     private lateinit var service: Service
     private lateinit var presenter: ServicePresenter
 
+    //For Dropdown
     private var sizeDropdown: MutableList<String> = arrayListOf()
     private var idSizeList: MutableList<String> = arrayListOf()
     private lateinit var idSize: String
@@ -32,11 +33,7 @@ class AddServiceFragment : Fragment(), ServiceView {
         fun newInstance() = AddServiceFragment()
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_add_service, container, false)
     }
 
@@ -44,10 +41,13 @@ class AddServiceFragment : Fragment(), ServiceView {
         super.onViewCreated(view, savedInstanceState)
         sizeDropdown = ServiceManagementActivity.namePetSize
         idSizeList = ServiceManagementActivity.idPetSize
+        idSize = idSizeList[0]
         btn_add.setOnClickListener {
-            getData()
-            presenter = ServicePresenter(this, Repository())
-            presenter.addService(service)
+            if (isValid()){
+                getData()
+                presenter = ServicePresenter(this, Repository())
+                presenter.addService(service)
+            }
         }
         btn_close.setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()?.remove(this)?.commit()
@@ -58,7 +58,19 @@ class AddServiceFragment : Fragment(), ServiceView {
     private fun getData(){
         val name = name.text.toString()
         val price = price.text.toString()
-        service = Service(null, idSize, name, price.toDouble())
+        service = Service(id_size = idSize, name = name, price = price.toDouble())
+    }
+
+    private fun isValid(): Boolean {
+        if (name.text.isNullOrEmpty()){
+            name.error = R.string.error_name.toString()
+            return false
+        }
+        if (price.text.isNullOrEmpty()){
+            price.error = R.string.error_price.toString()
+            return false
+        }
+        return true
     }
 
     override fun showServiceLoading() {

@@ -26,16 +26,14 @@ class CustomerRecyclerViewAdapter(private val customers: MutableList<Customer>, 
     class ViewHolder (override val containerView: View) : RecyclerView.ViewHolder(containerView),
         LayoutContainer {
 
-        private var id: TextView = itemView.findViewById(R.id.id)
         private var name: TextView = itemView.findViewById(R.id.name)
-        private var phone_number: TextView = itemView.findViewById(R.id.phone_number)
+        private var phoneNumber: TextView = itemView.findViewById(R.id.phone_number)
         private var birthdate: TextView = itemView.findViewById(R.id.birthdate)
 
         fun bindItem(customer: Customer, listener: (Customer) -> Unit) {
 
-            id.text = customer.id
             name.text = customer.name
-            phone_number.text = customer.phone_number
+            phoneNumber.text = customer.phone_number
             birthdate.text = customer.birthdate
 
             containerView.setOnClickListener {

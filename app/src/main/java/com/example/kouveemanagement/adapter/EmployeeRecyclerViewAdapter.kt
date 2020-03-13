@@ -11,10 +11,7 @@ import kotlinx.android.extensions.LayoutContainer
 
 class EmployeeRecyclerViewAdapter(private val employees : MutableList<Employee>, private val listener: (Employee) -> Unit) : RecyclerView.Adapter<EmployeeRecyclerViewAdapter.ViewHolder>(){
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val viewHolder = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_employee, parent, false)
         return ViewHolder(viewHolder)
@@ -29,16 +26,13 @@ class EmployeeRecyclerViewAdapter(private val employees : MutableList<Employee>,
     class ViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView),
         LayoutContainer {
 
-        private var id: TextView = itemView.findViewById(R.id.id)
         private var name: TextView = itemView.findViewById(R.id.name)
-        private var phone_number: TextView = itemView.findViewById(R.id.phone_number)
+        private var phoneNumber: TextView = itemView.findViewById(R.id.phone_number)
         private var role: TextView = itemView.findViewById(R.id.role)
 
         fun bindItem(employee: Employee, listener: (Employee) -> Unit) {
-
-            id.text = employee.id
             name.text = employee.name
-            phone_number.text = employee.phone_number
+            phoneNumber.text = employee.phone_number
             role.text = employee.role
 
             containerView.setOnClickListener{

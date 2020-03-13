@@ -31,25 +31,22 @@ class AddProductFragment : Fragment(), ProductView {
         fun newInstance() = AddProductFragment()
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_add_product, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         btn_add.setOnClickListener {
-            getData()
-            presenter = ProductPresenter(this, Repository())
-            presenter.addProduct(product)
+            if (isValid()){
+                getData()
+                presenter = ProductPresenter(this, Repository())
+                presenter.addProduct(product)
+            }
         }
         btn_close.setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()?.remove(this)?.commit()
         }
-
     }
 
     fun getData(){
@@ -59,6 +56,30 @@ class AddProductFragment : Fragment(), ProductView {
         val minStock = min_stock.text.toString()
         val price = price.text.toString()
         product = Product(null, name, unit, stock.toInt(), minStock.toInt(), price.toDouble(), null)
+    }
+
+    private fun isValid(): Boolean {
+        if (name.text.isNullOrEmpty()){
+            name.error = R.string.error_name.toString()
+            return false
+        }
+        if (unit.text.isNullOrEmpty()){
+            unit.error = R.string.error_unit.toString()
+            return false
+        }
+        if (stock.text.isNullOrEmpty() || stock.text.toString().toInt() < 1){
+            stock.error = R.string.error_stock.toString()
+            return false
+        }
+        if (min_stock.text.isNullOrEmpty() || min_stock.text.toString().toInt() < 1){
+            min_stock.error = R.string.error_min_stock.toString()
+            return false
+        }
+        if (price.text.isNullOrEmpty() || price.text.toString().toInt() < 1){
+            price.error = R.string.error_price.toString()
+            return false
+        }
+        return true
     }
 
     override fun showProductLoading() {
@@ -72,12 +93,12 @@ class AddProductFragment : Fragment(), ProductView {
     }
 
     override fun productSuccess(data: ProductResponse?) {
-        Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "Success Product", Toast.LENGTH_SHORT).show()
         startActivity<ProductManagementActivity>()
     }
 
     override fun productFailed() {
-        Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "Failed Product", Toast.LENGTH_SHORT).show()
     }
 
 }

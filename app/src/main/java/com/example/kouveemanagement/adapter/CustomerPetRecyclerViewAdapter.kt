@@ -7,14 +7,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.model.CustomerPet
+import com.example.kouveemanagement.model.PetType
 import kotlinx.android.extensions.LayoutContainer
 
-class CustomerPetRecyclerViewAdapter(private val customerPets: MutableList<CustomerPet>, private val listener: (CustomerPet) -> Unit) : RecyclerView.Adapter<CustomerPetRecyclerViewAdapter.ViewHolder>() {
+class CustomerPetRecyclerViewAdapter(private val petTypes: MutableList<PetType>, private val customerPets: MutableList<CustomerPet>, private val listener: (CustomerPet) -> Unit) : RecyclerView.Adapter<CustomerPetRecyclerViewAdapter.ViewHolder>() {
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val viewHolder = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_customer_pet, parent, false)
         return ViewHolder(viewHolder)
@@ -22,22 +20,23 @@ class CustomerPetRecyclerViewAdapter(private val customerPets: MutableList<Custo
 
     override fun getItemCount(): Int = customerPets.size
 
-    override fun onBindViewHolder(
-        holder: ViewHolder,
-        position: Int
-    ) {
-        holder.bindItem(customerPets[position], listener)
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.bindItem(petTypes, customerPets[position], listener)
     }
 
     class ViewHolder (override val containerView: View): RecyclerView.ViewHolder(containerView),
         LayoutContainer{
 
-        private var id: TextView = itemView.findViewById(R.id.id)
         private var name: TextView = itemView.findViewById(R.id.name)
+        private var idType: TextView = itemView.findViewById(R.id.id_type)
         private var birthdate: TextView = itemView.findViewById(R.id.birthdate)
 
-        fun bindItem(customerPet: CustomerPet, listener: (CustomerPet) -> Unit){
-            id.text = customerPet.id
+        fun bindItem(petType: MutableList<PetType>, customerPet: CustomerPet, listener: (CustomerPet) -> Unit){
+            for (type in petType){
+                if (type.id.equals(customerPet.id_type)){
+                    idType.text = type.name.toString()
+                }
+            }
             name.text = customerPet.name
             birthdate.text = customerPet.birthdate
 

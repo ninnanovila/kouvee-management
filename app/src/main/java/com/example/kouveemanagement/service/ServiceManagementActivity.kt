@@ -1,15 +1,14 @@
 package com.example.kouveemanagement.service
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.kouveemanagement.Animation
 import com.example.kouveemanagement.OwnerActivity
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.adapter.ServiceRecyclerViewAdapter
@@ -32,7 +31,6 @@ class ServiceManagementActivity : AppCompatActivity(), ServiceView, PetSizeView 
     private lateinit var adapter: ServiceRecyclerViewAdapter
 
     private lateinit var dialog: View
-    private var isRotate = false
 
     private lateinit var presenterS: PetSizePresenter
 
@@ -70,9 +68,12 @@ class ServiceManagementActivity : AppCompatActivity(), ServiceView, PetSizeView 
                 newText?.let { adapter.filterData(it) }
                 return false
             }
-
         })
-        fabAnimation()
+        fab_add.setOnClickListener {
+            val fragment: Fragment = AddServiceFragment.newInstance()
+            val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.container, fragment).commit()
+        }
     }
 
     override fun showServiceLoading() {
@@ -86,7 +87,7 @@ class ServiceManagementActivity : AppCompatActivity(), ServiceView, PetSizeView 
     override fun serviceSuccess(data: ServiceResponse?) {
         val temp: List<Service> = data?.services ?: emptyList()
         if (temp.isEmpty()){
-            Toast.makeText(this, "No Result", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Empty Services", Toast.LENGTH_SHORT).show()
         }else{
             for (i in temp.indices){
                 servicesList.add(i, temp[i])
@@ -100,7 +101,7 @@ class ServiceManagementActivity : AppCompatActivity(), ServiceView, PetSizeView 
     }
 
     override fun serviceFailed() {
-        Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Failed Services", Toast.LENGTH_SHORT).show()
     }
 
     private fun showDialog(service: Service){
@@ -127,32 +128,6 @@ class ServiceManagementActivity : AppCompatActivity(), ServiceView, PetSizeView 
         }
     }
 
-    private fun fabAnimation(){
-
-        Animation.init(fab_add)
-        Animation.init(fab_search)
-
-        fab_menu.setOnClickListener {
-            isRotate = Animation.rotateFab(it, !isRotate)
-            if (isRotate){
-                Animation.showIn(fab_add)
-                Animation.showIn(fab_search)
-            }else{
-                Animation.showOut(fab_add)
-                Animation.showOut(fab_search)
-            }
-        }
-
-        fab_add.setOnClickListener {
-            isRotate = Animation.rotateFab(fab_menu, !isRotate)
-            Animation.showOut(fab_add)
-            Animation.showOut(fab_search)
-            val fragment: Fragment = AddServiceFragment.newInstance()
-            val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
-            transaction.replace(R.id.container, fragment).commit()
-        }
-    }
-
     override fun onBackPressed() {
         super.onBackPressed()
         startActivity<OwnerActivity>()
@@ -167,7 +142,7 @@ class ServiceManagementActivity : AppCompatActivity(), ServiceView, PetSizeView 
     override fun petSizeSuccess(data: PetSizeResponse?) {
         val temp: List<PetSize> = data?.petsize ?: emptyList()
         if (temp.isEmpty()){
-            Toast.makeText(this, "No result", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Empty Pet Sizes", Toast.LENGTH_SHORT).show()
         }else{
             if (namePetSize.isNotEmpty()){
                 namePetSize.clear()
@@ -186,6 +161,6 @@ class ServiceManagementActivity : AppCompatActivity(), ServiceView, PetSizeView 
     }
 
     override fun petSizeFailed() {
-        Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Failed Pet Sizes", Toast.LENGTH_SHORT).show()
     }
 }

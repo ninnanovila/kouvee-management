@@ -31,17 +31,12 @@ class AddEmployeeFragment : Fragment(), EmployeeView {
         fun newInstance() = AddEmployeeFragment()
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_add_employee, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         btn_add.setOnClickListener {
             getData()
             presenter = EmployeePresenter(this, Repository())
@@ -62,7 +57,7 @@ class AddEmployeeFragment : Fragment(), EmployeeView {
         employee = Employee(null, name, address, birthdate, phone_number, role, birthdate)
     }
 
-    fun showDatePicker(){
+    private fun showDatePicker(){
         val year = Calendar.getInstance().get(Calendar.YEAR)
         val month = Calendar.getInstance().get(Calendar.MONTH)
         val day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
@@ -88,12 +83,12 @@ class AddEmployeeFragment : Fragment(), EmployeeView {
     }
 
     override fun employeeSuccess(data: EmployeeResponse?) {
-        Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "Success Employee", Toast.LENGTH_SHORT).show()
         startActivity<EmployeeManagementActivity>()
     }
 
     override fun employeeFailed() {
-        Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "Failed Employee", Toast.LENGTH_SHORT).show()
     }
 
 }

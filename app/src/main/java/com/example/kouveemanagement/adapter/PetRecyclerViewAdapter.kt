@@ -38,11 +38,9 @@ class PetRecyclerViewAdapter(private val id: String, private val type: MutableLi
     class ViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView),
         LayoutContainer {
 
-        private var id: TextView = itemView.findViewById(R.id.id)
         private var name: TextView = itemView.findViewById(R.id.name)
 
         fun bindSize(petSize: PetSize, listener: (PetSize) -> Unit) {
-            id.text = petSize.id
             name.text = petSize.name
 
             containerView.setOnClickListener {
@@ -51,7 +49,6 @@ class PetRecyclerViewAdapter(private val id: String, private val type: MutableLi
         }
 
         fun bindType(petType: PetType, listener: (PetType) -> Unit) {
-            id.text = petType.id
             name.text = petType.name
 
             containerView.setOnClickListener {

@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kouveemanagement.Animation
 import com.example.kouveemanagement.OwnerActivity
 import com.example.kouveemanagement.R
@@ -56,7 +57,7 @@ class ProductManagementActivity : AppCompatActivity(), ProductView {
             for (i in temp.indices){
                 products.add(i, temp[i])
             }
-            recyclerview.layoutManager = GridLayoutManager(this, 2)
+            recyclerview.layoutManager = LinearLayoutManager(this)
             recyclerview.adapter = ProductRecyclerViewAdapter(products) {
                 showDialog(it)
                 Toast.makeText(this, it.id, Toast.LENGTH_LONG).show()

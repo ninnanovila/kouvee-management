@@ -25,14 +25,22 @@ class TransactionRecyclerViewAdapter(private val transactions: MutableList<Trans
     class ViewHolder(override val containerView: View): RecyclerView.ViewHolder(containerView), LayoutContainer {
         private var id: TextView = itemView.findViewById(R.id.id)
         private var discount: TextView = itemView.findViewById(R.id.discount)
-        private var total_price: TextView = itemView.findViewById(R.id.total_price)
+        private var totalPrice: TextView = itemView.findViewById(R.id.total_price)
         private var payment: TextView = itemView.findViewById(R.id.payment)
 
         fun bindItem(transaction: Transaction, listener: (Transaction) -> Unit){
             id.text = transaction.id
             discount.text = transaction.discount
-            total_price.text = transaction.total_price.toString()
-            payment.text = transaction.payment
+            totalPrice.text = transaction.total_price.toString()
+            if (transaction.payment.equals("1")){
+                payment.text = R.string.paid_off.toString()
+            }else{
+                payment.text = R.string.not_yet_paid_off.toString()
+            }
+
+            containerView.setOnClickListener {
+                listener(transaction)
+            }
         }
     }
 

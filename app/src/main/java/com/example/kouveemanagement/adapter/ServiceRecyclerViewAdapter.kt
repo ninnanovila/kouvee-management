@@ -27,8 +27,6 @@ class ServiceRecyclerViewAdapter(private val services: MutableList<Service>, pri
     }
 
     fun filterData(input: String){
-        var input = input
-        input = input.toLowerCase(Locale.getDefault())
         ServiceManagementActivity.services.clear()
         if (input.isEmpty()){
             ServiceManagementActivity.services.addAll(services)
@@ -46,12 +44,10 @@ class ServiceRecyclerViewAdapter(private val services: MutableList<Service>, pri
 
     inner class ViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView), LayoutContainer {
 
-        private var id: TextView = itemView.findViewById(R.id.id)
         private var name: TextView = itemView.findViewById(R.id.name)
         private var price: TextView = itemView.findViewById(R.id.price)
 
         fun bindItem(service: Service, listener: (Service) -> Unit) {
-            id.text = service.id
             name.text = service.name
             price.text = service.price.toString()
 

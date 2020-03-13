@@ -29,6 +29,8 @@ class AddOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOrd
     private lateinit var infoDialog: AlertDialog
 
     private lateinit var presenterP: ProductPresenter
+    private var products: MutableList<Product> = mutableListOf()
+
     private var nameDropdown: MutableList<String> = arrayListOf()
     private var idDropdown: MutableList<String> = arrayListOf()
     private lateinit var supplierId: String
@@ -45,6 +47,8 @@ class AddOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOrd
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_order_product)
+        presenterP = ProductPresenter(this, Repository())
+        presenterP.getAllProduct()
         orderProduct = OrderProductActivity.orderProduct
         idOrderProduct = orderProduct.id.toString()
         nameDropdown = OrderProductActivity.nameDropdown
@@ -53,8 +57,6 @@ class AddOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOrd
         presenter.editTotalOrderProduct(orderProduct.id.toString())
         presenterD = DetailOrderProductPresenter(this, Repository())
         presenterD.getDetailOrderProductByOrderId(orderProduct.id.toString())
-        presenterP = ProductPresenter(this, Repository())
-        presenterP.getAllProduct()
         fab_add.setOnClickListener {
             val fragment: Fragment = AddDetailOrderProductFragment.newInstance()
             val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
@@ -136,7 +138,7 @@ class AddOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOrd
                 detailOrderProducts.add(i, temp[i])
             }
             recyclerview.layoutManager = LinearLayoutManager(this)
-            recyclerview.adapter = DetailOrderProductRecyclerViewAdapter(detailOrderProducts){
+            recyclerview.adapter = DetailOrderProductRecyclerViewAdapter(products, detailOrderProducts){
                 val fragment = EditDetailOrderProductFragment.newInstance(it)
                 val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
                 transaction.replace(R.id.container, fragment).commit()
@@ -163,11 +165,14 @@ class AddOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOrd
             if (nameProductDropdown.isNotEmpty()){
                 nameProductDropdown.clear()
                 idProductDropdown.clear()
+                products.clear()
+                products.addAll(temp)
                 for (i in temp.indices){
                     nameProductDropdown.add(i, temp[i].name.toString())
                     idProductDropdown.add(i, temp[i].id.toString())
                 }
             }else{
+                products.addAll(temp)
                 for (i in temp.indices){
                     nameProductDropdown.add(i, temp[i].name.toString())
                     idProductDropdown.add(i, temp[i].id.toString())

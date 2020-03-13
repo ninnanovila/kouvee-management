@@ -30,6 +30,7 @@ class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView, Cust
 
     private lateinit var presenterC: CustomerPresenter
     private lateinit var presenterT: PetTypePresenter
+    private var petTypes: MutableList<PetType> = mutableListOf()
 
     companion object{
         var nameCustomerDropdown: MutableList<String> = arrayListOf()
@@ -70,7 +71,7 @@ class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView, Cust
                 customerpet.add(i, temp[i])
             }
             recyclerview.layoutManager = LinearLayoutManager(this)
-            recyclerview.adapter = CustomerPetRecyclerViewAdapter(customerpet){
+            recyclerview.adapter = CustomerPetRecyclerViewAdapter(petTypes, customerpet){
                 showDialog(it)
                 Toast.makeText(this, it.id, Toast.LENGTH_LONG).show()
             }
@@ -181,11 +182,14 @@ class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView, Cust
             if (nameTypeDropdown.isNotEmpty()){
                 nameTypeDropdown.clear()
                 idTypeList.clear()
+                petTypes.clear()
+                petTypes.addAll(temp)
                 for (i in temp.indices){
                     nameTypeDropdown.add(i, temp[i].name.toString())
                     idTypeList.add(i, temp[i].id.toString())
                 }
             }else{
+                petTypes.addAll(temp)
                 for (i in temp.indices){
                     nameTypeDropdown.add(i, temp[i].name.toString())
                     idTypeList.add(i, temp[i].id.toString())

@@ -25,22 +25,22 @@
 
         <TextView
             android:id="@+id/name"
-            android:textSize="20sp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/logo"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/desc"
-            android:textSize="12sp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             app:layout_constraintEnd_toEndOf="@+id/name"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/name"

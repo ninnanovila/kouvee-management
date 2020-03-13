@@ -21,7 +21,9 @@ class AddTransactionActivity : AppCompatActivity(), ProductView, ServiceView, Tr
     private lateinit var type: String
 
     private lateinit var presenterP: ProductPresenter
+    private var products: MutableList<Product> = mutableListOf()
     private lateinit var presenterS: ServicePresenter
+    private var services: MutableList<Service> = mutableListOf()
 
     private lateinit var presenter: TransactionPresenter
     private lateinit var transaction: Transaction
@@ -143,7 +145,7 @@ class AddTransactionActivity : AppCompatActivity(), ProductView, ServiceView, Tr
                 val transaction = supportFragmentManager.beginTransaction()
                 transaction.replace(R.id.container, fragment).commit()
                 Toast.makeText(this, it.id_transaction, Toast.LENGTH_LONG).show()
-            }, mutableListOf(), {})
+            }, products, mutableListOf(), {}, mutableListOf())
         }
     }
 
@@ -168,12 +170,12 @@ class AddTransactionActivity : AppCompatActivity(), ProductView, ServiceView, Tr
                 detailServices.add(i, temp[i])
             }
             recyclerview.layoutManager = LinearLayoutManager(this)
-            recyclerview.adapter = DetailTransactionRecyclerViewAdapter("service", mutableListOf(), {}, detailServices, {
+            recyclerview.adapter = DetailTransactionRecyclerViewAdapter("service", mutableListOf(), {}, mutableListOf(), detailServices, {
                 val fragment = EditDetailServiceTransactionFragment.newInstance(it)
                 val transaction = supportFragmentManager.beginTransaction()
                 transaction.replace(R.id.container, fragment).commit()
                 Toast.makeText(this, it.id_transaction, Toast.LENGTH_LONG).show()
-            })
+            }, services)
         }
     }
 
@@ -195,6 +197,8 @@ class AddTransactionActivity : AppCompatActivity(), ProductView, ServiceView, Tr
             if (nameProductDropdown.isNotEmpty()){
                 nameProductDropdown.clear()
                 idProductDropdown.clear()
+                products.clear()
+                products.addAll(temp)
                 for (i in temp.indices){
                     nameProductDropdown.add(i, temp[i].name.toString())
                     idProductDropdown.add(i, temp[i].id.toString())
@@ -204,6 +208,7 @@ class AddTransactionActivity : AppCompatActivity(), ProductView, ServiceView, Tr
                     nameProductDropdown.add(i, temp[i].name.toString())
                     idProductDropdown.add(i, temp[i].id.toString())
                 }
+                products.addAll(temp)
             }
         }
     }
@@ -226,6 +231,8 @@ class AddTransactionActivity : AppCompatActivity(), ProductView, ServiceView, Tr
             if (nameServiceDropdown.isNotEmpty()){
                 nameServiceDropdown.clear()
                 idServiceDropdown.clear()
+                services.clear()
+                services.addAll(temp)
                 for (i in temp.indices){
                     nameServiceDropdown.add(i, temp[i].name.toString())
                     idServiceDropdown.add(i, temp[i].id.toString())
@@ -235,6 +242,7 @@ class AddTransactionActivity : AppCompatActivity(), ProductView, ServiceView, Tr
                     nameServiceDropdown.add(i, temp[i].name.toString())
                     idServiceDropdown.add(i, temp[i].id.toString())
                 }
+                services.addAll(temp)
             }
         }
     }

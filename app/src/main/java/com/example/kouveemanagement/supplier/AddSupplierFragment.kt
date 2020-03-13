@@ -29,23 +29,19 @@ class AddSupplierFragment : Fragment(), SupplierView {
         fun newInstance() = AddSupplierFragment()
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_add_supplier, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         btn_add.setOnClickListener {
-            getData()
-            presenter = SupplierPresenter(this, Repository())
-            presenter.addSupplier(supplier)
+            if (isValid()){
+                getData()
+                presenter = SupplierPresenter(this, Repository())
+                presenter.addSupplier(supplier)
+            }
         }
-
         btn_close.setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()?.remove(this)?.commit()
         }
@@ -56,6 +52,22 @@ class AddSupplierFragment : Fragment(), SupplierView {
         val address = address.text.toString()
         val phoneNumber = phone_number.text.toString()
         supplier = Supplier(null, name, address, phoneNumber, null, null, null)
+    }
+
+    private fun isValid(): Boolean {
+        if (name.text.isNullOrEmpty()){
+            name.error = R.string.error_name.toString()
+            return false
+        }
+        if (address.text.isNullOrEmpty()){
+            address.error = R.string.error_address.toString()
+            return false
+        }
+        if (phone_number.text.isNullOrEmpty()){
+            phone_number.error = R.string.error_phone_number.toString()
+            return false
+        }
+        return true
     }
 
 
@@ -70,12 +82,12 @@ class AddSupplierFragment : Fragment(), SupplierView {
     }
 
     override fun supplierSuccess(data: SupplierResponse?) {
-        Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "Success Supplier", Toast.LENGTH_SHORT).show()
         startActivity<SupplierManagementActivity>()
     }
 
     override fun supplierFailed() {
-        Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "Failed Supplier", Toast.LENGTH_SHORT).show()
     }
 
 }

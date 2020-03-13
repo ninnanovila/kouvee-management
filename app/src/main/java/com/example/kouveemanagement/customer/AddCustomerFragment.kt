@@ -31,11 +31,7 @@ class AddCustomerFragment : Fragment(), CustomerView {
         fun newInstance() = AddCustomerFragment()
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_add_customer, container, false)
     }
 
@@ -79,20 +75,20 @@ class AddCustomerFragment : Fragment(), CustomerView {
     }
 
     private fun isValid(): Boolean {
-        if (name.text.toString() == ""){
-            name.error = "Please fill this"
+        if (name.text.isNullOrEmpty()){
+            name.error = R.string.error_name.toString()
             return false
         }
-        if (address.text.toString() == ""){
-            address.error = "Please fill this"
+        if (address.text.isNullOrEmpty()){
+            address.error = R.string.error_address.toString()
             return false
         }
-        if (birthdate.text.toString() == ""){
-            birthdate.error = "Please fill this"
+        if (birthdate.text.isNullOrEmpty()){
+            birthdate.error = R.string.error_birthdate.toString()
             return false
         }
-        if (phone_number.text.toString() == ""){
-            phone_number.error = "Please fill this"
+        if (phone_number.text.isNullOrEmpty()){
+            phone_number.error = R.string.error_phone_number.toString()
             return false
         }
         return true
@@ -109,12 +105,12 @@ class AddCustomerFragment : Fragment(), CustomerView {
     }
 
     override fun customerSuccess(data: CustomerResponse?) {
-        Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "Success Customer", Toast.LENGTH_SHORT).show()
         startActivity<CustomerManagementActivity>()
     }
 
     override fun customerFailed() {
-        Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "Failed Customer", Toast.LENGTH_SHORT).show()
     }
 
 }
