@@ -1,13 +1,19 @@
 package com.example.kouveemanagement.transaction
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kouveemanagement.R
+import com.example.kouveemanagement.adapter.DetailTransactionRecyclerViewAdapter
 import com.example.kouveemanagement.model.*
 import com.example.kouveemanagement.presenter.*
 import com.example.kouveemanagement.repository.Repository
 import kotlinx.android.synthetic.main.activity_add_transaction.*
+import org.jetbrains.anko.startActivity
 
 class AddTransactionActivity : AppCompatActivity(), ProductView, ServiceView, TransactionView, DetailProductTransactionView, DetailServiceTransactionView {
 
@@ -38,10 +44,12 @@ class AddTransactionActivity : AppCompatActivity(), ProductView, ServiceView, Tr
         transaction = TransactionActivity.transaction
         idTransaction = transaction.id.toString()
         type = intent?.getStringExtra("type").toString()
+        Toast.makeText(this, "TYPE : $type", Toast.LENGTH_LONG).show()
         presenterP = ProductPresenter(this, Repository())
         presenterP.getAllProduct()
         presenterS = ServicePresenter(this, Repository())
         presenterS.getAllService()
+        presenter = TransactionPresenter(this, Repository())
         presenter.editTotalTransaction(idTransaction)
         if (type == "service"){
             detailServicePresenter = DetailServiceTransactionPresenter(this, Repository())
@@ -51,12 +59,126 @@ class AddTransactionActivity : AppCompatActivity(), ProductView, ServiceView, Tr
             detailProductPresenter.getDetailProductTransactionByIdTransaction(idTransaction)
         }
         setData()
+        fab_add.setOnClickListener {
+            if (type == "service"){
+                val fragment: Fragment = AddDetailServiceTransactionFragment.newInstance()
+                val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
+                transaction.replace(R.id.container, fragment).commit()
+            }else if (type == "product"){
+                val fragment: Fragment = AddDetailProductTransactionFragment.newInstance()
+                val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
+                transaction.replace(R.id.container, fragment).commit()
+            }
+        }
+        btn_cancel.setOnClickListener {
+            state = "cancel"
+            presenter.cancelTransaction(idTransaction)
+        }
+        btn_edit.setOnClickListener {
+            state = "edit"
+            Toast.makeText(this, "Edit Transaction ?", Toast.LENGTH_LONG).show()
+        }
     }
 
     private fun setData(){
         id.text = transaction.id
         id_customer_pet.text = transaction.id_customer_pet
-        status.text = transaction.status
+        if (type == "service"){
+            status.text = transaction.status
+        }else{
+            status.visibility = View.GONE
+        }
+        total_price.text = transaction.total_price.toString()
+    }
+
+    override fun showTransactionLoading() {
+        progressbar.visibility = View.VISIBLE
+    }
+
+    override fun hideTransactionLoading() {
+        progressbar.visibility = View.GONE
+    }
+
+    override fun transactionSuccess(data: TransactionResponse?) {
+        transaction = data?.transactions?.get(0)!!
+        id_customer_pet.text = transaction.id_customer_pet
+        total_price.text = transaction.total_price.toString()
+        when(state){
+            "edit" -> {
+                Toast.makeText(this, "Success Edit Transaction", Toast.LENGTH_SHORT).show()
+            }
+            "cancel" -> {
+                Toast.makeText(this, "Success Cancel Transaction", Toast.LENGTH_SHORT).show()
+                startActivity<TransactionActivity>()
+            }
+            else -> {
+                Toast.makeText(this, "Success Transaction", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    override fun transactionFailed() {
+        Toast.makeText(this, "Failed Transaction", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun showDetailProductTransactionLoading() {
+        progressbar.visibility = View.VISIBLE
+    }
+
+    override fun hideDetailProductTransactionLoading() {
+        progressbar.visibility = View.GONE
+    }
+
+    override fun detailProductTransactionSuccess(data: DetailProductTransactionResponse?) {
+        val temp: List<DetailProductTransaction> = data?.detailProductTransactions ?: emptyList()
+        if (temp.isEmpty()){
+            Toast.makeText(this, "No Result", Toast.LENGTH_SHORT).show()
+        }else{
+            for (i in temp.indices){
+                detailProducts.add(i, temp[i])
+            }
+            recyclerview.layoutManager = LinearLayoutManager(this)
+            recyclerview.adapter = DetailTransactionRecyclerViewAdapter("product", detailProducts, {
+                val fragment = EditDetailProductTransactionFragment.newInstance(it)
+                val transaction = supportFragmentManager.beginTransaction()
+                transaction.replace(R.id.container, fragment).commit()
+                Toast.makeText(this, it.id_transaction, Toast.LENGTH_LONG).show()
+            }, mutableListOf(), {})
+        }
+    }
+
+    override fun detailProductTransactionFailed() {
+        Toast.makeText(this, "Failed Detail Product Transaction", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun showDetailServiceTransactionLoading() {
+        progressbar.visibility = View.VISIBLE
+    }
+
+    override fun hideDetailServiceTransactionLoading() {
+        progressbar.visibility = View.GONE
+    }
+
+    override fun detailServiceTransactionSuccess(data: DetailServiceTransactionResponse?) {
+        val temp: List<DetailServiceTransaction> = data?.detailServiceTransactions ?: emptyList()
+        if (temp.isEmpty()){
+            Toast.makeText(this, "No Result", Toast.LENGTH_SHORT).show()
+        }else{
+            for (i in temp.indices){
+                detailServices.add(i, temp[i])
+            }
+            recyclerview.layoutManager = LinearLayoutManager(this)
+            recyclerview.adapter = DetailTransactionRecyclerViewAdapter("service", mutableListOf(), {}, detailServices, {
+                val fragment = EditDetailServiceTransactionFragment.newInstance(it)
+                val transaction = supportFragmentManager.beginTransaction()
+                transaction.replace(R.id.container, fragment).commit()
+                Toast.makeText(this, it.id_transaction, Toast.LENGTH_LONG).show()
+            })
+        }
+    }
+
+    override fun detailServiceTransactionFailed() {
+        Toast.makeText(this, "Failed Detail Service Transaction", Toast.LENGTH_SHORT).show()
     }
 
     override fun showProductLoading() {
@@ -119,61 +241,5 @@ class AddTransactionActivity : AppCompatActivity(), ProductView, ServiceView, Tr
 
     override fun serviceFailed() {
         Toast.makeText(this, "Failed Service", Toast.LENGTH_SHORT).show()
-    }
-
-    override fun showTransactionLoading() {
-    }
-
-    override fun hideTransactionLoading() {
-    }
-
-    override fun transactionSuccess(data: TransactionResponse?) {
-    }
-
-    override fun transactionFailed() {
-        Toast.makeText(this, "Failed Transaction", Toast.LENGTH_SHORT).show()
-    }
-
-    override fun showDetailProductTransactionLoading() {
-    }
-
-    override fun hideDetailProductTransactionLoading() {
-    }
-
-    override fun detailProductTransactionSuccess(data: DetailProductTransactionResponse?) {
-        val temp: List<DetailProductTransaction> = data?.detailProductTransactions ?: emptyList()
-        if (temp.isEmpty()){
-            Toast.makeText(this, "No Result", Toast.LENGTH_SHORT).show()
-        }else{
-            for (i in temp.indices){
-                detailProducts.add(i, temp[i])
-            }
-//            recyclerview.layoutManager =
-        }
-    }
-
-    override fun detailProductTransactionFailed() {
-        Toast.makeText(this, "Failed Detail Product Transaction", Toast.LENGTH_SHORT).show()
-    }
-
-    override fun showDetailServiceTransactionLoading() {
-    }
-
-    override fun hideDetailServiceTransactionLoading() {
-    }
-
-    override fun detailServiceTransactionSuccess(data: DetailServiceTransactionResponse?) {
-        val temp: List<DetailServiceTransaction> = data?.detailServiceTransactions ?: emptyList()
-        if (temp.isEmpty()){
-            Toast.makeText(this, "No Result", Toast.LENGTH_SHORT).show()
-        }else{
-            for (i in temp.indices){
-                detailServices.add(i, temp[i])
-            }
-        }
-    }
-
-    override fun detailServiceTransactionFailed() {
-        Toast.makeText(this, "Failed Detail Service Transaction", Toast.LENGTH_SHORT).show()
     }
 }

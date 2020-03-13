@@ -1,13 +1,11 @@
 package com.example.kouveemanagement.orderproduct
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.Toast
-
+import androidx.fragment.app.Fragment
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.model.DetailOrderProduct
 import com.example.kouveemanagement.model.DetailOrderProductResponse

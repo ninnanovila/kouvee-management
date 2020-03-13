@@ -2,6 +2,9 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@android:color/background_dark"
+    android:layout_gravity="center"
+    android:layout_margin="32dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     tools:context=".customer.AddCustomerFragment">

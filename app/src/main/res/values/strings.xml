@@ -126,5 +126,10 @@
     <!--NEW FRAGMENT-->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="add_detail_product_transaction">Add Detail Product Transaction</string>
+    <string name="add_detail_transaction">Add Detail Transaction</string>
+    <string name="add_detail_service_transaction">Add Detail Service Transaction</string>
+    <string name="edit_detail_product_transaction">Edit Detail Product Transaction</string>
+    <string name="edit_detail_service_transaction">Edit Detail Service Transaction</string>
+    <string name="cancel">Cancel</string>
 
 </resources>

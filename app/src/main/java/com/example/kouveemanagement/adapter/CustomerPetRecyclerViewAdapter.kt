@@ -9,7 +9,7 @@ import com.example.kouveemanagement.R
 import com.example.kouveemanagement.model.CustomerPet
 import kotlinx.android.extensions.LayoutContainer
 
-class CustomerPetRecyclerViewAdapter(private val customerpet: MutableList<CustomerPet>, private val listener: (CustomerPet) -> Unit) : RecyclerView.Adapter<CustomerPetRecyclerViewAdapter.ViewHolder>() {
+class CustomerPetRecyclerViewAdapter(private val customerPets: MutableList<CustomerPet>, private val listener: (CustomerPet) -> Unit) : RecyclerView.Adapter<CustomerPetRecyclerViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -20,13 +20,13 @@ class CustomerPetRecyclerViewAdapter(private val customerpet: MutableList<Custom
         return ViewHolder(viewHolder)
     }
 
-    override fun getItemCount(): Int = customerpet.size
+    override fun getItemCount(): Int = customerPets.size
 
     override fun onBindViewHolder(
         holder: ViewHolder,
         position: Int
     ) {
-        holder.bindItem(customerpet[position], listener)
+        holder.bindItem(customerPets[position], listener)
     }
 
     class ViewHolder (override val containerView: View): RecyclerView.ViewHolder(containerView),

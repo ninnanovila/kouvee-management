@@ -1,13 +1,12 @@
 package com.example.kouveemanagement.orderproduct
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
-
+import androidx.fragment.app.Fragment
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.model.DetailOrderProduct
 import com.example.kouveemanagement.model.DetailOrderProductResponse
@@ -15,7 +14,6 @@ import com.example.kouveemanagement.presenter.DetailOrderProductPresenter
 import com.example.kouveemanagement.presenter.DetailOrderProductView
 import com.example.kouveemanagement.repository.Repository
 import kotlinx.android.synthetic.main.fragment_add_detail_order_product.*
-import kotlinx.android.synthetic.main.item_detail_order_product.*
 import kotlinx.android.synthetic.main.item_detail_order_product.quantity
 import org.jetbrains.anko.support.v4.startActivity
 
@@ -87,7 +85,7 @@ class AddDetailOrderProductFragment : Fragment(), DetailOrderProductView {
 
     private fun setProductDropdown(){
         val adapter = context?.let {
-            ArrayAdapter<String>(it, android.R.layout.simple_spinner_dropdown_item, nameDropdown)
+            ArrayAdapter(it, android.R.layout.simple_spinner_dropdown_item, nameDropdown)
         }
         product_dropdown.setAdapter(adapter)
         product_dropdown.setOnItemClickListener { _, _, position, _ ->
