@@ -4,15 +4,11 @@ import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.kouveemanagement.Animation
 import com.example.kouveemanagement.OwnerActivity
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.adapter.SupplierRecyclerViewAdapter
@@ -27,11 +23,14 @@ import org.jetbrains.anko.startActivity
 
 class SupplierManagementActivity : AppCompatActivity(), SupplierView {
 
-    private var suppliers: MutableList<Supplier> = mutableListOf()
+    private var suppliersList: MutableList<Supplier> = mutableListOf()
     private lateinit var presenter: SupplierPresenter
 
     private lateinit var dialog: View
-    private var isRotate = false
+
+    companion object{
+        var suppliers: MutableList<Supplier> = mutableListOf()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +40,28 @@ class SupplierManagementActivity : AppCompatActivity(), SupplierView {
         btn_home.setOnClickListener {
             startActivity<OwnerActivity>()
         }
-        fabAnimation()
+        val adapter = SupplierRecyclerViewAdapter(suppliersList){}
+        search_view.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                recyclerview.adapter = SupplierRecyclerViewAdapter(suppliers){
+                    showDialog(it)
+                }
+                query?.let { adapter.filterSupplier(it) }
+                return false
+            }
+            override fun onQueryTextChange(newText: String?): Boolean {
+                recyclerview.adapter = SupplierRecyclerViewAdapter(suppliers){
+                    showDialog(it)
+                }
+                newText?.let { adapter.filterSupplier(it) }
+                return false
+            }
+        })
+        fab_add.setOnClickListener {
+            val fragment: Fragment = AddSupplierFragment.newInstance()
+            val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.container, fragment).commit()
+        }
     }
 
     override fun showSupplierLoading() {
@@ -58,11 +78,11 @@ class SupplierManagementActivity : AppCompatActivity(), SupplierView {
             Toast.makeText(this, "No Result", Toast.LENGTH_SHORT).show()
         }else{
             for (i in temp.indices){
-                suppliers.add(i, temp[i])
+                suppliersList.add(i, temp[i])
             }
             recyclerview.layoutManager = LinearLayoutManager(this)
             recyclerview.adapter = this.let {
-                SupplierRecyclerViewAdapter(suppliers) {
+                SupplierRecyclerViewAdapter(suppliersList) {
                     showDialog(it)
                     Toast.makeText(this, it.id, Toast.LENGTH_LONG).show()
                 }
@@ -78,43 +98,20 @@ class SupplierManagementActivity : AppCompatActivity(), SupplierView {
         dialog = LayoutInflater.from(this).inflate(R.layout.dialog_detail_supplier, null)
         val name = dialog.findViewById<TextView>(R.id.name)
         val address = dialog.findViewById<TextView>(R.id.address)
-        val phone_number = dialog.findViewById<TextView>(R.id.phone_number)
-        val btn_close = dialog.findViewById<ImageButton>(R.id.btn_close)
-        val btn_edit = dialog.findViewById<Button>(R.id.btn_edit)
+        val phoneNumber = dialog.findViewById<TextView>(R.id.phone_number)
+        val btnClose = dialog.findViewById<ImageButton>(R.id.btn_close)
+        val btnEdit = dialog.findViewById<Button>(R.id.btn_edit)
         name.text = supplier.name.toString()
         address.text = supplier.address.toString()
-        phone_number.text = supplier.phone_number.toString()
+        phoneNumber.text = supplier.phone_number.toString()
         val infoDialog = AlertDialog.Builder(this)
             .setView(dialog)
             .show()
-        btn_edit.setOnClickListener {
+        btnEdit.setOnClickListener {
             startActivity<EditSupplierActivity>("supplier" to supplier)
         }
-        btn_close.setOnClickListener {
+        btnClose.setOnClickListener {
             infoDialog.dismiss()
-        }
-    }
-
-    private fun fabAnimation(){
-        Animation.init(fab_add)
-        Animation.init(fab_search)
-        fab_menu.setOnClickListener {
-            isRotate = Animation.rotateFab(it, !isRotate)
-            if (isRotate){
-                Animation.showIn(fab_add)
-                Animation.showIn(fab_search)
-            }else{
-                Animation.showOut(fab_add)
-                Animation.showOut(fab_search)
-            }
-        }
-        fab_add.setOnClickListener {
-            isRotate = Animation.rotateFab(fab_menu, !isRotate)
-            Animation.showOut(fab_add)
-            Animation.showOut(fab_search)
-            val fragment: Fragment = AddSupplierFragment.newInstance()
-            val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
-            transaction.replace(R.id.container, fragment).commit()
         }
     }
 

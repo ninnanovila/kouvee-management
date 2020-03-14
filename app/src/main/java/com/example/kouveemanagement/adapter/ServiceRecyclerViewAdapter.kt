@@ -26,7 +26,7 @@ class ServiceRecyclerViewAdapter(private val services: MutableList<Service>, pri
         holder.bindItem(services[position], listener)
     }
 
-    fun filterData(input: String){
+    fun filterService(input: String){
         ServiceManagementActivity.services.clear()
         if (input.isEmpty()){
             ServiceManagementActivity.services.addAll(services)

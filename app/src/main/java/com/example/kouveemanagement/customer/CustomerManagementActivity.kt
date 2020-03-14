@@ -3,16 +3,12 @@ package com.example.kouveemanagement.customer
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.kouveemanagement.Animation
 import com.example.kouveemanagement.CustomerServiceActivity
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.adapter.CustomerRecyclerViewAdapter
@@ -26,11 +22,14 @@ import org.jetbrains.anko.startActivity
 
 class CustomerManagementActivity : AppCompatActivity(), CustomerView {
 
-    private var customers: MutableList<Customer> = mutableListOf()
+    private var customersList: MutableList<Customer> = mutableListOf()
     private lateinit var presenter: CustomerPresenter
 
     private lateinit var dialog: View
-    private var isRotate = false
+
+    companion object{
+        var customers: MutableList<Customer> = mutableListOf()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +39,28 @@ class CustomerManagementActivity : AppCompatActivity(), CustomerView {
         btn_home.setOnClickListener {
             startActivity<CustomerServiceActivity>()
         }
-        fabAnimation()
+        val adapter = CustomerRecyclerViewAdapter(customersList){}
+        search_view.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                recyclerview.adapter = CustomerRecyclerViewAdapter(customers){
+                    showDialog(it)
+                }
+                query?.let { adapter.filterCustomer(it) }
+                return false
+            }
+            override fun onQueryTextChange(newText: String?): Boolean {
+                recyclerview.adapter = CustomerRecyclerViewAdapter(customers){
+                    showDialog(it)
+                }
+                newText?.let { adapter.filterCustomer(it) }
+                return false
+            }
+        })
+        fab_add.setOnClickListener {
+            val fragment: Fragment = AddCustomerFragment.newInstance()
+            val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.container, fragment).commit()
+        }
     }
 
     override fun showCustomerLoading() {
@@ -57,10 +77,10 @@ class CustomerManagementActivity : AppCompatActivity(), CustomerView {
             Toast.makeText(this, "No Result", Toast.LENGTH_SHORT).show()
         }else{
             for (i in temp.indices){
-                customers.add(i, temp[i])
+                customersList.add(i, temp[i])
             }
             recyclerview.layoutManager = LinearLayoutManager(this)
-            recyclerview.adapter = CustomerRecyclerViewAdapter(customers) {
+            recyclerview.adapter = CustomerRecyclerViewAdapter(customersList) {
                 showDialog(it)
                 Toast.makeText(this, it.id, Toast.LENGTH_LONG).show()
             }
@@ -91,29 +111,6 @@ class CustomerManagementActivity : AppCompatActivity(), CustomerView {
         }
         btnClose.setOnClickListener {
             infoDialog.dismiss()
-        }
-    }
-
-    private fun fabAnimation(){
-        Animation.init(fab_add)
-        Animation.init(fab_search)
-        fab_menu.setOnClickListener {
-            isRotate = Animation.rotateFab(it, !isRotate)
-            if (isRotate){
-                Animation.showIn(fab_add)
-                Animation.showIn(fab_search)
-            }else{
-                Animation.showOut(fab_add)
-                Animation.showOut(fab_search)
-            }
-        }
-        fab_add.setOnClickListener {
-            isRotate = Animation.rotateFab(fab_menu, !isRotate)
-            Animation.showOut(fab_add)
-            Animation.showOut(fab_search)
-            val fragment: Fragment = AddCustomerFragment.newInstance()
-            val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
-            transaction.replace(R.id.container, fragment).commit()
         }
     }
 

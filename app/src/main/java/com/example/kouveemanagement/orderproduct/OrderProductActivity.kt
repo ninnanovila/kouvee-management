@@ -7,7 +7,6 @@ import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.kouveemanagement.Animation
 import com.example.kouveemanagement.OwnerActivity
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.adapter.OrderProductRecyclerViewAdapter
@@ -25,7 +24,7 @@ import org.jetbrains.anko.startActivity
 
 class OrderProductActivity : AppCompatActivity(), OrderProductView, SupplierView {
 
-    private var orderProducts: MutableList<OrderProduct> = mutableListOf()
+    private var orderProductsList: MutableList<OrderProduct> = mutableListOf()
     private lateinit var presenter: OrderProductPresenter
 
     private lateinit var dialog: View
@@ -35,13 +34,13 @@ class OrderProductActivity : AppCompatActivity(), OrderProductView, SupplierView
     private lateinit var presenterS: SupplierPresenter
     private lateinit var supplierId: String
 
-    private var isRotate = false
     private var add: String = "0"
 
     companion object{
         lateinit var orderProduct: OrderProduct
         var nameDropdown: MutableList<String> = arrayListOf()
         var idDropdown: MutableList<String> = arrayListOf()
+        var orderProducts: MutableList<OrderProduct> = mutableListOf()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,6 +53,25 @@ class OrderProductActivity : AppCompatActivity(), OrderProductView, SupplierView
         btn_home.setOnClickListener {
             startActivity<OwnerActivity>()
         }
+        val adapter = OrderProductRecyclerViewAdapter(orderProductsList) {}
+        search_view.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                recyclerview.adapter = OrderProductRecyclerViewAdapter(orderProducts){
+                    showDetail(it)
+                }
+                query?.let { adapter.filterOrderProduct(it) }
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                recyclerview.adapter = OrderProductRecyclerViewAdapter(orderProducts){
+                    showDetail(it)
+                }
+                newText?.let { adapter.filterOrderProduct(it) }
+                return false
+            }
+
+        })
         fabAnimation()
     }
 
@@ -72,10 +90,10 @@ class OrderProductActivity : AppCompatActivity(), OrderProductView, SupplierView
                 Toast.makeText(this, "No Result", Toast.LENGTH_SHORT).show()
             }else{
                 for (i in temp.indices){
-                    orderProducts.add(i, temp[i])
+                    orderProductsList.add(i, temp[i])
                 }
                 recyclerview.layoutManager = LinearLayoutManager(this)
-                recyclerview.adapter = OrderProductRecyclerViewAdapter(orderProducts){
+                recyclerview.adapter = OrderProductRecyclerViewAdapter(orderProductsList){
                     showDetail(it)
                     Toast.makeText(this, it.id, Toast.LENGTH_LONG).show()
                 }
@@ -99,7 +117,7 @@ class OrderProductActivity : AppCompatActivity(), OrderProductView, SupplierView
                 startActivity<AddOrderProductActivity>()
             }
             .setNegativeButton("DONE"){ _, _ ->
-                if(orderProductInput.printed_at.equals("")){
+                if(orderProductInput.printed_at.isNullOrEmpty()){
                     Toast.makeText(this, "Please print to done it.", Toast.LENGTH_LONG).show()
                 }else{
                     orderProduct = orderProductInput
@@ -122,22 +140,7 @@ class OrderProductActivity : AppCompatActivity(), OrderProductView, SupplierView
     }
 
     private fun fabAnimation(){
-        Animation.init(fab_add)
-        Animation.init(fab_search)
-        fab_menu.setOnClickListener {
-            isRotate = Animation.rotateFab(it, !isRotate)
-            if (isRotate){
-                Animation.showIn(fab_add)
-                Animation.showIn(fab_search)
-            }else{
-                Animation.showOut(fab_add)
-                Animation.showOut(fab_search)
-            }
-        }
         fab_add.setOnClickListener {
-            isRotate = Animation.rotateFab(fab_menu, !isRotate)
-            Animation.showOut(fab_add)
-            Animation.showOut(fab_search)
             showAlert()
         }
     }

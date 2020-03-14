@@ -50,22 +50,20 @@ class ServiceManagementActivity : AppCompatActivity(), ServiceView, PetSizeView 
         btn_home.setOnClickListener{
             startActivity<OwnerActivity>()
         }
+        val adapter = ServiceRecyclerViewAdapter(servicesList) {}
         search_view.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                val adapter = ServiceRecyclerViewAdapter(servicesList) {}
                 recyclerview.adapter = ServiceRecyclerViewAdapter(services){
                     showDialog(it)
                 }
-                query?.let { adapter.filterData(it) }
+                query?.let { adapter.filterService(it) }
                 return false
             }
-
             override fun onQueryTextChange(newText: String?): Boolean {
-                val adapter = ServiceRecyclerViewAdapter(servicesList) {}
                 recyclerview.adapter = ServiceRecyclerViewAdapter(services){
                     showDialog(it)
                 }
-                newText?.let { adapter.filterData(it) }
+                newText?.let { adapter.filterService(it) }
                 return false
             }
         })

@@ -8,9 +8,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.model.PetSize
 import com.example.kouveemanagement.model.PetType
+import com.example.kouveemanagement.pet.PetManagementActivity
 import kotlinx.android.extensions.LayoutContainer
+import java.util.*
 
-class PetRecyclerViewAdapter(private val id: String, private val type: MutableList<PetType>, private val listenerT: (PetType) -> Unit, private val size: MutableList<PetSize>, private val listenerS: (PetSize) -> Unit) : RecyclerView.Adapter<PetRecyclerViewAdapter.ViewHolder>()  {
+class PetRecyclerViewAdapter(private val id: String, private val petTypes: MutableList<PetType>, private val listenerT: (PetType) -> Unit, private val petSizes: MutableList<PetSize>, private val listenerS: (PetSize) -> Unit) : RecyclerView.Adapter<PetRecyclerViewAdapter.ViewHolder>()  {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -23,16 +25,47 @@ class PetRecyclerViewAdapter(private val id: String, private val type: MutableLi
 
     override fun getItemCount(): Int {
         if (id == "size"){
-            return size.size
+            return petSizes.size
         }
-        return type.size
+        return petTypes.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         if (id == "size")
-            holder.bindSize(size[position], listenerS)
+            holder.bindSize(petSizes[position], listenerS)
         else
-            holder.bindType(type[position], listenerT)
+            holder.bindType(petTypes[position], listenerT)
+    }
+
+    fun filterPet(input: String){
+        if (id == "size"){
+            PetManagementActivity.petSizes.clear()
+            if (input.isEmpty()){
+                PetManagementActivity.petSizes.addAll(petSizes)
+            }else{
+                var i = 0
+                while (i < petSizes.size){
+                    if (petSizes[i].name?.toLowerCase(Locale.getDefault())?.contains(input)!!){
+                        PetManagementActivity.petSizes.add(petSizes[i])
+                    }
+                    i++
+                }
+            }
+        }else if (id == "type"){
+            PetManagementActivity.petTypes.clear()
+            if (input.isEmpty()){
+                PetManagementActivity.petTypes.addAll(petTypes)
+            }else{
+                var i = 0
+                while (i < petTypes.size){
+                    if (petTypes[i].name?.toLowerCase(Locale.getDefault())?.contains(input)!!){
+                        PetManagementActivity.petTypes.add(petTypes[i])
+                    }
+                    i++
+                }
+            }
+        }
+        notifyDataSetChanged()
     }
 
     class ViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView),

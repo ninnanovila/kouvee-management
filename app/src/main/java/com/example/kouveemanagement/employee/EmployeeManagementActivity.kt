@@ -4,15 +4,11 @@ import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.kouveemanagement.Animation
 import com.example.kouveemanagement.OwnerActivity
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.adapter.EmployeeRecyclerViewAdapter
@@ -26,11 +22,14 @@ import org.jetbrains.anko.startActivity
 
 class EmployeeManagementActivity : AppCompatActivity(), EmployeeView {
 
-    private var employees: MutableList<Employee> = mutableListOf()
+    private var employeesList: MutableList<Employee> = mutableListOf()
     private lateinit var presenter: EmployeePresenter
 
     private lateinit var dialog: View
-    private var isRotate = false
+
+    companion object{
+        var employees: MutableList<Employee> = mutableListOf()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +39,28 @@ class EmployeeManagementActivity : AppCompatActivity(), EmployeeView {
         btn_home.setOnClickListener {
             startActivity<OwnerActivity>()
         }
-        fabAnimation()
+        val adapter = EmployeeRecyclerViewAdapter(employeesList) {}
+        search_view.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                recyclerview.adapter = EmployeeRecyclerViewAdapter(employees){
+                    showDialog(it)
+                }
+                query?.let { adapter.filterEmployee(it) }
+                return false
+            }
+            override fun onQueryTextChange(newText: String?): Boolean {
+                recyclerview.adapter = EmployeeRecyclerViewAdapter(employees){
+                    showDialog(it)
+                }
+                newText?.let { adapter.filterEmployee(it) }
+                return false
+            }
+        })
+        fab_add.setOnClickListener {
+            val fragment: Fragment = AddEmployeeFragment.newInstance()
+            val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.container, fragment).commit()
+        }
     }
 
     override fun showEmployeeLoading() {
@@ -57,10 +77,10 @@ class EmployeeManagementActivity : AppCompatActivity(), EmployeeView {
             Toast.makeText(this, "No result", Toast.LENGTH_SHORT).show()
         }else{
             for (i in temp.indices){
-                employees.add(i, temp[i])
+                employeesList.add(i, temp[i])
             }
             recyclerview.layoutManager = LinearLayoutManager(this)
-            recyclerview.adapter = EmployeeRecyclerViewAdapter(employees){
+            recyclerview.adapter = EmployeeRecyclerViewAdapter(employeesList){
                 showDialog(it)
                 Toast.makeText(this, it.id, Toast.LENGTH_LONG).show()
             }
@@ -76,15 +96,15 @@ class EmployeeManagementActivity : AppCompatActivity(), EmployeeView {
         val name = dialog.findViewById<TextView>(R.id.name)
         val address = dialog.findViewById<TextView>(R.id.address)
         val birthdate = dialog.findViewById<TextView>(R.id.birthdate)
-        val phone_number = dialog.findViewById<TextView>(R.id.phone_number)
+        val phoneNumber = dialog.findViewById<TextView>(R.id.phone_number)
         val role = dialog.findViewById<TextView>(R.id.role)
-        val btn_close = dialog.findViewById<ImageButton>(R.id.btn_close)
-        val btn_edit = dialog.findViewById<Button>(R.id.btn_edit)
+        val btnClose = dialog.findViewById<ImageButton>(R.id.btn_close)
+        val btnEdit = dialog.findViewById<Button>(R.id.btn_edit)
 
         name.text = employee.name.toString()
         address.text = employee.address.toString()
         birthdate.text = employee.birthdate.toString()
-        phone_number.text = employee.phone_number.toString()
+        phoneNumber.text = employee.phone_number.toString()
         role.text = employee.role.toString()
 
         val infoDialog= AlertDialog.Builder(this)
@@ -92,38 +112,12 @@ class EmployeeManagementActivity : AppCompatActivity(), EmployeeView {
             .setTitle("Employee Info")
             .show()
 
-        btn_edit.setOnClickListener {
+        btnEdit.setOnClickListener {
             startActivity<EditEmployeeActivity>("employee" to employee)
         }
 
-        btn_close.setOnClickListener {
+        btnClose.setOnClickListener {
             infoDialog.dismiss()
-        }
-    }
-
-    private fun fabAnimation(){
-
-        Animation.init(fab_add)
-        Animation.init(fab_search)
-
-        fab_menu.setOnClickListener {
-            isRotate = Animation.rotateFab(it, !isRotate)
-            if (isRotate){
-                Animation.showIn(fab_add)
-                Animation.showIn(fab_search)
-            }else{
-                Animation.showOut(fab_add)
-                Animation.showOut(fab_search)
-            }
-        }
-
-        fab_add.setOnClickListener {
-            isRotate = Animation.rotateFab(fab_menu, !isRotate)
-            Animation.showOut(fab_add)
-            Animation.showOut(fab_search)
-            val fragment: Fragment = AddEmployeeFragment.newInstance()
-            val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
-            transaction.replace(R.id.container, fragment).commit()
         }
     }
 

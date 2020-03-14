@@ -23,9 +23,9 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:orientation="vertical"
-            app:layout_constraintEnd_toStartOf="@+id/linearLayout2"
+            app:layout_constraintEnd_toStartOf="@+id/linearLayout1"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/linearLayout2">
+            app:layout_constraintTop_toTopOf="@+id/linearLayout1">
 
             <TextView
                 android:id="@+id/id"
@@ -50,7 +50,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/linearLayout2"
+            android:id="@+id/linearLayout1"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginTop="16dp"

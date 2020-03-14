@@ -7,7 +7,6 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.kouveemanagement.Animation
 import com.example.kouveemanagement.CustomerServiceActivity
 import com.example.kouveemanagement.MainActivity
 import com.example.kouveemanagement.R
@@ -26,7 +25,7 @@ import org.jetbrains.anko.startActivity
 
 class TransactionActivity : AppCompatActivity(), TransactionView, CustomerPetView{
 
-    private var transactions: MutableList<Transaction> = mutableListOf()
+    private var transactionsList: MutableList<Transaction> = mutableListOf()
     private lateinit var presenter: TransactionPresenter
 
     private lateinit var lastEmp: String
@@ -38,7 +37,6 @@ class TransactionActivity : AppCompatActivity(), TransactionView, CustomerPetVie
     private lateinit var presenterC: CustomerPetPresenter
     private lateinit var customerPetId: String
 
-    private var isRotate = false
     private var add = "0"
     private var type = "normal"
 
@@ -46,6 +44,7 @@ class TransactionActivity : AppCompatActivity(), TransactionView, CustomerPetVie
         lateinit var transaction: Transaction
         var customerPetNameDropdown: MutableList<String> = arrayListOf()
         var customerPetIdDropdown: MutableList<String> = arrayListOf()
+        var transactions: MutableList<Transaction> = mutableListOf()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,7 +58,26 @@ class TransactionActivity : AppCompatActivity(), TransactionView, CustomerPetVie
         btn_home.setOnClickListener {
             startActivity<CustomerServiceActivity>()
         }
-        fabAnimation()
+        val adapter = TransactionRecyclerViewAdapter(transactionsList){}
+        search_view.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                recyclerview.adapter = TransactionRecyclerViewAdapter(transactions){
+                    showAlert()
+                }
+                query?.let { adapter.filterTransaction(it) }
+                return false
+            }
+            override fun onQueryTextChange(newText: String?): Boolean {
+                recyclerview.adapter = TransactionRecyclerViewAdapter(transactions) {
+                    showAlert()
+                }
+                newText?.let { adapter.filterTransaction(it) }
+                return false
+            }
+        })
+        fab_add.setOnClickListener {
+            showAlert()
+        }
     }
 
     override fun showTransactionLoading() {
@@ -77,10 +95,10 @@ class TransactionActivity : AppCompatActivity(), TransactionView, CustomerPetVie
                 Toast.makeText(this, "No Result", Toast.LENGTH_SHORT).show()
             }else{
                 for (i in temp.indices){
-                    transactions.add(i, temp[i])
+                    transactionsList.add(i, temp[i])
                 }
                 recyclerview.layoutManager = LinearLayoutManager(this)
-                recyclerview.adapter = TransactionRecyclerViewAdapter(transactions){
+                recyclerview.adapter = TransactionRecyclerViewAdapter(transactionsList){
                     transaction = it
                     startActivity<AddTransactionActivity>()
                     Toast.makeText(this, it.id, Toast.LENGTH_LONG).show()
@@ -94,27 +112,6 @@ class TransactionActivity : AppCompatActivity(), TransactionView, CustomerPetVie
 
     override fun transactionFailed() {
         Toast.makeText(this, "Failed Transaction", Toast.LENGTH_SHORT).show()
-    }
-
-    private fun fabAnimation(){
-        Animation.init(fab_add)
-        Animation.init(fab_search)
-        fab_menu.setOnClickListener {
-            isRotate = Animation.rotateFab(it, !isRotate)
-            if (isRotate){
-                Animation.showIn(fab_add)
-                Animation.showIn(fab_search)
-            }else{
-                Animation.showOut(fab_add)
-                Animation.showOut(fab_search)
-            }
-        }
-        fab_add.setOnClickListener {
-            isRotate = Animation.rotateFab(fab_menu, !isRotate)
-            Animation.showOut(fab_add)
-            Animation.showOut(fab_search)
-            showAlert()
-        }
     }
 
     override fun onBackPressed() {

@@ -7,7 +7,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.model.Transaction
+import com.example.kouveemanagement.transaction.TransactionActivity
 import kotlinx.android.extensions.LayoutContainer
+import java.util.*
 
 class TransactionRecyclerViewAdapter(private val transactions: MutableList<Transaction>, private val listener: (Transaction) -> Unit) : RecyclerView.Adapter<TransactionRecyclerViewAdapter.ViewHolder>() {
 
@@ -20,6 +22,22 @@ class TransactionRecyclerViewAdapter(private val transactions: MutableList<Trans
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bindItem(transactions[position], listener)
+    }
+
+    fun filterTransaction(input: String){
+        TransactionActivity.transactions.clear()
+        if (input.isEmpty()){
+            TransactionActivity.transactions.addAll(transactions)
+        }else{
+            var i = 0
+            while (i < transactions.size){
+                if (transactions[i].id?.toLowerCase(Locale.getDefault())?.contains(input)!!){
+                    TransactionActivity.transactions.add(transactions[i])
+                }
+                i++
+            }
+        }
+        notifyDataSetChanged()
     }
 
     class ViewHolder(override val containerView: View): RecyclerView.ViewHolder(containerView), LayoutContainer {

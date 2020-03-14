@@ -14,13 +14,14 @@
         android:layout_height="200dp"/>
 
     <LinearLayout
-        android:id="@+id/linearLayout2"
+        android:id="@+id/linearLayout1"
         android:orientation="vertical"
         android:layout_margin="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <LinearLayout
-            android:id="@+id/linearLayout1"
+            android:id="@+id/linearLayout2"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -45,12 +46,12 @@
 
             <TextView
                 android:text="@string/service_management"
-                android:textSize="18sp"
                 android:textColor="@android:color/white"
                 android:layout_gravity="center"
                 android:layout_marginStart="8dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
         </LinearLayout>
 
         <SearchView
@@ -69,7 +70,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview"
-        android:layout_below="@id/linearLayout2"
+        android:layout_below="@id/linearLayout1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:listitem="@layout/item_service" />

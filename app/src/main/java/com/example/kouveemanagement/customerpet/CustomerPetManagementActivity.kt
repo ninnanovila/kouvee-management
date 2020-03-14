@@ -3,10 +3,7 @@ package com.example.kouveemanagement.customerpet
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -22,11 +19,10 @@ import org.jetbrains.anko.startActivity
 
 class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView, CustomerView, PetTypeView {
 
-    private var customerpet: MutableList<CustomerPet> = mutableListOf()
+    private var customerPetsList: MutableList<CustomerPet> = mutableListOf()
     private lateinit var presenter: CustomerPetPresenter
 
     private lateinit var dialog: View
-    private var isRotate = false
 
     private lateinit var presenterC: CustomerPresenter
     private lateinit var presenterT: PetTypePresenter
@@ -37,6 +33,7 @@ class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView, Cust
         var idCustomerList: MutableList<String> = arrayListOf()
         var nameTypeDropdown: MutableList<String> = arrayListOf()
         var idTypeList: MutableList<String> = arrayListOf()
+        var customerPets: MutableList<CustomerPet> = mutableListOf()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,7 +48,28 @@ class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView, Cust
         btn_home.setOnClickListener {
             startActivity<CustomerServiceActivity>()
         }
-        fabAnimation()
+        val adapter = CustomerPetRecyclerViewAdapter(mutableListOf(), customerPetsList){}
+        search_view.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                recyclerview.adapter = CustomerPetRecyclerViewAdapter(mutableListOf(), customerPets){
+                    showDialog(it)
+                }
+                query?.let { adapter.filterCustomerPet(it) }
+                return false
+            }
+            override fun onQueryTextChange(newText: String?): Boolean {
+                recyclerview.adapter = CustomerPetRecyclerViewAdapter(mutableListOf(), customerPets){
+                    showDialog(it)
+                }
+                newText?.let { adapter.filterCustomerPet(it) }
+                return false
+            }
+        })
+        fab_add.setOnClickListener {
+            val fragment: Fragment = AddCustomerPetFragment.newInstance()
+            val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.container, fragment).commit()
+        }
     }
 
     override fun showCustomerPetLoading() {
@@ -68,10 +86,10 @@ class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView, Cust
             Toast.makeText(this, "No Result", Toast.LENGTH_SHORT).show()
         }else{
             for (i in temp.indices){
-                customerpet.add(i, temp[i])
+                customerPetsList.add(i, temp[i])
             }
             recyclerview.layoutManager = LinearLayoutManager(this)
-            recyclerview.adapter = CustomerPetRecyclerViewAdapter(petTypes, customerpet){
+            recyclerview.adapter = CustomerPetRecyclerViewAdapter(petTypes, customerPetsList){
                 showDialog(it)
                 Toast.makeText(this, it.id, Toast.LENGTH_LONG).show()
             }
@@ -106,31 +124,6 @@ class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView, Cust
         }
     }
 
-    private fun fabAnimation(){
-
-        Animation.init(fab_add)
-        Animation.init(fab_search)
-
-        fab_menu.setOnClickListener {
-            isRotate = Animation.rotateFab(it, !isRotate)
-            if (isRotate){
-                Animation.showIn(fab_add)
-                Animation.showIn(fab_search)
-            }else{
-                Animation.showOut(fab_add)
-                Animation.showOut(fab_search)
-            }
-        }
-
-        fab_add.setOnClickListener {
-            isRotate = Animation.rotateFab(fab_menu, !isRotate)
-            Animation.showOut(fab_add)
-            Animation.showOut(fab_search)
-            val fragment: Fragment = AddCustomerPetFragment.newInstance()
-            val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
-            transaction.replace(R.id.container, fragment).commit()
-        }
-    }
 
     override fun onBackPressed() {
         super.onBackPressed()

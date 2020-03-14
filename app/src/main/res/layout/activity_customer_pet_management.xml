@@ -14,36 +14,50 @@
 
     <LinearLayout
         android:id="@+id/linearLayout1"
-        android:orientation="horizontal"
-        android:layout_margin="16dp"
+        android:orientation="vertical"
+        android:layout_margin="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/btn_home"
-            android:src="@drawable/ic_home"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorAccent"
-            app:backgroundTint="@color/colorAccent"
-            app:fabSize="mini"/>
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:orientation="horizontal"
+            android:layout_margin="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <ImageView
-            android:src="@drawable/ic_next"
-            android:layout_marginStart="8dp"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/btn_home"
+                android:src="@drawable/ic_home"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorAccent"
+                app:backgroundTint="@color/colorAccent"
+                app:fabSize="mini"/>
+
+            <ImageView
+                android:src="@drawable/ic_next"
+                android:layout_marginStart="8dp"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:text="@string/customer_pet_management"
+                android:textSize="24sp"
+                android:textColor="@android:color/white"
+                android:layout_marginStart="8dp"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <SearchView
+            android:id="@+id/search_view"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
-        <TextView
-            android:text="@string/customer_pet_management"
-            android:textSize="24sp"
-            android:textColor="@android:color/white"
-            android:layout_marginStart="8dp"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
     </LinearLayout>
 
     <ProgressBar
@@ -60,40 +74,15 @@
         android:layout_height="wrap_content"
         tools:listitem="@layout/item_customer" />
 
-    <LinearLayout
-        android:gravity="end|bottom"
-        android:orientation="vertical"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_add"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_margin="16dp"
+        android:layout_gravity="center_horizontal"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_add"
-            android:layout_gravity="center_horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:src="@drawable/ic_add"
-            app:fabSize="mini"/>
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_search"
-            android:layout_gravity="center_horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:src="@drawable/ic_search"
-            app:fabSize="mini"/>
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_menu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:src="@drawable/ic_menu"
-            app:fabSize="normal" />
-    </LinearLayout>
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:src="@drawable/ic_add"
+        app:fabSize="mini"/>
 
 </RelativeLayout>

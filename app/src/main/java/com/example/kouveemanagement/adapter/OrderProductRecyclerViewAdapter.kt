@@ -7,7 +7,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.model.OrderProduct
+import com.example.kouveemanagement.orderproduct.OrderProductActivity
 import kotlinx.android.extensions.LayoutContainer
+import java.util.*
 
 class OrderProductRecyclerViewAdapter (private val orderProducts : MutableList<OrderProduct>, private val listener: (OrderProduct) -> Unit) : RecyclerView.Adapter<OrderProductRecyclerViewAdapter.ViewHolder>(){
 
@@ -21,6 +23,22 @@ class OrderProductRecyclerViewAdapter (private val orderProducts : MutableList<O
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bindItem(orderProducts[position], listener)
+    }
+
+    fun filterOrderProduct(input: String){
+        OrderProductActivity.orderProducts.clear()
+        if (input.isEmpty()){
+            OrderProductActivity.orderProducts.addAll(orderProducts)
+        }else{
+            var i = 0
+            while (i < orderProducts.size){
+                if (orderProducts[i].id?.toLowerCase(Locale.getDefault())?.contains(input)!!){
+                    OrderProductActivity.orderProducts.add(orderProducts[i])
+                }
+                i++
+            }
+        }
+        notifyDataSetChanged()
     }
 
     class ViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView), LayoutContainer {

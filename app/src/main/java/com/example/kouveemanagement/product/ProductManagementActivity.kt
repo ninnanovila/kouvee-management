@@ -7,9 +7,7 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.kouveemanagement.Animation
 import com.example.kouveemanagement.OwnerActivity
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.adapter.ProductRecyclerViewAdapter
@@ -24,11 +22,14 @@ import org.jetbrains.anko.startActivity
 
 class ProductManagementActivity : AppCompatActivity(), ProductView {
 
-    private var products: MutableList<Product> = mutableListOf()
+    private var productsList: MutableList<Product> = mutableListOf()
     private lateinit var presenter: ProductPresenter
 
     private lateinit var dialog: View
-    private var isRotate = false
+
+    companion object{
+        var products: MutableList<Product> = mutableListOf()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +39,28 @@ class ProductManagementActivity : AppCompatActivity(), ProductView {
         btn_home.setOnClickListener {
             startActivity<OwnerActivity>()
         }
-        fabAnimation()
+        val adapter = ProductRecyclerViewAdapter(productsList){}
+        search_view.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                recyclerview.adapter = ProductRecyclerViewAdapter(products){
+                    showDialog(it)
+                }
+                query?.let { adapter.filterProduct(it) }
+                return false
+            }
+            override fun onQueryTextChange(newText: String?): Boolean {
+                recyclerview.adapter = ProductRecyclerViewAdapter(products){
+                    showDialog(it)
+                }
+                newText?.let { adapter.filterProduct(it) }
+                return false
+            }
+        })
+        fab_add.setOnClickListener {
+            val fragment: Fragment = AddProductFragment.newInstance()
+            val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.container, fragment).commit()
+        }
     }
 
     override fun showProductLoading() {
@@ -55,10 +77,10 @@ class ProductManagementActivity : AppCompatActivity(), ProductView {
             Toast.makeText(this, "No Result", Toast.LENGTH_SHORT).show()
         }else{
             for (i in temp.indices){
-                products.add(i, temp[i])
+                productsList.add(i, temp[i])
             }
             recyclerview.layoutManager = LinearLayoutManager(this)
-            recyclerview.adapter = ProductRecyclerViewAdapter(products) {
+            recyclerview.adapter = ProductRecyclerViewAdapter(productsList) {
                 showDialog(it)
                 Toast.makeText(this, it.id, Toast.LENGTH_LONG).show()
             }
@@ -71,64 +93,38 @@ class ProductManagementActivity : AppCompatActivity(), ProductView {
 
     private fun showDialog(product: Product){
 
-        val base_url = "https://gregpetshop.berusahapastibisakok.tech/api/product/photo/"
+        val baseUrl = "https://gregpetshop.berusahapastibisakok.tech/api/product/photo/"
 
         dialog = LayoutInflater.from(this).inflate(R.layout.dialog_detail_product, null)
 
         val name = dialog.findViewById<TextView>(R.id.name)
         val unit = dialog.findViewById<TextView>(R.id.unit)
         val stock = dialog.findViewById<TextView>(R.id.stock)
-        val min_stock = dialog.findViewById<TextView>(R.id.min_stock)
+        val minStock = dialog.findViewById<TextView>(R.id.min_stock)
         val price = dialog.findViewById<TextView>(R.id.price)
         val photo = dialog.findViewById<ImageView>(R.id.photo)
-        val btn_close = dialog.findViewById<ImageButton>(R.id.btn_close)
-        val btn_edit = dialog.findViewById<Button>(R.id.btn_edit)
+        val btnClose = dialog.findViewById<ImageButton>(R.id.btn_close)
+        val btnEdit = dialog.findViewById<Button>(R.id.btn_edit)
 
         name.text = product.name.toString()
         unit.text = product.unit.toString()
         stock.text = product.stock.toString()
-        min_stock.text = product.min_stock.toString()
+        minStock.text = product.min_stock.toString()
         price.text = product.price.toString()
-        product.photo.let { Picasso.get().load(base_url+product.photo.toString()).fit().into(photo) }
+        product.photo.let { Picasso.get().load(baseUrl+product.photo.toString()).fit().into(photo) }
 
         val infoDialog = androidx.appcompat.app.AlertDialog.Builder(this)
             .setView(dialog)
             .show()
 
-        btn_edit.setOnClickListener {
+        btnEdit.setOnClickListener {
             startActivity<EditProductActivity>("product" to product)
         }
 
-        btn_close.setOnClickListener {
+        btnClose.setOnClickListener {
             infoDialog.dismiss()
         }
 
-    }
-
-    private fun fabAnimation(){
-
-        Animation.init(fab_add)
-        Animation.init(fab_search)
-
-        fab_menu.setOnClickListener {
-            isRotate = Animation.rotateFab(it, !isRotate)
-            if (isRotate){
-                Animation.showIn(fab_add)
-                Animation.showIn(fab_search)
-            }else{
-                Animation.showOut(fab_add)
-                Animation.showOut(fab_search)
-            }
-        }
-
-        fab_add.setOnClickListener {
-            isRotate = Animation.rotateFab(fab_menu, !isRotate)
-            Animation.showOut(fab_add)
-            Animation.showOut(fab_search)
-            val fragment: Fragment = AddProductFragment.newInstance()
-            val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
-            transaction.replace(R.id.container, fragment).commit()
-        }
     }
 
     override fun onBackPressed() {

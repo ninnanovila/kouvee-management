@@ -7,7 +7,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.model.Supplier
+import com.example.kouveemanagement.supplier.SupplierManagementActivity
 import kotlinx.android.extensions.LayoutContainer
+import java.util.*
 
 class SupplierRecyclerViewAdapter(private val suppliers: MutableList<Supplier>, private val listener: (Supplier) -> Unit) : RecyclerView.Adapter<SupplierRecyclerViewAdapter.ViewHolder>() {
 
@@ -24,6 +26,22 @@ class SupplierRecyclerViewAdapter(private val suppliers: MutableList<Supplier>, 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bindItem(suppliers[position], listener)
+    }
+
+    fun filterSupplier(input: String){
+        SupplierManagementActivity.suppliers.clear()
+        if (input.isEmpty()){
+            SupplierManagementActivity.suppliers.addAll(suppliers)
+        }else{
+            var i = 0
+            while (i < suppliers.size){
+                if (suppliers[i]?.name?.toLowerCase(Locale.getDefault())?.contains(input)!!){
+                    SupplierManagementActivity.suppliers.add(suppliers[i])
+                }
+                i++
+            }
+        }
+        notifyDataSetChanged()
     }
 
     class ViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView),
