@@ -2,18 +2,16 @@
 <com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_margin="4dp"
+    android:layout_margin="16dp"
     android:padding="8dp"
     app:cardCornerRadius="8dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-
     <LinearLayout
         android:orientation="vertical"
         android:layout_margin="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
         <TextView
             android:id="@+id/name"
             android:layout_width="match_parent"
@@ -21,8 +19,7 @@
             android:layout_marginTop="2dp"
             android:layout_marginStart="12dp"
             android:layout_marginEnd="16dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
-
+            android:textAppearance="@style/TextAppearance.AppCompat.Title" />
         <TextView
             android:id="@+id/birthdate"
             android:layout_width="match_parent"
@@ -30,7 +27,6 @@
             android:layout_marginStart="12dp"
             android:layout_marginEnd="16dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
-
         <TextView
             android:id="@+id/phone_number"
             android:layout_width="match_parent"
@@ -39,8 +35,5 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="4dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
-
-
     </LinearLayout>
-
 </com.google.android.material.card.MaterialCardView>

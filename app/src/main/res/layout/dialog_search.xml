@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@android:color/white"
+    android:background="@android:color/background_light"
     android:layout_margin="16dp"
+    android:padding="16dp"
     android:layout_gravity="center"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <ImageButton
         android:id="@+id/btn_close"
-        android:src="@drawable/ic_close"
-        android:background="@android:color/white"
+        android:src="@drawable/ic_close_black"
+        android:background="@android:color/background_light"
         android:layout_gravity="end|top"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -24,7 +25,7 @@
         android:layout_height="wrap_content">
         <SearchView
             android:id="@+id/search_view"
-            android:background="@android:color/background_dark"
+            android:background="@android:color/background_light"
             android:searchIcon="@drawable/ic_search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

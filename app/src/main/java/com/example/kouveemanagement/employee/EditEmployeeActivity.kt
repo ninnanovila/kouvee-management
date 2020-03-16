@@ -48,9 +48,9 @@ class EditEmployeeActivity : AppCompatActivity(), EmployeeView {
         birthdate.setText(employee?.birthdate)
         phone_number.setText(employee?.phone_number)
         role.setText(employee?.role)
-        created_at.text = employee?.created_at
-        updated_at.text = employee?.updated_at
-        deleted_at.text = employee?.deleted_at
+        created_at.setText(employee?.created_at)
+        updated_at.setText(employee?.updated_at)
+        deleted_at.setText(employee?.deleted_at)
     }
 
     fun getData(){

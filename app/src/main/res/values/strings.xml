@@ -145,5 +145,8 @@
     <string name="error_unit">Unit can\'t be empty</string>
     <string name="error_stock">Stock can\'t be empty</string>
     <string name="error_min_stock">Minimum stock can\'t be empty</string>
+    <string name="detail_product_transaction">Detail Product Transaction</string>
+    <string name="detail_order_product">Detail Order Product</string>
+    <string name="detail_service_transaction">Detail Service Transaction</string>
 
 </resources>

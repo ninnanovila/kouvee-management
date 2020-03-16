@@ -54,7 +54,7 @@ class PetManagementActivity : AppCompatActivity(), PetSizeView, PetTypeView {
             startActivity<OwnerActivity>()
         }
         val adapterSize = PetRecyclerViewAdapter("size", mutableListOf(), {}, petSizesList) {}
-        val adapterType = PetRecyclerViewAdapter("size", petTypesList, {}, mutableListOf(), {})
+        val adapterType = PetRecyclerViewAdapter("type", petTypesList, {}, mutableListOf(), {})
         search_view.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 recyclerviewsize.adapter = PetRecyclerViewAdapter("size", mutableListOf(), {}, petSizes, {

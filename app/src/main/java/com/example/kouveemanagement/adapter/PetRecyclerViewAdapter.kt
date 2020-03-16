@@ -32,9 +32,9 @@ class PetRecyclerViewAdapter(private val id: String, private val petTypes: Mutab
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         if (id == "size")
-            holder.bindSize(petSizes[position], listenerS)
+            holder.bindSize(position+1, petSizes[position], listenerS)
         else
-            holder.bindType(petTypes[position], listenerT)
+            holder.bindType(position+1, petTypes[position], listenerT)
     }
 
     fun filterPet(input: String){
@@ -71,19 +71,21 @@ class PetRecyclerViewAdapter(private val id: String, private val petTypes: Mutab
     class ViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView),
         LayoutContainer {
 
+
+        private var number: TextView = itemView.findViewById(R.id.number)
         private var name: TextView = itemView.findViewById(R.id.name)
 
-        fun bindSize(petSize: PetSize, listener: (PetSize) -> Unit) {
+        fun bindSize(iS: Int, petSize: PetSize, listener: (PetSize) -> Unit) {
+            number.text = iS.toString()
             name.text = petSize.name
-
             containerView.setOnClickListener {
                 listener(petSize)
             }
         }
 
-        fun bindType(petType: PetType, listener: (PetType) -> Unit) {
+        fun bindType(iT: Int, petType: PetType, listener: (PetType) -> Unit) {
+            number.text = iT.toString()
             name.text = petType.name
-
             containerView.setOnClickListener {
                 listener(petType)
             }

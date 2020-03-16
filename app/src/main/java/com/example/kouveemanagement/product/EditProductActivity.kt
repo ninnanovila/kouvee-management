@@ -86,8 +86,8 @@ class EditProductActivity : AppCompatActivity(), ProductView, UploadPhotoProduct
         product?.stock?.toString()?.let { stock.setText(it) }
         product?.min_stock?.toString()?.let { min_stock.setText(it) }
         product?.price?.toString()?.let { price.setText(it) }
-        created_at.text = product?.created_at
-        updated_at.text = product?.updated_at
+        created_at.setText(product?.created_at)
+        updated_at.setText(product?.updated_at)
 
         product?.photo.let { Picasso.get().load(base_url+product?.photo.toString()).fit().into(image_product) }
     }
