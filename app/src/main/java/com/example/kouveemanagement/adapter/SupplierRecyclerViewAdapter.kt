@@ -35,7 +35,7 @@ class SupplierRecyclerViewAdapter(private val suppliers: MutableList<Supplier>, 
         }else{
             var i = 0
             while (i < suppliers.size){
-                if (suppliers[i]?.name?.toLowerCase(Locale.getDefault())?.contains(input)!!){
+                if (suppliers[i].name?.toLowerCase(Locale.getDefault())?.contains(input)!!){
                     SupplierManagementActivity.suppliers.add(suppliers[i])
                 }
                 i++
@@ -48,11 +48,11 @@ class SupplierRecyclerViewAdapter(private val suppliers: MutableList<Supplier>, 
         LayoutContainer {
 
         private var name: TextView = itemView.findViewById(R.id.name)
-        private var phone_number: TextView = itemView.findViewById(R.id.phone_number)
+        private var phoneNumber: TextView = itemView.findViewById(R.id.phone_number)
 
         fun bindItem(supplier: Supplier, listener: (Supplier) -> Unit) {
             name.text = supplier.name
-            phone_number.text = supplier.phone_number
+            phoneNumber.text = supplier.phone_number
 
             containerView.setOnClickListener {
                 listener(supplier)

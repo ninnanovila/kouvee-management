@@ -49,7 +49,9 @@ class OrderProductRecyclerViewAdapter (private val orderProducts : MutableList<O
         fun bindItem(orderProduct: OrderProduct, listener: (OrderProduct) -> Unit){
             id.text = orderProduct.id
             status.text = orderProduct.status
-            total.text = orderProduct.total.toString()
+            val priceTotal = orderProduct.total.toString()
+            val rp = "Rp. +$priceTotal"
+            total.text = rp
 
             containerView.setOnClickListener {
                 listener(orderProduct)

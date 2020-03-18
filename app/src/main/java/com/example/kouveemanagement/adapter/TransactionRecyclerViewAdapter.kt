@@ -48,14 +48,17 @@ class TransactionRecyclerViewAdapter(private val transactions: MutableList<Trans
 
         fun bindItem(transaction: Transaction, listener: (Transaction) -> Unit){
             id.text = transaction.id
-            discount.text = transaction.discount
-            totalPrice.text = transaction.total_price.toString()
+            val discountTotal = transaction.discount.toString()
+            val rpD = "(Rp. +$discountTotal)"
+            discount.text = rpD
+            val priceTotal = transaction.total_price.toString()
+            val rpT = "Rp. +$priceTotal"
+            totalPrice.text = rpT
             if (transaction.payment.equals("1")){
                 payment.text = R.string.paid_off.toString()
             }else{
                 payment.text = R.string.not_yet_paid_off.toString()
             }
-
             containerView.setOnClickListener {
                 listener(transaction)
             }

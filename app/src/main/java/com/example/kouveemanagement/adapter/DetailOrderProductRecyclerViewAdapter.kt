@@ -37,7 +37,9 @@ class DetailOrderProductRecyclerViewAdapter(private val products: MutableList<Pr
                 }
             }
             quantity.text = detailOrderProduct.quantity.toString()
-            subtotal.text = detailOrderProduct.subtotal.toString()
+            val total = detailOrderProduct.subtotal.toString()
+            val rp = "Rp. +$total"
+            subtotal.text = rp
 
             containerView.setOnClickListener {
                 listener(detailOrderProduct)

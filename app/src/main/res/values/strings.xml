@@ -148,5 +148,19 @@
     <string name="detail_product_transaction">Detail Product Transaction</string>
     <string name="detail_order_product">Detail Order Product</string>
     <string name="detail_service_transaction">Detail Service Transaction</string>
+    <string name="order_product_id">Order Product ID</string>
+    <string name="status">Status</string>
+    <string name="total_price">Total Price</string>
+    <string name="transaction_id">Transaction ID</string>
+    <string name="detail_supplier">Detail Supplier</string>
+    <string name="detail_customer">Detail Customer</string>
+    <string name="detail_customer_s_pet">Detail Customer\'s Pet</string>
+    <string name="detail_employee">Detail Employee</string>
+    <string name="detail_pet">Detail Pet</string>
+    <string name="detail_product">Detail Product</string>
+    <string name="detail_service">Detail Service</string>
+    <string name="customer_s_pet">Customer\'s Pet</string>
+    <string name="x">x</string>
+    <string name="rp">Rp. </string>
 
 </resources>

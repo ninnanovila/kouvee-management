@@ -51,7 +51,9 @@ class DetailTransactionRecyclerViewAdapter(private val id: String,
                 }
             }
             quantity.text = detailProductTransaction.quantity.toString()
-            subtotal.text = detailProductTransaction.subtotal_price.toString()
+            val total = detailProductTransaction.subtotal_price.toString()
+            val rp = "Rp. +$total"
+            subtotal.text = rp
             containerView.setOnClickListener {
                 listener(detailProductTransaction)
             }
@@ -64,7 +66,9 @@ class DetailTransactionRecyclerViewAdapter(private val id: String,
                 }
             }
             quantity.text = detailServiceTransaction.quantity.toString()
-            subtotal.text = detailServiceTransaction.subtotal_price.toString()
+            val total = detailServiceTransaction.subtotal_price.toString()
+            val rp = "Rp. +$total"
+            subtotal.text = rp
             containerView.setOnClickListener {
                 listener(detailServiceTransaction)
             }

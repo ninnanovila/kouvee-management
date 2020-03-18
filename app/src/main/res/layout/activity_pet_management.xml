@@ -57,6 +57,8 @@
 
         <SearchView
             android:id="@+id/search_view"
+            android:layout_marginHorizontal="16dp"
+            android:background="@drawable/background_rounded"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
@@ -101,7 +103,7 @@
 
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_margin="8dp"
+        android:layout_margin="4dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/btn_pet">
@@ -132,6 +134,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:src="@drawable/ic_add"
+        android:backgroundTint="@color/colorOrange"
+        app:backgroundTint="@color/colorOrange"
         app:fabSize="mini"/>
 
 </RelativeLayout>

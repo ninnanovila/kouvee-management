@@ -58,7 +58,9 @@ class ProductRecyclerViewAdapter (private val products : MutableList<Product>, p
 
             product.photo.let { Picasso.get().load(baseUrl+it).fit().into(photo) }
             name.text = product.name
-            price.text = product.price.toString()
+            val priceP = product.price.toString()
+            val rp = "Rp. +$priceP"
+            price.text = rp
             stock.text = product.stock.toString()
 
             containerView.setOnClickListener {

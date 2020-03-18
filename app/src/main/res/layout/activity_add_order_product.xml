@@ -39,7 +39,8 @@
                 android:layout_marginStart="8dp"
                 android:layout_gravity="center"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/content_desc"/>
 
             <TextView
                 android:text="@string/add_detail_order_product"
@@ -61,60 +62,96 @@
             android:orientation="vertical"
             app:layout_constraintStart_toStartOf="parent">
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/id"
-                android:textColor="@android:color/white"
-                android:layout_margin="8dp"
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                android:hint="@string/order_product_id"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                app:startIconDrawable="@drawable/ic_forid">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/id"
+                    android:enabled="false"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/status"
-                android:textColor="@android:color/white"
-                android:layout_margin="8dp"
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                android:hint="@string/supplier"
+                android:layout_marginBottom="8dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                app:startIconDrawable="@drawable/ic_label">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/supplier"
+                    android:enabled="false"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/total"
-                android:textColor="@android:color/white"
-                android:layout_margin="8dp"
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                android:hint="@string/status"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                app:startIconDrawable="@drawable/ic_status">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/status"
+                    android:enabled="false"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/supplier"
-                android:textColor="@android:color/white"
-                android:layout_margin="8dp"
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                android:hint="@string/total_price"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                app:startIconDrawable="@drawable/ic_money">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/total"
+                    android:enabled="false"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/linearLayout3"
             android:orientation="horizontal"
             android:gravity="end"
+            android:layout_marginHorizontal="8dp"
             android:layout_below="@id/linearLayout2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <Button
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/btn_delete"
-                android:text="@string/delete"
+                android:src="@drawable/ic_delete"
                 android:layout_margin="8dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <Button
+                android:layout_height="wrap_content"
+                app:fabSize="mini"/>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/btn_edit"
-                android:text="@string/edit"
+                android:src="@drawable/ic_edit"
                 android:layout_margin="8dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <Button
+                android:layout_height="wrap_content"
+                app:fabSize="mini"/>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/btn_print"
-                android:text="@string/print"
+                android:src="@drawable/ic_print"
                 android:layout_margin="8dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                app:fabSize="mini"/>
         </LinearLayout>
 
         <ProgressBar

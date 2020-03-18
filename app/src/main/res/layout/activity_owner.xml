@@ -95,6 +95,8 @@
         android:layout_margin="8dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorOrange"
+        app:backgroundTint="@color/colorOrange"
         app:fabSize="mini"/>
 
 </RelativeLayout>

@@ -3,23 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:background="@android:color/background_light"
     android:layout_margin="16dp"
-    android:padding="16dp"
     android:layout_gravity="center"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-
-    <ImageButton
-        android:id="@+id/btn_close"
-        android:src="@drawable/ic_close_black"
-        android:background="@android:color/background_light"
-        android:layout_gravity="end|top"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:contentDescription="@string/content_desc"/>
-
     <LinearLayout
-        android:orientation="vertical"
-        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
         android:padding="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -27,9 +15,19 @@
             android:id="@+id/search_view"
             android:background="@android:color/background_light"
             android:searchIcon="@drawable/ic_search"
-            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:iconifiedByDefault="false"
             android:queryHint="@string/search"/>
+        <ImageButton
+            android:id="@+id/btn_close"
+            android:src="@drawable/ic_close_black"
+            android:background="@android:color/background_light"
+            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:scaleType="fitCenter"
+            android:contentDescription="@string/content_desc"/>
     </LinearLayout>
 </FrameLayout>

@@ -1,20 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_margin="32dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <ImageButton
-        android:id="@+id/btn_close"
-        android:src="@drawable/ic_close_black"
-        android:background="@android:color/background_light"
-        android:layout_margin="16dp"
-        android:layout_gravity="end|top"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:contentDescription="@string/content_desc"/>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:text="@string/detail_pet"
+            android:layout_margin="16dp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            style="@style/TextAppearance.AppCompat.Widget.ActionMode.Title"/>
+
+        <ImageButton
+            android:id="@+id/btn_close"
+            android:src="@drawable/ic_close_black"
+            android:background="@android:color/background_light"
+            android:layout_margin="16dp"
+            android:layout_gravity="end|top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/content_desc"/>
+
+    </LinearLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
@@ -112,7 +128,8 @@
             android:layout_gravity="end"
             android:layout_margin="8dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            tools:ignore="ButtonStyle" />
     </LinearLayout>
 
 </LinearLayout>
