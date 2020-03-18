@@ -38,9 +38,11 @@ class AddEmployeeFragment : Fragment(), EmployeeView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         btn_add.setOnClickListener {
-            getData()
-            presenter = EmployeePresenter(this, Repository())
-            presenter.addEmployee(employee)
+            if (isValid()){
+                getData()
+                presenter = EmployeePresenter(this, Repository())
+                presenter.addEmployee(employee)
+            }
         }
         btn_close.setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()?.remove(this)?.commit()
@@ -52,9 +54,9 @@ class AddEmployeeFragment : Fragment(), EmployeeView {
         val name = name.text.toString()
         val address = address.text.toString()
         val birthdate = birthdate.text.toString()
-        val phone_number = phone_number.text.toString()
+        val phoneNumber = phone_number.text.toString()
         val role = role.text.toString()
-        employee = Employee(null, name, address, birthdate, phone_number, role, birthdate)
+        employee = Employee(null, name, address, birthdate, phoneNumber, role, birthdate)
     }
 
     private fun showDatePicker(){
@@ -70,6 +72,30 @@ class AddEmployeeFragment : Fragment(), EmployeeView {
                 }
             datePickerDialog?.show()
         }
+    }
+
+    private fun isValid(): Boolean {
+        if (name.text.isNullOrEmpty()){
+            name.error = getString(R.string.error_name)
+            return false
+        }
+        if (address.text.isNullOrEmpty()){
+            address.error = getString(R.string.error_address)
+            return false
+        }
+        if (birthdate.text.isNullOrEmpty()){
+            birthdate.error = getString(R.string.error_birthdate)
+            return false
+        }
+        if (phone_number.text.isNullOrEmpty()){
+            phone_number.error = getString(R.string.error_phone_number)
+            return false
+        }
+        if (role.text.isNullOrEmpty()){
+            role.error = getString(R.string.error_phone_number)
+            return false
+        }
+        return true
     }
 
     override fun showEmployeeLoading() {

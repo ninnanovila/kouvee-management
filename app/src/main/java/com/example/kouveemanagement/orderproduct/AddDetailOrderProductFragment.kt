@@ -14,7 +14,6 @@ import com.example.kouveemanagement.presenter.DetailOrderProductPresenter
 import com.example.kouveemanagement.presenter.DetailOrderProductView
 import com.example.kouveemanagement.repository.Repository
 import kotlinx.android.synthetic.main.fragment_add_detail_order_product.*
-import kotlinx.android.synthetic.main.item_detail_order_product.quantity
 import org.jetbrains.anko.support.v4.startActivity
 
 /**
@@ -49,9 +48,11 @@ class AddDetailOrderProductFragment : Fragment(), DetailOrderProductView {
         idDropdown = AddOrderProductActivity.idProductDropdown
         idProduct = idDropdown[0]
         btn_add.setOnClickListener {
-            getData()
-            presenter = DetailOrderProductPresenter(this, Repository())
-            presenter.addDetailOrderProduct(detailOrderProduct)
+            if (isValid()){
+                getData()
+                presenter = DetailOrderProductPresenter(this, Repository())
+                presenter.addDetailOrderProduct(detailOrderProduct)
+            }
         }
         btn_close.setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()?.remove(this)?.commit()
@@ -62,6 +63,17 @@ class AddDetailOrderProductFragment : Fragment(), DetailOrderProductView {
     fun getData(){
         val quantity = quantity.text.toString()
         detailOrderProduct = DetailOrderProduct(idOrderProduct, idProduct, quantity.toInt())
+    }
+
+    private fun isValid(): Boolean {
+        if(quantity.text.isNullOrEmpty()){
+            quantity.error = getString(R.string.error_quantity)
+            return false
+        }else if (quantity.text.toString() == "0"){
+            quantity.error = getString(R.string.error_zero_quantity)
+            return false
+        }
+        return true
     }
 
     override fun showDetailOrderProductLoading() {

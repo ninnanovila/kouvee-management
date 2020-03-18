@@ -181,14 +181,17 @@ class PetManagementActivity : AppCompatActivity(), PetSizeView, PetTypeView {
 
         infoDialog = AlertDialog.Builder(this)
             .setView(dialog)
-            .setTitle("Pet Info")
             .show()
 
         btnSave.setOnClickListener {
             isAll = false
             val newName = name.text.toString()
-            val newPetSize = PetSize(id, newName)
-            presentersize.editPetSize(id, newPetSize)
+            if (newName.isNullOrEmpty()){
+                val newPetSize = PetSize(id, newName)
+                presentersize.editPetSize(id, newPetSize)
+            }else{
+                name.error = getString(R.string.error_name)
+            }
         }
 
         btnDelete.setOnClickListener {
@@ -220,14 +223,17 @@ class PetManagementActivity : AppCompatActivity(), PetSizeView, PetTypeView {
 
         infoDialog = AlertDialog.Builder(this)
             .setView(dialog)
-            .setTitle("Pet Info")
             .show()
 
         btnSave.setOnClickListener {
             isAll = false
             val newName = name.text.toString()
-            val newPetType = PetType(id, newName)
-            presentertype.editPetType(id, newPetType)
+            if (newName.isNullOrEmpty()){
+                val newPetType = PetType(id, newName)
+                presentertype.editPetType(id, newPetType)
+            }else{
+                name.error = getString(R.string.error_name)
+            }
         }
 
         btnDelete.setOnClickListener {

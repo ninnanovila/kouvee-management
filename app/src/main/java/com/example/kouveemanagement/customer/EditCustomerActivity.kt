@@ -32,8 +32,10 @@ class EditCustomerActivity : AppCompatActivity(), CustomerView {
         presenter = CustomerPresenter(this, Repository())
         lastEmp = MainActivity.currentUser?.user_id.toString()
         btn_save.setOnClickListener {
-            getData()
-            presenter.editCustomer(id, customer)
+            if (isValid()){
+                getData()
+                presenter.editCustomer(id, customer)
+            }
         }
         btn_delete.setOnClickListener {
             presenter.deleteCustomer(id, lastEmp)
@@ -66,6 +68,26 @@ class EditCustomerActivity : AppCompatActivity(), CustomerView {
         val birthday = birthdate.text.toString()
         val phoneNumber = phone_number.text.toString()
         customer = Customer(id, name, address, birthday, phoneNumber, null, null, null, lastEmp)
+    }
+
+    private fun isValid(): Boolean {
+        if (name.text.isNullOrEmpty()){
+            name.error = getString(R.string.error_name)
+            return false
+        }
+        if (address.text.isNullOrEmpty()){
+            address.error = getString(R.string.error_address)
+            return false
+        }
+        if (birthdate.text.isNullOrEmpty()){
+            birthdate.error = getString(R.string.error_birthdate)
+            return false
+        }
+        if (phone_number.text.isNullOrEmpty()){
+            phone_number.error = getString(R.string.error_phone_number)
+            return false
+        }
+        return true
     }
 
     private fun showDatePicker(){

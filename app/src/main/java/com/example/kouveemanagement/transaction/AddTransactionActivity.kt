@@ -93,6 +93,70 @@ class AddTransactionActivity : AppCompatActivity(), ProductView, ServiceView, Tr
         total_price.setText(transaction.total_price.toString())
     }
 
+    override fun showProductLoading() {
+    }
+
+    override fun hideProductLoading() {
+    }
+
+    override fun productSuccess(data: ProductResponse?) {
+        val temp: List<Product> = data?.products ?: emptyList()
+        products.addAll(temp)
+        if (temp.isEmpty()){
+            Toast.makeText(this, "No Result", Toast.LENGTH_SHORT).show()
+        }else{
+            if (nameProductDropdown.isNotEmpty()){
+                nameProductDropdown.clear()
+                idProductDropdown.clear()
+                for (i in temp.indices){
+                    nameProductDropdown.add(i, temp[i].name.toString())
+                    idProductDropdown.add(i, temp[i].id.toString())
+                }
+            }else{
+                for (i in temp.indices){
+                    nameProductDropdown.add(i, temp[i].name.toString())
+                    idProductDropdown.add(i, temp[i].id.toString())
+                }
+            }
+        }
+    }
+
+    override fun productFailed() {
+        Toast.makeText(this, "Failed Product", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun showServiceLoading() {
+    }
+
+    override fun hideServiceLoading() {
+    }
+
+    override fun serviceSuccess(data: ServiceResponse?) {
+        val temp: List<Service> = data?.services ?: emptyList()
+        services.addAll(temp)
+        if (temp.isEmpty()){
+            Toast.makeText(this, "No Result", Toast.LENGTH_SHORT).show()
+        }else{
+            if (nameServiceDropdown.isNotEmpty()){
+                nameServiceDropdown.clear()
+                idServiceDropdown.clear()
+                for (i in temp.indices){
+                    nameServiceDropdown.add(i, temp[i].name.toString())
+                    idServiceDropdown.add(i, temp[i].id.toString())
+                }
+            }else{
+                for (i in temp.indices){
+                    nameServiceDropdown.add(i, temp[i].name.toString())
+                    idServiceDropdown.add(i, temp[i].id.toString())
+                }
+            }
+        }
+    }
+
+    override fun serviceFailed() {
+        Toast.makeText(this, "Failed Service", Toast.LENGTH_SHORT).show()
+    }
+
     override fun showTransactionLoading() {
         progressbar.visibility = View.VISIBLE
     }
@@ -181,73 +245,5 @@ class AddTransactionActivity : AppCompatActivity(), ProductView, ServiceView, Tr
 
     override fun detailServiceTransactionFailed() {
         Toast.makeText(this, "Failed Detail Service Transaction", Toast.LENGTH_SHORT).show()
-    }
-
-    override fun showProductLoading() {
-    }
-
-    override fun hideProductLoading() {
-    }
-
-    override fun productSuccess(data: ProductResponse?) {
-        val temp: List<Product> = data?.products ?: emptyList()
-        if (temp.isEmpty()){
-            Toast.makeText(this, "No Result", Toast.LENGTH_SHORT).show()
-        }else{
-            if (nameProductDropdown.isNotEmpty()){
-                nameProductDropdown.clear()
-                idProductDropdown.clear()
-                products.clear()
-                products.addAll(temp)
-                for (i in temp.indices){
-                    nameProductDropdown.add(i, temp[i].name.toString())
-                    idProductDropdown.add(i, temp[i].id.toString())
-                }
-            }else{
-                for (i in temp.indices){
-                    nameProductDropdown.add(i, temp[i].name.toString())
-                    idProductDropdown.add(i, temp[i].id.toString())
-                }
-                products.addAll(temp)
-            }
-        }
-    }
-
-    override fun productFailed() {
-        Toast.makeText(this, "Failed Product", Toast.LENGTH_SHORT).show()
-    }
-
-    override fun showServiceLoading() {
-    }
-
-    override fun hideServiceLoading() {
-    }
-
-    override fun serviceSuccess(data: ServiceResponse?) {
-        val temp: List<Service> = data?.services ?: emptyList()
-        if (temp.isEmpty()){
-            Toast.makeText(this, "No Result", Toast.LENGTH_SHORT).show()
-        }else{
-            if (nameServiceDropdown.isNotEmpty()){
-                nameServiceDropdown.clear()
-                idServiceDropdown.clear()
-                services.clear()
-                services.addAll(temp)
-                for (i in temp.indices){
-                    nameServiceDropdown.add(i, temp[i].name.toString())
-                    idServiceDropdown.add(i, temp[i].id.toString())
-                }
-            }else{
-                for (i in temp.indices){
-                    nameServiceDropdown.add(i, temp[i].name.toString())
-                    idServiceDropdown.add(i, temp[i].id.toString())
-                }
-                services.addAll(temp)
-            }
-        }
-    }
-
-    override fun serviceFailed() {
-        Toast.makeText(this, "Failed Service", Toast.LENGTH_SHORT).show()
     }
 }

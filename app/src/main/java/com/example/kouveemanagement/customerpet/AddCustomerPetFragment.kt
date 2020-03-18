@@ -54,9 +54,11 @@ class AddCustomerPetFragment : Fragment(), CustomerPetView{
         idTypeList = CustomerPetManagementActivity.idTypeList
         lastEmp = MainActivity.currentUser?.user_id.toString()
         btn_add.setOnClickListener {
-            getData()
-            presenter = CustomerPetPresenter(this, Repository())
-            presenter.addCustomerPet(customerPet)
+            if (isValid()){
+                getData()
+                presenter = CustomerPetPresenter(this, Repository())
+                presenter.addCustomerPet(customerPet)
+            }
         }
         btn_close.setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()?.remove(this)?.commit()
@@ -87,6 +89,18 @@ class AddCustomerPetFragment : Fragment(), CustomerPetView{
         }
     }
 
+    private fun isValid(): Boolean {
+        if (name.text.isNullOrEmpty()){
+            name.error = getString(R.string.error_name)
+            return false
+        }
+        if (birthdate.text.isNullOrEmpty()){
+            birthdate.error = getString(R.string.error_birthdate)
+            return false
+        }
+        return true
+    }
+
     override fun customerPetSuccess(data: CustomerPetResponse?) {
         Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
         startActivity<CustomerPetManagementActivity>()
@@ -97,7 +111,7 @@ class AddCustomerPetFragment : Fragment(), CustomerPetView{
     }
 
     override fun showCustomerPetLoading() {
-        btn_add.visibility = View.INVISIBLE
+        btn_add.visibility = View.GONE
         progressbar.visibility = View.VISIBLE
     }
 
@@ -108,7 +122,7 @@ class AddCustomerPetFragment : Fragment(), CustomerPetView{
 
     private fun setCustomerDropdown(){
         val adapter = context?.let {
-            ArrayAdapter<String>(it, android.R.layout.simple_spinner_dropdown_item, nameDropdown)
+            ArrayAdapter(it, android.R.layout.simple_spinner_dropdown_item, nameDropdown)
         }
         customer_dropdown.setAdapter(adapter)
         customer_dropdown.setOnItemClickListener { _, _, position, _ ->
@@ -119,7 +133,7 @@ class AddCustomerPetFragment : Fragment(), CustomerPetView{
 
     private fun setTypeDropDown(){
         val adapter = context?.let {
-            ArrayAdapter<String>(it, android.R.layout.simple_spinner_dropdown_item, typeDropdown)
+            ArrayAdapter(it, android.R.layout.simple_spinner_dropdown_item, typeDropdown)
         }
         type_dropdown.setAdapter(adapter)
         type_dropdown.setOnItemClickListener { _, _, position, _ ->

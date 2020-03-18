@@ -46,7 +46,6 @@ class EditDetailOrderProductFragment : Fragment(), DetailOrderProductView {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         detailOrderProduct = arguments?.getParcelable("input")!!
         return inflater.inflate(R.layout.fragment_edit_detail_order_product, container, false)
     }
@@ -57,10 +56,18 @@ class EditDetailOrderProductFragment : Fragment(), DetailOrderProductView {
         presenter = DetailOrderProductPresenter(this, Repository())
         idOrderProduct = detailOrderProduct.id_order.toString()
         idProduct = detailOrderProduct.id_product.toString()
+        btn_edit.setOnClickListener {
+            btn_edit.visibility = View.GONE
+            btn_save.visibility = View.VISIBLE
+            btn_delete.visibility = View.VISIBLE
+            quantity.isEnabled = true
+        }
         btn_save.setOnClickListener {
-            state = "edit"
-            getData()
-            presenter.editDetailOrderProduct(detailOrderProduct)
+            if (isValid()){
+                state = "edit"
+                getData()
+                presenter.editDetailOrderProduct(detailOrderProduct)
+            }
         }
         btn_delete.setOnClickListener {
             state = "delete"
@@ -84,6 +91,7 @@ class EditDetailOrderProductFragment : Fragment(), DetailOrderProductView {
     private fun setData(detailOrderProduct: DetailOrderProduct){
         setDropdown(detailOrderProduct)
         quantity.setText(detailOrderProduct.quantity.toString())
+        quantity.isEnabled = false
     }
 
     private fun getData(){
@@ -91,11 +99,28 @@ class EditDetailOrderProductFragment : Fragment(), DetailOrderProductView {
         detailOrderProduct = DetailOrderProduct(idOrderProduct, idProduct, quantity.toInt())
     }
 
+    private fun isValid(): Boolean {
+        if(quantity.text.isNullOrEmpty()){
+            quantity.error = getString(R.string.error_quantity)
+            return false
+        }else if (quantity.text.toString() == "0"){
+            quantity.error = getString(R.string.error_zero_quantity)
+            return false
+        }
+        return true
+    }
+
     override fun showDetailOrderProductLoading() {
+        btn_edit.visibility = View.INVISIBLE
+        btn_save.visibility = View.INVISIBLE
+        btn_delete.visibility = View.INVISIBLE
         progressbar.visibility = View.VISIBLE
     }
 
     override fun hideDetailOrderProductLoading() {
+        btn_edit.visibility = View.GONE
+        btn_save.visibility = View.VISIBLE
+        btn_delete.visibility = View.VISIBLE
         progressbar.visibility = View.GONE
     }
 

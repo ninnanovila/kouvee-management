@@ -72,7 +72,7 @@ class AddPetFragment : Fragment(), PetSizeView, PetTypeView {
 
     private fun isValid(): Boolean{
         if (name.text.isNullOrEmpty()){
-            name.error = R.string.error_name.toString()
+            name.error = getString(R.string.error_name)
             return false
         }
         return true

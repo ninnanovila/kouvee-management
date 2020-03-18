@@ -87,6 +87,38 @@ class AddOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOrd
         total.setText(orderProduct.total.toString())
     }
 
+    override fun showProductLoading() {
+    }
+
+    override fun hideProductLoading() {
+    }
+
+    override fun productSuccess(data: ProductResponse?) {
+        val temp: List<Product> = data?.products ?: emptyList()
+        products.addAll(temp)
+        if (temp.isEmpty()){
+            Toast.makeText(this, "No Result", Toast.LENGTH_SHORT).show()
+        }else{
+            if (nameProductDropdown.isNotEmpty()){
+                nameProductDropdown.clear()
+                idProductDropdown.clear()
+                for (i in temp.indices){
+                    nameProductDropdown.add(i, temp[i].name.toString())
+                    idProductDropdown.add(i, temp[i].id.toString())
+                }
+            }else{
+                for (i in temp.indices){
+                    nameProductDropdown.add(i, temp[i].name.toString())
+                    idProductDropdown.add(i, temp[i].id.toString())
+                }
+            }
+        }
+    }
+
+    override fun productFailed() {
+        Toast.makeText(this, "Failed Product", Toast.LENGTH_SHORT).show()
+    }
+
     override fun showOrderProductLoading() {
         progressbar.visibility = View.VISIBLE
     }
@@ -149,40 +181,6 @@ class AddOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOrd
 
     override fun detailOrderProductFailed() {
         Toast.makeText(this, "Failed Detail Order Product", Toast.LENGTH_SHORT).show()
-    }
-
-    override fun showProductLoading() {
-    }
-
-    override fun hideProductLoading() {
-    }
-
-    override fun productSuccess(data: ProductResponse?) {
-        val temp: List<Product> = data?.products ?: emptyList()
-        if (temp.isEmpty()){
-            Toast.makeText(this, "No Result", Toast.LENGTH_SHORT).show()
-        }else{
-            if (nameProductDropdown.isNotEmpty()){
-                nameProductDropdown.clear()
-                idProductDropdown.clear()
-                products.clear()
-                products.addAll(temp)
-                for (i in temp.indices){
-                    nameProductDropdown.add(i, temp[i].name.toString())
-                    idProductDropdown.add(i, temp[i].id.toString())
-                }
-            }else{
-                products.addAll(temp)
-                for (i in temp.indices){
-                    nameProductDropdown.add(i, temp[i].name.toString())
-                    idProductDropdown.add(i, temp[i].id.toString())
-                }
-            }
-        }
-    }
-
-    override fun productFailed() {
-        Toast.makeText(this, "Failed Product", Toast.LENGTH_SHORT).show()
     }
 
     override fun onBackPressed() {

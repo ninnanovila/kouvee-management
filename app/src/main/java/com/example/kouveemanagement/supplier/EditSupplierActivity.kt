@@ -26,8 +26,10 @@ class EditSupplierActivity : AppCompatActivity(), SupplierView {
         setData()
         presenter = SupplierPresenter(this, Repository())
         btn_save.setOnClickListener {
-            getData()
-            presenter.editSupplier(id, supplier)
+            if (isValid()){
+                getData()
+                presenter.editSupplier(id, supplier)
+            }
         }
         btn_delete.setOnClickListener {
             presenter.deleteSupplier(id)
@@ -53,6 +55,22 @@ class EditSupplierActivity : AppCompatActivity(), SupplierView {
         val address = address.text.toString()
         val phoneNumber = phone_number.text.toString()
         supplier = Supplier(id, name, address, phoneNumber, null, null, null)
+    }
+
+    private fun isValid(): Boolean {
+        if (name.text.isNullOrEmpty()){
+            name.error = getString(R.string.error_name)
+            return false
+        }
+        if (address.text.isNullOrEmpty()){
+            address.error = getString(R.string.error_address)
+            return false
+        }
+        if (phone_number.text.isNullOrEmpty()){
+            phone_number.error = getString(R.string.error_phone_number)
+            return false
+        }
+        return true
     }
 
     override fun showSupplierLoading() {

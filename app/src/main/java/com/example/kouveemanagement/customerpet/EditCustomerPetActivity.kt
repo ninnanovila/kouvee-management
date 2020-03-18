@@ -41,8 +41,10 @@ class EditCustomerPetActivity : AppCompatActivity(), CustomerPetView {
         presenter = CustomerPetPresenter(this, Repository())
         lastEmp = MainActivity.currentUser?.user_id.toString()
         btn_save.setOnClickListener {
-            getData()
-            presenter.editCustomerPet(id, customerpet)
+            if (isValid()){
+                getData()
+                presenter.editCustomerPet(id, customerpet)
+            }
         }
         btn_delete.setOnClickListener {
             presenter.deleteCustomerPet(id)
@@ -65,7 +67,7 @@ class EditCustomerPetActivity : AppCompatActivity(), CustomerPetView {
                 idType = idTypeList[i]
             }
         }
-        val adapterC = ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, nameDropdown)
+        val adapterC = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, nameDropdown)
         customer_dropdown.setAdapter(adapterC)
         customer_dropdown.setText(nameDropdown[position], true)
         customer_dropdown.setOnItemClickListener { _, _, position, _ ->
@@ -98,6 +100,19 @@ class EditCustomerPetActivity : AppCompatActivity(), CustomerPetView {
         val birthdate = birthdate.text.toString()
         customerpet = CustomerPet(id, idCustomer, idType, name, birthdate, null, null, null, lastEmp)
     }
+
+    private fun isValid(): Boolean {
+        if (name.text.isNullOrEmpty()){
+            name.error = getString(R.string.error_name)
+            return false
+        }
+        if (birthdate.text.isNullOrEmpty()){
+            birthdate.error = getString(R.string.error_birthdate)
+            return false
+        }
+        return true
+    }
+
 
     private fun showDatePicker(){
         val year = Calendar.getInstance().get(Calendar.YEAR)

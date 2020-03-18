@@ -31,8 +31,10 @@ class EditServiceActivity : AppCompatActivity(), ServiceView {
         setData()
         presenter = ServicePresenter(this, Repository())
         btn_save.setOnClickListener {
-            getData()
-            presenter.editService(id, service)
+            if (isValid()){
+                getData()
+                presenter.editService(id, service)
+            }
         }
         btn_delete.setOnClickListener {
             presenter.deleteService(id)
@@ -76,6 +78,18 @@ class EditServiceActivity : AppCompatActivity(), ServiceView {
         val name = name.text.toString()
         val price = price.text.toString()
         service = Service(id, idSize, name, price.toDouble())
+    }
+
+    private fun isValid(): Boolean {
+        if (name.text.isNullOrEmpty()){
+            name.error = getString(R.string.error_name)
+            return false
+        }
+        if (price.text.isNullOrEmpty()){
+            price.error = getString(R.string.error_price)
+            return false
+        }
+        return true
     }
 
     override fun showServiceLoading() {

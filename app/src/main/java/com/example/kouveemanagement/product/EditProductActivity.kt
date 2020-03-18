@@ -41,29 +41,25 @@ class EditProductActivity : AppCompatActivity(), ProductView, UploadPhotoProduct
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_product)
-
         setData()
         presenter = ProductPresenter(this, Repository())
         imagePresenter = UploadImagePresenter(this, Repository())
-
         btn_save.setOnClickListener {
-            getData()
-            presenter.editProduct(id, product)
+            if (isValid()){
+                getData()
+                presenter.editProduct(id, product)
+            }
         }
-
         btn_delete.setOnClickListener {
             presenter.deleteProduct(id)
         }
-
         btn_home.setOnClickListener {
             startActivity<OwnerActivity>()
         }
-
         btn_choose.setOnClickListener {
             //IMAGE
             startActivityForResult(getImageChooserIntent(), IMAGE_RESULT)
         }
-
         btn_upload.setOnClickListener {
             if (bitmap!=null){
                 Toast.makeText(this, "Bitmap not null.", Toast.LENGTH_SHORT).show()
@@ -75,12 +71,9 @@ class EditProductActivity : AppCompatActivity(), ProductView, UploadPhotoProduct
     }
 
     private fun setData(){
-
-        val base_url = "https://gregpetshop.berusahapastibisakok.tech/api/product/photo/"
-
+        val baseUrl = "https://gregpetshop.berusahapastibisakok.tech/api/product/photo/"
         val product: Product? = intent.getParcelableExtra("product")
         id = product?.id.toString()
-
         name.setText(product?.name)
         unit.setText(product?.unit)
         product?.stock?.toString()?.let { stock.setText(it) }
@@ -88,8 +81,7 @@ class EditProductActivity : AppCompatActivity(), ProductView, UploadPhotoProduct
         product?.price?.toString()?.let { price.setText(it) }
         created_at.setText(product?.created_at)
         updated_at.setText(product?.updated_at)
-
-        product?.photo.let { Picasso.get().load(base_url+product?.photo.toString()).fit().into(image_product) }
+        product?.photo.let { Picasso.get().load(baseUrl+product?.photo.toString()).fit().into(image_product) }
     }
 
     private fun getData(){
@@ -98,8 +90,31 @@ class EditProductActivity : AppCompatActivity(), ProductView, UploadPhotoProduct
         val stock = stock.text.toString()
         val minStock = min_stock.text.toString()
         val price = price.text.toString()
-
         product = Product(id, name, unit, stock.toInt(), minStock.toInt(), price.toDouble(), null)
+    }
+
+    private fun isValid(): Boolean {
+        if (name.text.isNullOrEmpty()){
+            name.error = getString(R.string.error_name)
+            return false
+        }
+        if (unit.text.isNullOrEmpty()){
+            unit.error = getString(R.string.error_unit)
+            return false
+        }
+        if (stock.text.isNullOrEmpty() || stock.text.toString().toInt() < 1){
+            stock.error = getString(R.string.error_stock)
+            return false
+        }
+        if (min_stock.text.isNullOrEmpty() || min_stock.text.toString().toInt() < 1){
+            min_stock.error = getString(R.string.error_min_stock)
+            return false
+        }
+        if (price.text.isNullOrEmpty() || price.text.toString().toInt() < 1){
+            price.error = getString(R.string.error_price)
+            return false
+        }
+        return true
     }
 
     override fun showProductLoading() {

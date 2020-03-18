@@ -109,6 +109,7 @@ class OrderProductActivity : AppCompatActivity(), OrderProductView, SupplierView
     }
 
     private fun showDetail(orderProductInput: OrderProduct){
+        Toast.makeText(this, "PRINTED: "+orderProductInput.printed_at.toString() , Toast.LENGTH_SHORT).show()
         dialogAlert = AlertDialog.Builder(this)
             .setTitle("Edit")
             .setMessage("What will you do with this order product?")

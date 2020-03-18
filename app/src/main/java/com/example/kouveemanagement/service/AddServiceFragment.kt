@@ -63,11 +63,11 @@ class AddServiceFragment : Fragment(), ServiceView {
 
     private fun isValid(): Boolean {
         if (name.text.isNullOrEmpty()){
-            name.error = R.string.error_name.toString()
+            name.error = getString(R.string.error_name)
             return false
         }
         if (price.text.isNullOrEmpty()){
-            price.error = R.string.error_price.toString()
+            price.error = getString(R.string.error_price)
             return false
         }
         return true
@@ -94,7 +94,7 @@ class AddServiceFragment : Fragment(), ServiceView {
 
     private fun setSizeDropDown(){
         val adapter = context?.let {
-            ArrayAdapter<String>(it, android.R.layout.simple_spinner_dropdown_item, sizeDropdown)
+            ArrayAdapter(it, android.R.layout.simple_spinner_dropdown_item, sizeDropdown)
         }
         size_dropdown.setAdapter(adapter)
         size_dropdown.setOnItemClickListener { _, _, position, _ ->

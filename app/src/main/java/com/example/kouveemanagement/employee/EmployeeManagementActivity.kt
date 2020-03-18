@@ -109,7 +109,6 @@ class EmployeeManagementActivity : AppCompatActivity(), EmployeeView {
 
         val infoDialog= AlertDialog.Builder(this)
             .setView(dialog)
-            .setTitle("Employee Info")
             .show()
 
         btnEdit.setOnClickListener {

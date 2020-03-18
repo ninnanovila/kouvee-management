@@ -50,7 +50,7 @@ class ServiceRecyclerViewAdapter(private val services: MutableList<Service>, pri
         fun bindItem(service: Service, listener: (Service) -> Unit) {
             name.text = service.name
             val priceS = service.price.toString()
-            val rp = "Rp. +$priceS"
+            val rp = "Rp. $priceS"
             price.text = rp
             containerView.setOnClickListener {
                 listener(service)

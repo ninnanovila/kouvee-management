@@ -46,14 +46,37 @@ class EditOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOr
     }
 
     private fun setData(input : OrderProduct){
-        id.text = input.id.toString()
-        status.text = input.status.toString()
-        total.text = input.total.toString()
+        if (input.status.equals("Arrived")){
+            btn_done.visibility = View.GONE
+        }
+        id.setText(input.id.toString())
+        status.setText(input.status.toString())
+        total.setText(input.total.toString())
     }
 
     override fun onBackPressed() {
         super.onBackPressed()
         startActivity<OrderProductActivity>()
+    }
+
+    override fun showProductLoading() {
+    }
+
+    override fun hideProductLoading() {
+    }
+
+    override fun productSuccess(data: ProductResponse?) {
+        val temp: List<Product> = data?.products ?: emptyList()
+        if (temp.isEmpty()){
+            Toast.makeText(this, "Empty Product", Toast.LENGTH_SHORT).show()
+        }else{
+            products.addAll(temp)
+            Toast.makeText(this, "Success Product", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    override fun productFailed() {
+        Toast.makeText(this, "Failed Product", Toast.LENGTH_SHORT).show()
     }
 
     override fun showOrderProductLoading() {
@@ -66,7 +89,7 @@ class EditOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOr
 
     override fun orderProductSuccess(data: OrderProductResponse?) {
         Toast.makeText(this, "Order Product Done", Toast.LENGTH_SHORT).show()
-        status.text = data?.orderProducts?.get(0)?.status.toString()
+        status.setText(data?.orderProducts?.get(0)?.status.toString())
     }
 
     override fun orderProductFailed() {
@@ -100,23 +123,4 @@ class EditOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOr
         Toast.makeText(this, "Failed Detail Order Product", Toast.LENGTH_SHORT).show()
     }
 
-    override fun showProductLoading() {
-    }
-
-    override fun hideProductLoading() {
-    }
-
-    override fun productSuccess(data: ProductResponse?) {
-        val temp: List<Product> = data?.products ?: emptyList()
-        if (temp.isEmpty()){
-            Toast.makeText(this, "Empty Product", Toast.LENGTH_SHORT).show()
-        }else{
-            products.addAll(temp)
-            Toast.makeText(this, "Success Product", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    override fun productFailed() {
-        Toast.makeText(this, "Failed Product", Toast.LENGTH_SHORT).show()
-    }
 }

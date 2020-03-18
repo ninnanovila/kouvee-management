@@ -50,7 +50,7 @@ class OrderProductRecyclerViewAdapter (private val orderProducts : MutableList<O
             id.text = orderProduct.id
             status.text = orderProduct.status
             val priceTotal = orderProduct.total.toString()
-            val rp = "Rp. +$priceTotal"
+            val rp = "Rp. $priceTotal"
             total.text = rp
 
             containerView.setOnClickListener {

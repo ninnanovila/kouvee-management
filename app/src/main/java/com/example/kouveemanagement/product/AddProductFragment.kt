@@ -60,23 +60,23 @@ class AddProductFragment : Fragment(), ProductView {
 
     private fun isValid(): Boolean {
         if (name.text.isNullOrEmpty()){
-            name.error = R.string.error_name.toString()
+            name.error = getString(R.string.error_name)
             return false
         }
         if (unit.text.isNullOrEmpty()){
-            unit.error = R.string.error_unit.toString()
+            unit.error = getString(R.string.error_unit)
             return false
         }
         if (stock.text.isNullOrEmpty() || stock.text.toString().toInt() < 1){
-            stock.error = R.string.error_stock.toString()
+            stock.error = getString(R.string.error_stock)
             return false
         }
         if (min_stock.text.isNullOrEmpty() || min_stock.text.toString().toInt() < 1){
-            min_stock.error = R.string.error_min_stock.toString()
+            min_stock.error = getString(R.string.error_min_stock)
             return false
         }
         if (price.text.isNullOrEmpty() || price.text.toString().toInt() < 1){
-            price.error = R.string.error_price.toString()
+            price.error = getString(R.string.error_price)
             return false
         }
         return true
@@ -88,7 +88,7 @@ class AddProductFragment : Fragment(), ProductView {
     }
 
     override fun hideProductLoading() {
-        progressbar.visibility = View.INVISIBLE
+        progressbar.visibility = View.GONE
         btn_add.visibility = View.VISIBLE
     }
 

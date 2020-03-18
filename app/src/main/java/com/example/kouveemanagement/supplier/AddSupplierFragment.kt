@@ -56,20 +56,19 @@ class AddSupplierFragment : Fragment(), SupplierView {
 
     private fun isValid(): Boolean {
         if (name.text.isNullOrEmpty()){
-            name.error = R.string.error_name.toString()
+            name.error = getString(R.string.error_name)
             return false
         }
         if (address.text.isNullOrEmpty()){
-            address.error = R.string.error_address.toString()
+            address.error = getString(R.string.error_address)
             return false
         }
         if (phone_number.text.isNullOrEmpty()){
-            phone_number.error = R.string.error_phone_number.toString()
+            phone_number.error = getString(R.string.error_phone_number)
             return false
         }
         return true
     }
-
 
     override fun showSupplierLoading() {
         btn_add.visibility = View.INVISIBLE

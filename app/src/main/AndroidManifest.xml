@@ -15,6 +15,7 @@
         android:theme="@style/AppTheme.NoActionBar"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".transaction.ShowTransactionActivity"></activity>
         <activity android:name=".transaction.AddTransactionActivity" />
         <activity android:name=".transaction.TransactionActivity" />
         <activity android:name=".orderproduct.EditOrderProductActivity" />

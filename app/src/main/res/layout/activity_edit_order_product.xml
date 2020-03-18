@@ -52,7 +52,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/linearLayout1"
+            android:id="@+id/linearLayout2"
             android:layout_below="@+id/linearLayout1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -61,26 +61,68 @@
             android:orientation="vertical"
             app:layout_constraintStart_toStartOf="parent">
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/id"
-                android:textColor="@android:color/white"
-                android:layout_margin="8dp"
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                android:hint="@string/order_product_id"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                app:startIconDrawable="@drawable/ic_forid">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/id"
+                    android:enabled="false"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                android:hint="@string/supplier"
+                android:layout_marginBottom="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:startIconDrawable="@drawable/ic_label">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/supplier"
+                    android:enabled="false"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                android:hint="@string/status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                app:startIconDrawable="@drawable/ic_status">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/status"
+                    android:enabled="false"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                android:hint="@string/total_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                app:startIconDrawable="@drawable/ic_money">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/total"
+                    android:enabled="false"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/status"
-                android:textColor="@android:color/white"
-                android:layout_margin="8dp"
+                android:text="@string/detail"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"/>
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/total"
-                android:textColor="@android:color/white"
-                android:layout_margin="8dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
         </LinearLayout>
 
         <ProgressBar
@@ -94,7 +136,7 @@
             android:id="@+id/recyclerview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/linearLayout1"
+            android:layout_below="@+id/linearLayout2"
             tools:listitem="@layout/item_detail_order_product" />
 
         <Button
