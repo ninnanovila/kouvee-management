@@ -111,11 +111,15 @@ class EditDetailProductTransactionFragment : Fragment(), DetailProductTransactio
     }
 
     override fun showDetailProductTransactionLoading() {
+        btn_save.visibility = View.INVISIBLE
+        btn_delete.visibility = View.INVISIBLE
         progressbar.visibility = View.VISIBLE
     }
 
     override fun hideDetailProductTransactionLoading() {
         progressbar.visibility = View.GONE
+        btn_save.visibility = View.VISIBLE
+        btn_delete.visibility = View.VISIBLE
     }
 
     override fun detailProductTransactionSuccess(data: DetailProductTransactionResponse?) {

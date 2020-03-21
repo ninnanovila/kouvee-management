@@ -111,11 +111,15 @@ class EditDetailServiceTransactionFragment : Fragment(), DetailServiceTransactio
     }
 
     override fun showDetailServiceTransactionLoading() {
+        btn_save.visibility = View.INVISIBLE
+        btn_delete.visibility = View.INVISIBLE
         progressbar.visibility = View.VISIBLE
     }
 
     override fun hideDetailServiceTransactionLoading() {
         progressbar.visibility = View.GONE
+        btn_save.visibility = View.VISIBLE
+        btn_delete.visibility = View.VISIBLE
     }
 
     override fun detailServiceTransactionSuccess(data: DetailServiceTransactionResponse?) {
