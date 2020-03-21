@@ -39,8 +39,8 @@ ext {
     anko_version = "0.10.8"
     mockito_version = "3.0.0"
     androidx_version = "1.1.0"
-    room_version = "2.2.4"
-    material_design = "1.2.0-alpha02"
+    room_version = "2.2.5"
+    material_design = "1.2.0-alpha05"
 }
 
 dependencies {
