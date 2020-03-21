@@ -57,6 +57,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/quantity"
+                android:enabled="false"
                 android:inputType="number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
@@ -83,6 +84,7 @@
                 android:layout_margin="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
 
             <Button
@@ -92,6 +94,7 @@
                 android:layout_margin="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 tools:ignore="ButtonStyle" />
         </LinearLayout>
     </LinearLayout>

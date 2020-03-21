@@ -55,28 +55,34 @@ class EditCustomerPetActivity : AppCompatActivity(), CustomerPetView {
     }
 
     private fun setDropdown(customerPet: CustomerPet){
-        var position = 0
+        var positionC = 0
+        var positionT = 0
         nameDropdown = CustomerPetManagementActivity.nameCustomerDropdown
         idCustomerList = CustomerPetManagementActivity.idCustomerList
         typeDropdown = CustomerPetManagementActivity.nameTypeDropdown
         idTypeList = CustomerPetManagementActivity.idTypeList
         for (i in idCustomerList.indices){
             if (idCustomerList[i] == customerPet.id_customer){
-                position = i
+                positionC = i
                 idCustomer = idCustomerList[i]
+            }
+        }
+        for (i in idTypeList.indices){
+            if (idTypeList[i] == customerPet.id_type){
+                positionT = i
                 idType = idTypeList[i]
             }
         }
         val adapterC = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, nameDropdown)
         customer_dropdown.setAdapter(adapterC)
-        customer_dropdown.setText(nameDropdown[position], true)
+        customer_dropdown.setText(nameDropdown[positionC], true)
         customer_dropdown.setOnItemClickListener { _, _, position, _ ->
             idCustomer = idCustomerList[position]
             Toast.makeText(this, "ID CUSTOMER : $idCustomer", Toast.LENGTH_LONG).show()
         }
-        val adapterT = ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, typeDropdown)
+        val adapterT = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, typeDropdown)
         type_dropdown.setAdapter(adapterT)
-        type_dropdown.setText(typeDropdown[position], true)
+        type_dropdown.setText(typeDropdown[positionT], true)
         type_dropdown.setOnItemClickListener { _, _, position, _ ->
             idType = idTypeList[position]
             Toast.makeText(this, "ID TYPE : $idType", Toast.LENGTH_LONG).show()
@@ -90,7 +96,11 @@ class EditCustomerPetActivity : AppCompatActivity(), CustomerPetView {
         birthdate.setText(customerPet?.birthdate)
         created_at.setText(customerPet?.created_at)
         updated_at.setText(customerPet?.updated_at)
-        deleted_at.setText(customerPet?.deleted_at)
+        if (customerPet?.deleted_at.isNullOrBlank()){
+            deleted_at.setText("-")
+        }else{
+            deleted_at.setText(customerPet?.deleted_at)
+        }
         last_emptv.setText(customerPet?.last_emp)
         customerPet?.let { setDropdown(it) }
     }

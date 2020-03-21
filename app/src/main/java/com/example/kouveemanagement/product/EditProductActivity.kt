@@ -81,6 +81,11 @@ class EditProductActivity : AppCompatActivity(), ProductView, UploadPhotoProduct
         product?.price?.toString()?.let { price.setText(it) }
         created_at.setText(product?.created_at)
         updated_at.setText(product?.updated_at)
+        if (product?.deleted_at.isNullOrBlank()){
+            deleted_at.setText("-")
+        }else{
+            deleted_at.setText(product?.deleted_at)
+        }
         product?.photo.let { Picasso.get().load(baseUrl+product?.photo.toString()).fit().into(image_product) }
     }
 
@@ -110,7 +115,7 @@ class EditProductActivity : AppCompatActivity(), ProductView, UploadPhotoProduct
             min_stock.error = getString(R.string.error_min_stock)
             return false
         }
-        if (price.text.isNullOrEmpty() || price.text.toString().toInt() < 1){
+        if (price.text.isNullOrEmpty() || price.text.toString().toDouble() < 1){
             price.error = getString(R.string.error_price)
             return false
         }

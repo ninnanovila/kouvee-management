@@ -152,9 +152,11 @@ class OrderProductActivity : AppCompatActivity(), OrderProductView, SupplierView
     }
 
     override fun showSupplierLoading() {
+        progressbar.visibility = View.VISIBLE
     }
 
     override fun hideSupplierLoading() {
+        progressbar.visibility = View.GONE
     }
 
     override fun supplierSuccess(data: SupplierResponse?) {

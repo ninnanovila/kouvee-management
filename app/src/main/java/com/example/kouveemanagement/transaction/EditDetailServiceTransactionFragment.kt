@@ -57,10 +57,18 @@ class EditDetailServiceTransactionFragment : Fragment(), DetailServiceTransactio
         presenter = DetailServiceTransactionPresenter(this, Repository())
         idTransaction = detailServiceTransaction.id_transaction.toString()
         idService = detailServiceTransaction.id_service.toString()
+        btn_edit.setOnClickListener {
+            quantity.isEnabled = true
+            btn_edit.visibility = View.GONE
+            btn_save.visibility = View.VISIBLE
+            btn_delete.visibility = View.VISIBLE
+        }
         btn_save.setOnClickListener{
-            state = "edit"
-            getData()
-            presenter.editDetailServiceTransaction(detailServiceTransaction)
+            if (isValid()){
+                state = "edit"
+                getData()
+                presenter.editDetailServiceTransaction(detailServiceTransaction)
+            }
         }
         btn_delete.setOnClickListener {
             state = "delete"
@@ -89,6 +97,17 @@ class EditDetailServiceTransactionFragment : Fragment(), DetailServiceTransactio
     private fun getData(){
         val quantity = quantity.text.toString()
         detailServiceTransaction = DetailServiceTransaction(idTransaction, idService, quantity = quantity.toInt())
+    }
+
+    private fun isValid(): Boolean {
+        if(quantity.text.isNullOrEmpty()){
+            quantity.error = getString(R.string.error_quantity)
+            return false
+        }else if (quantity.text.toString() == "0"){
+            quantity.error = getString(R.string.error_zero_quantity)
+            return false
+        }
+        return true
     }
 
     override fun showDetailServiceTransactionLoading() {

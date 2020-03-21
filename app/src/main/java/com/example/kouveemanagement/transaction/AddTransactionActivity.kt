@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.kouveemanagement.CustomerServiceActivity
+import com.example.kouveemanagement.MainActivity
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.adapter.DetailTransactionRecyclerViewAdapter
 import com.example.kouveemanagement.model.*
@@ -19,6 +21,8 @@ class AddTransactionActivity : AppCompatActivity(), ProductView, ServiceView, Tr
 
     private var state: String = ""
     private lateinit var type: String
+
+    private lateinit var lastEmp: String
 
     private lateinit var presenterP: ProductPresenter
     private var products: MutableList<Product> = mutableListOf()
@@ -43,6 +47,7 @@ class AddTransactionActivity : AppCompatActivity(), ProductView, ServiceView, Tr
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_transaction)
+        lastEmp = MainActivity.currentUser?.user_id.toString()
         transaction = TransactionActivity.transaction
         idTransaction = transaction.id.toString()
         type = intent?.getStringExtra("type").toString()
@@ -80,6 +85,14 @@ class AddTransactionActivity : AppCompatActivity(), ProductView, ServiceView, Tr
             state = "edit"
             Toast.makeText(this, "Edit Transaction ?", Toast.LENGTH_LONG).show()
         }
+        btn_status.setOnClickListener {
+            state = "status"
+            val newTransaction = Transaction(last_cs = lastEmp)
+            presenter.editStatusTransaction(idTransaction, newTransaction)
+        }
+        btn_home.setOnClickListener {
+            startActivity<CustomerServiceActivity>()
+        }
     }
 
     private fun setData(){
@@ -88,15 +101,19 @@ class AddTransactionActivity : AppCompatActivity(), ProductView, ServiceView, Tr
         if (type == "service"){
             status.setText(transaction.status)
         }else{
+            status_t.visibility = View.GONE
             status.visibility = View.GONE
+            btn_status.visibility = View.GONE
         }
         total_price.setText(transaction.total_price.toString())
     }
 
     override fun showProductLoading() {
+        progressbar.visibility = View.VISIBLE
     }
 
     override fun hideProductLoading() {
+        progressbar.visibility = View.GONE
     }
 
     override fun productSuccess(data: ProductResponse?) {
@@ -126,9 +143,11 @@ class AddTransactionActivity : AppCompatActivity(), ProductView, ServiceView, Tr
     }
 
     override fun showServiceLoading() {
+        progressbar.visibility = View.VISIBLE
     }
 
     override fun hideServiceLoading() {
+        progressbar.visibility = View.GONE
     }
 
     override fun serviceSuccess(data: ServiceResponse?) {
@@ -167,6 +186,7 @@ class AddTransactionActivity : AppCompatActivity(), ProductView, ServiceView, Tr
 
     override fun transactionSuccess(data: TransactionResponse?) {
         transaction = data?.transactions?.get(0)!!
+        status.setText(transaction.status)
         id_customer_pet.setText(transaction.id_customer_pet)
         total_price.setText(transaction.total_price.toString())
         when(state){
@@ -176,6 +196,9 @@ class AddTransactionActivity : AppCompatActivity(), ProductView, ServiceView, Tr
             "cancel" -> {
                 Toast.makeText(this, "Success Cancel Transaction", Toast.LENGTH_SHORT).show()
                 startActivity<TransactionActivity>()
+            }
+            "status" -> {
+                Toast.makeText(this, "Success Update Status Transaction", Toast.LENGTH_SHORT).show()
             }
             else -> {
                 Toast.makeText(this, "Success Transaction", Toast.LENGTH_SHORT).show()

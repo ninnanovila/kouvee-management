@@ -88,9 +88,11 @@ class AddOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOrd
     }
 
     override fun showProductLoading() {
+        progressbar.visibility = View.VISIBLE
     }
 
     override fun hideProductLoading() {
+        progressbar.visibility = View.GONE
     }
 
     override fun productSuccess(data: ProductResponse?) {
@@ -133,10 +135,11 @@ class AddOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOrd
         total.setText(orderProduct.total.toString())
         when (state) {
             "print" -> {
-                Toast.makeText(this, "Success Print Order Product", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Success Print Order Product, just wait.", Toast.LENGTH_SHORT).show()
                 startActivity<OrderProductActivity>()
             }
             "edit" -> {
+                Toast.makeText(this, "Success Edit Order Product", Toast.LENGTH_SHORT).show()
                 startActivity<AddOrderProductActivity>()
             }
             "delete" -> {

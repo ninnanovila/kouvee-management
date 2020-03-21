@@ -51,10 +51,10 @@ class TransactionActivity : AppCompatActivity(), TransactionView, CustomerPetVie
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_transaction)
         lastEmp = MainActivity.currentUser?.user_id.toString()
-        presenter = TransactionPresenter(this, Repository())
-        presenter.getAllTransaction()
         presenterC = CustomerPetPresenter(this, Repository())
         presenterC.getAllCustomerPet()
+        presenter = TransactionPresenter(this, Repository())
+        presenter.getAllTransaction()
         btn_home.setOnClickListener {
             startActivity<CustomerServiceActivity>()
         }
@@ -100,8 +100,7 @@ class TransactionActivity : AppCompatActivity(), TransactionView, CustomerPetVie
                 recyclerview.layoutManager = LinearLayoutManager(this)
                 recyclerview.adapter = TransactionRecyclerViewAdapter(transactionsList){
                     transaction = it
-                    startActivity<AddTransactionActivity>()
-                    Toast.makeText(this, it.id, Toast.LENGTH_LONG).show()
+                    showDialog(it)
                 }
             }
         }else{
@@ -120,9 +119,11 @@ class TransactionActivity : AppCompatActivity(), TransactionView, CustomerPetVie
     }
 
     override fun showCustomerPetLoading() {
+        progressbar.visibility = View.VISIBLE
     }
 
     override fun hideCustomerPetLoading() {
+        progressbar.visibility = View.GONE
     }
 
     override fun customerPetSuccess(data: CustomerPetResponse?) {
@@ -152,8 +153,7 @@ class TransactionActivity : AppCompatActivity(), TransactionView, CustomerPetVie
 
     private fun showAlert(){
         dialogAlert = AlertDialog.Builder(this)
-            .setTitle("Make Transaction")
-            .setMessage("Which transaction?")
+            .setTitle("Which transaction?")
             .setPositiveButton("Service"){ _, _ ->
                 add = "1"
                 type = "service"
@@ -164,7 +164,6 @@ class TransactionActivity : AppCompatActivity(), TransactionView, CustomerPetVie
                 type = "product"
                 chooseCustomerPet("Product")
             }
-            .setNegativeButton("Cancel",null)
             .show()
     }
 
@@ -195,4 +194,26 @@ class TransactionActivity : AppCompatActivity(), TransactionView, CustomerPetVie
             presenter.addTransaction(type, transaction)
         }
     }
+
+    private fun showDialog(transaction: Transaction){
+        val input = transaction.id.toString()[0]
+        Toast.makeText(this, "ID : $input", Toast.LENGTH_LONG).show()
+        if (input == 'P'){
+            type = "product"
+        }else if (input == 'L'){
+            type = "service"
+        }
+        Toast.makeText(this, transaction.id, Toast.LENGTH_LONG).show()
+
+        dialogAlert = AlertDialog.Builder(this)
+            .setTitle("What do you want to do?")
+            .setPositiveButton("Show"){ _, _ ->
+                startActivity<ShowTransactionActivity>("type" to type)
+            }
+            .setNeutralButton("Edit"){_,_ ->
+                startActivity<AddTransactionActivity>("type" to type)
+            }
+            .show()
+    }
+
 }

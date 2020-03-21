@@ -70,7 +70,11 @@ class EditServiceActivity : AppCompatActivity(), ServiceView {
         price.setText(service?.price.toString())
         created_at.setText(service?.created_at)
         updated_at.setText(service?.updated_at)
-        deleted_at.setText(service?.deleted_at)
+        if (service?.deleted_at.isNullOrBlank()){
+            deleted_at.setText("-")
+        }else{
+            deleted_at.setText(service?.deleted_at)
+        }
         service?.let { setDropdown(it) }
     }
 

@@ -98,7 +98,7 @@ class PetManagementActivity : AppCompatActivity(), PetSizeView, PetTypeView {
 
         dialog.btn_save.visibility = View.VISIBLE
         dialog.btn_delete.visibility = View.VISIBLE
-        dialog.progressbar.visibility = View.INVISIBLE
+        dialog.progressbar.visibility = View.GONE
         progressbar.visibility = View.GONE
     }
 
@@ -131,9 +131,21 @@ class PetManagementActivity : AppCompatActivity(), PetSizeView, PetTypeView {
     }
 
     override fun showPetTypeLoading() {
+        dialog = LayoutInflater.from(this).inflate(R.layout.dialog_detail_pet, null)
+
+        dialog.btn_save.visibility = View.INVISIBLE
+        dialog.btn_delete.visibility = View.INVISIBLE
+        dialog.progressbar.visibility = View.VISIBLE
+        progressbar.visibility = View.VISIBLE
     }
 
     override fun hidePetTypeLoading() {
+        dialog = LayoutInflater.from(this).inflate(R.layout.dialog_detail_pet, null)
+
+        dialog.btn_save.visibility = View.VISIBLE
+        dialog.btn_delete.visibility = View.VISIBLE
+        dialog.progressbar.visibility = View.GONE
+        progressbar.visibility = View.GONE
     }
 
     override fun petTypeSuccess(data: PetTypeResponse?) {
@@ -172,21 +184,33 @@ class PetManagementActivity : AppCompatActivity(), PetSizeView, PetTypeView {
         val btnSave = dialog.findViewById<Button>(R.id.btn_save)
         val btnDelete = dialog.findViewById<Button>(R.id.btn_delete)
         val btnClose = dialog.findViewById<ImageButton>(R.id.btn_close)
+        val btnEdit = dialog.findViewById<Button>(R.id.btn_edit)
 
         val id = petSize.id.toString()
         name.setText(petSize.name)
         createdAt.text = petSize.created_at
         updatedAt.text = petSize.updated_at
-        deletedAt.text = petSize.deleted_at
+        if (petSize.deleted_at.isNullOrBlank()){
+            deletedAt.text = "-"
+        }else{
+            deletedAt.text = petSize.deleted_at
+        }
 
         infoDialog = AlertDialog.Builder(this)
             .setView(dialog)
             .show()
 
+        btnEdit.setOnClickListener {
+            btnEdit.visibility = View.GONE
+            name.isEnabled = true
+            btnSave.visibility = View.VISIBLE
+            btnDelete.visibility = View.VISIBLE
+        }
+
         btnSave.setOnClickListener {
             isAll = false
             val newName = name.text.toString()
-            if (newName.isNullOrEmpty()){
+            if (newName.isEmpty()){
                 val newPetSize = PetSize(id, newName)
                 presentersize.editPetSize(id, newPetSize)
             }else{
@@ -214,21 +238,33 @@ class PetManagementActivity : AppCompatActivity(), PetSizeView, PetTypeView {
         val btnSave = dialog.findViewById<Button>(R.id.btn_save)
         val btnDelete = dialog.findViewById<Button>(R.id.btn_delete)
         val btnClose = dialog.findViewById<ImageButton>(R.id.btn_close)
+        val btnEdit = dialog.findViewById<Button>(R.id.btn_edit)
 
         val id = petType.id.toString()
         name.setText(petType.name)
         createdAt.text = petType.created_at
         updatedAt.text = petType.updated_at
-        deletedAt.text = petType.deleted_at
+        if (petType.deleted_at.isNullOrBlank()){
+            deletedAt.text = "-"
+        }else{
+            deletedAt.text = petType.deleted_at
+        }
 
         infoDialog = AlertDialog.Builder(this)
             .setView(dialog)
             .show()
 
+        btnEdit.setOnClickListener {
+            btnEdit.visibility = View.GONE
+            name.isEnabled = true
+            btnSave.visibility = View.VISIBLE
+            btnDelete.visibility = View.VISIBLE
+        }
+
         btnSave.setOnClickListener {
             isAll = false
             val newName = name.text.toString()
-            if (newName.isNullOrEmpty()){
+            if (newName.isEmpty()){
                 val newPetType = PetType(id, newName)
                 presentertype.editPetType(id, newPetType)
             }else{

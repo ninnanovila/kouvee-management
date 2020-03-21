@@ -50,16 +50,20 @@ class EditEmployeeActivity : AppCompatActivity(), EmployeeView {
         role.setText(employee?.role)
         created_at.setText(employee?.created_at)
         updated_at.setText(employee?.updated_at)
-        deleted_at.setText(employee?.deleted_at)
+        if(employee?.deleted_at.isNullOrBlank()){
+            deleted_at.setText("-")
+        }else{
+            deleted_at.setText(employee?.deleted_at)
+        }
     }
 
     fun getData(){
         val name = name.text.toString()
         val address = address.text.toString()
         val birthdate = birthdate.text.toString()
-        val phone_number = phone_number.text.toString()
+        val phoneNumber = phone_number.text.toString()
         val role = role.text.toString()
-        employee = Employee(id, name, address, birthdate, phone_number, role, null)
+        employee = Employee(id, name, address, birthdate, phoneNumber, role, null)
     }
 
     private fun showDatePicker(){
@@ -81,7 +85,7 @@ class EditEmployeeActivity : AppCompatActivity(), EmployeeView {
     }
 
     override fun hideEmployeeLoading() {
-        progressbar.visibility = View.INVISIBLE
+        progressbar.visibility = View.GONE
         btn_save.visibility = View.VISIBLE
         btn_delete.visibility = View.VISIBLE
     }

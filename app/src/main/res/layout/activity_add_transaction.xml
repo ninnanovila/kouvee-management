@@ -93,6 +93,7 @@
 
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/status_t"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
                 android:hint="@string/status"
                 android:layout_width="match_parent"
@@ -112,7 +113,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                app:startIconDrawable="@drawable/ic_money">
+                app:startIconDrawable="@drawable/ic_wallet">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/total_price"
                     android:enabled="false"
@@ -129,6 +130,15 @@
             android:layout_below="@id/linearLayout2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/btn_status"
+                android:src="@drawable/ic_done"
+                android:layout_margin="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:fabSize="mini"/>
+
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/btn_edit"
                 android:src="@drawable/ic_edit"
@@ -139,7 +149,7 @@
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/btn_cancel"
-                android:src="@drawable/ic_close_black"
+                android:src="@drawable/ic_delete"
                 android:layout_margin="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

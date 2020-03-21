@@ -39,12 +39,12 @@ class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView, Cust
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_customer_pet_management)
-        presenter = CustomerPetPresenter(this, Repository())
-        presenter.getAllCustomerPet()
-        presenterC = CustomerPresenter(this, Repository())
-        presenterC.getAllCustomer()
         presenterT = PetTypePresenter(this, Repository())
         presenterT.getAllPetType()
+        presenterC = CustomerPresenter(this, Repository())
+        presenterC.getAllCustomer()
+        presenter = CustomerPetPresenter(this, Repository())
+        presenter.getAllCustomerPet()
         btn_home.setOnClickListener {
             startActivity<CustomerServiceActivity>()
         }
@@ -70,6 +70,40 @@ class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView, Cust
             val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
             transaction.replace(R.id.container, fragment).commit()
         }
+    }
+
+    override fun showPetTypeLoading() {
+    }
+
+    override fun hidePetTypeLoading() {
+    }
+
+    override fun petTypeSuccess(data: PetTypeResponse?) {
+        val temp: List<PetType> = data?.pettype ?: emptyList()
+        if (temp.isEmpty()){
+            Toast.makeText(this, "No Result", Toast.LENGTH_SHORT).show()
+        }else{
+            if (nameTypeDropdown.isNotEmpty()){
+                nameTypeDropdown.clear()
+                idTypeList.clear()
+                petTypes.clear()
+                petTypes.addAll(temp)
+                for (i in temp.indices){
+                    nameTypeDropdown.add(i, temp[i].name.toString())
+                    idTypeList.add(i, temp[i].id.toString())
+                }
+            }else{
+                petTypes.addAll(temp)
+                for (i in temp.indices){
+                    nameTypeDropdown.add(i, temp[i].name.toString())
+                    idTypeList.add(i, temp[i].id.toString())
+                }
+            }
+        }
+    }
+
+    override fun petTypeFailed() {
+        Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
     }
 
     override fun showCustomerPetLoading() {
@@ -158,40 +192,6 @@ class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView, Cust
     }
 
     override fun customerFailed() {
-        Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
-    }
-
-    override fun showPetTypeLoading() {
-    }
-
-    override fun hidePetTypeLoading() {
-    }
-
-    override fun petTypeSuccess(data: PetTypeResponse?) {
-        val temp: List<PetType> = data?.pettype ?: emptyList()
-        if (temp.isEmpty()){
-            Toast.makeText(this, "No Result", Toast.LENGTH_SHORT).show()
-        }else{
-            if (nameTypeDropdown.isNotEmpty()){
-                nameTypeDropdown.clear()
-                idTypeList.clear()
-                petTypes.clear()
-                petTypes.addAll(temp)
-                for (i in temp.indices){
-                    nameTypeDropdown.add(i, temp[i].name.toString())
-                    idTypeList.add(i, temp[i].id.toString())
-                }
-            }else{
-                petTypes.addAll(temp)
-                for (i in temp.indices){
-                    nameTypeDropdown.add(i, temp[i].name.toString())
-                    idTypeList.add(i, temp[i].id.toString())
-                }
-            }
-        }
-    }
-
-    override fun petTypeFailed() {
         Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
     }
 }

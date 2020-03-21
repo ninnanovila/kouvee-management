@@ -60,9 +60,11 @@ class EditOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOr
     }
 
     override fun showProductLoading() {
+        progressbar.visibility = View.VISIBLE
     }
 
     override fun hideProductLoading() {
+        progressbar.visibility = View.GONE
     }
 
     override fun productSuccess(data: ProductResponse?) {

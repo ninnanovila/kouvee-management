@@ -19,6 +19,7 @@ import com.example.kouveemanagement.presenter.EmployeeView
 import com.example.kouveemanagement.repository.Repository
 import kotlinx.android.synthetic.main.activity_employee_management.*
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
 
 class EmployeeManagementActivity : AppCompatActivity(), EmployeeView {
 

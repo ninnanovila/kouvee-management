@@ -47,7 +47,11 @@ class EditSupplierActivity : AppCompatActivity(), SupplierView {
         phone_number.setText(supplier?.phone_number)
         created_at.setText(supplier?.created_at)
         updated_at.setText(supplier?.updated_at)
-        deleted_at.setText(supplier?.deleted_at)
+        if (supplier?.deleted_at.isNullOrBlank()){
+            deleted_at.setText("-")
+        }else{
+            deleted_at.setText(supplier?.deleted_at)
+        }
     }
 
     private fun getData(){

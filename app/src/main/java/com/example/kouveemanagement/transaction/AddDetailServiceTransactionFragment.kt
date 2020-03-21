@@ -48,9 +48,11 @@ class AddDetailServiceTransactionFragment : Fragment(), DetailServiceTransaction
         idDropdown = AddTransactionActivity.idServiceDropdown
         idService = idDropdown[0]
         btn_add.setOnClickListener {
-            getData()
-            presenter = DetailServiceTransactionPresenter(this, Repository())
-            presenter.addDetailServiceTransaction(detailServiceTransaction)
+            if (isValid()){
+                getData()
+                presenter = DetailServiceTransactionPresenter(this, Repository())
+                presenter.addDetailServiceTransaction(detailServiceTransaction)
+            }
         }
         btn_close.setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()?.remove(this)?.commit()
@@ -61,6 +63,17 @@ class AddDetailServiceTransactionFragment : Fragment(), DetailServiceTransaction
     fun getData(){
         val quantity = quantity.text.toString()
         detailServiceTransaction = DetailServiceTransaction(id_transaction = idTransaction, id_service = idService, quantity = quantity.toInt())
+    }
+
+    private fun isValid(): Boolean {
+        if(quantity.text.isNullOrEmpty()){
+            quantity.error = getString(R.string.error_quantity)
+            return false
+        }else if (quantity.text.toString() == "0"){
+            quantity.error = getString(R.string.error_zero_quantity)
+            return false
+        }
+        return true
     }
 
     override fun showDetailServiceTransactionLoading() {
