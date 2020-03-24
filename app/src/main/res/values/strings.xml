@@ -21,6 +21,16 @@
         <item>Description of Order Product Menur</item>
     </string-array>
 
+    <!--MENU IMAGE-->
+    <array name="owner_image">
+        <item>@drawable/employee</item>
+        <item>@drawable/service</item>
+        <item>@drawable/pet</item>
+        <item>@drawable/supplier</item>
+        <item>@drawable/product</item>
+        <item>@drawable/orderproduct</item>
+    </array>
+
     <!--STRING FOR MENU-->
     <string-array name="cs_menu">
         <item>Customer</item>
@@ -34,6 +44,13 @@
         <item>Description of Customer Pet Menu</item>
         <item>Transaction Menu</item>
     </string-array>
+
+    <!--MENU IMAGE-->
+    <array name="cs_image">
+        <item>@drawable/customer</item>
+        <item>@drawable/customerspet</item>
+        <item>@drawable/transaction</item>
+    </array>
 
     <!--MANAGEMENT TITLE-->
     <string name="supplier_management">Supplier Management</string>
@@ -168,5 +185,6 @@
     <string name="rp">Rp. </string>
     <string name="detail">Detail</string>
     <string name="detail_transaction">Detail Transaction</string>
+    <string name="welcome">welcome</string>
 
 </resources>

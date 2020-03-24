@@ -1,3 +1,3 @@
 package com.example.kouveemanagement.model
 
-data class Menu(val name: String, val desc: String)
+data class Menu(val name: String, val desc: String, val image: Int)

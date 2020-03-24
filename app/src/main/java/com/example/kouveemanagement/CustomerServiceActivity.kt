@@ -48,12 +48,12 @@ class CustomerServiceActivity : AppCompatActivity() {
     private fun menuInitialization(){
         val name = resources.getStringArray(R.array.cs_menu)
         val desc = resources.getStringArray(R.array.cs_desc)
-
+        val image = resources.obtainTypedArray(R.array.cs_image)
         menu.clear()
-
         for (i in name.indices){
-            menu.add(Menu(name[i], desc[i]))
+            menu.add(Menu(name[i], desc[i], image.getResourceId(i,0)))
         }
+        image.recycle()
     }
 
     private fun setMenu(){

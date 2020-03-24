@@ -5,5 +5,6 @@
     <color name="colorAccent">#cd6684</color>
     <color name="colorOrange">#ffae8f</color>
 
-    <color name="colorPgrBg">#C9EBEB</color>
+    <color name="colorGrey">#CDCECE</color>
+
 </resources>
