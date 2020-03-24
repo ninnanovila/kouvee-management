@@ -96,16 +96,16 @@ class AddTransactionActivity : AppCompatActivity(), ProductView, ServiceView, Tr
     }
 
     private fun setData(){
-        id.setText(transaction.id)
-        id_customer_pet.setText(transaction.id_customer_pet)
+        id.text = transaction.id
+        id_customer_pet.text = transaction.id_customer_pet
         if (type == "service"){
-            status.setText(transaction.status)
+            status.text = transaction.status
         }else{
-            status_t.visibility = View.GONE
             status.visibility = View.GONE
             btn_status.visibility = View.GONE
         }
-        total_price.setText(transaction.total_price.toString())
+        val price = transaction.total_price
+        total_price.text = "Rp. $price"
     }
 
     override fun showProductLoading() {
@@ -186,9 +186,10 @@ class AddTransactionActivity : AppCompatActivity(), ProductView, ServiceView, Tr
 
     override fun transactionSuccess(data: TransactionResponse?) {
         transaction = data?.transactions?.get(0)!!
-        status.setText(transaction.status)
-        id_customer_pet.setText(transaction.id_customer_pet)
-        total_price.setText(transaction.total_price.toString())
+        status.text = transaction.status
+        id_customer_pet.text = transaction.id_customer_pet
+        val price = transaction.total_price
+        total_price.text = "Rp. $price"
         when(state){
             "edit" -> {
                 Toast.makeText(this, "Success Edit Transaction", Toast.LENGTH_SHORT).show()

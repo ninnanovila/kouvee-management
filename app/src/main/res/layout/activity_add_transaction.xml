@@ -53,75 +53,50 @@
                 android:layout_height="wrap_content"/>
         </LinearLayout>
 
-        <LinearLayout
+        <com.google.android.material.card.MaterialCardView
+            app:cardCornerRadius="8dp"
             android:id="@+id/linearLayout2"
-            android:layout_below="@+id/linearLayout1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:orientation="vertical"
-            app:layout_constraintStart_toStartOf="parent">
+            android:layout_below="@+id/linearLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-                android:hint="@string/transaction_id"
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                app:startIconDrawable="@drawable/ic_forid">
-                <com.google.android.material.textfield.TextInputEditText
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/id"
-                    android:enabled="false"
+                    android:drawableStart="@drawable/ic_forid"
+                    android:layout_margin="8dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
-            </com.google.android.material.textfield.TextInputLayout>
 
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-                android:hint="@string/customer_pet"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                app:startIconDrawable="@drawable/ic_label">
-                <com.google.android.material.textfield.TextInputEditText
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/id_customer_pet"
-                    android:enabled="false"
+                    android:drawableStart="@drawable/ic_label"
+                    android:layout_margin="8dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
-            </com.google.android.material.textfield.TextInputLayout>
 
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/status_t"
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-                android:hint="@string/status"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                app:startIconDrawable="@drawable/ic_status">
-                <com.google.android.material.textfield.TextInputEditText
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/status"
-                    android:enabled="false"
+                    android:drawableStart="@drawable/ic_status"
+                    android:layout_margin="8dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
-            </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-                android:hint="@string/total_price"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                app:startIconDrawable="@drawable/ic_wallet">
-                <com.google.android.material.textfield.TextInputEditText
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/total_price"
-                    android:enabled="false"
+                    android:drawableStart="@drawable/ic_wallet"
+                    android:layout_margin="8dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
-            </com.google.android.material.textfield.TextInputLayout>
-        </LinearLayout>
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
         <LinearLayout
             android:id="@+id/linearLayout3"
@@ -165,11 +140,20 @@
             android:layout_height="wrap_content"
             android:visibility="gone"/>
 
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_below="@id/linearLayout3"
+            android:id="@id/detail"
+            android:text="@string/detail"
+            android:layout_margin="16dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/linearLayout3"
+            android:layout_below="@+id/detail"
             tools:listitem="@layout/item_detail_transaction" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton

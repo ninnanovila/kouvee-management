@@ -81,10 +81,10 @@ class AddOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOrd
     }
 
     private fun setData(){
-        id.setText(orderProduct.id.toString())
-        status.setText(orderProduct.status.toString())
-        supplier.setText(orderProduct.id_supplier.toString())
-        total.setText(orderProduct.total.toString())
+        id.text = orderProduct.id.toString()
+        status.text = orderProduct.status.toString()
+        supplier.text = orderProduct.id_supplier.toString()
+        total.text = orderProduct.total.toString()
     }
 
     override fun showProductLoading() {
@@ -131,8 +131,9 @@ class AddOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOrd
 
     override fun orderProductSuccess(data: OrderProductResponse?) {
         orderProduct = data?.orderProducts?.get(0)!!
-        supplier.setText(orderProduct.id_supplier)
-        total.setText(orderProduct.total.toString())
+        status.text = orderProduct.status.toString()
+        supplier.text = orderProduct.id_supplier.toString()
+        total.text = orderProduct.total.toString()
         when (state) {
             "print" -> {
                 Toast.makeText(this, "Success Print Order Product, just wait.", Toast.LENGTH_SHORT).show()

@@ -50,15 +50,14 @@ class ShowTransactionActivity : AppCompatActivity(), ProductView, ServiceView, T
     }
 
     private fun setData(input: String){
-        id.setText(transaction.id)
-        id_customer_pet.setText(transaction.id_customer_pet)
+        id.text = transaction.id
+        id_customer_pet.text = transaction.id_customer_pet
         if (input == "service"){
-            status.setText(transaction.status)
+            status.text = transaction.status
         }else{
-            status_t.visibility = View.GONE
             status.visibility = View.GONE
         }
-        total_price.setText(transaction.total_price.toString())
+        total_price.text = transaction.total_price.toString()
     }
 
     override fun showProductLoading() {

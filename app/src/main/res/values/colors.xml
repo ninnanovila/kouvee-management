@@ -7,4 +7,8 @@
 
     <color name="colorGrey">#CDCECE</color>
 
+    <color name="colorRed">#E33434</color>
+    <color name="colorYellow">#FFEB3B</color>
+    <color name="colorGreen">#4CAF50</color>
+
 </resources>
