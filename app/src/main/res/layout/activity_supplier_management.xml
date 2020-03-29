@@ -9,10 +9,10 @@
     android:layout_height="match_parent"
     tools:context=".supplier.SupplierManagementActivity">
 
-    <RelativeLayout
-        android:background="@color/colorPrimaryDark"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"/>
+<!--    <RelativeLayout-->
+<!--        android:background="@color/colorPrimaryDark"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="200dp"/>-->
 
     <LinearLayout
         android:id="@+id/linearLayout1"
@@ -50,7 +50,7 @@
             <TextView
                 android:text="@string/supplier_management"
                 android:textSize="24sp"
-                android:textColor="@android:color/white"
+                android:textColor="@android:color/black"
                 android:layout_gravity="center"
                 android:layout_marginStart="8dp"
                 android:layout_width="wrap_content"
@@ -64,6 +64,44 @@
             android:background="@drawable/background_rounded"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
+
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:gravity="center"
+            android:id="@+id/toggleButton"
+            android:layout_margin="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:singleSelection="true">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/sort_name"
+                style="@style/Widget.App.Button.OutlinedButton.IconOnly"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:icon="@drawable/ic_sort" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/show_all"
+                style="@style/Widget.App.Button.OutlinedButton.IconOnly"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:icon="@drawable/ic_all" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/show_en"
+                style="@style/Widget.App.Button.OutlinedButton.IconOnly"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:icon="@drawable/ic_en" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/show_dis"
+                style="@style/Widget.App.Button.OutlinedButton.IconOnly"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:icon="@drawable/ic_dis" />
+
+        </com.google.android.material.button.MaterialButtonToggleGroup>
 
     </LinearLayout>
 

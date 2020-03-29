@@ -14,11 +14,8 @@ interface ApiInterface {
     fun loginPost(@Field("id")id: String, @Field("password")password: String): Call<LoginResponse>
 
 //    EMPLOYEE
-    @GET("employee")
+    @GET("employeeAll")
     fun getAllEmployee(): Call<EmployeeResponse>
-
-    @GET("employee/{id}")
-    fun getEmployeeById(@Path("id")id: String): Call<EmployeeResponse>
 
     @FormUrlEncoded
     @POST("employee/search")
@@ -34,11 +31,8 @@ interface ApiInterface {
     fun deleteEmployee(@Path("id")id: String): Call<EmployeeResponse>
 
 //    PRODUCT
-    @GET("product")
+    @GET("productAll")
     fun getAllProduct(): Call<ProductResponse>
-
-    @GET("product/{id}")
-    fun getProductById(@Path("id")id: String): Call<ProductResponse>
 
     @FormUrlEncoded
     @POST("product/search")
@@ -58,11 +52,8 @@ interface ApiInterface {
     fun deleteProduct(@Path("id")id: String): Call<ProductResponse>
 
 //    CUSTOMER
-    @GET("customer")
+    @GET("customerAll")
     fun getAllCustomer(): Call<CustomerResponse>
-
-    @GET("customer/{id}")
-    fun getCustomerById(@Path("id")id: String): Call<CustomerResponse>
 
     @FormUrlEncoded
     @POST("customer/search")
@@ -78,11 +69,8 @@ interface ApiInterface {
     fun deleteCustomer(@Path("id")id: String, @Path("last_emp")last_Emp: String): Call<CustomerResponse>
 
 //    PET SIZE
-    @GET("pet_size")
+    @GET("pet_sizeAll")
     fun getAllPetSize(): Call<PetSizeResponse>
-
-    @GET("pet_size/{id}")
-    fun getPetSizeById(@Path("id")id: String): Call<PetSizeResponse>
 
     @FormUrlEncoded
     @POST("pet_size/search")
@@ -98,11 +86,8 @@ interface ApiInterface {
     fun deletePetSize(@Path("id")id: String): Call<PetSizeResponse>
 
 //    PET TYPE
-    @GET("pet_type")
+    @GET("pet_typeAll")
     fun getAllPetType(): Call<PetTypeResponse>
-
-    @GET("pet_type/{id}")
-    fun getPetTypeById(@Path("id")id: String): Call<PetTypeResponse>
 
     @FormUrlEncoded
     @POST("pet_type/search")
@@ -118,11 +103,8 @@ interface ApiInterface {
     fun deletePetType(@Path("id")id: String): Call<PetTypeResponse>
 
 //    SUPPLIER
-    @GET("supplier")
+    @GET("supplierAll")
     fun getAllSupplier(): Call<SupplierResponse>
-
-    @GET("supplier/{id}")
-    fun getSupplierById(@Path("id")id: String): Call<SupplierResponse>
 
     @FormUrlEncoded
     @POST("supplier/search")
@@ -138,11 +120,8 @@ interface ApiInterface {
     fun deleteSupplier(@Path("id")id: String): Call<SupplierResponse>
 
 //    SERVICE
-    @GET("service")
+    @GET("serviceAll")
     fun getAllService(): Call<ServiceResponse>
-
-    @GET("service/{id}")
-    fun getServiceById(@Path("id")id: String): Call<ServiceResponse>
 
     @FormUrlEncoded
     @POST("service/search")
@@ -158,11 +137,8 @@ interface ApiInterface {
     fun deleteService(@Path("id")id: String): Call<ServiceResponse>
 
 //    CUSTOMER PET
-    @GET("customer_pet")
+    @GET("customer_petAll")
     fun getAllCustomerPet(): Call<CustomerPetResponse>
-
-    @GET("customer_pet/{id}")
-    fun getCustomerPetById(@Path("id")id: String): Call<CustomerPetResponse>
 
     @FormUrlEncoded
     @POST("customer_pet/search")

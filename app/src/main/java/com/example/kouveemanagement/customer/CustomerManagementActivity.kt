@@ -22,8 +22,11 @@ import org.jetbrains.anko.startActivity
 
 class CustomerManagementActivity : AppCompatActivity(), CustomerView {
 
-    private var customersList: MutableList<Customer> = mutableListOf()
+    private lateinit var customerAdapter: CustomerRecyclerViewAdapter
     private lateinit var presenter: CustomerPresenter
+
+    private var customersList: MutableList<Customer> = mutableListOf()
+    private val customersTemp = ArrayList<Customer>()
 
     private lateinit var dialog: View
 
@@ -39,20 +42,20 @@ class CustomerManagementActivity : AppCompatActivity(), CustomerView {
         btn_home.setOnClickListener {
             startActivity<CustomerServiceActivity>()
         }
-        val adapter = CustomerRecyclerViewAdapter(customersList){}
+        customerAdapter = CustomerRecyclerViewAdapter(customersList){}
         search_view.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 recyclerview.adapter = CustomerRecyclerViewAdapter(customers){
                     showDialog(it)
                 }
-                query?.let { adapter.filterCustomer(it) }
+                query?.let { customerAdapter.filterCustomer(it) }
                 return false
             }
             override fun onQueryTextChange(newText: String?): Boolean {
                 recyclerview.adapter = CustomerRecyclerViewAdapter(customers){
                     showDialog(it)
                 }
-                newText?.let { adapter.filterCustomer(it) }
+                newText?.let { customerAdapter.filterCustomer(it) }
                 return false
             }
         })
@@ -60,6 +63,26 @@ class CustomerManagementActivity : AppCompatActivity(), CustomerView {
             val fragment: Fragment = AddCustomerFragment.newInstance()
             val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
             transaction.replace(R.id.container, fragment).commit()
+        }
+        show_all.setOnClickListener {
+            recyclerview.adapter = CustomerRecyclerViewAdapter(customersList){
+                showDialog(it)
+            }
+            customerAdapter.notifyDataSetChanged()
+        }
+        show_en.setOnClickListener {
+            val filtered = customersTemp.filter { it.deleted_at === null }
+            recyclerview.adapter = CustomerRecyclerViewAdapter(filtered as MutableList<Customer>){
+                showDialog(it)
+            }
+            customerAdapter.notifyDataSetChanged()
+        }
+        show_dis.setOnClickListener {
+            val filtered = customersTemp.filter { it.deleted_at !== null }
+            recyclerview.adapter = CustomerRecyclerViewAdapter(filtered as MutableList<Customer>){
+                showDialog(it)
+            }
+            customerAdapter.notifyDataSetChanged()
         }
     }
 
@@ -76,13 +99,15 @@ class CustomerManagementActivity : AppCompatActivity(), CustomerView {
         if (temp.isEmpty()){
             Toast.makeText(this, "No Result", Toast.LENGTH_SHORT).show()
         }else{
-            for (i in temp.indices){
-                customersList.add(i, temp[i])
-            }
-            recyclerview.layoutManager = LinearLayoutManager(this)
-            recyclerview.adapter = CustomerRecyclerViewAdapter(customersList) {
-                showDialog(it)
-                Toast.makeText(this, it.id, Toast.LENGTH_LONG).show()
+            customersList.addAll(temp)
+            customersTemp.addAll(temp)
+            recyclerview.apply {
+                layoutManager = LinearLayoutManager(this@CustomerManagementActivity)
+                customerAdapter = CustomerRecyclerViewAdapter(customersList) {
+                    showDialog(it)
+                    Toast.makeText(context, it.id, Toast.LENGTH_LONG).show()
+                }
+                adapter = customerAdapter
             }
         }
     }

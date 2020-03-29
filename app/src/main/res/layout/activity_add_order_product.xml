@@ -13,11 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-<!--        <RelativeLayout-->
-<!--            android:background="@color/colorPrimaryDark"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="250dp"/>-->
-
         <LinearLayout
             android:id="@+id/linearLayout1"
             android:orientation="horizontal"
@@ -45,10 +40,7 @@
 
             <TextView
                 android:text="@string/add_detail_order_product"
-                android:textSize="24sp"
-                android:textColor="@android:color/black"
-                android:layout_gravity="center"
-                android:layout_marginStart="8dp"
+                style="@style/Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </LinearLayout>

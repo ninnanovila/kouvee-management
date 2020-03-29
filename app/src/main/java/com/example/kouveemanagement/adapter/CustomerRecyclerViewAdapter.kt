@@ -13,6 +13,7 @@ import java.util.*
 
 class CustomerRecyclerViewAdapter(private val customers: MutableList<Customer>, private val listener: (Customer) -> Unit) : RecyclerView.Adapter<CustomerRecyclerViewAdapter.ViewHolder>() {
 
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val viewHolder = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_customer, parent, false)
