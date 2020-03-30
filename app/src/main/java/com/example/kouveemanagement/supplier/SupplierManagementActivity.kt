@@ -24,6 +24,9 @@ import org.jetbrains.anko.startActivity
 class SupplierManagementActivity : AppCompatActivity(), SupplierView {
 
     private var suppliersList: MutableList<Supplier> = mutableListOf()
+    private val suppliersTemp = ArrayList<Supplier>()
+
+    private lateinit var supplierAdapter: SupplierRecyclerViewAdapter
     private lateinit var presenter: SupplierPresenter
 
     private lateinit var dialog: View
@@ -40,20 +43,20 @@ class SupplierManagementActivity : AppCompatActivity(), SupplierView {
         btn_home.setOnClickListener {
             startActivity<OwnerActivity>()
         }
-        val adapter = SupplierRecyclerViewAdapter(suppliersList){}
+        supplierAdapter = SupplierRecyclerViewAdapter(suppliersList){}
         search_view.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 recyclerview.adapter = SupplierRecyclerViewAdapter(suppliers){
                     showDialog(it)
                 }
-                query?.let { adapter.filterSupplier(it) }
+                query?.let { supplierAdapter.filterSupplier(it) }
                 return false
             }
             override fun onQueryTextChange(newText: String?): Boolean {
                 recyclerview.adapter = SupplierRecyclerViewAdapter(suppliers){
                     showDialog(it)
                 }
-                newText?.let { adapter.filterSupplier(it) }
+                newText?.let { supplierAdapter.filterSupplier(it) }
                 return false
             }
         })
@@ -61,6 +64,33 @@ class SupplierManagementActivity : AppCompatActivity(), SupplierView {
             val fragment: Fragment = AddSupplierFragment.newInstance()
             val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
             transaction.replace(R.id.container, fragment).commit()
+        }
+        sort_name.setOnClickListener {
+            val sorted = suppliersTemp.sortedBy { it.name }
+            recyclerview.adapter = SupplierRecyclerViewAdapter(sorted as MutableList<Supplier>){
+                showDialog(it)
+            }
+            supplierAdapter.notifyDataSetChanged()
+        }
+        show_all.setOnClickListener {
+            recyclerview.adapter = SupplierRecyclerViewAdapter(suppliersList){
+                showDialog(it)
+            }
+            supplierAdapter.notifyDataSetChanged()
+        }
+        show_en.setOnClickListener {
+            val filtered = suppliersTemp.filter { it.deleted_at === null }
+            recyclerview.adapter = SupplierRecyclerViewAdapter(filtered as MutableList<Supplier>){
+                showDialog(it)
+            }
+            supplierAdapter.notifyDataSetChanged()
+        }
+        show_dis.setOnClickListener {
+            val filtered = suppliersTemp.filter { it.deleted_at !== null }
+            recyclerview.adapter = SupplierRecyclerViewAdapter(filtered as MutableList<Supplier>){
+                showDialog(it)
+            }
+            supplierAdapter.notifyDataSetChanged()
         }
     }
 
@@ -77,15 +107,12 @@ class SupplierManagementActivity : AppCompatActivity(), SupplierView {
         if (temp.isEmpty()){
             Toast.makeText(this, "No Result", Toast.LENGTH_SHORT).show()
         }else{
-            for (i in temp.indices){
-                suppliersList.add(i, temp[i])
-            }
+            suppliersList.addAll(temp)
+            suppliersTemp.addAll(temp)
             recyclerview.layoutManager = LinearLayoutManager(this)
-            recyclerview.adapter = this.let {
-                SupplierRecyclerViewAdapter(suppliersList) {
-                    showDialog(it)
-                    Toast.makeText(this, it.id, Toast.LENGTH_LONG).show()
-                }
+            recyclerview.adapter = SupplierRecyclerViewAdapter(suppliersList) {
+                showDialog(it)
+                Toast.makeText(this, it.id, Toast.LENGTH_LONG).show()
             }
         }
     }

@@ -27,8 +27,10 @@ import org.jetbrains.anko.startActivity
 class ServiceManagementActivity : AppCompatActivity(), ServiceView, PetSizeView {
 
     private var servicesList: MutableList<Service> = mutableListOf()
+    private val servicesTemp = ArrayList<Service>()
+
     private lateinit var presenter: ServicePresenter
-    private lateinit var adapter: ServiceRecyclerViewAdapter
+    private lateinit var serviceAdapter: ServiceRecyclerViewAdapter
 
     private lateinit var dialog: View
 
@@ -50,20 +52,20 @@ class ServiceManagementActivity : AppCompatActivity(), ServiceView, PetSizeView 
         btn_home.setOnClickListener{
             startActivity<OwnerActivity>()
         }
-        val adapter = ServiceRecyclerViewAdapter(servicesList) {}
+        serviceAdapter = ServiceRecyclerViewAdapter(servicesList) {}
         search_view.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 recyclerview.adapter = ServiceRecyclerViewAdapter(services){
                     showDialog(it)
                 }
-                query?.let { adapter.filterService(it) }
+                query?.let { serviceAdapter.filterService(it) }
                 return false
             }
             override fun onQueryTextChange(newText: String?): Boolean {
                 recyclerview.adapter = ServiceRecyclerViewAdapter(services){
                     showDialog(it)
                 }
-                newText?.let { adapter.filterService(it) }
+                newText?.let { serviceAdapter.filterService(it) }
                 return false
             }
         })
@@ -71,6 +73,33 @@ class ServiceManagementActivity : AppCompatActivity(), ServiceView, PetSizeView 
             val fragment: Fragment = AddServiceFragment.newInstance()
             val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
             transaction.replace(R.id.container, fragment).commit()
+        }
+        sort_name.setOnClickListener {
+            val sorted = servicesTemp.sortedBy { it.name }
+            recyclerview.adapter = ServiceRecyclerViewAdapter(sorted as MutableList<Service>){
+                showDialog(it)
+            }
+            serviceAdapter.notifyDataSetChanged()
+        }
+        show_all.setOnClickListener {
+            recyclerview.adapter = ServiceRecyclerViewAdapter(servicesList){
+                showDialog(it)
+            }
+            serviceAdapter.notifyDataSetChanged()
+        }
+        show_en.setOnClickListener {
+            val filtered = servicesTemp.filter { it.deleted_at === null }
+            recyclerview.adapter = ServiceRecyclerViewAdapter(filtered as MutableList<Service>){
+                showDialog(it)
+            }
+            serviceAdapter.notifyDataSetChanged()
+        }
+        show_dis.setOnClickListener {
+            val filtered = servicesTemp.filter { it.deleted_at !== null }
+            recyclerview.adapter = ServiceRecyclerViewAdapter(filtered as MutableList<Service>){
+                showDialog(it)
+            }
+            serviceAdapter.notifyDataSetChanged()
         }
     }
 
@@ -87,9 +116,8 @@ class ServiceManagementActivity : AppCompatActivity(), ServiceView, PetSizeView 
         if (temp.isEmpty()){
             Toast.makeText(this, "Empty Services", Toast.LENGTH_SHORT).show()
         }else{
-            for (i in temp.indices){
-                servicesList.add(i, temp[i])
-            }
+            servicesList.addAll(temp)
+            servicesTemp.addAll(temp)
             recyclerview.layoutManager = LinearLayoutManager(this)
             recyclerview.adapter = ServiceRecyclerViewAdapter(servicesList){
                 showDialog(it)

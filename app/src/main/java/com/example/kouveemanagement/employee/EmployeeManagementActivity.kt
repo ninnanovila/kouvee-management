@@ -19,12 +19,13 @@ import com.example.kouveemanagement.presenter.EmployeeView
 import com.example.kouveemanagement.repository.Repository
 import kotlinx.android.synthetic.main.activity_employee_management.*
 import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.toast
 
 class EmployeeManagementActivity : AppCompatActivity(), EmployeeView {
 
+    private val employeesTemp = ArrayList<Employee>()
     private var employeesList: MutableList<Employee> = mutableListOf()
     private lateinit var presenter: EmployeePresenter
+    private lateinit var employeeAdapter: EmployeeRecyclerViewAdapter
 
     private lateinit var dialog: View
 
@@ -40,20 +41,20 @@ class EmployeeManagementActivity : AppCompatActivity(), EmployeeView {
         btn_home.setOnClickListener {
             startActivity<OwnerActivity>()
         }
-        val adapter = EmployeeRecyclerViewAdapter(employeesList) {}
+        employeeAdapter = EmployeeRecyclerViewAdapter(employeesList) {}
         search_view.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 recyclerview.adapter = EmployeeRecyclerViewAdapter(employees){
                     showDialog(it)
                 }
-                query?.let { adapter.filterEmployee(it) }
+                query?.let { employeeAdapter.filterEmployee(it) }
                 return false
             }
             override fun onQueryTextChange(newText: String?): Boolean {
                 recyclerview.adapter = EmployeeRecyclerViewAdapter(employees){
                     showDialog(it)
                 }
-                newText?.let { adapter.filterEmployee(it) }
+                newText?.let { employeeAdapter.filterEmployee(it) }
                 return false
             }
         })
@@ -61,6 +62,32 @@ class EmployeeManagementActivity : AppCompatActivity(), EmployeeView {
             val fragment: Fragment = AddEmployeeFragment.newInstance()
             val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
             transaction.replace(R.id.container, fragment).commit()
+        }
+        sort_name.setOnClickListener {
+            val sorted = employeesTemp.sortedBy { it.name }
+            recyclerview.adapter = EmployeeRecyclerViewAdapter(sorted as MutableList<Employee>){
+                showDialog(it)
+            }
+        }
+        show_all.setOnClickListener {
+            recyclerview.adapter = EmployeeRecyclerViewAdapter(employeesList){
+                showDialog(it)
+            }
+            employeeAdapter.notifyDataSetChanged()
+        }
+        show_en.setOnClickListener {
+            val filtered = employeesTemp.filter { it.deleted_at === null }
+            recyclerview.adapter = EmployeeRecyclerViewAdapter(filtered as MutableList<Employee>){
+                showDialog(it)
+            }
+            employeeAdapter.notifyDataSetChanged()
+        }
+        show_dis.setOnClickListener {
+            val filtered = employeesTemp.filter { it.deleted_at !== null }
+            recyclerview.adapter = EmployeeRecyclerViewAdapter(filtered as MutableList<Employee>) {
+                showDialog(it)
+            }
+            employeeAdapter.notifyDataSetChanged()
         }
     }
 
@@ -77,9 +104,8 @@ class EmployeeManagementActivity : AppCompatActivity(), EmployeeView {
         if (temp.isEmpty()){
             Toast.makeText(this, "No result", Toast.LENGTH_SHORT).show()
         }else{
-            for (i in temp.indices){
-                employeesList.add(i, temp[i])
-            }
+            employeesList.addAll(temp)
+            employeesTemp.addAll(temp)
             recyclerview.layoutManager = LinearLayoutManager(this)
             recyclerview.adapter = EmployeeRecyclerViewAdapter(employeesList){
                 showDialog(it)

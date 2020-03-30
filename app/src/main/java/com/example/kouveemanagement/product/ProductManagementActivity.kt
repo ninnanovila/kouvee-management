@@ -23,6 +23,9 @@ import org.jetbrains.anko.startActivity
 class ProductManagementActivity : AppCompatActivity(), ProductView {
 
     private var productsList: MutableList<Product> = mutableListOf()
+    private val productsTemp = ArrayList<Product>()
+
+    private lateinit var productAdapter: ProductRecyclerViewAdapter
     private lateinit var presenter: ProductPresenter
 
     private lateinit var dialog: View
@@ -39,20 +42,20 @@ class ProductManagementActivity : AppCompatActivity(), ProductView {
         btn_home.setOnClickListener {
             startActivity<OwnerActivity>()
         }
-        val adapter = ProductRecyclerViewAdapter(productsList){}
+        productAdapter = ProductRecyclerViewAdapter(productsList){}
         search_view.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 recyclerview.adapter = ProductRecyclerViewAdapter(products){
                     showDialog(it)
                 }
-                query?.let { adapter.filterProduct(it) }
+                query?.let { productAdapter.filterProduct(it) }
                 return false
             }
             override fun onQueryTextChange(newText: String?): Boolean {
                 recyclerview.adapter = ProductRecyclerViewAdapter(products){
                     showDialog(it)
                 }
-                newText?.let { adapter.filterProduct(it) }
+                newText?.let { productAdapter.filterProduct(it) }
                 return false
             }
         })
@@ -60,6 +63,32 @@ class ProductManagementActivity : AppCompatActivity(), ProductView {
             val fragment: Fragment = AddProductFragment.newInstance()
             val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
             transaction.replace(R.id.container, fragment).commit()
+        }
+        sort_name.setOnClickListener {
+            val sorted = productsTemp.sortedBy { it.name }
+            recyclerview.adapter = ProductRecyclerViewAdapter(sorted as MutableList<Product>){
+                showDialog(it)
+            }
+        }
+        show_all.setOnClickListener {
+            recyclerview.adapter = ProductRecyclerViewAdapter(productsList){
+                showDialog(it)
+            }
+            productAdapter.notifyDataSetChanged()
+        }
+        show_en.setOnClickListener {
+            val filtered = productsTemp.filter { it.deleted_at === null }
+            recyclerview.adapter = ProductRecyclerViewAdapter(filtered as MutableList<Product>){
+                showDialog(it)
+            }
+            productAdapter.notifyDataSetChanged()
+        }
+        show_dis.setOnClickListener {
+            val filtered = productsTemp.filter { it.deleted_at !== null }
+            recyclerview.adapter = ProductRecyclerViewAdapter(filtered as MutableList<Product>){
+                showDialog(it)
+            }
+            productAdapter.notifyDataSetChanged()
         }
     }
 
@@ -76,9 +105,8 @@ class ProductManagementActivity : AppCompatActivity(), ProductView {
         if (temp.isEmpty()){
             Toast.makeText(this, "No Result", Toast.LENGTH_SHORT).show()
         }else{
-            for (i in temp.indices){
-                productsList.add(i, temp[i])
-            }
+            productsList.addAll(temp)
+            productsTemp.addAll(temp)
             recyclerview.layoutManager = LinearLayoutManager(this)
             recyclerview.adapter = ProductRecyclerViewAdapter(productsList) {
                 showDialog(it)
@@ -133,3 +161,4 @@ class ProductManagementActivity : AppCompatActivity(), ProductView {
     }
 
 }
+

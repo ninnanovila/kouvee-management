@@ -64,6 +64,13 @@ class CustomerManagementActivity : AppCompatActivity(), CustomerView {
             val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
             transaction.replace(R.id.container, fragment).commit()
         }
+        sort_name.setOnClickListener {
+            val sorted = customersTemp.sortedBy { it.name }
+            recyclerview.adapter = CustomerRecyclerViewAdapter(sorted as MutableList<Customer>){
+                showDialog(it)
+            }
+            customerAdapter.notifyDataSetChanged()
+        }
         show_all.setOnClickListener {
             recyclerview.adapter = CustomerRecyclerViewAdapter(customersList){
                 showDialog(it)

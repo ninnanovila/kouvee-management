@@ -9,11 +9,6 @@
     android:layout_height="match_parent"
     tools:context=".employee.EmployeeManagementActivity">
 
-    <RelativeLayout
-        android:background="@color/colorPrimaryDark"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"/>
-
     <LinearLayout
         android:id="@+id/linearLayout1"
         android:orientation="vertical"
@@ -29,25 +24,19 @@
             android:layout_height="wrap_content">
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/btn_home"
-                android:src="@drawable/ic_home"
-                android:layout_gravity="center"
+                style="@style/FabHome"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorAccent"
                 app:backgroundTint="@color/colorAccent"
                 app:fabSize="mini"/>
             <ImageView
-                android:src="@drawable/ic_next"
-                android:layout_marginStart="8dp"
-                android:layout_gravity="center"
+                style="@style/Cursor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/content_desc"/>
             <TextView
                 android:text="@string/employee_management"
-                android:textColor="@android:color/white"
-                android:layout_gravity="center"
-                android:layout_marginStart="8dp"
+                style="@style/Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>

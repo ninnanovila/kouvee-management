@@ -17,11 +17,33 @@
         <item name="strokeColor">@android:color/white</item>
     </style>
 
+    <style name="FabHome">
+        <item name="android:src">@drawable/ic_home</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:backgroundTint">@color/colorAccent</item>
+    </style>
+
+    <style name="Cursor">
+        <item name="android:src">@drawable/ic_next</item>
+        <item name="android:layout_marginStart">8dp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="contentDescription">@string/content_desc</item>
+    </style>
+
     <style name="Title">
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">@android:color/black</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:layout_marginStart">8dp</item>
     </style>
+
+    <style name="TitleWhite">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_marginStart">8dp</item>
+    </style>
+
+
 
 </resources>

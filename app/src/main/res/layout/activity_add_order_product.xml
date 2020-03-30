@@ -22,21 +22,17 @@
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/btn_home"
-                android:src="@drawable/ic_home"
-                android:layout_gravity="center"
+                style="@style/FabHome"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorAccent"
                 app:backgroundTint="@color/colorAccent"
                 app:fabSize="mini"/>
 
             <ImageView
-                android:src="@drawable/ic_next"
-                android:layout_marginStart="8dp"
-                android:layout_gravity="center"
+                style="@style/Cursor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:contentDescription="@string/content_desc"/>
+                tools:ignore="ContentDescription" />
 
             <TextView
                 android:text="@string/add_detail_order_product"

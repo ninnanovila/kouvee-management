@@ -19,8 +19,11 @@ import org.jetbrains.anko.startActivity
 
 class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView, CustomerView, PetTypeView {
 
-    private var customerPetsList: MutableList<CustomerPet> = mutableListOf()
+    private lateinit var customerPetAdapter: CustomerPetRecyclerViewAdapter
     private lateinit var presenter: CustomerPetPresenter
+
+    private var customerPetsList: MutableList<CustomerPet> = mutableListOf()
+    private val customerPetsTemp = ArrayList<CustomerPet>()
 
     private lateinit var dialog: View
 
@@ -48,20 +51,20 @@ class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView, Cust
         btn_home.setOnClickListener {
             startActivity<CustomerServiceActivity>()
         }
-        val adapter = CustomerPetRecyclerViewAdapter(mutableListOf(), customerPetsList){}
+        customerPetAdapter = CustomerPetRecyclerViewAdapter(petTypes, customerPetsList){}
         search_view.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 recyclerview.adapter = CustomerPetRecyclerViewAdapter(mutableListOf(), customerPets){
                     showDialog(it)
                 }
-                query?.let { adapter.filterCustomerPet(it) }
+                query?.let { customerPetAdapter.filterCustomerPet(it) }
                 return false
             }
             override fun onQueryTextChange(newText: String?): Boolean {
                 recyclerview.adapter = CustomerPetRecyclerViewAdapter(mutableListOf(), customerPets){
                     showDialog(it)
                 }
-                newText?.let { adapter.filterCustomerPet(it) }
+                newText?.let { customerPetAdapter.filterCustomerPet(it) }
                 return false
             }
         })
@@ -69,6 +72,32 @@ class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView, Cust
             val fragment: Fragment = AddCustomerPetFragment.newInstance()
             val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
             transaction.replace(R.id.container, fragment).commit()
+        }
+        sort_name.setOnClickListener {
+            val sorted = customerPetsTemp.sortedBy { it.name }
+            recyclerview.adapter = CustomerPetRecyclerViewAdapter(petTypes,sorted as MutableList<CustomerPet>){
+                showDialog(it)
+            }
+        }
+        show_all.setOnClickListener {
+            recyclerview.adapter = CustomerPetRecyclerViewAdapter(petTypes, customerPetsList){
+                showDialog(it)
+            }
+            customerPetAdapter.notifyDataSetChanged()
+        }
+        show_en.setOnClickListener {
+            val filtered = customerPetsTemp.filter { it.deleted_at === null }
+            recyclerview.adapter = CustomerPetRecyclerViewAdapter(petTypes,filtered as MutableList<CustomerPet>){
+                showDialog(it)
+            }
+            customerPetAdapter.notifyDataSetChanged()
+        }
+        show_dis.setOnClickListener {
+            val filtered = customerPetsTemp.filter { it.deleted_at !== null }
+            recyclerview.adapter = CustomerPetRecyclerViewAdapter(petTypes,filtered as MutableList<CustomerPet>){
+                showDialog(it)
+            }
+            customerPetAdapter.notifyDataSetChanged()
         }
     }
 
@@ -119,9 +148,8 @@ class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView, Cust
         if (temp.isEmpty()){
             Toast.makeText(this, "No Result", Toast.LENGTH_SHORT).show()
         }else{
-            for (i in temp.indices){
-                customerPetsList.add(i, temp[i])
-            }
+            customerPetsList.addAll(temp)
+            customerPetsTemp.addAll(temp)
             recyclerview.layoutManager = LinearLayoutManager(this)
             recyclerview.adapter = CustomerPetRecyclerViewAdapter(petTypes, customerPetsList){
                 showDialog(it)
