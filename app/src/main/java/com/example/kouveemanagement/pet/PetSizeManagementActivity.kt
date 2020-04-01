@@ -48,6 +48,7 @@ class PetSizeManagementActivity : AppCompatActivity(), PetSizeView {
         petSizesAdapter = PetRecyclerViewAdapter("size", mutableListOf(), {}, petSizesList) {}
         search_view.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
+                sort_switch.isChecked = false
                 recyclerview.adapter = PetRecyclerViewAdapter("size", mutableListOf(), {},
                     petSizes, {
                     showPetSize(it)
@@ -57,6 +58,7 @@ class PetSizeManagementActivity : AppCompatActivity(), PetSizeView {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
+                sort_switch.isChecked = false
                 recyclerview.adapter = PetRecyclerViewAdapter("size", mutableListOf(), {},
                     petSizes, {
                     showPetSize(it)
@@ -164,7 +166,7 @@ class PetSizeManagementActivity : AppCompatActivity(), PetSizeView {
             deletedAt.text = petSize.deleted_at
         }
 
-        if (petSize.deleted_at !== null){
+        if (petSize.deleted_at != null){
             btnEdit.visibility = View.GONE
         }
 

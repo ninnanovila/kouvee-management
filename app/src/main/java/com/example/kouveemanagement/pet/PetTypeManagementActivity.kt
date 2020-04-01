@@ -48,6 +48,7 @@ class PetTypeManagementActivity : AppCompatActivity(), PetTypeView {
         petTypesAdapter = PetRecyclerViewAdapter("type", petTypesList, {}, mutableListOf(), {})
         search_view.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
+                sort_switch.isChecked = false
                 recyclerview.adapter = PetRecyclerViewAdapter("type", petTypes, {
                     showPetType(it)
                 }, mutableListOf(),{})
@@ -56,6 +57,7 @@ class PetTypeManagementActivity : AppCompatActivity(), PetTypeView {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
+                sort_switch.isChecked = false
                 recyclerview.adapter = PetRecyclerViewAdapter("type", petTypes, {
                     showPetType(it)
                 }, mutableListOf(),{})
@@ -87,11 +89,11 @@ class PetTypeManagementActivity : AppCompatActivity(), PetTypeView {
     private fun getList(){
         if(sort_switch.isChecked){
             val sorted = temps.sortedBy { it.name }
-            recyclerview.adapter = PetRecyclerViewAdapter("size", sorted as MutableList<PetType>, {
+            recyclerview.adapter = PetRecyclerViewAdapter("type", sorted as MutableList<PetType>, {
                 showPetType(it)
             }, mutableListOf()){}
         }else{
-            recyclerview.adapter = PetRecyclerViewAdapter("size", temps, {
+            recyclerview.adapter = PetRecyclerViewAdapter("type", temps, {
                 showPetType(it)
             }, mutableListOf()){}
         }

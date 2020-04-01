@@ -56,6 +56,7 @@ class ServiceManagementActivity : AppCompatActivity(), ServiceView, PetSizeView 
         serviceAdapter = ServiceRecyclerViewAdapter(servicesList) {}
         search_view.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
+                sort_switch.isChecked = false
                 recyclerview.adapter = ServiceRecyclerViewAdapter(services){
                     showDialog(it)
                 }
@@ -63,6 +64,7 @@ class ServiceManagementActivity : AppCompatActivity(), ServiceView, PetSizeView 
                 return false
             }
             override fun onQueryTextChange(newText: String?): Boolean {
+                sort_switch.isChecked = false
                 recyclerview.adapter = ServiceRecyclerViewAdapter(services){
                     showDialog(it)
                 }
@@ -147,7 +149,7 @@ class ServiceManagementActivity : AppCompatActivity(), ServiceView, PetSizeView 
         name.text = service.name.toString()
         price.text = service.price.toString()
 
-        if (service.deleted_at !== null){
+        if (service.deleted_at != null){
             btnEdit.visibility = View.GONE
         }
 
@@ -185,15 +187,15 @@ class ServiceManagementActivity : AppCompatActivity(), ServiceView, PetSizeView 
                 idPetSize.clear()
                 for (i in temp.indices){
                     if (temp[i].deleted_at == null){
-                        idPetSize.add(i, temp[i].id.toString())
-                        namePetSize.add(i, temp[i].name.toString())
+                        idPetSize.add(temp[i].id.toString())
+                        namePetSize.add(temp[i].name.toString())
                     }
                 }
             }else{
                 for (i in temp.indices){
                     if (temp[i].deleted_at == null){
-                        idPetSize.add(i, temp[i].id.toString())
-                        namePetSize.add(i, temp[i].name.toString())
+                        idPetSize.add(temp[i].id.toString())
+                        namePetSize.add(temp[i].name.toString())
                     }
                 }
             }

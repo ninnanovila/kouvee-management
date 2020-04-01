@@ -25,6 +25,10 @@ import org.jetbrains.anko.startActivity
 class OrderProductActivity : AppCompatActivity(), OrderProductView, SupplierView {
 
     private var orderProductsList: MutableList<OrderProduct> = mutableListOf()
+    private val orderProductsTemp = ArrayList<OrderProduct>()
+    private var temps = ArrayList<OrderProduct>()
+
+    private lateinit var orderAdapter: OrderProductRecyclerViewAdapter
     private lateinit var presenter: OrderProductPresenter
 
     private lateinit var dialog: View
@@ -53,13 +57,13 @@ class OrderProductActivity : AppCompatActivity(), OrderProductView, SupplierView
         btn_home.setOnClickListener {
             startActivity<OwnerActivity>()
         }
-        val adapter = OrderProductRecyclerViewAdapter(orderProductsList) {}
+        orderAdapter = OrderProductRecyclerViewAdapter(orderProductsList) {}
         search_view.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 recyclerview.adapter = OrderProductRecyclerViewAdapter(orderProducts){
                     showDetail(it)
                 }
-                query?.let { adapter.filterOrderProduct(it) }
+                query?.let { orderAdapter.filterOrderProduct(it) }
                 return false
             }
 
@@ -67,12 +71,37 @@ class OrderProductActivity : AppCompatActivity(), OrderProductView, SupplierView
                 recyclerview.adapter = OrderProductRecyclerViewAdapter(orderProducts){
                     showDetail(it)
                 }
-                newText?.let { adapter.filterOrderProduct(it) }
+                newText?.let { orderAdapter.filterOrderProduct(it) }
                 return false
             }
 
         })
         fabAnimation()
+        show_min_product.setOnClickListener {
+            Toast.makeText(this, "Min Product", Toast.LENGTH_LONG).show()
+        }
+        show_pending.setOnClickListener {
+            val filtered = orderProductsTemp.filter { it.status == "Pending" }
+            temps = filtered as ArrayList<OrderProduct>
+            getList()
+        }
+        show_delivery.setOnClickListener {
+            val filtered = orderProductsTemp.filter { it.status == "On Delivery" }
+            temps = filtered as ArrayList<OrderProduct>
+            getList()
+        }
+        show_arrived.setOnClickListener {
+            val filtered = orderProductsTemp.filter { it.status == "Arrived" }
+            temps = filtered as ArrayList<OrderProduct>
+            getList()
+        }
+    }
+
+    private fun getList(){
+        recyclerview.adapter = OrderProductRecyclerViewAdapter(temps as MutableList<OrderProduct>){
+            showDetail(it)
+        }
+        orderAdapter.notifyDataSetChanged()
     }
 
     override fun showOrderProductLoading() {
@@ -89,9 +118,9 @@ class OrderProductActivity : AppCompatActivity(), OrderProductView, SupplierView
             if (temp.isEmpty()){
                 Toast.makeText(this, "No Result", Toast.LENGTH_SHORT).show()
             }else{
-                for (i in temp.indices){
-                    orderProductsList.add(i, temp[i])
-                }
+                orderProductsList.addAll(temp)
+                orderProductsTemp.addAll(temp)
+                temps.addAll(temp)
                 recyclerview.layoutManager = LinearLayoutManager(this)
                 recyclerview.adapter = OrderProductRecyclerViewAdapter(orderProductsList){
                     showDetail(it)
@@ -168,13 +197,13 @@ class OrderProductActivity : AppCompatActivity(), OrderProductView, SupplierView
                 nameDropdown.clear()
                 idDropdown.clear()
                 for (i in temp.indices){
-                    nameDropdown.add(i, temp[i].name.toString())
-                    idDropdown.add(i, temp[i].id.toString())
+                    nameDropdown.add(temp[i].name.toString())
+                    idDropdown.add(temp[i].id.toString())
                 }
             }else{
                 for (i in temp.indices){
-                    nameDropdown.add(i, temp[i].name.toString())
-                    idDropdown.add(i, temp[i].id.toString())
+                    nameDropdown.add(temp[i].name.toString())
+                    idDropdown.add(temp[i].id.toString())
                 }
             }
         }
@@ -186,8 +215,7 @@ class OrderProductActivity : AppCompatActivity(), OrderProductView, SupplierView
 
     private fun chooseSupplier() {
         dialog = LayoutInflater.from(this).inflate(R.layout.item_choose, null)
-        val adapter =
-            ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, nameDropdown)
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, nameDropdown)
         val dropdown = dialog.findViewById<AutoCompleteTextView>(R.id.dropdown)
         val btnAdd = dialog.findViewById<Button>(R.id.btn_add)
         val btnClose = dialog.findViewById<ImageButton>(R.id.btn_close)

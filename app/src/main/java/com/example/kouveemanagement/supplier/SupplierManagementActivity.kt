@@ -47,6 +47,7 @@ class SupplierManagementActivity : AppCompatActivity(), SupplierView {
         supplierAdapter = SupplierRecyclerViewAdapter(suppliersList){}
         search_view.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
+                sort_switch.isChecked = false
                 recyclerview.adapter = SupplierRecyclerViewAdapter(suppliers){
                     showDialog(it)
                 }
@@ -54,6 +55,7 @@ class SupplierManagementActivity : AppCompatActivity(), SupplierView {
                 return false
             }
             override fun onQueryTextChange(newText: String?): Boolean {
+                sort_switch.isChecked = false
                 recyclerview.adapter = SupplierRecyclerViewAdapter(suppliers){
                     showDialog(it)
                 }

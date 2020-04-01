@@ -92,42 +92,30 @@
             style="@style/Widget.App.Button.OutlinedButton.IconOnly"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:icon="@drawable/ic_all" />
+            app:icon="@drawable/ic_min" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/show_all"
+            android:id="@+id/show_pending"
             style="@style/Widget.App.Button.OutlinedButton.IconOnly"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:icon="@drawable/ic_all" />
+            app:icon="@drawable/ic_progress" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/show_on_progress"
+            android:id="@+id/show_delivery"
             style="@style/Widget.App.Button.OutlinedButton.IconOnly"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:icon="@drawable/ic_en" />
+            app:icon="@drawable/ic_deliver" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/show_arrived"
             style="@style/Widget.App.Button.OutlinedButton.IconOnly"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:icon="@drawable/ic_dis" />
+            app:icon="@drawable/ic_arrived" />
 
     </com.google.android.material.button.MaterialButtonToggleGroup>
-
-    <com.google.android.material.switchmaterial.SwitchMaterial
-        android:id="@+id/sort_switch"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:text="@string/sort_a_z"
-        android:checked="false"
-        app:layout_constraintBottom_toBottomOf="@+id/toggleButton"
-        app:layout_constraintEnd_toEndOf="@+id/search_view"
-        app:layout_constraintStart_toEndOf="@+id/toggleButton"
-        app:layout_constraintTop_toTopOf="@+id/toggleButton" />
 
     <TextView
         android:id="@+id/textView2"

@@ -1,7 +1,6 @@
 package com.example.kouveemanagement
 
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.room.Room
@@ -33,17 +32,31 @@ class MainActivity : AppCompatActivity(), LoginView {
 
         loginPresenter = LoginPresenter(this, Repository())
 
-        btn_id.setOnClickListener {
-            loginPresenter.loginPost(id_login.text.toString(), password_login.text.toString())
+        btn_login.setOnClickListener {
+            if (isValid()){
+                loginPresenter.loginPost(id_login.text.toString(), password_login.text.toString())
+            }
         }
     }
 
+    private fun isValid(): Boolean {
+        if (id_login.text.isNullOrEmpty()){
+            id_login.error = getString(R.string.error_name)
+            return false
+        }
+        if (password_login.text.isNullOrEmpty()){
+            password_login.error = getString(R.string.error_price)
+            return false
+        }
+        return true
+    }
+
     override fun showLoginLoading() {
-        btn_id.startAnimation()
+        btn_login.startAnimation()
     }
 
     override fun hideLoginLoading() {
-        btn_id.revertAnimation()
+        btn_login.revertAnimation()
     }
 
     override fun loginSuccess(data: LoginResponse?) {

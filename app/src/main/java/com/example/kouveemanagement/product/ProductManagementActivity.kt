@@ -46,6 +46,7 @@ class ProductManagementActivity : AppCompatActivity(), ProductView {
         productAdapter = ProductRecyclerViewAdapter(productsList){}
         search_view.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
+                sort_switch.isChecked = false
                 recyclerview.adapter = ProductRecyclerViewAdapter(products){
                     showDialog(it)
                 }
@@ -53,6 +54,7 @@ class ProductManagementActivity : AppCompatActivity(), ProductView {
                 return false
             }
             override fun onQueryTextChange(newText: String?): Boolean {
+                sort_switch.isChecked = false
                 recyclerview.adapter = ProductRecyclerViewAdapter(products){
                     showDialog(it)
                 }
@@ -148,7 +150,7 @@ class ProductManagementActivity : AppCompatActivity(), ProductView {
         price.text = product.price.toString()
         product.photo.let { Picasso.get().load(baseUrl+product.photo.toString()).fit().into(photo) }
 
-        if (product.deleted_at !== null){
+        if (product.deleted_at != null){
             btnEdit.visibility = View.GONE
         }
 

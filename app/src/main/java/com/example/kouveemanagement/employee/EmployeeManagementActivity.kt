@@ -46,6 +46,7 @@ class EmployeeManagementActivity : AppCompatActivity(), EmployeeView {
         employeeAdapter = EmployeeRecyclerViewAdapter(employeesList) {}
         search_view.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
+                sort_switch.isChecked = false
                 recyclerview.adapter = EmployeeRecyclerViewAdapter(employees){
                     showDialog(it)
                 }
@@ -53,6 +54,7 @@ class EmployeeManagementActivity : AppCompatActivity(), EmployeeView {
                 return false
             }
             override fun onQueryTextChange(newText: String?): Boolean {
+                sort_switch.isChecked = false
                 recyclerview.adapter = EmployeeRecyclerViewAdapter(employees){
                     showDialog(it)
                 }
@@ -77,6 +79,7 @@ class EmployeeManagementActivity : AppCompatActivity(), EmployeeView {
         show_dis.setOnClickListener {
             val filtered = employeesTemp.filter { it.deleted_at !== null }
             temps = filtered as ArrayList<Employee>
+            getList()
         }
         sort_switch.setOnClickListener {
             getList()
@@ -135,15 +138,15 @@ class EmployeeManagementActivity : AppCompatActivity(), EmployeeView {
         val btnClose = dialog.findViewById<ImageButton>(R.id.btn_close)
         val btnEdit = dialog.findViewById<Button>(R.id.btn_edit)
 
-        if (employee.deleted_at !== null){
-            btnEdit.visibility = View.GONE
-        }
-
         name.text = employee.name.toString()
         address.text = employee.address.toString()
         birthdate.text = employee.birthdate.toString()
         phoneNumber.text = employee.phone_number.toString()
         role.text = employee.role.toString()
+
+        if (employee.deleted_at != null){
+            btnEdit.visibility = View.GONE
+        }
 
         val infoDialog= AlertDialog.Builder(this)
             .setView(dialog)
