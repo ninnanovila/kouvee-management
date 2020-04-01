@@ -65,6 +65,37 @@ class PetTypeManagementActivity : AppCompatActivity(), PetTypeView {
 
         })
         fabAnimation()
+        show_all.setOnClickListener {
+            temps = petTypesTemp
+            getList()
+        }
+        show_en.setOnClickListener {
+            val filtered = petTypesTemp.filter { it.deleted_at === null }
+            temps = filtered as ArrayList<PetType>
+            getList()
+        }
+        show_dis.setOnClickListener {
+            val filtered = petTypesTemp.filter { it.deleted_at !== null }
+            temps = filtered as ArrayList<PetType>
+            getList()
+        }
+        sort_switch.setOnClickListener {
+            getList()
+        }
+    }
+
+    private fun getList(){
+        if(sort_switch.isChecked){
+            val sorted = temps.sortedBy { it.name }
+            recyclerview.adapter = PetRecyclerViewAdapter("size", sorted as MutableList<PetType>, {
+                showPetType(it)
+            }, mutableListOf()){}
+        }else{
+            recyclerview.adapter = PetRecyclerViewAdapter("size", temps, {
+                showPetType(it)
+            }, mutableListOf()){}
+        }
+        petTypesAdapter.notifyDataSetChanged()
     }
 
     override fun showPetTypeLoading() {
