@@ -33,19 +33,17 @@ class MainActivity : AppCompatActivity(), LoginView {
 
         loginPresenter = LoginPresenter(this, Repository())
 
-        btn_login.setOnClickListener {
+        btn_id.setOnClickListener {
             loginPresenter.loginPost(id_login.text.toString(), password_login.text.toString())
         }
     }
 
     override fun showLoginLoading() {
-        btn_login.visibility = View.INVISIBLE
-        progressbar.visibility = View.VISIBLE
+        btn_id.startAnimation()
     }
 
     override fun hideLoginLoading() {
-        progressbar.visibility = View.INVISIBLE
-        btn_login.visibility = View.VISIBLE
+        btn_id.revertAnimation()
     }
 
     override fun loginSuccess(data: LoginResponse?) {

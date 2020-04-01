@@ -44,6 +44,12 @@
         <item name="android:layout_marginStart">8dp</item>
     </style>
 
-
+    <style name="ProgressButton">
+        <item name="android:background">@drawable/button_background</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="spinning_bar_width">4dp</item>
+        <item name="spinning_bar_color">@color/colorOrange</item>
+        <item name="spinning_bar_padding">8dp</item>
+    </style>
 
 </resources>
