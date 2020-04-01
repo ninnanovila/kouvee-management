@@ -46,7 +46,6 @@ class EditDetailProductTransactionFragment : Fragment(), DetailProductTransactio
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         detailProductTransaction = arguments?.getParcelable("input")!!
         return inflater.inflate(R.layout.fragment_edit_detail_product_transaction, container, false)
     }

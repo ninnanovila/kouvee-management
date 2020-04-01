@@ -28,6 +28,7 @@ class ServiceManagementActivity : AppCompatActivity(), ServiceView, PetSizeView 
 
     private var servicesList: MutableList<Service> = mutableListOf()
     private val servicesTemp = ArrayList<Service>()
+    private var temps = ArrayList<Service>()
 
     private lateinit var presenter: ServicePresenter
     private lateinit var serviceAdapter: ServiceRecyclerViewAdapter
@@ -74,33 +75,37 @@ class ServiceManagementActivity : AppCompatActivity(), ServiceView, PetSizeView 
             val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
             transaction.replace(R.id.container, fragment).commit()
         }
-        sort_name.setOnClickListener {
-            val sorted = servicesTemp.sortedBy { it.name }
-            recyclerview.adapter = ServiceRecyclerViewAdapter(sorted as MutableList<Service>){
-                showDialog(it)
-            }
-            serviceAdapter.notifyDataSetChanged()
-        }
         show_all.setOnClickListener {
-            recyclerview.adapter = ServiceRecyclerViewAdapter(servicesList){
-                showDialog(it)
-            }
-            serviceAdapter.notifyDataSetChanged()
+            temps = servicesTemp
+            getList()
         }
         show_en.setOnClickListener {
             val filtered = servicesTemp.filter { it.deleted_at === null }
-            recyclerview.adapter = ServiceRecyclerViewAdapter(filtered as MutableList<Service>){
-                showDialog(it)
-            }
-            serviceAdapter.notifyDataSetChanged()
+            temps = filtered as ArrayList<Service>
+            getList()
         }
         show_dis.setOnClickListener {
             val filtered = servicesTemp.filter { it.deleted_at !== null }
-            recyclerview.adapter = ServiceRecyclerViewAdapter(filtered as MutableList<Service>){
+            temps = filtered as ArrayList<Service>
+            getList()
+        }
+        sort_switch.setOnClickListener {
+            getList()
+        }
+    }
+
+    private fun getList(){
+        if(sort_switch.isChecked){
+            val sorted = temps.sortedBy { it.name }
+            recyclerview.adapter = ServiceRecyclerViewAdapter(sorted as MutableList<Service>){
                 showDialog(it)
             }
-            serviceAdapter.notifyDataSetChanged()
+        }else{
+            recyclerview.adapter = ServiceRecyclerViewAdapter(temps as MutableList<Service>){
+                showDialog(it)
+            }
         }
+        serviceAdapter.notifyDataSetChanged()
     }
 
     override fun showServiceLoading() {
@@ -118,6 +123,7 @@ class ServiceManagementActivity : AppCompatActivity(), ServiceView, PetSizeView 
         }else{
             servicesList.addAll(temp)
             servicesTemp.addAll(temp)
+            temps.addAll(temp)
             recyclerview.layoutManager = LinearLayoutManager(this)
             recyclerview.adapter = ServiceRecyclerViewAdapter(servicesList){
                 showDialog(it)
@@ -140,6 +146,10 @@ class ServiceManagementActivity : AppCompatActivity(), ServiceView, PetSizeView 
 
         name.text = service.name.toString()
         price.text = service.price.toString()
+
+        if (service.deleted_at !== null){
+            btnEdit.visibility = View.GONE
+        }
 
         val infoDialog = AlertDialog.Builder(this)
             .setView(dialog)
@@ -174,13 +184,17 @@ class ServiceManagementActivity : AppCompatActivity(), ServiceView, PetSizeView 
                 namePetSize.clear()
                 idPetSize.clear()
                 for (i in temp.indices){
-                    idPetSize.add(i, temp[i].id.toString())
-                    namePetSize.add(i, temp[i].name.toString())
+                    if (temp[i].deleted_at == null){
+                        idPetSize.add(i, temp[i].id.toString())
+                        namePetSize.add(i, temp[i].name.toString())
+                    }
                 }
             }else{
                 for (i in temp.indices){
-                    idPetSize.add(i, temp[i].id.toString())
-                    namePetSize.add(i, temp[i].name.toString())
+                    if (temp[i].deleted_at == null){
+                        idPetSize.add(i, temp[i].id.toString())
+                        namePetSize.add(i, temp[i].name.toString())
+                    }
                 }
             }
         }

@@ -24,6 +24,7 @@ class ProductManagementActivity : AppCompatActivity(), ProductView {
 
     private var productsList: MutableList<Product> = mutableListOf()
     private val productsTemp = ArrayList<Product>()
+    private var temps = ArrayList<Product>()
 
     private lateinit var productAdapter: ProductRecyclerViewAdapter
     private lateinit var presenter: ProductPresenter
@@ -64,32 +65,37 @@ class ProductManagementActivity : AppCompatActivity(), ProductView {
             val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
             transaction.replace(R.id.container, fragment).commit()
         }
-        sort_name.setOnClickListener {
-            val sorted = productsTemp.sortedBy { it.name }
-            recyclerview.adapter = ProductRecyclerViewAdapter(sorted as MutableList<Product>){
-                showDialog(it)
-            }
-        }
         show_all.setOnClickListener {
-            recyclerview.adapter = ProductRecyclerViewAdapter(productsList){
-                showDialog(it)
-            }
-            productAdapter.notifyDataSetChanged()
+            temps = productsTemp
+            getList()
         }
         show_en.setOnClickListener {
             val filtered = productsTemp.filter { it.deleted_at === null }
-            recyclerview.adapter = ProductRecyclerViewAdapter(filtered as MutableList<Product>){
-                showDialog(it)
-            }
-            productAdapter.notifyDataSetChanged()
+            temps = filtered as ArrayList<Product>
+            getList()
         }
         show_dis.setOnClickListener {
             val filtered = productsTemp.filter { it.deleted_at !== null }
-            recyclerview.adapter = ProductRecyclerViewAdapter(filtered as MutableList<Product>){
+            temps = filtered as ArrayList<Product>
+            getList()
+        }
+        sort_switch.setOnClickListener {
+            getList()
+        }
+    }
+
+    private fun getList(){
+        if(sort_switch.isChecked){
+            val sorted = temps.sortedBy { it.name }
+            recyclerview.adapter = ProductRecyclerViewAdapter(sorted as MutableList<Product>){
                 showDialog(it)
             }
-            productAdapter.notifyDataSetChanged()
+        }else{
+            recyclerview.adapter = ProductRecyclerViewAdapter(temps as MutableList<Product>){
+                showDialog(it)
+            }
         }
+        productAdapter.notifyDataSetChanged()
     }
 
     override fun showProductLoading() {
@@ -107,6 +113,7 @@ class ProductManagementActivity : AppCompatActivity(), ProductView {
         }else{
             productsList.addAll(temp)
             productsTemp.addAll(temp)
+            temps.addAll(temp)
             recyclerview.layoutManager = LinearLayoutManager(this)
             recyclerview.adapter = ProductRecyclerViewAdapter(productsList) {
                 showDialog(it)
@@ -140,6 +147,10 @@ class ProductManagementActivity : AppCompatActivity(), ProductView {
         minStock.text = product.min_stock.toString()
         price.text = product.price.toString()
         product.photo.let { Picasso.get().load(baseUrl+product.photo.toString()).fit().into(photo) }
+
+        if (product.deleted_at !== null){
+            btnEdit.visibility = View.GONE
+        }
 
         val infoDialog = androidx.appcompat.app.AlertDialog.Builder(this)
             .setView(dialog)

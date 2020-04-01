@@ -24,6 +24,7 @@ class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView, Cust
 
     private var customerPetsList: MutableList<CustomerPet> = mutableListOf()
     private val customerPetsTemp = ArrayList<CustomerPet>()
+    private var temps = ArrayList<CustomerPet>()
 
     private lateinit var dialog: View
 
@@ -54,14 +55,16 @@ class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView, Cust
         customerPetAdapter = CustomerPetRecyclerViewAdapter(petTypes, customerPetsList){}
         search_view.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                recyclerview.adapter = CustomerPetRecyclerViewAdapter(mutableListOf(), customerPets){
+                sort_switch.isChecked = false
+                recyclerview.adapter = CustomerPetRecyclerViewAdapter(petTypes, customerPets){
                     showDialog(it)
                 }
                 query?.let { customerPetAdapter.filterCustomerPet(it) }
                 return false
             }
             override fun onQueryTextChange(newText: String?): Boolean {
-                recyclerview.adapter = CustomerPetRecyclerViewAdapter(mutableListOf(), customerPets){
+                sort_switch.isChecked = false
+                recyclerview.adapter = CustomerPetRecyclerViewAdapter(petTypes, customerPets){
                     showDialog(it)
                 }
                 newText?.let { customerPetAdapter.filterCustomerPet(it) }
@@ -73,32 +76,37 @@ class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView, Cust
             val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
             transaction.replace(R.id.container, fragment).commit()
         }
-        sort_name.setOnClickListener {
-            val sorted = customerPetsTemp.sortedBy { it.name }
-            recyclerview.adapter = CustomerPetRecyclerViewAdapter(petTypes,sorted as MutableList<CustomerPet>){
-                showDialog(it)
-            }
-        }
         show_all.setOnClickListener {
-            recyclerview.adapter = CustomerPetRecyclerViewAdapter(petTypes, customerPetsList){
-                showDialog(it)
-            }
-            customerPetAdapter.notifyDataSetChanged()
+            temps = customerPetsTemp
+            getList()
         }
         show_en.setOnClickListener {
             val filtered = customerPetsTemp.filter { it.deleted_at === null }
-            recyclerview.adapter = CustomerPetRecyclerViewAdapter(petTypes,filtered as MutableList<CustomerPet>){
-                showDialog(it)
-            }
-            customerPetAdapter.notifyDataSetChanged()
+            temps = filtered as ArrayList<CustomerPet>
+            getList()
         }
         show_dis.setOnClickListener {
             val filtered = customerPetsTemp.filter { it.deleted_at !== null }
-            recyclerview.adapter = CustomerPetRecyclerViewAdapter(petTypes,filtered as MutableList<CustomerPet>){
+            temps = filtered as ArrayList<CustomerPet>
+            getList()
+        }
+        sort_switch.setOnClickListener {
+            getList()
+        }
+    }
+
+    private fun getList(){
+        if (sort_switch.isChecked){
+            val sorted = temps.sortedBy { it.name }
+            recyclerview.adapter = CustomerPetRecyclerViewAdapter(petTypes, sorted as MutableList<CustomerPet>){
                 showDialog(it)
             }
-            customerPetAdapter.notifyDataSetChanged()
+        }else{
+            recyclerview.adapter = CustomerPetRecyclerViewAdapter(petTypes, temps){
+                showDialog(it)
+            }
         }
+        customerPetAdapter.notifyDataSetChanged()
     }
 
     override fun showPetTypeLoading() {
@@ -118,14 +126,18 @@ class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView, Cust
                 petTypes.clear()
                 petTypes.addAll(temp)
                 for (i in temp.indices){
-                    nameTypeDropdown.add(i, temp[i].name.toString())
-                    idTypeList.add(i, temp[i].id.toString())
+                    if (temp[i].deleted_at == null){
+                        nameTypeDropdown.add(temp[i].name.toString())
+                        idTypeList.add(temp[i].id.toString())
+                    }
                 }
             }else{
                 petTypes.addAll(temp)
                 for (i in temp.indices){
-                    nameTypeDropdown.add(i, temp[i].name.toString())
-                    idTypeList.add(i, temp[i].id.toString())
+                    if (temp[i].deleted_at == null){
+                        nameTypeDropdown.add(temp[i].name.toString())
+                        idTypeList.add(temp[i].id.toString())
+                    }
                 }
             }
         }
@@ -150,6 +162,7 @@ class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView, Cust
         }else{
             customerPetsList.addAll(temp)
             customerPetsTemp.addAll(temp)
+            temps.addAll(temp)
             recyclerview.layoutManager = LinearLayoutManager(this)
             recyclerview.adapter = CustomerPetRecyclerViewAdapter(petTypes, customerPetsList){
                 showDialog(it)
@@ -176,6 +189,10 @@ class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView, Cust
         val infoDialog = AlertDialog.Builder(this)
             .setView(dialog)
             .show()
+
+        if (customerPet.deleted_at != null){
+            btnEdit.visibility = View.GONE
+        }
 
         btnEdit.setOnClickListener {
             startActivity<EditCustomerPetActivity>("customerpet" to customerPet)
@@ -207,13 +224,17 @@ class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView, Cust
                 nameCustomerDropdown.clear()
                 idCustomerList.clear()
                 for (i in temp.indices){
-                    nameCustomerDropdown.add(i, temp[i].name.toString())
-                    idCustomerList.add(i, temp[i].id.toString())
+                    if (temp[i].deleted_at == null){
+                        nameCustomerDropdown.add(temp[i].name.toString())
+                        idCustomerList.add(temp[i].id.toString())
+                    }
                 }
             }else{
                 for (i in temp.indices){
-                    nameCustomerDropdown.add(i, temp[i].name.toString())
-                    idCustomerList.add(i, temp[i].id.toString())
+                    if (temp[i].deleted_at == null){
+                        nameCustomerDropdown.add(temp[i].name.toString())
+                        idCustomerList.add(temp[i].id.toString())
+                    }
                 }
             }
         }

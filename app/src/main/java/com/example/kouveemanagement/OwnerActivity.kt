@@ -15,7 +15,8 @@ import com.example.kouveemanagement.model.Menu
 import com.example.kouveemanagement.orderproduct.OrderProductActivity
 import com.example.kouveemanagement.persistent.AppDatabase
 import com.example.kouveemanagement.persistent.CurrentUser
-import com.example.kouveemanagement.pet.PetManagementActivity
+import com.example.kouveemanagement.pet.PetTypeManagementActivity
+import com.example.kouveemanagement.pet.PetSizeManagementActivity
 import com.example.kouveemanagement.product.ProductManagementActivity
 import com.example.kouveemanagement.search.SearchResultActivity
 import com.example.kouveemanagement.service.ServiceManagementActivity
@@ -64,7 +65,8 @@ class OwnerActivity : AppCompatActivity() {
             when(it.name) {
                 //DATA MASTER
                 "Employee" -> startActivity<EmployeeManagementActivity>()
-                "Pet Type and Size" -> startActivity<PetManagementActivity>()
+                "Pet Size" -> startActivity<PetSizeManagementActivity>()
+                "Pet Type" -> startActivity<PetTypeManagementActivity>()
                 "Supplier" -> startActivity<SupplierManagementActivity>()
                 "Product" -> startActivity<ProductManagementActivity>()
                 "Service" -> startActivity<ServiceManagementActivity>()

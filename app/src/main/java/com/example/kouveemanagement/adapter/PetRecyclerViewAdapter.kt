@@ -8,7 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.model.PetSize
 import com.example.kouveemanagement.model.PetType
-import com.example.kouveemanagement.pet.PetManagementActivity
+import com.example.kouveemanagement.pet.PetTypeManagementActivity
+import com.example.kouveemanagement.pet.PetSizeManagementActivity
 import kotlinx.android.extensions.LayoutContainer
 import java.util.*
 
@@ -39,27 +40,27 @@ class PetRecyclerViewAdapter(private val id: String, private val petTypes: Mutab
 
     fun filterPet(input: String){
         if (id == "size"){
-            PetManagementActivity.petSizes.clear()
+            PetSizeManagementActivity.petSizes.clear()
             if (input.isEmpty()){
-                PetManagementActivity.petSizes.addAll(petSizes)
+                PetSizeManagementActivity.petSizes.addAll(petSizes)
             }else{
                 var i = 0
                 while (i < petSizes.size){
                     if (petSizes[i].name?.toLowerCase(Locale.getDefault())?.contains(input)!!){
-                        PetManagementActivity.petSizes.add(petSizes[i])
+                        PetSizeManagementActivity.petSizes.add(petSizes[i])
                     }
                     i++
                 }
             }
         }else if (id == "type"){
-            PetManagementActivity.petTypes.clear()
+            PetTypeManagementActivity.petTypes.clear()
             if (input.isEmpty()){
-                PetManagementActivity.petTypes.addAll(petTypes)
+                PetTypeManagementActivity.petTypes.addAll(petTypes)
             }else{
                 var i = 0
                 while (i < petTypes.size){
                     if (petTypes[i].name?.toLowerCase(Locale.getDefault())?.contains(input)!!){
-                        PetManagementActivity.petTypes.add(petTypes[i])
+                        PetTypeManagementActivity.petTypes.add(petTypes[i])
                     }
                     i++
                 }

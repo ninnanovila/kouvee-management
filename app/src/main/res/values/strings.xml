@@ -5,7 +5,8 @@
     <string-array name="owner_menu">
         <item>Employee</item>
         <item>Service</item>
-        <item>Pet Type and Size</item>
+        <item>Pet Size</item>
+        <item>Pet Type</item>
         <item>Supplier</item>
         <item>Product</item>
         <item>Order Product</item>
@@ -15,7 +16,8 @@
     <string-array name="owner_desc">
         <item>Description of Employee Menu</item>
         <item>Description of Service Menu</item>
-        <item>Description of Pet Type and Size Menu</item>
+        <item>Description of Pet Size Menu</item>
+        <item>Description of Pet Type Menu</item>
         <item>Description of Supplier Menu</item>
         <item>Description of Product Menu</item>
         <item>Description of Order Product Menur</item>
@@ -25,7 +27,8 @@
     <array name="owner_image">
         <item>@drawable/employee</item>
         <item>@drawable/service</item>
-        <item>@drawable/pet</item>
+        <item>@drawable/pet_size</item>
+        <item>@drawable/pet_type</item>
         <item>@drawable/supplier</item>
         <item>@drawable/product</item>
         <item>@drawable/orderproduct</item>
@@ -186,5 +189,8 @@
     <string name="detail">Detail</string>
     <string name="detail_transaction">Detail Transaction</string>
     <string name="welcome">welcome</string>
+    <string name="sort_a_z">Sort A-Z</string>
+    <string name="pet_size_management">Pet Size Management</string>
+    <string name="pet_type_management">Pet Type Management</string>
 
 </resources>

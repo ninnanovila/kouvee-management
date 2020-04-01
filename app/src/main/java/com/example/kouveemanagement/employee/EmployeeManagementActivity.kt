@@ -22,8 +22,10 @@ import org.jetbrains.anko.startActivity
 
 class EmployeeManagementActivity : AppCompatActivity(), EmployeeView {
 
+    private var temps = ArrayList<Employee>()
     private val employeesTemp = ArrayList<Employee>()
     private var employeesList: MutableList<Employee> = mutableListOf()
+
     private lateinit var presenter: EmployeePresenter
     private lateinit var employeeAdapter: EmployeeRecyclerViewAdapter
 
@@ -63,32 +65,36 @@ class EmployeeManagementActivity : AppCompatActivity(), EmployeeView {
             val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
             transaction.replace(R.id.container, fragment).commit()
         }
-        sort_name.setOnClickListener {
-            val sorted = employeesTemp.sortedBy { it.name }
-            recyclerview.adapter = EmployeeRecyclerViewAdapter(sorted as MutableList<Employee>){
-                showDialog(it)
-            }
-        }
         show_all.setOnClickListener {
-            recyclerview.adapter = EmployeeRecyclerViewAdapter(employeesList){
-                showDialog(it)
-            }
-            employeeAdapter.notifyDataSetChanged()
+            temps = employeesTemp
+            getList()
         }
         show_en.setOnClickListener {
             val filtered = employeesTemp.filter { it.deleted_at === null }
-            recyclerview.adapter = EmployeeRecyclerViewAdapter(filtered as MutableList<Employee>){
-                showDialog(it)
-            }
-            employeeAdapter.notifyDataSetChanged()
+            temps = filtered as ArrayList<Employee>
+            getList()
         }
         show_dis.setOnClickListener {
             val filtered = employeesTemp.filter { it.deleted_at !== null }
-            recyclerview.adapter = EmployeeRecyclerViewAdapter(filtered as MutableList<Employee>) {
+            temps = filtered as ArrayList<Employee>
+        }
+        sort_switch.setOnClickListener {
+            getList()
+        }
+    }
+
+    private fun getList(){
+        if(sort_switch.isChecked){
+            val sorted = temps.sortedBy { it.name }
+            recyclerview.adapter = EmployeeRecyclerViewAdapter(sorted as MutableList<Employee>){
                 showDialog(it)
             }
-            employeeAdapter.notifyDataSetChanged()
+        }else{
+            recyclerview.adapter = EmployeeRecyclerViewAdapter(temps as MutableList<Employee>){
+                showDialog(it)
+            }
         }
+        employeeAdapter.notifyDataSetChanged()
     }
 
     override fun showEmployeeLoading() {
@@ -106,6 +112,7 @@ class EmployeeManagementActivity : AppCompatActivity(), EmployeeView {
         }else{
             employeesList.addAll(temp)
             employeesTemp.addAll(temp)
+            temps.addAll(temp)
             recyclerview.layoutManager = LinearLayoutManager(this)
             recyclerview.adapter = EmployeeRecyclerViewAdapter(employeesList){
                 showDialog(it)
@@ -127,6 +134,10 @@ class EmployeeManagementActivity : AppCompatActivity(), EmployeeView {
         val role = dialog.findViewById<TextView>(R.id.role)
         val btnClose = dialog.findViewById<ImageButton>(R.id.btn_close)
         val btnEdit = dialog.findViewById<Button>(R.id.btn_edit)
+
+        if (employee.deleted_at !== null){
+            btnEdit.visibility = View.GONE
+        }
 
         name.text = employee.name.toString()
         address.text = employee.address.toString()

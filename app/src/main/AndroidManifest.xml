@@ -15,7 +15,7 @@
         android:theme="@style/AppTheme.NoActionBar"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".PetSizeManagementActivity"></activity>
+        <activity android:name=".pet.PetSizeManagementActivity"></activity>
         <activity android:name=".transaction.ShowTransactionActivity" />
         <activity android:name=".transaction.AddTransactionActivity" />
         <activity android:name=".transaction.TransactionActivity" />
@@ -29,7 +29,7 @@
         <activity android:name=".service.ServiceManagementActivity" />
         <activity android:name=".supplier.EditSupplierActivity" />
         <activity android:name=".supplier.SupplierManagementActivity" />
-        <activity android:name=".pet.PetManagementActivity" />
+        <activity android:name=".pet.PetTypeManagementActivity" />
         <activity android:name=".customer.EditCustomerActivity" />
         <activity android:name=".customer.CustomerManagementActivity" />
         <activity android:name=".product.EditProductActivity" />

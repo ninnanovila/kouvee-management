@@ -23,7 +23,7 @@ import com.example.kouveemanagement.repository.Repository
 import kotlinx.android.synthetic.main.activity_transaction.*
 import org.jetbrains.anko.startActivity
 
-class TransactionActivity : AppCompatActivity(), TransactionView, CustomerPetView{
+class  TransactionActivity : AppCompatActivity(), TransactionView, CustomerPetView{
 
     private var transactionsList: MutableList<Transaction> = mutableListOf()
     private lateinit var presenter: TransactionPresenter

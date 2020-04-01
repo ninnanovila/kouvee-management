@@ -25,6 +25,7 @@ class SupplierManagementActivity : AppCompatActivity(), SupplierView {
 
     private var suppliersList: MutableList<Supplier> = mutableListOf()
     private val suppliersTemp = ArrayList<Supplier>()
+    private var temps = ArrayList<Supplier>()
 
     private lateinit var supplierAdapter: SupplierRecyclerViewAdapter
     private lateinit var presenter: SupplierPresenter
@@ -65,33 +66,37 @@ class SupplierManagementActivity : AppCompatActivity(), SupplierView {
             val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
             transaction.replace(R.id.container, fragment).commit()
         }
-        sort_name.setOnClickListener {
-            val sorted = suppliersTemp.sortedBy { it.name }
-            recyclerview.adapter = SupplierRecyclerViewAdapter(sorted as MutableList<Supplier>){
-                showDialog(it)
-            }
-            supplierAdapter.notifyDataSetChanged()
-        }
         show_all.setOnClickListener {
-            recyclerview.adapter = SupplierRecyclerViewAdapter(suppliersList){
-                showDialog(it)
-            }
-            supplierAdapter.notifyDataSetChanged()
+            temps = suppliersTemp
+            getList()
         }
         show_en.setOnClickListener {
             val filtered = suppliersTemp.filter { it.deleted_at === null }
-            recyclerview.adapter = SupplierRecyclerViewAdapter(filtered as MutableList<Supplier>){
-                showDialog(it)
-            }
-            supplierAdapter.notifyDataSetChanged()
+            temps = filtered as ArrayList<Supplier>
+            getList()
         }
         show_dis.setOnClickListener {
             val filtered = suppliersTemp.filter { it.deleted_at !== null }
-            recyclerview.adapter = SupplierRecyclerViewAdapter(filtered as MutableList<Supplier>){
+            temps = filtered as ArrayList<Supplier>
+            getList()
+        }
+        sort_switch.setOnClickListener {
+            getList()
+        }
+    }
+
+    private fun getList(){
+        if(sort_switch.isChecked){
+            val sorted = temps.sortedBy { it.name }
+            recyclerview.adapter = SupplierRecyclerViewAdapter(sorted as MutableList<Supplier>){
                 showDialog(it)
             }
-            supplierAdapter.notifyDataSetChanged()
+        }else{
+            recyclerview.adapter = SupplierRecyclerViewAdapter(temps as MutableList<Supplier>){
+                showDialog(it)
+            }
         }
+        supplierAdapter.notifyDataSetChanged()
     }
 
     override fun showSupplierLoading() {
@@ -109,6 +114,7 @@ class SupplierManagementActivity : AppCompatActivity(), SupplierView {
         }else{
             suppliersList.addAll(temp)
             suppliersTemp.addAll(temp)
+            temps.addAll(temp)
             recyclerview.layoutManager = LinearLayoutManager(this)
             recyclerview.adapter = SupplierRecyclerViewAdapter(suppliersList) {
                 showDialog(it)
@@ -131,6 +137,9 @@ class SupplierManagementActivity : AppCompatActivity(), SupplierView {
         name.text = supplier.name.toString()
         address.text = supplier.address.toString()
         phoneNumber.text = supplier.phone_number.toString()
+        if (supplier.deleted_at !== null){
+            btnEdit.visibility = View.GONE
+        }
         val infoDialog = AlertDialog.Builder(this)
             .setView(dialog)
             .show()
@@ -146,6 +155,5 @@ class SupplierManagementActivity : AppCompatActivity(), SupplierView {
         super.onBackPressed()
         startActivity<OwnerActivity>()
     }
-
 
 }

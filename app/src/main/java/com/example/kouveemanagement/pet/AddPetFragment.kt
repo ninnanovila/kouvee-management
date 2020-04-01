@@ -92,7 +92,7 @@ class AddPetFragment : Fragment(), PetSizeView, PetTypeView {
 
     override fun petTypeSuccess(data: PetTypeResponse?) {
         Toast.makeText(context, "Success Pet Type", Toast.LENGTH_SHORT).show()
-        startActivity<PetManagementActivity>()
+        startActivity<PetTypeManagementActivity>()
     }
 
     override fun petTypeFailed() {
@@ -113,7 +113,7 @@ class AddPetFragment : Fragment(), PetSizeView, PetTypeView {
 
     override fun petSizeSuccess(data: PetSizeResponse?) {
         Toast.makeText(context, "Success Pet Size", Toast.LENGTH_SHORT).show()
-        startActivity<PetManagementActivity>()
+        startActivity<PetTypeManagementActivity>()
     }
 
     override fun petSizeFailed() {

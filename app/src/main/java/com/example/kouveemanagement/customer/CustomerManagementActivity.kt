@@ -27,6 +27,7 @@ class CustomerManagementActivity : AppCompatActivity(), CustomerView {
 
     private var customersList: MutableList<Customer> = mutableListOf()
     private val customersTemp = ArrayList<Customer>()
+    private var temps = ArrayList<Customer>()
 
     private lateinit var dialog: View
 
@@ -42,9 +43,10 @@ class CustomerManagementActivity : AppCompatActivity(), CustomerView {
         btn_home.setOnClickListener {
             startActivity<CustomerServiceActivity>()
         }
-        customerAdapter = CustomerRecyclerViewAdapter(customersList){}
+        customerAdapter = CustomerRecyclerViewAdapter(temps){}
         search_view.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
+                sort_switch.isChecked = false
                 recyclerview.adapter = CustomerRecyclerViewAdapter(customers){
                     showDialog(it)
                 }
@@ -52,6 +54,7 @@ class CustomerManagementActivity : AppCompatActivity(), CustomerView {
                 return false
             }
             override fun onQueryTextChange(newText: String?): Boolean {
+                sort_switch.isChecked = false
                 recyclerview.adapter = CustomerRecyclerViewAdapter(customers){
                     showDialog(it)
                 }
@@ -64,33 +67,37 @@ class CustomerManagementActivity : AppCompatActivity(), CustomerView {
             val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
             transaction.replace(R.id.container, fragment).commit()
         }
-        sort_name.setOnClickListener {
-            val sorted = customersTemp.sortedBy { it.name }
-            recyclerview.adapter = CustomerRecyclerViewAdapter(sorted as MutableList<Customer>){
-                showDialog(it)
-            }
-            customerAdapter.notifyDataSetChanged()
-        }
         show_all.setOnClickListener {
-            recyclerview.adapter = CustomerRecyclerViewAdapter(customersList){
-                showDialog(it)
-            }
-            customerAdapter.notifyDataSetChanged()
+            temps = customersTemp
+            getList()
         }
         show_en.setOnClickListener {
             val filtered = customersTemp.filter { it.deleted_at === null }
-            recyclerview.adapter = CustomerRecyclerViewAdapter(filtered as MutableList<Customer>){
-                showDialog(it)
-            }
-            customerAdapter.notifyDataSetChanged()
+            temps = filtered as ArrayList<Customer>
+            getList()
         }
         show_dis.setOnClickListener {
             val filtered = customersTemp.filter { it.deleted_at !== null }
-            recyclerview.adapter = CustomerRecyclerViewAdapter(filtered as MutableList<Customer>){
+            temps = filtered as ArrayList<Customer>
+            getList()
+        }
+        sort_switch.setOnClickListener {
+            getList()
+        }
+    }
+
+    private fun getList(){
+        if(sort_switch.isChecked){
+            val sorted = temps.sortedBy { it.name }
+            recyclerview.adapter = CustomerRecyclerViewAdapter(sorted as MutableList<Customer>){
                 showDialog(it)
             }
-            customerAdapter.notifyDataSetChanged()
+        }else{
+            recyclerview.adapter = CustomerRecyclerViewAdapter(temps as MutableList<Customer>){
+                showDialog(it)
+            }
         }
+        customerAdapter.notifyDataSetChanged()
     }
 
     override fun showCustomerLoading() {
@@ -108,6 +115,7 @@ class CustomerManagementActivity : AppCompatActivity(), CustomerView {
         }else{
             customersList.addAll(temp)
             customersTemp.addAll(temp)
+            temps = customersTemp
             recyclerview.apply {
                 layoutManager = LinearLayoutManager(this@CustomerManagementActivity)
                 customerAdapter = CustomerRecyclerViewAdapter(customersList) {
@@ -138,6 +146,9 @@ class CustomerManagementActivity : AppCompatActivity(), CustomerView {
         val infoDialog = AlertDialog.Builder(this)
             .setView(dialog)
             .show()
+        if (customer.deleted_at != null){
+            btnEdit.visibility = View.GONE
+        }
         btnEdit.setOnClickListener {
             startActivity<EditCustomerActivity>("customer" to customer)
         }
