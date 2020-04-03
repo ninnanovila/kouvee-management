@@ -60,11 +60,10 @@ class EditOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOr
     }
 
     override fun showOrderProductLoading() {
-        progressbar.visibility = View.VISIBLE
+        btn_done.startAnimation()
     }
 
     override fun hideOrderProductLoading() {
-        progressbar.visibility = View.GONE
     }
 
     override fun orderProductSuccess(data: OrderProductResponse?) {
@@ -73,6 +72,7 @@ class EditOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOr
     }
 
     override fun orderProductFailed() {
+        btn_done.revertAnimation()
         Toast.makeText(this, "Failed Order Product", Toast.LENGTH_SHORT).show()
     }
 

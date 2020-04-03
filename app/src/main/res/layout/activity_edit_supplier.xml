@@ -143,27 +143,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <Button
+            <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
                 android:id="@+id/btn_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
                 android:text="@string/delete"
-                android:layout_margin="8dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="?attr/materialButtonOutlinedStyle"/>
+                style="@style/ProgressButtonWhite"/>
 
-            <ProgressBar
-                android:id="@+id/progressbar"
-                android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="gone"/>
-
-            <Button
+            <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
                 android:id="@+id/btn_save"
-                android:text="@string/save"
-                android:layout_margin="8dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="@string/save"
+                style="@style/ProgressButton"/>
 
         </LinearLayout>
     </LinearLayout>

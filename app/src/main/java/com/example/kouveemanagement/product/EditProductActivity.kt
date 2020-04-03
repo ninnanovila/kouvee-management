@@ -58,7 +58,7 @@ class EditProductActivity : AppCompatActivity(), ProductView, UploadPhotoProduct
         }
         btn_choose.setOnClickListener {
             //IMAGE
-            startActivityForResult(getImageChooserIntent(), IMAGE_RESULT)
+            startActivityForResult(getImageChooserIntent(), RESULT)
         }
         btn_upload.setOnClickListener {
             if (bitmap!=null){
@@ -123,15 +123,11 @@ class EditProductActivity : AppCompatActivity(), ProductView, UploadPhotoProduct
     }
 
     override fun showProductLoading() {
-        progressbar.visibility = View.VISIBLE
-        btn_save.visibility = View.INVISIBLE
+        btn_save.startAnimation()
         btn_cancel.visibility = View.INVISIBLE
     }
 
     override fun hideProductLoading() {
-        progressbar.visibility = View.INVISIBLE
-        btn_save.visibility = View.VISIBLE
-        btn_cancel.visibility = View.VISIBLE
     }
 
     override fun productSuccess(data: ProductResponse?) {
@@ -140,6 +136,8 @@ class EditProductActivity : AppCompatActivity(), ProductView, UploadPhotoProduct
     }
 
     override fun productFailed() {
+        btn_save.revertAnimation()
+        btn_cancel.visibility = View.VISIBLE
         Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
     }
 
@@ -150,7 +148,7 @@ class EditProductActivity : AppCompatActivity(), ProductView, UploadPhotoProduct
 
 
     //IMAGE
-    private val IMAGE_RESULT = 200
+    private val RESULT = 200
     var bitmap: Bitmap? = null
     var byteArray: ByteArray? = null
 
@@ -229,7 +227,7 @@ class EditProductActivity : AppCompatActivity(), ProductView, UploadPhotoProduct
         super.onActivityResult(requestCode, resultCode, data)
 
         if (resultCode == Activity.RESULT_OK){
-            if (requestCode == IMAGE_RESULT){
+            if (requestCode == RESULT){
                 val filePath = getImageFilePath(data)
                 Toast.makeText(this, filePath, Toast.LENGTH_LONG).show()
                 if (filePath != null){

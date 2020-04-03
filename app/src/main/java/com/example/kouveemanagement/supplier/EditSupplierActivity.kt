@@ -78,15 +78,11 @@ class EditSupplierActivity : AppCompatActivity(), SupplierView {
     }
 
     override fun showSupplierLoading() {
-        progressbar.visibility = View.VISIBLE
-        btn_save.visibility = View.INVISIBLE
+        btn_save.startAnimation()
         btn_cancel.visibility = View.INVISIBLE
     }
 
     override fun hideSupplierLoading() {
-        progressbar.visibility = View.GONE
-        btn_save.visibility = View.VISIBLE
-        btn_cancel.visibility = View.VISIBLE
     }
 
     override fun supplierSuccess(data: SupplierResponse?) {
@@ -95,6 +91,8 @@ class EditSupplierActivity : AppCompatActivity(), SupplierView {
     }
 
     override fun supplierFailed() {
+        btn_save.revertAnimation()
+        btn_cancel.visibility = View.VISIBLE
         Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
     }
 

@@ -20,7 +20,11 @@ import org.jetbrains.anko.startActivity
 class  TransactionActivity : AppCompatActivity(), TransactionView, CustomerPetView, ProductView, ServiceView{
 
     private var transactionsList: MutableList<Transaction> = mutableListOf()
+    private val transactionsTemp = ArrayList<Transaction>()
+    private var temps = ArrayList<Transaction>()
+
     private lateinit var presenter: TransactionPresenter
+    private lateinit var transactionAdapter: TransactionRecyclerViewAdapter
 
     private lateinit var lastEmp: String
 
@@ -65,26 +69,55 @@ class  TransactionActivity : AppCompatActivity(), TransactionView, CustomerPetVi
         btn_home.setOnClickListener {
             startActivity<CustomerServiceActivity>()
         }
-        val adapter = TransactionRecyclerViewAdapter(transactionsList){}
+        transactionAdapter = TransactionRecyclerViewAdapter(transactionsList){}
         search_view.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 recyclerview.adapter = TransactionRecyclerViewAdapter(transactions){
                     showAlert()
                 }
-                query?.let { adapter.filterTransaction(it) }
+                query?.let { transactionAdapter.filterTransaction(it) }
                 return false
             }
             override fun onQueryTextChange(newText: String?): Boolean {
                 recyclerview.adapter = TransactionRecyclerViewAdapter(transactions) {
                     showAlert()
                 }
-                newText?.let { adapter.filterTransaction(it) }
+                newText?.let { transactionAdapter.filterTransaction(it) }
                 return false
             }
         })
         fab_add.setOnClickListener {
             showAlert()
         }
+        show_all.setOnClickListener {
+            temps = transactionsTemp
+            getList()
+        }
+        show_product.setOnClickListener {
+            val filtered = transactionsTemp.filter { it.id.toString()[0] == 'P' }
+            temps = filtered as ArrayList<Transaction>
+            getList()
+        }
+        show_service.setOnClickListener {
+            val filtered = transactionsTemp.filter { it.id.toString()[0] == 'L' }
+            temps = filtered as ArrayList<Transaction>
+            getList()
+        }
+    }
+
+    private fun getList(){
+        if (paid_off_switch.isChecked){
+            val newFiltered = temps.filter { it.payment.toString() == "1" }
+            recyclerview.adapter = TransactionRecyclerViewAdapter(newFiltered as MutableList<Transaction>){
+                showDialog(it)
+            }
+        }else{
+            val newFiltered = temps.filter { it.payment.toString() == "0" }
+            recyclerview.adapter = TransactionRecyclerViewAdapter(newFiltered as MutableList<Transaction>){
+                showDialog(it)
+            }
+        }
+        transactionAdapter.notifyDataSetChanged()
     }
 
     override fun showTransactionLoading() {
@@ -101,9 +134,9 @@ class  TransactionActivity : AppCompatActivity(), TransactionView, CustomerPetVi
             if (temp.isEmpty()){
                 Toast.makeText(this, "No Result", Toast.LENGTH_SHORT).show()
             }else{
-                for (i in temp.indices){
-                    transactionsList.add(i, temp[i])
-                }
+                transactionsList.addAll(temp)
+                transactionsTemp.addAll(temp)
+                temps.addAll(temp)
                 recyclerview.layoutManager = LinearLayoutManager(this)
                 recyclerview.adapter = TransactionRecyclerViewAdapter(transactionsList){
                     transaction = it

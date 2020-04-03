@@ -27,7 +27,7 @@ class PetTypeManagementActivity : AppCompatActivity(), PetTypeView {
     private var temps = ArrayList<PetType>()
     private var petTypesList: MutableList<PetType> = mutableListOf()
 
-    private lateinit var presentertype: PetTypePresenter
+    private lateinit var presenterType: PetTypePresenter
     private lateinit var petTypesAdapter: PetRecyclerViewAdapter
 
     private lateinit var dialog: View
@@ -40,8 +40,8 @@ class PetTypeManagementActivity : AppCompatActivity(), PetTypeView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pet_type_management)
-        presentertype = PetTypePresenter(this, Repository())
-        presentertype.getAllPetType()
+        presenterType = PetTypePresenter(this, Repository())
+        presenterType.getAllPetType()
         btn_home.setOnClickListener {
             startActivity<OwnerActivity>()
         }
@@ -179,15 +179,15 @@ class PetTypeManagementActivity : AppCompatActivity(), PetTypeView {
         btnSave.setOnClickListener {
             val newName = name.text.toString()
             if (newName.isEmpty()){
-                val newPetType = PetType(id, newName)
-                presentertype.editPetType(id, newPetType)
-            }else{
                 name.error = getString(R.string.error_name)
+            }else{
+                val newPetType = PetType(id, newName)
+                presenterType.editPetType(id, newPetType)
             }
         }
 
         btnDelete.setOnClickListener {
-            presentertype.deletePetType(id)
+            presenterType.deletePetType(id)
         }
 
         btnClose.setOnClickListener {
@@ -197,7 +197,7 @@ class PetTypeManagementActivity : AppCompatActivity(), PetTypeView {
 
     private fun fabAnimation(){
         fab_add.setOnClickListener {
-            val fragment: Fragment = AddPetFragment.newInstance()
+            val fragment: Fragment = AddPetFragment.newInstance("type")
             val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
             transaction.replace(R.id.container, fragment).commit()
         }

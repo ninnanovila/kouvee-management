@@ -27,7 +27,7 @@ class PetSizeManagementActivity : AppCompatActivity(), PetSizeView {
     private val petSizesTemp = ArrayList<PetSize>()
     private var temps = ArrayList<PetSize>()
 
-    private lateinit var presentersize: PetSizePresenter
+    private lateinit var presenterSize: PetSizePresenter
     private lateinit var petSizesAdapter: PetRecyclerViewAdapter
 
     private lateinit var dialog: View
@@ -40,8 +40,8 @@ class PetSizeManagementActivity : AppCompatActivity(), PetSizeView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pet_size_management)
-        presentersize = PetSizePresenter(this, Repository())
-        presentersize.getAllPetSize()
+        presenterSize = PetSizePresenter(this, Repository())
+        presenterSize.getAllPetSize()
         btn_home.setOnClickListener {
             startActivity<OwnerActivity>()
         }
@@ -68,7 +68,7 @@ class PetSizeManagementActivity : AppCompatActivity(), PetSizeView {
             }
         })
         fab_add.setOnClickListener {
-            val fragment: Fragment = AddPetFragment.newInstance()
+            val fragment: Fragment = AddPetFragment.newInstance("size")
             val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
             transaction.replace(R.id.container, fragment).commit()
         }
@@ -184,15 +184,15 @@ class PetSizeManagementActivity : AppCompatActivity(), PetSizeView {
         btnSave.setOnClickListener {
             val newName = name.text.toString()
             if (newName.isEmpty()){
-                val newPetSize = PetSize(id, newName)
-                presentersize.editPetSize(id, newPetSize)
-            }else{
                 name.error = getString(R.string.error_name)
+            }else{
+                val newPetSize = PetSize(id, newName)
+                presenterSize.editPetSize(id, newPetSize)
             }
         }
 
         btnDelete.setOnClickListener {
-            presentersize.deletePetSize(id)
+            presenterSize.deletePetSize(id)
         }
 
         btnClose.setOnClickListener {

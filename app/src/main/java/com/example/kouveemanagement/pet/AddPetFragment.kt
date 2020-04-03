@@ -31,16 +31,32 @@ class AddPetFragment : Fragment(), PetSizeView, PetTypeView {
     private lateinit var petType: PetType
     private lateinit var presenterType: PetTypePresenter
 
-    companion object {
-        fun newInstance() = AddPetFragment()
+    private lateinit var type: String
+
+    companion object{
+        private const val type = "input"
+        fun newInstance(input: String) : AddPetFragment{
+            val fragment = AddPetFragment()
+            val bundle = Bundle().apply {
+                putString(type, input)
+            }
+            fragment.arguments = bundle
+            return fragment
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        type = arguments?.getString("input")!!
         return inflater.inflate(R.layout.fragment_add_pet, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if (type == "type"){
+            btn_add_t.visibility = View.GONE
+        }else{
+            btn_add_s.visibility = View.GONE
+        }
         btn_add_s.setOnClickListener {
             if (isValid()){
                 getPetSize()
