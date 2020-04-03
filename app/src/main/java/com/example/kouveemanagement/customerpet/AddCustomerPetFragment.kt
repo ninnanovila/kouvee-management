@@ -111,13 +111,11 @@ class AddCustomerPetFragment : Fragment(), CustomerPetView{
     }
 
     override fun showCustomerPetLoading() {
-        btn_add.visibility = View.GONE
-        progressbar.visibility = View.VISIBLE
+        btn_add.startAnimation()
     }
 
     override fun hideCustomerPetLoading() {
-        progressbar.visibility = View.GONE
-        btn_add.visibility = View.VISIBLE
+        btn_add.revertAnimation()
     }
 
     private fun setCustomerDropdown(){

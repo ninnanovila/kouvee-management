@@ -115,7 +115,7 @@
             style="@style/Widget.MaterialComponents.Button.TextButton"/>
 
         <Button
-            android:id="@+id/btn_delete"
+            android:id="@+id/btn_cancel"
             android:text="@string/delete"
             android:layout_gravity="end"
             android:layout_margin="8dp"

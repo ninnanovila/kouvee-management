@@ -17,17 +17,12 @@ import com.example.kouveemanagement.repository.Repository
 import kotlinx.android.synthetic.main.activity_add_transaction.*
 import org.jetbrains.anko.startActivity
 
-class AddTransactionActivity : AppCompatActivity(), ProductView, ServiceView, TransactionView, DetailProductTransactionView, DetailServiceTransactionView {
+class AddTransactionActivity : AppCompatActivity(), TransactionView, DetailProductTransactionView, DetailServiceTransactionView {
 
     private var state: String = ""
     private lateinit var type: String
 
     private lateinit var lastEmp: String
-
-    private lateinit var presenterP: ProductPresenter
-    private var products: MutableList<Product> = mutableListOf()
-    private lateinit var presenterS: ServicePresenter
-    private var services: MutableList<Service> = mutableListOf()
 
     private lateinit var presenter: TransactionPresenter
     private lateinit var transaction: Transaction
@@ -38,10 +33,6 @@ class AddTransactionActivity : AppCompatActivity(), ProductView, ServiceView, Tr
 
     companion object{
         lateinit var idTransaction: String
-        var nameProductDropdown: MutableList<String> = arrayListOf()
-        var idProductDropdown: MutableList<String> = arrayListOf()
-        var nameServiceDropdown: MutableList<String> = arrayListOf()
-        var idServiceDropdown: MutableList<String> = arrayListOf()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,10 +43,6 @@ class AddTransactionActivity : AppCompatActivity(), ProductView, ServiceView, Tr
         idTransaction = transaction.id.toString()
         type = intent?.getStringExtra("type").toString()
         Toast.makeText(this, "TYPE : $type", Toast.LENGTH_LONG).show()
-        presenterP = ProductPresenter(this, Repository())
-        presenterP.getAllProduct()
-        presenterS = ServicePresenter(this, Repository())
-        presenterS.getAllService()
         presenter = TransactionPresenter(this, Repository())
         presenter.editTotalTransaction(idTransaction)
         if (type == "service"){
@@ -106,74 +93,6 @@ class AddTransactionActivity : AppCompatActivity(), ProductView, ServiceView, Tr
         }
         val price = transaction.total_price
         total_price.text = "Rp. $price"
-    }
-
-    override fun showProductLoading() {
-        progressbar.visibility = View.VISIBLE
-    }
-
-    override fun hideProductLoading() {
-        progressbar.visibility = View.GONE
-    }
-
-    override fun productSuccess(data: ProductResponse?) {
-        val temp: List<Product> = data?.products ?: emptyList()
-        products.addAll(temp)
-        if (temp.isEmpty()){
-            Toast.makeText(this, "No Result", Toast.LENGTH_SHORT).show()
-        }else{
-            if (nameProductDropdown.isNotEmpty()){
-                nameProductDropdown.clear()
-                idProductDropdown.clear()
-                for (i in temp.indices){
-                    nameProductDropdown.add(i, temp[i].name.toString())
-                    idProductDropdown.add(i, temp[i].id.toString())
-                }
-            }else{
-                for (i in temp.indices){
-                    nameProductDropdown.add(i, temp[i].name.toString())
-                    idProductDropdown.add(i, temp[i].id.toString())
-                }
-            }
-        }
-    }
-
-    override fun productFailed() {
-        Toast.makeText(this, "Failed Product", Toast.LENGTH_SHORT).show()
-    }
-
-    override fun showServiceLoading() {
-        progressbar.visibility = View.VISIBLE
-    }
-
-    override fun hideServiceLoading() {
-        progressbar.visibility = View.GONE
-    }
-
-    override fun serviceSuccess(data: ServiceResponse?) {
-        val temp: List<Service> = data?.services ?: emptyList()
-        services.addAll(temp)
-        if (temp.isEmpty()){
-            Toast.makeText(this, "No Result", Toast.LENGTH_SHORT).show()
-        }else{
-            if (nameServiceDropdown.isNotEmpty()){
-                nameServiceDropdown.clear()
-                idServiceDropdown.clear()
-                for (i in temp.indices){
-                    nameServiceDropdown.add(i, temp[i].name.toString())
-                    idServiceDropdown.add(i, temp[i].id.toString())
-                }
-            }else{
-                for (i in temp.indices){
-                    nameServiceDropdown.add(i, temp[i].name.toString())
-                    idServiceDropdown.add(i, temp[i].id.toString())
-                }
-            }
-        }
-    }
-
-    override fun serviceFailed() {
-        Toast.makeText(this, "Failed Service", Toast.LENGTH_SHORT).show()
     }
 
     override fun showTransactionLoading() {
@@ -233,7 +152,7 @@ class AddTransactionActivity : AppCompatActivity(), ProductView, ServiceView, Tr
                 val transaction = supportFragmentManager.beginTransaction()
                 transaction.replace(R.id.container, fragment).commit()
                 Toast.makeText(this, it.id_transaction, Toast.LENGTH_LONG).show()
-            }, products, mutableListOf(), {}, mutableListOf())
+            }, TransactionActivity.products, mutableListOf(), {}, mutableListOf())
         }
     }
 
@@ -263,7 +182,7 @@ class AddTransactionActivity : AppCompatActivity(), ProductView, ServiceView, Tr
                 val transaction = supportFragmentManager.beginTransaction()
                 transaction.replace(R.id.container, fragment).commit()
                 Toast.makeText(this, it.id_transaction, Toast.LENGTH_LONG).show()
-            }, services)
+            }, TransactionActivity.services)
         }
     }
 

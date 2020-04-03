@@ -12,12 +12,7 @@ import com.example.kouveemanagement.presenter.*
 import com.example.kouveemanagement.repository.Repository
 import kotlinx.android.synthetic.main.activity_show_transaction.*
 
-class ShowTransactionActivity : AppCompatActivity(), ProductView, ServiceView, TransactionView, DetailProductTransactionView, DetailServiceTransactionView {
-
-    private lateinit var presenterP: ProductPresenter
-    private var products: MutableList<Product> = mutableListOf()
-    private lateinit var presenterS: ServicePresenter
-    private var services: MutableList<Service> = mutableListOf()
+class ShowTransactionActivity : AppCompatActivity(), TransactionView, DetailProductTransactionView, DetailServiceTransactionView {
 
     private lateinit var presenter: TransactionPresenter
     private lateinit var transaction: Transaction
@@ -33,10 +28,6 @@ class ShowTransactionActivity : AppCompatActivity(), ProductView, ServiceView, T
         val idTransaction = transaction.id.toString()
         val type = intent?.getStringExtra("type").toString()
         Toast.makeText(this, "TYPE : $type", Toast.LENGTH_LONG).show()
-        presenterP = ProductPresenter(this, Repository())
-        presenterP.getAllProduct()
-        presenterS = ServicePresenter(this, Repository())
-        presenterS.getAllService()
         presenter = TransactionPresenter(this, Repository())
         presenter.editTotalTransaction(idTransaction)
         if (type == "service"){
@@ -58,48 +49,6 @@ class ShowTransactionActivity : AppCompatActivity(), ProductView, ServiceView, T
             status.visibility = View.GONE
         }
         total_price.text = transaction.total_price.toString()
-    }
-
-    override fun showProductLoading() {
-        progressbar.visibility = View.VISIBLE
-    }
-
-    override fun hideProductLoading() {
-        progressbar.visibility = View.GONE
-    }
-
-    override fun productSuccess(data: ProductResponse?) {
-        val temp: List<Product> = data?.products ?: emptyList()
-        if (temp.isEmpty()){
-            Toast.makeText(this, "No Result", Toast.LENGTH_SHORT).show()
-        }else{
-            products.addAll(temp)
-        }
-    }
-
-    override fun productFailed() {
-        Toast.makeText(this, "Failed Product", Toast.LENGTH_SHORT).show()
-    }
-
-    override fun showServiceLoading() {
-        progressbar.visibility = View.VISIBLE
-    }
-
-    override fun hideServiceLoading() {
-        progressbar.visibility = View.GONE
-    }
-
-    override fun serviceSuccess(data: ServiceResponse?) {
-        val temp: List<Service> = data?.services ?: emptyList()
-        if (temp.isEmpty()){
-            Toast.makeText(this, "No Result", Toast.LENGTH_SHORT).show()
-        }else{
-            services.addAll(temp)
-        }
-    }
-
-    override fun serviceFailed() {
-        Toast.makeText(this, "Failed Service", Toast.LENGTH_SHORT).show()
     }
 
     override fun showTransactionLoading() {
@@ -135,7 +84,7 @@ class ShowTransactionActivity : AppCompatActivity(), ProductView, ServiceView, T
             recyclerview.layoutManager = LinearLayoutManager(this)
             recyclerview.adapter = DetailTransactionRecyclerViewAdapter("product", detailProducts, {
                 Toast.makeText(this, it.id_transaction, Toast.LENGTH_LONG).show()
-            }, products, mutableListOf(), {}, mutableListOf())
+            }, TransactionActivity.products, mutableListOf(), {}, mutableListOf())
         }
     }
 
@@ -160,7 +109,7 @@ class ShowTransactionActivity : AppCompatActivity(), ProductView, ServiceView, T
             recyclerview.layoutManager = LinearLayoutManager(this)
             recyclerview.adapter = DetailTransactionRecyclerViewAdapter("service", mutableListOf(), {}, mutableListOf(), detailServices, {
                 Toast.makeText(this, it.id_transaction, Toast.LENGTH_LONG).show()
-            }, services)
+            }, TransactionActivity.services)
         }
     }
 

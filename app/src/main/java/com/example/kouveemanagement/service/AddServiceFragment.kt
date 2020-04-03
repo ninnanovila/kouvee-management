@@ -74,13 +74,11 @@ class AddServiceFragment : Fragment(), ServiceView {
     }
 
     override fun showServiceLoading() {
-        btn_add.visibility = View.INVISIBLE
-        progressbar.visibility = View.VISIBLE
+        btn_add.startAnimation()
     }
 
     override fun hideServiceLoading() {
-        progressbar.visibility = View.GONE
-        btn_add.visibility = View.VISIBLE
+        btn_add.revertAnimation()
     }
 
     override fun serviceSuccess(data: ServiceResponse?) {

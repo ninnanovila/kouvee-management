@@ -99,13 +99,11 @@ class AddEmployeeFragment : Fragment(), EmployeeView {
     }
 
     override fun showEmployeeLoading() {
-        btn_add.visibility = View.INVISIBLE
-        progressbar.visibility = View.VISIBLE
+        btn_add.startAnimation()
     }
 
     override fun hideEmployeeLoading() {
-        progressbar.visibility = View.INVISIBLE
-        btn_add.visibility = View.VISIBLE
+        btn_add.revertAnimation()
     }
 
     override fun employeeSuccess(data: EmployeeResponse?) {

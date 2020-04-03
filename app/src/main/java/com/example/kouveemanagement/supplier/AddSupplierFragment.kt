@@ -71,13 +71,11 @@ class AddSupplierFragment : Fragment(), SupplierView {
     }
 
     override fun showSupplierLoading() {
-        btn_add.visibility = View.INVISIBLE
-        progressbar.visibility = View.VISIBLE
+        btn_add.startAnimation()
     }
 
     override fun hideSupplierLoading() {
-        progressbar.visibility = View.GONE
-        btn_add.visibility = View.VISIBLE
+        btn_add.revertAnimation()
     }
 
     override fun supplierSuccess(data: SupplierResponse?) {

@@ -14,9 +14,6 @@ import com.example.kouveemanagement.presenter.ProductPresenter
 import com.example.kouveemanagement.presenter.ProductView
 import com.example.kouveemanagement.repository.Repository
 import kotlinx.android.synthetic.main.fragment_add_product.*
-import kotlinx.android.synthetic.main.fragment_add_product.btn_add
-import kotlinx.android.synthetic.main.fragment_add_product.name
-import kotlinx.android.synthetic.main.fragment_add_product.progressbar
 import org.jetbrains.anko.support.v4.startActivity
 
 /**
@@ -83,13 +80,11 @@ class AddProductFragment : Fragment(), ProductView {
     }
 
     override fun showProductLoading() {
-        btn_add.visibility = View.INVISIBLE
-        progressbar.visibility = View.VISIBLE
+        btn_add.startAnimation()
     }
 
     override fun hideProductLoading() {
-        progressbar.visibility = View.GONE
-        btn_add.visibility = View.VISIBLE
+        btn_add.revertAnimation()
     }
 
     override fun productSuccess(data: ProductResponse?) {

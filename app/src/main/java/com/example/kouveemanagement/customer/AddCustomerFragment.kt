@@ -95,13 +95,11 @@ class AddCustomerFragment : Fragment(), CustomerView {
     }
 
     override fun showCustomerLoading() {
-        btn_add.visibility = View.GONE
-        progressbar.visibility = View.VISIBLE
+        btn_add.startAnimation()
     }
 
     override fun hideCustomerLoading() {
-        progressbar.visibility = View.GONE
-        btn_add.visibility = View.VISIBLE
+        btn_add.revertAnimation()
     }
 
     override fun customerSuccess(data: CustomerResponse?) {

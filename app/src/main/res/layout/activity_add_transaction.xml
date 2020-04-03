@@ -1,159 +1,199 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
     android:background="@color/colorGrey"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".transaction.AddTransactionActivity">
 
-    <RelativeLayout
-        android:id="@+id/container"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-        <LinearLayout
-            android:id="@+id/linearLayout1"
-            android:orientation="horizontal"
-            android:layout_margin="16dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/btn_home"
-                style="@style/FabHome"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:backgroundTint="@color/colorAccent"
-                app:fabSize="mini"/>
-
-            <ImageView
-                style="@style/Cursor"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:ignore="ContentDescription" />
-
-            <TextView
-                android:text="@string/add_detail_transaction"
-                style="@style/Title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
-
-        <com.google.android.material.card.MaterialCardView
-            app:cardCornerRadius="8dp"
-            android:id="@+id/linearLayout2"
-            android:layout_marginStart="16dp"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/materialCardView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
-            android:layout_below="@+id/linearLayout1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_weight="1"
+            app:cardCornerRadius="8dp"
+            app:layout_constraintEnd_toStartOf="@+id/btn_edit"
+            app:layout_constraintStart_toStartOf="@+id/btn_home"
+            app:layout_constraintTop_toBottomOf="@+id/btn_home">
 
             <LinearLayout
-                android:orientation="vertical"
+                android:id="@+id/linearLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/id"
-                    android:drawableStart="@drawable/ic_forid"
-                    android:layout_margin="8dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="8dp"
+                    android:drawableStart="@drawable/ic_forid"
+                    android:drawablePadding="8dp" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/id_customer_pet"
-                    android:drawableStart="@drawable/ic_label"
-                    android:layout_margin="8dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="8dp"
+                    android:drawableStart="@drawable/ic_label"
+                    android:drawablePadding="8dp" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/status"
-                    android:drawableStart="@drawable/ic_status"
-                    android:layout_margin="8dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="8dp"
+                    android:drawableStart="@drawable/ic_status"
+                    android:drawablePadding="8dp" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/total_price"
-                    android:drawableStart="@drawable/ic_wallet"
-                    android:layout_margin="8dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="8dp"
+                    android:drawableStart="@drawable/ic_wallet"
+                    android:drawablePadding="8dp" />
 
             </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
 
-        <LinearLayout
-            android:id="@+id/linearLayout3"
-            android:orientation="horizontal"
-            android:gravity="end"
-            android:layout_marginHorizontal="8dp"
-            android:layout_below="@id/linearLayout2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/btn_status"
-                android:src="@drawable/ic_done"
-                android:layout_margin="8dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:fabSize="mini"/>
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/btn_edit"
-                android:src="@drawable/ic_edit"
-                android:layout_margin="8dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:fabSize="mini"/>
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/btn_cancel"
-                android:src="@drawable/ic_delete"
-                android:layout_margin="8dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:fabSize="mini"/>
-
-        </LinearLayout>
+        </androidx.cardview.widget.CardView>
 
         <ProgressBar
             android:id="@+id/progressbar"
-            android:layout_centerInParent="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone"/>
+            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:layout_below="@id/linearLayout3"
             android:id="@id/detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:text="@string/detail"
-            android:layout_margin="16dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            app:layout_constraintStart_toStartOf="@id/materialCardView"
+            app:layout_constraintTop_toBottomOf="@+id/materialCardView" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/detail"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/detail"
             tools:listitem="@layout/item_detail_transaction" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_add"
-            android:src="@drawable/ic_add"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_below="@id/recyclerview"
-            android:layout_margin="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:fabSize="mini"/>
-    </RelativeLayout>
+            android:layout_below="@id/recyclerview"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:src="@drawable/ic_add"
+            android:background="@color/colorOrange"
+            android:backgroundTint="@color/colorOrange"
+            app:fabSize="mini"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-</ScrollView>
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btn_home"
+            style="@style/FabHome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            app:backgroundTint="@color/colorAccent"
+            app:fabSize="mini"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            style="@style/Cursor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/btn_home"
+            app:layout_constraintStart_toEndOf="@+id/btn_home"
+            app:layout_constraintTop_toTopOf="@+id/btn_home"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/textView3"
+            style="@style/Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@string/add_detail_transaction"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView"
+            app:layout_constraintStart_toEndOf="@+id/imageView"
+            app:layout_constraintTop_toTopOf="@+id/imageView" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btn_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:backgroundTint="@color/colorYellow"
+            android:src="@drawable/ic_edit"
+            app:backgroundTint="@color/colorYellow"
+            app:fabSize="mini"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/materialCardView" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btn_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="@color/colorRed"
+            android:src="@drawable/ic_delete"
+            app:backgroundTint="@color/colorRed"
+            app:fabSize="mini"
+            app:layout_constraintEnd_toEndOf="@+id/btn_status"
+            app:layout_constraintStart_toStartOf="@+id/btn_status"
+            app:layout_constraintTop_toBottomOf="@+id/btn_status" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btn_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="4dp"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="@color/colorGreen"
+            android:src="@drawable/ic_done"
+            app:backgroundTint="@color/colorGreen"
+            app:fabSize="mini"
+            app:layout_constraintEnd_toEndOf="@+id/btn_edit"
+            app:layout_constraintStart_toStartOf="@+id/btn_edit"
+            app:layout_constraintTop_toBottomOf="@+id/btn_edit" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</RelativeLayout>

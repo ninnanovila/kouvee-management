@@ -11,19 +11,13 @@ import com.example.kouveemanagement.CustomerServiceActivity
 import com.example.kouveemanagement.MainActivity
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.adapter.TransactionRecyclerViewAdapter
-import com.example.kouveemanagement.model.CustomerPet
-import com.example.kouveemanagement.model.CustomerPetResponse
-import com.example.kouveemanagement.model.Transaction
-import com.example.kouveemanagement.model.TransactionResponse
-import com.example.kouveemanagement.presenter.CustomerPetPresenter
-import com.example.kouveemanagement.presenter.CustomerPetView
-import com.example.kouveemanagement.presenter.TransactionPresenter
-import com.example.kouveemanagement.presenter.TransactionView
+import com.example.kouveemanagement.model.*
+import com.example.kouveemanagement.presenter.*
 import com.example.kouveemanagement.repository.Repository
 import kotlinx.android.synthetic.main.activity_transaction.*
 import org.jetbrains.anko.startActivity
 
-class  TransactionActivity : AppCompatActivity(), TransactionView, CustomerPetView{
+class  TransactionActivity : AppCompatActivity(), TransactionView, CustomerPetView, ProductView, ServiceView{
 
     private var transactionsList: MutableList<Transaction> = mutableListOf()
     private lateinit var presenter: TransactionPresenter
@@ -36,6 +30,8 @@ class  TransactionActivity : AppCompatActivity(), TransactionView, CustomerPetVi
 
     private lateinit var presenterC: CustomerPetPresenter
     private lateinit var customerPetId: String
+    private lateinit var presenterP: ProductPresenter
+    private lateinit var presenterS: ServicePresenter
 
     private var add = "0"
     private var type = "normal"
@@ -44,6 +40,13 @@ class  TransactionActivity : AppCompatActivity(), TransactionView, CustomerPetVi
         lateinit var transaction: Transaction
         var customerPetNameDropdown: MutableList<String> = arrayListOf()
         var customerPetIdDropdown: MutableList<String> = arrayListOf()
+        var customersPet: MutableList<CustomerPet> = arrayListOf()
+        var productNameDropdown: MutableList<String> = arrayListOf()
+        var productIdDropdown: MutableList<String> = arrayListOf()
+        var products: MutableList<Product> = arrayListOf()
+        var serviceNameDropdown: MutableList<String> = arrayListOf()
+        var serviceIdDropdown: MutableList<String> = arrayListOf()
+        var services: MutableList<Service> = arrayListOf()
         var transactions: MutableList<Transaction> = mutableListOf()
     }
 
@@ -51,6 +54,10 @@ class  TransactionActivity : AppCompatActivity(), TransactionView, CustomerPetVi
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_transaction)
         lastEmp = MainActivity.currentUser?.user_id.toString()
+        presenterS = ServicePresenter(this, Repository())
+        presenterS.getAllService()
+        presenterP = ProductPresenter(this, Repository())
+        presenterP.getAllProduct()
         presenterC = CustomerPetPresenter(this, Repository())
         presenterC.getAllCustomerPet()
         presenter = TransactionPresenter(this, Repository())
@@ -131,18 +138,12 @@ class  TransactionActivity : AppCompatActivity(), TransactionView, CustomerPetVi
         if (temp.isEmpty()){
             Toast.makeText(this, "No Result", Toast.LENGTH_SHORT).show()
         }else{
-            if (customerPetNameDropdown.isNotEmpty()){
-                customerPetNameDropdown.clear()
-                customerPetIdDropdown.clear()
-                for (i in temp.indices){
-                    customerPetNameDropdown.add(i, temp[i].name.toString())
-                    customerPetIdDropdown.add(i, temp[i].id.toString())
-                }
-            }else{
-                for (i in temp.indices){
-                    customerPetNameDropdown.add(i, temp[i].name.toString())
-                    customerPetIdDropdown.add(i, temp[i].id.toString())
-                }
+            customersPet.addAll(temp)
+            customerPetNameDropdown.clear()
+            customerPetIdDropdown.clear()
+            for (i in temp.indices){
+                customerPetNameDropdown.add(i, temp[i].name.toString())
+                customerPetIdDropdown.add(i, temp[i].id.toString())
             }
         }
     }
@@ -214,6 +215,64 @@ class  TransactionActivity : AppCompatActivity(), TransactionView, CustomerPetVi
                 startActivity<AddTransactionActivity>("type" to type)
             }
             .show()
+    }
+
+    override fun showProductLoading() {
+        progressbar.visibility = View.VISIBLE
+    }
+
+    override fun hideProductLoading() {
+        progressbar.visibility = View.GONE
+    }
+
+    override fun productSuccess(data: ProductResponse?) {
+        val temp: List<Product> = data?.products ?: emptyList()
+        if (temp.isEmpty()){
+            Toast.makeText(this, "No Result", Toast.LENGTH_SHORT).show()
+        }else{
+            products.addAll(temp)
+            productNameDropdown.clear()
+            productIdDropdown.clear()
+            for (i in temp.indices){
+                if (temp[i].deleted_at == null){
+                    productNameDropdown.add(temp[i].name.toString())
+                    productIdDropdown.add(temp[i].id.toString())
+                }
+            }
+        }
+    }
+
+    override fun productFailed() {
+        Toast.makeText(this, "Failed Product", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun showServiceLoading() {
+        progressbar.visibility = View.VISIBLE
+    }
+
+    override fun hideServiceLoading() {
+        progressbar.visibility = View.GONE
+    }
+
+    override fun serviceSuccess(data: ServiceResponse?) {
+        val temp: List<Service> = data?.services ?: emptyList()
+        if (temp.isEmpty()){
+            Toast.makeText(this, "No Result", Toast.LENGTH_SHORT).show()
+        }else{
+            services.addAll(temp)
+            serviceNameDropdown.clear()
+            serviceIdDropdown.clear()
+            for (i in temp.indices){
+                if (temp[i].deleted_at == null){
+                    serviceNameDropdown.add(temp[i].name.toString())
+                    serviceIdDropdown.add(temp[i].id.toString())
+                }
+            }
+        }
+    }
+
+    override fun serviceFailed() {
+        Toast.makeText(this, "Failed Service", Toast.LENGTH_SHORT).show()
     }
 
 }

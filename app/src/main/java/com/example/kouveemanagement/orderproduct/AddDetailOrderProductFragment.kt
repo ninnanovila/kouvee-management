@@ -52,7 +52,7 @@ class AddDetailOrderProductFragment : Fragment(), DetailOrderProductView {
             }
         }
         btn_close.setOnClickListener {
-            startActivity<AddOrderProductActivity>()
+            activity?.supportFragmentManager?.beginTransaction()?.remove(this)?.commit()
         }
         setProductDropdown()
     }
@@ -74,13 +74,11 @@ class AddDetailOrderProductFragment : Fragment(), DetailOrderProductView {
     }
 
     override fun showDetailOrderProductLoading() {
-        btn_add.visibility = View.INVISIBLE
-        progressbar.visibility = View.VISIBLE
+        btn_add.startAnimation()
     }
 
     override fun hideDetailOrderProductLoading() {
-        progressbar.visibility = View.GONE
-        btn_add.visibility = View.VISIBLE
+        btn_add.revertAnimation()
     }
 
     override fun detailOrderProductSuccess(data: DetailOrderProductResponse?) {

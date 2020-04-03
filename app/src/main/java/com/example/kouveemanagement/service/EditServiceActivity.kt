@@ -36,7 +36,7 @@ class EditServiceActivity : AppCompatActivity(), ServiceView {
                 presenter.editService(id, service)
             }
         }
-        btn_delete.setOnClickListener {
+        btn_cancel.setOnClickListener {
             presenter.deleteService(id)
         }
         btn_home.setOnClickListener {
@@ -99,13 +99,13 @@ class EditServiceActivity : AppCompatActivity(), ServiceView {
     override fun showServiceLoading() {
         progressbar.visibility = View.VISIBLE
         btn_save.visibility = View.INVISIBLE
-        btn_delete.visibility = View.INVISIBLE
+        btn_cancel.visibility = View.INVISIBLE
     }
 
     override fun hideServiceLoading() {
         progressbar.visibility = View.GONE
         btn_save.visibility = View.VISIBLE
-        btn_delete.visibility = View.VISIBLE
+        btn_cancel.visibility = View.VISIBLE
     }
 
     override fun serviceSuccess(data: ServiceResponse?) {

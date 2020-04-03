@@ -47,7 +47,6 @@ class AddOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOrd
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_order_product)
-        setVisible()
         orderProduct = OrderProductActivity.orderProduct
         idOrderProduct = orderProduct.id.toString()
         presenter = OrderProductPresenter(this, Repository())
@@ -56,7 +55,6 @@ class AddOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOrd
         presenterD = DetailOrderProductPresenter(this, Repository())
         presenterD.getDetailOrderProductByOrderId(orderProduct.id.toString())
         fab_add.setOnClickListener {
-            setInvisible()
             val fragment: Fragment = AddDetailOrderProductFragment.newInstance()
             val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
             transaction.replace(R.id.container, fragment).commit()
@@ -68,11 +66,11 @@ class AddOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOrd
             state = "edit"
             showEditSupplier()
         }
-        btn_print.setOnClickListener {
+        btn_status.setOnClickListener {
             state = "print"
             presenter.editPrintOrderProduct(orderProduct.id.toString())
         }
-        btn_delete.setOnClickListener {
+        btn_cancel.setOnClickListener {
             state = "delete"
             presenter.deleteOrderProduct(orderProduct.id.toString())
         }
@@ -88,24 +86,6 @@ class AddOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOrd
             }
         }
         total.text = input.total.toString()
-    }
-
-    private fun setInvisible(){
-        btn_home.visibility = View.INVISIBLE
-        btn_delete.visibility = View.INVISIBLE
-        btn_edit.visibility = View.INVISIBLE
-        btn_print.visibility = View.INVISIBLE
-        fab_add.visibility = View.INVISIBLE
-        materialCardView.visibility = View.INVISIBLE
-    }
-
-    private fun setVisible(){
-        btn_home.visibility = View.VISIBLE
-        btn_delete.visibility = View.VISIBLE
-        btn_edit.visibility = View.VISIBLE
-        btn_print.visibility = View.VISIBLE
-        fab_add.visibility = View.VISIBLE
-        materialCardView.visibility = View.VISIBLE
     }
 
     override fun showOrderProductLoading() {
@@ -158,7 +138,6 @@ class AddOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOrd
             detailOrderProducts.addAll(temp)
             recyclerview.layoutManager = LinearLayoutManager(this)
             recyclerview.adapter = DetailOrderProductRecyclerViewAdapter(OrderProductActivity.products, detailOrderProducts){
-                setInvisible()
                 val fragment = EditDetailOrderProductFragment.newInstance(it)
                 val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
                 transaction.replace(R.id.container, fragment).commit()

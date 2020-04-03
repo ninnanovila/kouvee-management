@@ -32,7 +32,7 @@ class EditEmployeeActivity : AppCompatActivity(), EmployeeView {
             getData()
             presenter.editEmployee(id, employee)
         }
-        btn_delete.setOnClickListener {
+        btn_cancel.setOnClickListener {
             presenter.deleteEmployee(id)
         }
         btn_home.setOnClickListener {
@@ -81,13 +81,13 @@ class EditEmployeeActivity : AppCompatActivity(), EmployeeView {
     override fun showEmployeeLoading() {
         progressbar.visibility = View.VISIBLE
         btn_save.visibility = View.INVISIBLE
-        btn_delete.visibility = View.INVISIBLE
+        btn_cancel.visibility = View.INVISIBLE
     }
 
     override fun hideEmployeeLoading() {
         progressbar.visibility = View.GONE
         btn_save.visibility = View.VISIBLE
-        btn_delete.visibility = View.VISIBLE
+        btn_cancel.visibility = View.VISIBLE
     }
 
     override fun employeeSuccess(data: EmployeeResponse?) {

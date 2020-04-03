@@ -37,7 +37,7 @@ class EditCustomerActivity : AppCompatActivity(), CustomerView {
                 presenter.editCustomer(id, customer)
             }
         }
-        btn_delete.setOnClickListener {
+        btn_cancel.setOnClickListener {
             presenter.deleteCustomer(id, lastEmp)
         }
         btn_home.setOnClickListener {
@@ -103,15 +103,11 @@ class EditCustomerActivity : AppCompatActivity(), CustomerView {
     }
 
     override fun showCustomerLoading() {
-        progressbar.visibility = View.VISIBLE
-        btn_save.visibility = View.INVISIBLE
-        btn_delete.visibility = View.INVISIBLE
+        btn_save.startAnimation()
+        btn_cancel.visibility = View.INVISIBLE
     }
 
     override fun hideCustomerLoading() {
-        progressbar.visibility = View.GONE
-        btn_save.visibility = View.VISIBLE
-        btn_delete.visibility = View.VISIBLE
     }
 
     override fun customerSuccess(data: CustomerResponse?) {
@@ -120,6 +116,8 @@ class EditCustomerActivity : AppCompatActivity(), CustomerView {
     }
 
     override fun customerFailed() {
+        btn_save.revertAnimation()
+        btn_cancel.visibility = View.VISIBLE
         Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
     }
 

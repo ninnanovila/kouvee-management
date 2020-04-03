@@ -24,8 +24,6 @@ class EditDetailServiceTransactionFragment : Fragment(), DetailServiceTransactio
     private lateinit var detailServiceTransaction: DetailServiceTransaction
     private lateinit var presenter: DetailServiceTransactionPresenter
 
-    private var nameDropdown: MutableList<String> = arrayListOf()
-    private var idDropdown: MutableList<String> = arrayListOf()
     private lateinit var idService: String
 
     private var state = "edit"
@@ -61,7 +59,7 @@ class EditDetailServiceTransactionFragment : Fragment(), DetailServiceTransactio
             quantity.isEnabled = true
             btn_edit.visibility = View.GONE
             btn_save.visibility = View.VISIBLE
-            btn_delete.visibility = View.VISIBLE
+            btn_cancel.visibility = View.VISIBLE
         }
         btn_save.setOnClickListener{
             if (isValid()){
@@ -70,7 +68,7 @@ class EditDetailServiceTransactionFragment : Fragment(), DetailServiceTransactio
                 presenter.editDetailServiceTransaction(detailServiceTransaction)
             }
         }
-        btn_delete.setOnClickListener {
+        btn_cancel.setOnClickListener {
             state = "delete"
             presenter.deleteDetailServiceTransaction(idTransaction, idService)
         }
@@ -80,11 +78,9 @@ class EditDetailServiceTransactionFragment : Fragment(), DetailServiceTransactio
     }
 
     private fun setDropdown(detailServiceTransaction: DetailServiceTransaction){
-        nameDropdown = AddTransactionActivity.nameServiceDropdown
-        idDropdown = AddTransactionActivity.idServiceDropdown
-        for (i in idDropdown.indices){
-            if (idDropdown[i] == detailServiceTransaction.id_service){
-                service.setText(nameDropdown[i])
+        for (i in TransactionActivity.serviceIdDropdown.indices){
+            if (TransactionActivity.serviceIdDropdown[i] == detailServiceTransaction.id_service){
+                service.setText(TransactionActivity.serviceNameDropdown[i])
             }
         }
     }
@@ -112,14 +108,14 @@ class EditDetailServiceTransactionFragment : Fragment(), DetailServiceTransactio
 
     override fun showDetailServiceTransactionLoading() {
         btn_save.visibility = View.INVISIBLE
-        btn_delete.visibility = View.INVISIBLE
+        btn_cancel.visibility = View.INVISIBLE
         progressbar.visibility = View.VISIBLE
     }
 
     override fun hideDetailServiceTransactionLoading() {
         progressbar.visibility = View.GONE
         btn_save.visibility = View.VISIBLE
-        btn_delete.visibility = View.VISIBLE
+        btn_cancel.visibility = View.VISIBLE
     }
 
     override fun detailServiceTransactionSuccess(data: DetailServiceTransactionResponse?) {

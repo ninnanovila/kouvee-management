@@ -25,8 +25,6 @@ class AddDetailProductTransactionFragment : Fragment(), DetailProductTransaction
     private lateinit var detailProductTransaction: DetailProductTransaction
     private lateinit var presenter: DetailProductTransactionPresenter
 
-    private var nameDropdown: MutableList<String> = arrayListOf()
-    private var idDropdown: MutableList<String> = arrayListOf()
     private lateinit var idProduct: String
 
     companion object{
@@ -37,16 +35,13 @@ class AddDetailProductTransactionFragment : Fragment(), DetailProductTransaction
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_add_detail_product_transaction, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         idTransaction = AddTransactionActivity.idTransaction
-        nameDropdown = AddTransactionActivity.nameProductDropdown
-        idDropdown = AddTransactionActivity.idProductDropdown
-        idProduct = idDropdown[0]
+        idProduct = TransactionActivity.productIdDropdown[0]
         btn_add.setOnClickListener {
             if (isValid()){
                 getData()
@@ -77,13 +72,11 @@ class AddDetailProductTransactionFragment : Fragment(), DetailProductTransaction
     }
 
     override fun showDetailProductTransactionLoading() {
-        btn_add.visibility = View.INVISIBLE
-        progressbar.visibility = View.VISIBLE
+        btn_add.startAnimation()
     }
 
     override fun hideDetailProductTransactionLoading() {
-        progressbar.visibility = View.GONE
-        btn_add.visibility = View.VISIBLE
+        btn_add.revertAnimation()
     }
 
     override fun detailProductTransactionSuccess(data: DetailProductTransactionResponse?) {
@@ -97,11 +90,11 @@ class AddDetailProductTransactionFragment : Fragment(), DetailProductTransaction
 
     private fun setProductDropdown(){
         val adapter = context?.let {
-            ArrayAdapter(it, android.R.layout.simple_spinner_dropdown_item, nameDropdown)
+            ArrayAdapter(it, android.R.layout.simple_spinner_dropdown_item, TransactionActivity.productNameDropdown)
         }
         product_dropdown.setAdapter(adapter)
         product_dropdown.setOnItemClickListener { _, _, position, _ ->
-            idProduct = idDropdown[position]
+            idProduct = TransactionActivity.productIdDropdown[position]
             Toast.makeText(context, "ID PRODUCT : $idProduct", Toast.LENGTH_LONG).show()
         }
     }

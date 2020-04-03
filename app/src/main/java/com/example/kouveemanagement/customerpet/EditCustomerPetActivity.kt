@@ -46,7 +46,7 @@ class EditCustomerPetActivity : AppCompatActivity(), CustomerPetView {
                 presenter.editCustomerPet(id, customerpet)
             }
         }
-        btn_delete.setOnClickListener {
+        btn_cancel.setOnClickListener {
             presenter.deleteCustomerPet(id)
         }
         btn_home.setOnClickListener {
@@ -139,13 +139,13 @@ class EditCustomerPetActivity : AppCompatActivity(), CustomerPetView {
     override fun showCustomerPetLoading() {
         progressbar.visibility = View.VISIBLE
         btn_save.visibility = View.INVISIBLE
-        btn_delete.visibility = View.INVISIBLE
+        btn_cancel.visibility = View.INVISIBLE
     }
 
     override fun hideCustomerPetLoading() {
         progressbar.visibility = View.GONE
         btn_save.visibility = View.VISIBLE
-        btn_delete.visibility = View.VISIBLE
+        btn_cancel.visibility = View.VISIBLE
     }
 
     override fun customerPetSuccess(data: CustomerPetResponse?) {

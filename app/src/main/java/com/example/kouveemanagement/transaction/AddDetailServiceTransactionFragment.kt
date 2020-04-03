@@ -25,8 +25,6 @@ class AddDetailServiceTransactionFragment : Fragment(), DetailServiceTransaction
     private lateinit var detailServiceTransaction: DetailServiceTransaction
     private lateinit var presenter: DetailServiceTransactionPresenter
 
-    private var nameDropdown: MutableList<String> = arrayListOf()
-    private var idDropdown: MutableList<String> = arrayListOf()
     private lateinit var idService: String
 
     companion object{
@@ -44,9 +42,7 @@ class AddDetailServiceTransactionFragment : Fragment(), DetailServiceTransaction
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         idTransaction = AddTransactionActivity.idTransaction
-        nameDropdown = AddTransactionActivity.nameServiceDropdown
-        idDropdown = AddTransactionActivity.idServiceDropdown
-        idService = idDropdown[0]
+        idService = TransactionActivity.serviceIdDropdown[0]
         btn_add.setOnClickListener {
             if (isValid()){
                 getData()
@@ -77,13 +73,11 @@ class AddDetailServiceTransactionFragment : Fragment(), DetailServiceTransaction
     }
 
     override fun showDetailServiceTransactionLoading() {
-        btn_add.visibility = View.INVISIBLE
-        progressbar.visibility = View.VISIBLE
+        btn_add.startAnimation()
     }
 
     override fun hideDetailServiceTransactionLoading() {
-        btn_add.visibility = View.VISIBLE
-        progressbar.visibility = View.GONE
+        btn_add.revertAnimation()
     }
 
     override fun detailServiceTransactionSuccess(data: DetailServiceTransactionResponse?) {
@@ -97,11 +91,11 @@ class AddDetailServiceTransactionFragment : Fragment(), DetailServiceTransaction
 
     private fun setServiceDropdown(){
         val adapter = context?.let {
-            ArrayAdapter(it, android.R.layout.simple_spinner_dropdown_item, nameDropdown)
+            ArrayAdapter(it, android.R.layout.simple_spinner_dropdown_item, TransactionActivity.serviceNameDropdown)
         }
         service_dropdown.setAdapter(adapter)
         service_dropdown.setOnItemClickListener { _, _, position, _ ->
-            idService = idDropdown[position]
+            idService = TransactionActivity.serviceIdDropdown[position]
             Toast.makeText(context, "ID PRODUCT : $idService", Toast.LENGTH_LONG).show()
         }
     }

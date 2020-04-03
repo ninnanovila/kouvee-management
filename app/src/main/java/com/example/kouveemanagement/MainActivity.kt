@@ -56,7 +56,6 @@ class MainActivity : AppCompatActivity(), LoginView {
     }
 
     override fun hideLoginLoading() {
-        btn_login.revertAnimation()
     }
 
     override fun loginSuccess(data: LoginResponse?) {
@@ -74,6 +73,7 @@ class MainActivity : AppCompatActivity(), LoginView {
     }
 
     override fun loginFailed() {
+        btn_login.revertAnimation()
         Toast.makeText(this, "Failed!", Toast.LENGTH_SHORT).show()
     }
 

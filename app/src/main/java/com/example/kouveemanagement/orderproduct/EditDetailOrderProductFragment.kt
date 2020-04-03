@@ -57,7 +57,7 @@ class EditDetailOrderProductFragment : Fragment(), DetailOrderProductView {
         btn_edit.setOnClickListener {
             btn_edit.visibility = View.GONE
             btn_save.visibility = View.VISIBLE
-            btn_delete.visibility = View.VISIBLE
+            btn_cancel.visibility = View.VISIBLE
             quantity.isEnabled = true
         }
         btn_save.setOnClickListener {
@@ -67,12 +67,12 @@ class EditDetailOrderProductFragment : Fragment(), DetailOrderProductView {
                 presenter.editDetailOrderProduct(detailOrderProduct)
             }
         }
-        btn_delete.setOnClickListener {
+        btn_cancel.setOnClickListener {
             state = "delete"
             presenter.deleteDetailOrderProduct(idOrderProduct, idProduct)
         }
         btn_close.setOnClickListener {
-            startActivity<AddOrderProductActivity>()
+            activity?.supportFragmentManager?.beginTransaction()?.remove(this)?.commit()
         }
     }
 
@@ -109,14 +109,14 @@ class EditDetailOrderProductFragment : Fragment(), DetailOrderProductView {
     override fun showDetailOrderProductLoading() {
         btn_edit.visibility = View.INVISIBLE
         btn_save.visibility = View.INVISIBLE
-        btn_delete.visibility = View.INVISIBLE
+        btn_cancel.visibility = View.INVISIBLE
         progressbar.visibility = View.VISIBLE
     }
 
     override fun hideDetailOrderProductLoading() {
         btn_edit.visibility = View.GONE
         btn_save.visibility = View.VISIBLE
-        btn_delete.visibility = View.VISIBLE
+        btn_cancel.visibility = View.VISIBLE
         progressbar.visibility = View.GONE
     }
 

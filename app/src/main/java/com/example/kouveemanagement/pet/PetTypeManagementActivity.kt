@@ -17,7 +17,7 @@ import com.example.kouveemanagement.model.PetTypeResponse
 import com.example.kouveemanagement.presenter.PetTypePresenter
 import com.example.kouveemanagement.presenter.PetTypeView
 import com.example.kouveemanagement.repository.Repository
-import kotlinx.android.synthetic.main.activity_pet_management.*
+import kotlinx.android.synthetic.main.activity_pet_type_management.*
 import kotlinx.android.synthetic.main.dialog_detail_pet.view.*
 import org.jetbrains.anko.startActivity
 
@@ -39,7 +39,7 @@ class PetTypeManagementActivity : AppCompatActivity(), PetTypeView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_pet_management)
+        setContentView(R.layout.activity_pet_type_management)
         presentertype = PetTypePresenter(this, Repository())
         presentertype.getAllPetType()
         btn_home.setOnClickListener {
@@ -104,7 +104,7 @@ class PetTypeManagementActivity : AppCompatActivity(), PetTypeView {
         dialog = LayoutInflater.from(this).inflate(R.layout.dialog_detail_pet, null)
 
         dialog.btn_save.visibility = View.INVISIBLE
-        dialog.btn_delete.visibility = View.INVISIBLE
+        dialog.btn_cancel.visibility = View.INVISIBLE
         dialog.progressbar.visibility = View.VISIBLE
         progressbar.visibility = View.VISIBLE
     }
@@ -113,7 +113,7 @@ class PetTypeManagementActivity : AppCompatActivity(), PetTypeView {
         dialog = LayoutInflater.from(this).inflate(R.layout.dialog_detail_pet, null)
 
         dialog.btn_save.visibility = View.VISIBLE
-        dialog.btn_delete.visibility = View.VISIBLE
+        dialog.btn_cancel.visibility = View.VISIBLE
         dialog.progressbar.visibility = View.GONE
         progressbar.visibility = View.GONE
     }
@@ -147,7 +147,7 @@ class PetTypeManagementActivity : AppCompatActivity(), PetTypeView {
         val updatedAt = dialog.findViewById<TextView>(R.id.updated_at)
         val deletedAt = dialog.findViewById<TextView>(R.id.deleted_at)
         val btnSave = dialog.findViewById<Button>(R.id.btn_save)
-        val btnDelete = dialog.findViewById<Button>(R.id.btn_delete)
+        val btnDelete = dialog.findViewById<Button>(R.id.btn_cancel)
         val btnClose = dialog.findViewById<ImageButton>(R.id.btn_close)
         val btnEdit = dialog.findViewById<Button>(R.id.btn_edit)
 

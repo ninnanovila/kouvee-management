@@ -24,8 +24,6 @@ class EditDetailProductTransactionFragment : Fragment(), DetailProductTransactio
     private lateinit var detailProductTransaction: DetailProductTransaction
     private lateinit var presenter: DetailProductTransactionPresenter
 
-    private var nameDropdown: MutableList<String> = arrayListOf()
-    private var idDropdown: MutableList<String> = arrayListOf()
     private lateinit var idProduct: String
 
     private var state = "edit"
@@ -60,7 +58,7 @@ class EditDetailProductTransactionFragment : Fragment(), DetailProductTransactio
             quantity.isEnabled = true
             btn_edit.visibility = View.GONE
             btn_save.visibility = View.VISIBLE
-            btn_delete.visibility = View.VISIBLE
+            btn_cancel.visibility = View.VISIBLE
         }
         btn_save.setOnClickListener {
             if (isValid()){
@@ -69,7 +67,7 @@ class EditDetailProductTransactionFragment : Fragment(), DetailProductTransactio
                 presenter.editDetailProductTransaction(detailProductTransaction)
             }
         }
-        btn_delete.setOnClickListener {
+        btn_cancel.setOnClickListener {
             state = "delete"
             presenter.deleteDetailProductTransaction(idTransaction,idProduct)
         }
@@ -79,11 +77,9 @@ class EditDetailProductTransactionFragment : Fragment(), DetailProductTransactio
     }
 
     private fun setDropdown(detailProductTransaction: DetailProductTransaction){
-        nameDropdown = AddTransactionActivity.nameProductDropdown
-        idDropdown = AddTransactionActivity.idProductDropdown
-        for (i in idDropdown.indices){
-            if (idDropdown[i] == detailProductTransaction.id_product){
-                product.setText(nameDropdown[i])
+        for (i in TransactionActivity.productIdDropdown.indices){
+            if (TransactionActivity.productIdDropdown[i] == detailProductTransaction.id_product){
+                product.setText(TransactionActivity.productNameDropdown[i])
             }
         }
     }
@@ -111,14 +107,14 @@ class EditDetailProductTransactionFragment : Fragment(), DetailProductTransactio
 
     override fun showDetailProductTransactionLoading() {
         btn_save.visibility = View.INVISIBLE
-        btn_delete.visibility = View.INVISIBLE
+        btn_cancel.visibility = View.INVISIBLE
         progressbar.visibility = View.VISIBLE
     }
 
     override fun hideDetailProductTransactionLoading() {
         progressbar.visibility = View.GONE
         btn_save.visibility = View.VISIBLE
-        btn_delete.visibility = View.VISIBLE
+        btn_cancel.visibility = View.VISIBLE
     }
 
     override fun detailProductTransactionSuccess(data: DetailProductTransactionResponse?) {

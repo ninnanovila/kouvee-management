@@ -109,7 +109,7 @@ class PetSizeManagementActivity : AppCompatActivity(), PetSizeView {
         dialog = LayoutInflater.from(this).inflate(R.layout.dialog_detail_pet, null)
 
         dialog.btn_save.visibility = View.INVISIBLE
-        dialog.btn_delete.visibility = View.INVISIBLE
+        dialog.btn_cancel.visibility = View.INVISIBLE
         dialog.progressbar.visibility = View.VISIBLE
         progressbar.visibility = View.VISIBLE
     }
@@ -118,7 +118,7 @@ class PetSizeManagementActivity : AppCompatActivity(), PetSizeView {
         dialog = LayoutInflater.from(this).inflate(R.layout.dialog_detail_pet, null)
 
         dialog.btn_save.visibility = View.VISIBLE
-        dialog.btn_delete.visibility = View.VISIBLE
+        dialog.btn_cancel.visibility = View.VISIBLE
         dialog.progressbar.visibility = View.GONE
         progressbar.visibility = View.GONE
     }
@@ -153,7 +153,7 @@ class PetSizeManagementActivity : AppCompatActivity(), PetSizeView {
         val updatedAt = dialog.findViewById<TextView>(R.id.updated_at)
         val deletedAt = dialog.findViewById<TextView>(R.id.deleted_at)
         val btnSave = dialog.findViewById<Button>(R.id.btn_save)
-        val btnDelete = dialog.findViewById<Button>(R.id.btn_delete)
+        val btnDelete = dialog.findViewById<Button>(R.id.btn_cancel)
         val btnClose = dialog.findViewById<ImageButton>(R.id.btn_close)
         val btnEdit = dialog.findViewById<Button>(R.id.btn_edit)
         val id = petSize.id.toString()
