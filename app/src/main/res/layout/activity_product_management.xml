@@ -69,6 +69,13 @@
         app:singleSelection="true">
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/show_min"
+            style="@style/Widget.App.Button.OutlinedButton.IconOnly"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:icon="@drawable/ic_min" />
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/show_all"
             style="@style/Widget.App.Button.OutlinedButton.IconOnly"
             android:layout_width="wrap_content"

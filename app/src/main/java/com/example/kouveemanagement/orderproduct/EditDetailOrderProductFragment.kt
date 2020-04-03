@@ -24,8 +24,6 @@ class EditDetailOrderProductFragment : Fragment(), DetailOrderProductView {
     private lateinit var detailOrderProduct: DetailOrderProduct
     private lateinit var presenter: DetailOrderProductPresenter
 
-    private var nameDropdown: MutableList<String> = arrayListOf()
-    private var idDropdown: MutableList<String> = arrayListOf()
     private lateinit var idProduct: String
 
     private var state = "edit"
@@ -74,16 +72,14 @@ class EditDetailOrderProductFragment : Fragment(), DetailOrderProductView {
             presenter.deleteDetailOrderProduct(idOrderProduct, idProduct)
         }
         btn_close.setOnClickListener {
-            activity?.supportFragmentManager?.beginTransaction()?.remove(this)?.commit()
+            startActivity<AddOrderProductActivity>()
         }
     }
 
     private fun setDropdown(detailOrderProduct: DetailOrderProduct){
-        nameDropdown = AddOrderProductActivity.nameProductDropdown
-        idDropdown = AddOrderProductActivity.idProductDropdown
-        for (i in idDropdown.indices){
-            if (idDropdown[i] == detailOrderProduct.id_product){
-                product.setText(nameDropdown[i])
+        for (i in OrderProductActivity.productIdDropdown.indices){
+            if (OrderProductActivity.productIdDropdown[i] == detailOrderProduct.id_product){
+                product.setText(OrderProductActivity.productNameDropdown[i])
             }
         }
     }

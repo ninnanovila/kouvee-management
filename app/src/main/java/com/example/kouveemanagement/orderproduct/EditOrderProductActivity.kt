@@ -14,7 +14,7 @@ import com.example.kouveemanagement.repository.Repository
 import kotlinx.android.synthetic.main.activity_edit_order_product.*
 import org.jetbrains.anko.startActivity
 
-class EditOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOrderProductView, ProductView {
+class EditOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOrderProductView {
 
     private lateinit var presenter: OrderProductPresenter
     private lateinit var orderProduct: OrderProduct
@@ -23,14 +23,9 @@ class EditOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOr
     private var detailOrderProducts: MutableList<DetailOrderProduct> = mutableListOf()
     private lateinit var presenterD: DetailOrderProductPresenter
 
-    private lateinit var presenterP: ProductPresenter
-    private var products: MutableList<Product> = mutableListOf()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_order_product)
-        presenterP = ProductPresenter(this, Repository())
-        presenterP.getAllProduct()
         orderProduct = OrderProductActivity.orderProduct
         idOrderProduct = orderProduct.id.toString()
         setData(orderProduct)
@@ -49,36 +44,19 @@ class EditOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOr
         if (input.status.equals("Arrived")){
             btn_done.visibility = View.GONE
         }
-        id.setText(input.id.toString())
-        status.setText(input.status.toString())
-        total.setText(input.total.toString())
+        id.text = input.id.toString()
+        for (i in OrderProductActivity.supplierNameDropdown.indices){
+            if (input.id_supplier == OrderProductActivity.supplierIdDropdown[i]){
+                supplier.text = OrderProductActivity.supplierNameDropdown[i]
+            }
+        }
+        status.text = input.status.toString()
+        total.text = input.total.toString()
     }
 
     override fun onBackPressed() {
         super.onBackPressed()
         startActivity<OrderProductActivity>()
-    }
-
-    override fun showProductLoading() {
-        progressbar.visibility = View.VISIBLE
-    }
-
-    override fun hideProductLoading() {
-        progressbar.visibility = View.GONE
-    }
-
-    override fun productSuccess(data: ProductResponse?) {
-        val temp: List<Product> = data?.products ?: emptyList()
-        if (temp.isEmpty()){
-            Toast.makeText(this, "Empty Product", Toast.LENGTH_SHORT).show()
-        }else{
-            products.addAll(temp)
-            Toast.makeText(this, "Success Product", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    override fun productFailed() {
-        Toast.makeText(this, "Failed Product", Toast.LENGTH_SHORT).show()
     }
 
     override fun showOrderProductLoading() {
@@ -91,7 +69,7 @@ class EditOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOr
 
     override fun orderProductSuccess(data: OrderProductResponse?) {
         Toast.makeText(this, "Order Product Done", Toast.LENGTH_SHORT).show()
-        status.setText(data?.orderProducts?.get(0)?.status.toString())
+        status.text = data?.orderProducts?.get(0)?.status.toString()
     }
 
     override fun orderProductFailed() {
@@ -111,11 +89,9 @@ class EditOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOr
         if (temp.isEmpty()){
             Toast.makeText(this, "Empty Detail Order Product", Toast.LENGTH_SHORT).show()
         }else{
-            for (i in temp.indices){
-                detailOrderProducts.add(i, temp[i])
-            }
+            detailOrderProducts.addAll(temp)
             recyclerview.layoutManager = LinearLayoutManager(this)
-            recyclerview.adapter = DetailOrderProductRecyclerViewAdapter(products, detailOrderProducts){
+            recyclerview.adapter = DetailOrderProductRecyclerViewAdapter(OrderProductActivity.products, detailOrderProducts){
                 Toast.makeText(this, it.id_order, Toast.LENGTH_LONG).show()
             }
         }

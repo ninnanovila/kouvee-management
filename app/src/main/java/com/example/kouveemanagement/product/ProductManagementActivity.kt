@@ -25,6 +25,7 @@ class ProductManagementActivity : AppCompatActivity(), ProductView {
     private var productsList: MutableList<Product> = mutableListOf()
     private val productsTemp = ArrayList<Product>()
     private var temps = ArrayList<Product>()
+    private val minProducts = ArrayList<Product>()
 
     private lateinit var productAdapter: ProductRecyclerViewAdapter
     private lateinit var presenter: ProductPresenter
@@ -66,6 +67,14 @@ class ProductManagementActivity : AppCompatActivity(), ProductView {
             val fragment: Fragment = AddProductFragment.newInstance()
             val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
             transaction.replace(R.id.container, fragment).commit()
+        }
+        show_min.setOnClickListener {
+            if (minProducts.isNullOrEmpty()){
+                Toast.makeText(this, "There is not minimum product", Toast.LENGTH_LONG).show()
+            }else{
+                temps = minProducts
+                getList()
+            }
         }
         show_all.setOnClickListener {
             temps = productsTemp
@@ -116,6 +125,11 @@ class ProductManagementActivity : AppCompatActivity(), ProductView {
             productsList.addAll(temp)
             productsTemp.addAll(temp)
             temps.addAll(temp)
+            for (i in productsList.indices){
+                if (temps[i].deleted_at == null && (temps[i].stock!!.toInt() <= temps[i].min_stock!!.toInt())){
+                    minProducts.add(temps[i])
+                }
+            }
             recyclerview.layoutManager = LinearLayoutManager(this)
             recyclerview.adapter = ProductRecyclerViewAdapter(productsList) {
                 showDialog(it)

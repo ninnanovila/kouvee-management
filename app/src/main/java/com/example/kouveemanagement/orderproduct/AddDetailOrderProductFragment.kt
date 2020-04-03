@@ -25,8 +25,6 @@ class AddDetailOrderProductFragment : Fragment(), DetailOrderProductView {
     private lateinit var detailOrderProduct: DetailOrderProduct
     private lateinit var presenter: DetailOrderProductPresenter
 
-    private var nameDropdown: MutableList<String> = arrayListOf()
-    private var idDropdown: MutableList<String> = arrayListOf()
     private lateinit var idProduct: String
 
     companion object {
@@ -43,10 +41,9 @@ class AddDetailOrderProductFragment : Fragment(), DetailOrderProductView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        view.bringToFront()
         idOrderProduct = AddOrderProductActivity.idOrderProduct
-        nameDropdown = AddOrderProductActivity.nameProductDropdown
-        idDropdown = AddOrderProductActivity.idProductDropdown
-        idProduct = idDropdown[0]
+        idProduct = OrderProductActivity.productIdDropdown[0]
         btn_add.setOnClickListener {
             if (isValid()){
                 getData()
@@ -55,7 +52,7 @@ class AddDetailOrderProductFragment : Fragment(), DetailOrderProductView {
             }
         }
         btn_close.setOnClickListener {
-            activity?.supportFragmentManager?.beginTransaction()?.remove(this)?.commit()
+            startActivity<AddOrderProductActivity>()
         }
         setProductDropdown()
     }
@@ -97,11 +94,11 @@ class AddDetailOrderProductFragment : Fragment(), DetailOrderProductView {
 
     private fun setProductDropdown(){
         val adapter = context?.let {
-            ArrayAdapter(it, android.R.layout.simple_spinner_dropdown_item, nameDropdown)
+            ArrayAdapter(it, android.R.layout.simple_spinner_dropdown_item, OrderProductActivity.productNameDropdown)
         }
         product_dropdown.setAdapter(adapter)
         product_dropdown.setOnItemClickListener { _, _, position, _ ->
-            idProduct = idDropdown[position]
+            idProduct = OrderProductActivity.productIdDropdown[position]
             Toast.makeText(context, "ID PRODUCT : $idProduct", Toast.LENGTH_LONG).show()
         }
     }

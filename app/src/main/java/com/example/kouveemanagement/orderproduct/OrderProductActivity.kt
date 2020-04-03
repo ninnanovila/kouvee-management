@@ -10,19 +10,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kouveemanagement.OwnerActivity
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.adapter.OrderProductRecyclerViewAdapter
-import com.example.kouveemanagement.model.OrderProduct
-import com.example.kouveemanagement.model.OrderProductResponse
-import com.example.kouveemanagement.model.Supplier
-import com.example.kouveemanagement.model.SupplierResponse
-import com.example.kouveemanagement.presenter.OrderProductPresenter
-import com.example.kouveemanagement.presenter.OrderProductView
-import com.example.kouveemanagement.presenter.SupplierPresenter
-import com.example.kouveemanagement.presenter.SupplierView
+import com.example.kouveemanagement.model.*
+import com.example.kouveemanagement.presenter.*
 import com.example.kouveemanagement.repository.Repository
 import kotlinx.android.synthetic.main.activity_order_product.*
 import org.jetbrains.anko.startActivity
 
-class OrderProductActivity : AppCompatActivity(), OrderProductView, SupplierView {
+class OrderProductActivity : AppCompatActivity(), OrderProductView, SupplierView, ProductView {
 
     private var orderProductsList: MutableList<OrderProduct> = mutableListOf()
     private val orderProductsTemp = ArrayList<OrderProduct>()
@@ -36,15 +30,20 @@ class OrderProductActivity : AppCompatActivity(), OrderProductView, SupplierView
     private lateinit var dialogAlert: AlertDialog
 
     private lateinit var presenterS: SupplierPresenter
+    private lateinit var presenterP: ProductPresenter
     private lateinit var supplierId: String
 
     private var add: String = "0"
 
     companion object{
         lateinit var orderProduct: OrderProduct
-        var nameDropdown: MutableList<String> = arrayListOf()
-        var idDropdown: MutableList<String> = arrayListOf()
         var orderProducts: MutableList<OrderProduct> = mutableListOf()
+        var supplierNameDropdown: MutableList<String> = arrayListOf()
+        var supplierIdDropdown: MutableList<String> = arrayListOf()
+        var suppliers: MutableList<Supplier> = arrayListOf()
+        var productNameDropdown: MutableList<String> = arrayListOf()
+        var productIdDropdown: MutableList<String> = arrayListOf()
+        var products: MutableList<Product> = arrayListOf()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,6 +53,8 @@ class OrderProductActivity : AppCompatActivity(), OrderProductView, SupplierView
         presenter.getAllOrderProduct()
         presenterS = SupplierPresenter(this, Repository())
         presenterS.getAllSupplier()
+        presenterP = ProductPresenter(this, Repository())
+        presenterP.getAllProduct()
         btn_home.setOnClickListener {
             startActivity<OwnerActivity>()
         }
@@ -143,8 +144,12 @@ class OrderProductActivity : AppCompatActivity(), OrderProductView, SupplierView
             .setTitle("Edit")
             .setMessage("What will you do with this order product?")
             .setPositiveButton("EDIT"){ _, _ ->
-                orderProduct = orderProductInput
-                startActivity<AddOrderProductActivity>()
+                if (orderProductInput.printed_at.isNullOrEmpty()){
+                    orderProduct = orderProductInput
+                    startActivity<AddOrderProductActivity>()
+                }else{
+                    Toast.makeText(this, "Can not change this order, just done it.", Toast.LENGTH_LONG).show()
+                }
             }
             .setNegativeButton("DONE"){ _, _ ->
                 if(orderProductInput.printed_at.isNullOrEmpty()){
@@ -193,17 +198,22 @@ class OrderProductActivity : AppCompatActivity(), OrderProductView, SupplierView
         if (temp.isEmpty()){
             Toast.makeText(this, "No Result", Toast.LENGTH_SHORT).show()
         }else{
-            if (nameDropdown.isNotEmpty()){
-                nameDropdown.clear()
-                idDropdown.clear()
+            suppliers.addAll(temp)
+            if (supplierNameDropdown.isNotEmpty()){
+                supplierNameDropdown.clear()
+                supplierIdDropdown.clear()
                 for (i in temp.indices){
-                    nameDropdown.add(temp[i].name.toString())
-                    idDropdown.add(temp[i].id.toString())
+                    if (temp[i].deleted_at == null){
+                        supplierNameDropdown.add(temp[i].name.toString())
+                        supplierIdDropdown.add(temp[i].id.toString())
+                    }
                 }
             }else{
                 for (i in temp.indices){
-                    nameDropdown.add(temp[i].name.toString())
-                    idDropdown.add(temp[i].id.toString())
+                    if (temp[i].deleted_at == null){
+                        supplierNameDropdown.add(temp[i].name.toString())
+                        supplierIdDropdown.add(temp[i].id.toString())
+                    }
                 }
             }
         }
@@ -213,15 +223,52 @@ class OrderProductActivity : AppCompatActivity(), OrderProductView, SupplierView
         Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
     }
 
+    override fun showProductLoading() {
+    }
+
+    override fun hideProductLoading() {
+    }
+
+    override fun productSuccess(data: ProductResponse?) {
+        val temp: List<Product> = data?.products ?: emptyList()
+        products.addAll(temp)
+        if (temp.isEmpty()){
+            Toast.makeText(this, "No Result", Toast.LENGTH_SHORT).show()
+        }else{
+            products.addAll(temp)
+            if (productNameDropdown.isNotEmpty()){
+                productNameDropdown.clear()
+                productIdDropdown.clear()
+                for (i in temp.indices){
+                    if (temp[i].deleted_at == null){
+                        productNameDropdown.add(temp[i].name.toString())
+                        productIdDropdown.add(temp[i].id.toString())
+                    }
+                }
+            }else{
+                for (i in temp.indices){
+                    if (temp[i].deleted_at == null){
+                        productNameDropdown.add(temp[i].name.toString())
+                        productIdDropdown.add(temp[i].id.toString())
+                    }
+                }
+            }
+        }
+    }
+
+    override fun productFailed() {
+        Toast.makeText(this, "Failed Product", Toast.LENGTH_SHORT).show()
+    }
+
     private fun chooseSupplier() {
         dialog = LayoutInflater.from(this).inflate(R.layout.item_choose, null)
-        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, nameDropdown)
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, supplierNameDropdown)
         val dropdown = dialog.findViewById<AutoCompleteTextView>(R.id.dropdown)
         val btnAdd = dialog.findViewById<Button>(R.id.btn_add)
         val btnClose = dialog.findViewById<ImageButton>(R.id.btn_close)
         dropdown.setAdapter(adapter)
         dropdown.setOnItemClickListener { _, _, position, _ ->
-            supplierId = idDropdown[position]
+            supplierId = supplierIdDropdown[position]
             Toast.makeText(this, "ID SUPPLIER : $supplierId", Toast.LENGTH_LONG).show()
         }
 
@@ -238,4 +285,5 @@ class OrderProductActivity : AppCompatActivity(), OrderProductView, SupplierView
             presenter.addOrderProduct(orderProduct)
         }
     }
+
 }

@@ -9,22 +9,23 @@
     android:layout_height="match_parent"
     tools:context=".orderproduct.AddOrderProductActivity">
 
-    <com.google.android.material.card.MaterialCardView
+    <androidx.cardview.widget.CardView
         android:id="@+id/materialCardView"
-        android:layout_width="315dp"
-        android:layout_height="170dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_weight="1"
         app:cardCornerRadius="8dp"
-        app:layout_constraintEnd_toEndOf="@+id/textView3"
+        app:layout_constraintEnd_toStartOf="@+id/btn_edit"
         app:layout_constraintStart_toStartOf="@+id/btn_home"
         app:layout_constraintTop_toBottomOf="@+id/btn_home">
 
         <LinearLayout
             android:id="@+id/linearLayout"
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/id"
@@ -64,7 +65,7 @@
 
         </LinearLayout>
 
-    </com.google.android.material.card.MaterialCardView>
+    </androidx.cardview.widget.CardView>
 
     <ProgressBar
         android:id="@+id/progressbar"
@@ -81,13 +82,11 @@
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@id/detail"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="16dp"
         android:text="@string/detail"
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
-        app:layout_constraintBottom_toTopOf="@+id/recyclerview"
         app:layout_constraintStart_toStartOf="@+id/materialCardView"
         app:layout_constraintTop_toBottomOf="@+id/materialCardView" />
 
@@ -96,9 +95,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/detail"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/detail"
         tools:listitem="@layout/item_detail_order_product" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -111,6 +111,8 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:src="@drawable/ic_add"
+        android:background="@color/colorOrange"
+        android:backgroundTint="@color/colorOrange"
         app:fabSize="mini"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -144,7 +146,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:text="@string/add_detail_order_product"
+        android:text="@string/add_order_product"
         app:layout_constraintBottom_toBottomOf="@+id/imageView"
         app:layout_constraintStart_toEndOf="@+id/imageView"
         app:layout_constraintTop_toTopOf="@+id/imageView" />
@@ -165,7 +167,7 @@
         android:id="@+id/btn_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:backgroundTint="@color/colorRed"
         android:src="@drawable/ic_delete"
         app:backgroundTint="@color/colorRed"
@@ -179,7 +181,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginVertical="4dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:backgroundTint="@color/colorGreen"
         android:src="@drawable/ic_print"
         app:backgroundTint="@color/colorGreen"
