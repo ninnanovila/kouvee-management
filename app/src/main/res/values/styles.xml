@@ -47,17 +47,17 @@
     <style name="ProgressButton">
         <item name="android:background">@drawable/button_background</item>
         <item name="android:textColor">@android:color/white</item>
-        <item name="spinning_bar_width">4dp</item>
+        <item name="spinning_bar_width">1dp</item>
         <item name="spinning_bar_color">@color/colorOrange</item>
-        <item name="spinning_bar_padding">8dp</item>
+        <item name="spinning_bar_padding">4dp</item>
     </style>
 
     <style name="ProgressButtonWhite">
         <item name="android:background">@drawable/button_background_white</item>
         <item name="android:textColor">@color/colorPrimary</item>
-        <item name="spinning_bar_width">4dp</item>
+        <item name="spinning_bar_width">1dp</item>
         <item name="spinning_bar_color">@color/colorOrange</item>
-        <item name="spinning_bar_padding">8dp</item>
+        <item name="spinning_bar_padding">4dp</item>
     </style>
 
 </resources>

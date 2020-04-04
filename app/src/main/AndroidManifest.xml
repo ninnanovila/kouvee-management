@@ -15,14 +15,13 @@
         android:theme="@style/AppTheme.NoActionBar"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".pet.PetSizeManagementActivity"></activity>
+        <activity android:name=".pet.PetSizeManagementActivity" />
         <activity android:name=".transaction.ShowTransactionActivity" />
         <activity android:name=".transaction.AddTransactionActivity" />
         <activity android:name=".transaction.TransactionActivity" />
         <activity android:name=".orderproduct.EditOrderProductActivity" />
         <activity android:name=".orderproduct.AddOrderProductActivity" />
         <activity android:name=".orderproduct.OrderProductActivity" />
-        <activity android:name=".search.SearchResultActivity" />
         <activity android:name=".customerpet.EditCustomerPetActivity" />
         <activity android:name=".customerpet.CustomerPetManagementActivity" />
         <activity android:name=".service.EditServiceActivity" />

@@ -61,14 +61,14 @@
                     android:id="@+id/btn_add_s"
                     android:text="@string/add_size"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="32dp"
                     style="@style/ProgressButton"/>
 
                 <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
                     android:id="@+id/btn_add_t"
                     android:text="@string/add_type"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="32dp"
                     style="@style/ProgressButton"/>
 
             </LinearLayout>
