@@ -69,6 +69,7 @@ class EditOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOr
     override fun orderProductSuccess(data: OrderProductResponse?) {
         Toast.makeText(this, "Order Product Done", Toast.LENGTH_SHORT).show()
         status.text = data?.orderProducts?.get(0)?.status.toString()
+        startActivity<OrderProductActivity>()
     }
 
     override fun orderProductFailed() {

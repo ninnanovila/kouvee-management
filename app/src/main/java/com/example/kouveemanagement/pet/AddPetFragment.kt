@@ -53,9 +53,9 @@ class AddPetFragment : Fragment(), PetSizeView, PetTypeView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (type == "type"){
-            btn_add_t.visibility = View.GONE
-        }else{
             btn_add_s.visibility = View.GONE
+        }else{
+            btn_add_t.visibility = View.GONE
         }
         btn_add_s.setOnClickListener {
             if (isValid()){
@@ -95,15 +95,10 @@ class AddPetFragment : Fragment(), PetSizeView, PetTypeView {
     }
 
     override fun showPetTypeLoading() {
-        btn_add_s.visibility = View.INVISIBLE
-        btn_add_t.visibility = View.INVISIBLE
-        progressbar.visibility = View.VISIBLE
+        btn_add_t.startAnimation()
     }
 
     override fun hidePetTypeLoading() {
-        btn_add_s.visibility = View.VISIBLE
-        btn_add_t.visibility = View.VISIBLE
-        progressbar.visibility = View.GONE
     }
 
     override fun petTypeSuccess(data: PetTypeResponse?) {
@@ -112,27 +107,24 @@ class AddPetFragment : Fragment(), PetSizeView, PetTypeView {
     }
 
     override fun petTypeFailed() {
+        btn_add_t.revertAnimation()
         Toast.makeText(context, "Failed Pet Type", Toast.LENGTH_SHORT).show()
     }
 
     override fun showPetSizeLoading() {
-        btn_add_s.visibility = View.INVISIBLE
-        btn_add_t.visibility = View.INVISIBLE
-        progressbar.visibility = View.VISIBLE
+        btn_add_s.startAnimation()
     }
 
     override fun hidePetSizeLoading() {
-        btn_add_s.visibility = View.VISIBLE
-        btn_add_t.visibility = View.VISIBLE
-        progressbar.visibility = View.GONE
     }
 
     override fun petSizeSuccess(data: PetSizeResponse?) {
         Toast.makeText(context, "Success Pet Size", Toast.LENGTH_SHORT).show()
-        startActivity<PetTypeManagementActivity>()
+        startActivity<PetSizeManagementActivity>()
     }
 
     override fun petSizeFailed() {
+        btn_add_s.revertAnimation()
         Toast.makeText(context, "Failed Pet Size", Toast.LENGTH_SHORT).show()
     }
 

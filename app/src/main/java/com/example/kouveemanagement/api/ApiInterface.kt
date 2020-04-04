@@ -27,7 +27,7 @@ interface ApiInterface {
     @PUT("employee/{id}")
     fun editEmployee(@Path("id")id: String, @Body employee: Employee): Call<EmployeeResponse>
 
-    @DELETE("employee/{id}/{last_emp}")
+    @DELETE("employee/{id}")
     fun deleteEmployee(@Path("id")id: String): Call<EmployeeResponse>
 
 //    PRODUCT

@@ -29,8 +29,10 @@ class EditEmployeeActivity : AppCompatActivity(), EmployeeView {
         setData()
         showDatePicker()
         btn_save.setOnClickListener {
-            getData()
-            presenter.editEmployee(id, employee)
+            if (isValid()){
+                getData()
+                presenter.editEmployee(id, employee)
+            }
         }
         btn_cancel.setOnClickListener {
             presenter.deleteEmployee(id)
@@ -64,6 +66,30 @@ class EditEmployeeActivity : AppCompatActivity(), EmployeeView {
         val phoneNumber = phone_number.text.toString()
         val role = role.text.toString()
         employee = Employee(id, name, address, birthdate, phoneNumber, role, null)
+    }
+
+    private fun isValid(): Boolean {
+        if (name.text.isNullOrEmpty()){
+            name.error = getString(R.string.error_name)
+            return false
+        }
+        if (address.text.isNullOrEmpty()){
+            address.error = getString(R.string.error_address)
+            return false
+        }
+        if (birthdate.text.isNullOrEmpty()){
+            birthdate.error = getString(R.string.error_birthdate)
+            return false
+        }
+        if (phone_number.text.isNullOrEmpty()){
+            phone_number.error = getString(R.string.error_phone_number)
+            return false
+        }
+        if (role.text.isNullOrEmpty()){
+            role.error = getString(R.string.error_role)
+            return false
+        }
+        return true
     }
 
     private fun showDatePicker(){

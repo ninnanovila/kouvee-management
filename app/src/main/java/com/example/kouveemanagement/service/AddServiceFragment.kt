@@ -78,7 +78,6 @@ class AddServiceFragment : Fragment(), ServiceView {
     }
 
     override fun hideServiceLoading() {
-        btn_add.revertAnimation()
     }
 
     override fun serviceSuccess(data: ServiceResponse?) {
@@ -87,6 +86,7 @@ class AddServiceFragment : Fragment(), ServiceView {
     }
 
     override fun serviceFailed() {
+        btn_add.revertAnimation()
         Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show()
     }
 

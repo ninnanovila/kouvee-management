@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Toast
 
 import com.example.kouveemanagement.R
@@ -26,6 +27,7 @@ class AddEmployeeFragment : Fragment(), EmployeeView {
 
     private lateinit var employee: Employee
     private lateinit var presenter: EmployeePresenter
+    private var roles: Array<String> = arrayOf("Customer Service", "Cashier")
 
     companion object {
         fun newInstance() = AddEmployeeFragment()
@@ -37,6 +39,7 @@ class AddEmployeeFragment : Fragment(), EmployeeView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setDropdown()
         btn_add.setOnClickListener {
             if (isValid()){
                 getData()
@@ -50,12 +53,19 @@ class AddEmployeeFragment : Fragment(), EmployeeView {
         showDatePicker()
     }
 
+    private fun setDropdown(){
+        val adapter =
+            context?.let { ArrayAdapter(it, android.R.layout.simple_spinner_dropdown_item, roles) }
+        role_dropdown.setAdapter(adapter)
+        role_dropdown.setText(roles[0])
+    }
+
     fun getData(){
         val name = name.text.toString()
         val address = address.text.toString()
         val birthdate = birthdate.text.toString()
         val phoneNumber = phone_number.text.toString()
-        val role = role.text.toString()
+        val role = role_dropdown.text.toString()
         employee = Employee(null, name, address, birthdate, phoneNumber, role, birthdate)
     }
 
@@ -89,10 +99,6 @@ class AddEmployeeFragment : Fragment(), EmployeeView {
         }
         if (phone_number.text.isNullOrEmpty()){
             phone_number.error = getString(R.string.error_phone_number)
-            return false
-        }
-        if (role.text.isNullOrEmpty()){
-            role.error = getString(R.string.error_phone_number)
             return false
         }
         return true

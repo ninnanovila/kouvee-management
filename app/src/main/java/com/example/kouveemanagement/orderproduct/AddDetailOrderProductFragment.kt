@@ -78,7 +78,6 @@ class AddDetailOrderProductFragment : Fragment(), DetailOrderProductView {
     }
 
     override fun hideDetailOrderProductLoading() {
-        btn_add.revertAnimation()
     }
 
     override fun detailOrderProductSuccess(data: DetailOrderProductResponse?) {
@@ -87,6 +86,7 @@ class AddDetailOrderProductFragment : Fragment(), DetailOrderProductView {
     }
 
     override fun detailOrderProductFailed() {
+        btn_add.revertAnimation()
         Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show()
     }
 

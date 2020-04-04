@@ -107,12 +107,12 @@ class  TransactionActivity : AppCompatActivity(), TransactionView, CustomerPetVi
 
     private fun getList(){
         if (paid_off_switch.isChecked){
-            val newFiltered = temps.filter { it.payment.toString() == "1" }
+            val newFiltered = temps.filter { it.payment.equals("1") }
             recyclerview.adapter = TransactionRecyclerViewAdapter(newFiltered as MutableList<Transaction>){
                 showDialog(it)
             }
         }else{
-            val newFiltered = temps.filter { it.payment.toString() == "0" }
+            val newFiltered = temps.filter { it.payment.equals("0") }
             recyclerview.adapter = TransactionRecyclerViewAdapter(newFiltered as MutableList<Transaction>){
                 showDialog(it)
             }

@@ -23,6 +23,7 @@ import com.example.kouveemanagement.presenter.OrderProductView
 import com.example.kouveemanagement.repository.Repository
 import kotlinx.android.synthetic.main.activity_add_order_product.*
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
 
 class AddOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOrderProductView {
 
@@ -85,7 +86,8 @@ class AddOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOrd
                 supplier.text = OrderProductActivity.supplierNameDropdown[i]
             }
         }
-        total.text = input.total.toString()
+        val totalInput = input.total.toString()
+        total.text = "Rp. $totalInput"
     }
 
     override fun showOrderProductLoading() {

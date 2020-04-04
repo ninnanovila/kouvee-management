@@ -139,6 +139,10 @@ class OrderProductActivity : AppCompatActivity(), OrderProductView, SupplierView
     }
 
     private fun showDetail(orderProductInput: OrderProduct){
+        var text = "DONE"
+        if (orderProductInput.status.equals("Arrived")){
+            text = "SHOW"
+        }
         Toast.makeText(this, "PRINTED: "+orderProductInput.printed_at.toString() , Toast.LENGTH_SHORT).show()
         dialogAlert = AlertDialog.Builder(this)
             .setTitle("Edit")
@@ -151,7 +155,7 @@ class OrderProductActivity : AppCompatActivity(), OrderProductView, SupplierView
                     Toast.makeText(this, "Can not change this order, just done it.", Toast.LENGTH_LONG).show()
                 }
             }
-            .setNegativeButton("DONE"){ _, _ ->
+            .setNegativeButton(text){ _, _ ->
                 if(orderProductInput.printed_at.isNullOrEmpty()){
                     Toast.makeText(this, "Please print to done it.", Toast.LENGTH_LONG).show()
                 }else{
