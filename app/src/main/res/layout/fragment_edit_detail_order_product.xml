@@ -82,35 +82,26 @@
                     android:layout_height="wrap_content"
                     style="@style/Widget.MaterialComponents.Button.TextButton"/>
 
-                <Button
+                <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
                     android:id="@+id/btn_cancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
                     android:text="@string/delete"
-                    android:layout_gravity="end"
-                    android:layout_margin="8dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+                    style="@style/ProgressButtonWhite"
+                    android:visibility="gone"/>
 
-                <Button
+                <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
                     android:id="@+id/btn_save"
-                    android:text="@string/save"
-                    android:layout_gravity="end"
-                    android:layout_margin="8dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    tools:ignore="ButtonStyle" />
+                    android:layout_margin="8dp"
+                    android:text="@string/save"
+                    style="@style/ProgressButton"
+                    android:visibility="gone"/>
+
             </LinearLayout>
         </LinearLayout>
-
-        <ProgressBar
-            android:id="@+id/progressbar"
-            android:layout_gravity="end|bottom"
-            android:layout_margin="24dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone" />
 
     </FrameLayout>
 

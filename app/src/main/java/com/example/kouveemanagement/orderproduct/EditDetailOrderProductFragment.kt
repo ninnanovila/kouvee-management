@@ -108,16 +108,11 @@ class EditDetailOrderProductFragment : Fragment(), DetailOrderProductView {
 
     override fun showDetailOrderProductLoading() {
         btn_edit.visibility = View.INVISIBLE
-        btn_save.visibility = View.INVISIBLE
+        btn_save.startAnimation()
         btn_cancel.visibility = View.INVISIBLE
-        progressbar.visibility = View.VISIBLE
     }
 
     override fun hideDetailOrderProductLoading() {
-        btn_edit.visibility = View.GONE
-        btn_save.visibility = View.VISIBLE
-        btn_cancel.visibility = View.VISIBLE
-        progressbar.visibility = View.GONE
     }
 
     override fun detailOrderProductSuccess(data: DetailOrderProductResponse?) {
@@ -130,6 +125,9 @@ class EditDetailOrderProductFragment : Fragment(), DetailOrderProductView {
     }
 
     override fun detailOrderProductFailed() {
+        btn_edit.visibility = View.GONE
+        btn_save.revertAnimation()
+        btn_cancel.visibility = View.VISIBLE
         if (state == "edit"){
             Toast.makeText(context, "Failed to edit", Toast.LENGTH_SHORT).show()
         }else if (state == "delete"){

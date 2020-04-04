@@ -142,22 +142,17 @@ class OrderProductActivity : AppCompatActivity(), OrderProductView, SupplierView
         var text = "DONE"
         if (orderProductInput.status.equals("Arrived")){
             text = "SHOW"
+        }else{
+            text = "EDIT"
         }
         Toast.makeText(this, "PRINTED: "+orderProductInput.printed_at.toString() , Toast.LENGTH_SHORT).show()
         dialogAlert = AlertDialog.Builder(this)
-            .setTitle("Edit")
+            .setTitle("Order Product")
             .setMessage("What will you do with this order product?")
-            .setPositiveButton("EDIT"){ _, _ ->
+            .setPositiveButton(text){ _, _ ->
                 if (orderProductInput.printed_at.isNullOrEmpty()){
                     orderProduct = orderProductInput
                     startActivity<AddOrderProductActivity>()
-                }else{
-                    Toast.makeText(this, "Can not change this order, just done it.", Toast.LENGTH_LONG).show()
-                }
-            }
-            .setNegativeButton(text){ _, _ ->
-                if(orderProductInput.printed_at.isNullOrEmpty()){
-                    Toast.makeText(this, "Please print to done it.", Toast.LENGTH_LONG).show()
                 }else{
                     orderProduct = orderProductInput
                     startActivity<EditOrderProductActivity>()
@@ -169,7 +164,7 @@ class OrderProductActivity : AppCompatActivity(), OrderProductView, SupplierView
     private fun showAlert(){
         dialogAlert = AlertDialog.Builder(this)
             .setTitle("Confirmation")
-            .setMessage("Are you sure to make order product?")
+            .setMessage("Are you sure to order product?")
             .setPositiveButton("YES"){ _, _ ->
                 add = "1"
                 chooseSupplier()

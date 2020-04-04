@@ -112,10 +112,10 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/recyclerview"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/materialCardView" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@id/detail"
