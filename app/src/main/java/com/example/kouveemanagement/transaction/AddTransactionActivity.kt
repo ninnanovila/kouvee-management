@@ -39,7 +39,7 @@ class AddTransactionActivity : AppCompatActivity(), TransactionView, DetailProdu
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_transaction)
         lastEmp = MainActivity.currentUser?.user_id.toString()
-        transaction = TransactionActivity.transaction
+        transaction = ServiceTransactionActivity.transaction
         idTransaction = transaction.id.toString()
         type = intent?.getStringExtra("type").toString()
         Toast.makeText(this, "TYPE : $type", Toast.LENGTH_LONG).show()
@@ -115,7 +115,7 @@ class AddTransactionActivity : AppCompatActivity(), TransactionView, DetailProdu
             }
             "cancel" -> {
                 Toast.makeText(this, "Success Cancel Transaction", Toast.LENGTH_SHORT).show()
-                startActivity<TransactionActivity>()
+                startActivity<ServiceTransactionActivity>()
             }
             "status" -> {
                 Toast.makeText(this, "Success Update Status Transaction", Toast.LENGTH_SHORT).show()
@@ -152,7 +152,7 @@ class AddTransactionActivity : AppCompatActivity(), TransactionView, DetailProdu
                 val transaction = supportFragmentManager.beginTransaction()
                 transaction.replace(R.id.container, fragment).commit()
                 Toast.makeText(this, it.id_transaction, Toast.LENGTH_LONG).show()
-            }, TransactionActivity.products, mutableListOf(), {}, mutableListOf())
+            }, ProductTransactionActivity.products, mutableListOf(), {}, mutableListOf())
         }
     }
 
@@ -182,7 +182,7 @@ class AddTransactionActivity : AppCompatActivity(), TransactionView, DetailProdu
                 val transaction = supportFragmentManager.beginTransaction()
                 transaction.replace(R.id.container, fragment).commit()
                 Toast.makeText(this, it.id_transaction, Toast.LENGTH_LONG).show()
-            }, TransactionActivity.services)
+            }, ServiceTransactionActivity.services)
         }
     }
 

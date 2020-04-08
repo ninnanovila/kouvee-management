@@ -195,6 +195,12 @@ interface ApiInterface {
     @GET("transaction")
     fun getAllTransaction(): Call<TransactionResponse>
 
+    @GET("transaction/product")
+    fun getAllProductTransaction(): Call<TransactionResponse>
+
+    @GET("transaction/service")
+    fun getAllServiceTransaction(): Call<TransactionResponse>
+
     @POST("transaction/{type}")
     fun addTransaction(@Path("type")type: String, @Body transaction: Transaction): Call<TransactionResponse>
 

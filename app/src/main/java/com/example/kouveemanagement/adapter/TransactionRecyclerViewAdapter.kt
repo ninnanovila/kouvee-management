@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.model.Transaction
-import com.example.kouveemanagement.transaction.TransactionActivity
+import com.example.kouveemanagement.transaction.ServiceTransactionActivity
 import kotlinx.android.extensions.LayoutContainer
 import java.util.*
 
@@ -25,14 +25,14 @@ class TransactionRecyclerViewAdapter(private val transactions: MutableList<Trans
     }
 
     fun filterTransaction(input: String){
-        TransactionActivity.transactions.clear()
+        ServiceTransactionActivity.transactions.clear()
         if (input.isEmpty()){
-            TransactionActivity.transactions.addAll(transactions)
+            ServiceTransactionActivity.transactions.addAll(transactions)
         }else{
             var i = 0
             while (i < transactions.size){
                 if (transactions[i].id?.toLowerCase(Locale.getDefault())?.contains(input)!!){
-                    TransactionActivity.transactions.add(transactions[i])
+                    ServiceTransactionActivity.transactions.add(transactions[i])
                 }
                 i++
             }

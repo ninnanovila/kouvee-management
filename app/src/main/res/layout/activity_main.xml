@@ -10,6 +10,7 @@
     tools:context=".MainActivity">
 
     <LinearLayout
+        android:id="@+id/container"
         android:orientation="vertical"
         android:gravity="center"
         android:layout_marginTop="64dp"

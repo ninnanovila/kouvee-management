@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.kouveemanagement.CustomView
 import com.example.kouveemanagement.OwnerActivity
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.adapter.ServiceRecyclerViewAdapter
@@ -94,6 +95,10 @@ class ServiceManagementActivity : AppCompatActivity(), ServiceView, PetSizeView 
         sort_switch.setOnClickListener {
             getList()
         }
+        swipe_rv.setOnRefreshListener {
+            presenter.getAllService()
+        }
+        CustomView.setSwipe(swipe_rv)
     }
 
     private fun getList(){
@@ -111,17 +116,17 @@ class ServiceManagementActivity : AppCompatActivity(), ServiceView, PetSizeView 
     }
 
     override fun showServiceLoading() {
-        progressbar.visibility = View.VISIBLE
+        swipe_rv.isRefreshing = true
     }
 
     override fun hideServiceLoading() {
-        progressbar.visibility = View.INVISIBLE
+        swipe_rv.isRefreshing = false
     }
 
     override fun serviceSuccess(data: ServiceResponse?) {
         val temp: List<Service> = data?.services ?: emptyList()
         if (temp.isEmpty()){
-            Toast.makeText(this, "Empty Services", Toast.LENGTH_SHORT).show()
+            CustomView.neutralSnackBar(container, baseContext, "Oops, no result")
         }else{
             servicesList.addAll(temp)
             servicesTemp.addAll(temp)
@@ -129,38 +134,42 @@ class ServiceManagementActivity : AppCompatActivity(), ServiceView, PetSizeView 
             recyclerview.layoutManager = LinearLayoutManager(this)
             recyclerview.adapter = ServiceRecyclerViewAdapter(servicesList){
                 showDialog(it)
-                Toast.makeText(this, it.id, Toast.LENGTH_LONG).show()
             }
+            CustomView.successSnackBar(container, baseContext, "Ok, success")
         }
     }
 
     override fun serviceFailed() {
-        Toast.makeText(this, "Failed Services", Toast.LENGTH_SHORT).show()
+        CustomView.failedSnackBar(container, baseContext, "Oops, failed")
     }
 
     private fun showDialog(service: Service){
         dialog = LayoutInflater.from(this).inflate(R.layout.dialog_detail_service, null)
-
         val name = dialog.findViewById<TextView>(R.id.name)
         val price = dialog.findViewById<TextView>(R.id.price)
+        val createdAt = dialog.findViewById<TextView>(R.id.created_at)
+        val updatedAt = dialog.findViewById<TextView>(R.id.updated_at)
+        val deletedAt = dialog.findViewById<TextView>(R.id.deleted_at)
         val btnClose = dialog.findViewById<ImageButton>(R.id.btn_close)
         val btnEdit = dialog.findViewById<Button>(R.id.btn_edit)
-
         name.text = service.name.toString()
         price.text = service.price.toString()
-
+        createdAt.text = service.created_at
+        updatedAt.text = service.updated_at
+        if (service.deleted_at.isNullOrEmpty()){
+            deletedAt.text = "-"
+        }else{
+            deletedAt.text = service.deleted_at
+        }
         if (service.deleted_at != null){
             btnEdit.visibility = View.GONE
         }
-
         val infoDialog = AlertDialog.Builder(this)
             .setView(dialog)
             .show()
-
         btnEdit.setOnClickListener {
             startActivity<EditServiceActivity>("service" to service)
         }
-
         btnClose.setOnClickListener {
             infoDialog.dismiss()
         }
@@ -180,29 +189,20 @@ class ServiceManagementActivity : AppCompatActivity(), ServiceView, PetSizeView 
     override fun petSizeSuccess(data: PetSizeResponse?) {
         val temp: List<PetSize> = data?.petsize ?: emptyList()
         if (temp.isEmpty()){
-            Toast.makeText(this, "Empty Pet Sizes", Toast.LENGTH_SHORT).show()
+            CustomView.neutralSnackBar(container, baseContext, "Pet size empty")
         }else{
-            if (namePetSize.isNotEmpty()){
-                namePetSize.clear()
-                idPetSize.clear()
-                for (i in temp.indices){
-                    if (temp[i].deleted_at == null){
-                        idPetSize.add(temp[i].id.toString())
-                        namePetSize.add(temp[i].name.toString())
-                    }
-                }
-            }else{
-                for (i in temp.indices){
-                    if (temp[i].deleted_at == null){
-                        idPetSize.add(temp[i].id.toString())
-                        namePetSize.add(temp[i].name.toString())
-                    }
+            namePetSize.clear()
+            idPetSize.clear()
+            for (i in temp.indices){
+                if (temp[i].deleted_at == null){
+                    idPetSize.add(temp[i].id.toString())
+                    namePetSize.add(temp[i].name.toString())
                 }
             }
         }
     }
 
     override fun petSizeFailed() {
-        Toast.makeText(this, "Failed Pet Sizes", Toast.LENGTH_SHORT).show()
+        CustomView.failedSnackBar(container, baseContext, "Pet size failed")
     }
 }

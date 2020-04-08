@@ -78,9 +78,9 @@ class EditDetailServiceTransactionFragment : Fragment(), DetailServiceTransactio
     }
 
     private fun setDropdown(detailServiceTransaction: DetailServiceTransaction){
-        for (i in TransactionActivity.serviceIdDropdown.indices){
-            if (TransactionActivity.serviceIdDropdown[i] == detailServiceTransaction.id_service){
-                service.setText(TransactionActivity.serviceNameDropdown[i])
+        for (i in ServiceTransactionActivity.serviceIdDropdown.indices){
+            if (ServiceTransactionActivity.serviceIdDropdown[i] == detailServiceTransaction.id_service){
+                service.setText(ServiceTransactionActivity.serviceNameDropdown[i])
             }
         }
     }

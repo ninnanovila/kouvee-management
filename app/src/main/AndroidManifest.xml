@@ -15,10 +15,11 @@
         android:theme="@style/AppTheme.NoActionBar"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".transaction.ProductTransactionActivity" />
         <activity android:name=".pet.PetSizeManagementActivity" />
         <activity android:name=".transaction.ShowTransactionActivity" />
         <activity android:name=".transaction.AddTransactionActivity" />
-        <activity android:name=".transaction.TransactionActivity" />
+        <activity android:name=".transaction.ServiceTransactionActivity" />
         <activity android:name=".orderproduct.EditOrderProductActivity" />
         <activity android:name=".orderproduct.AddOrderProductActivity" />
         <activity android:name=".orderproduct.OrderProductActivity" />

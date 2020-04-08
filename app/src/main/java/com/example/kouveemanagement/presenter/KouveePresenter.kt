@@ -835,6 +835,34 @@ class TransactionPresenter(private val view: TransactionView, private val reposi
         })
     }
 
+    fun getAllProductTransaction(){
+        view.showTransactionLoading()
+        repository.getAllProductTransaction(object : TransactionRepositoryCallback<TransactionResponse>{
+            override fun transactionSuccess(data: TransactionResponse?) {
+                view.transactionSuccess(data)
+                view.hideTransactionLoading()
+            }
+            override fun transactionFailed() {
+                view.transactionFailed()
+                view.hideTransactionLoading()
+            }
+        })
+    }
+
+    fun getAllServiceTransaction(){
+        view.showTransactionLoading()
+        repository.getAllServiceTransaction(object : TransactionRepositoryCallback<TransactionResponse>{
+            override fun transactionSuccess(data: TransactionResponse?) {
+                view.transactionSuccess(data)
+                view.hideTransactionLoading()
+            }
+            override fun transactionFailed() {
+                view.transactionFailed()
+                view.hideTransactionLoading()
+            }
+        })
+    }
+
     fun addTransaction(type: String, transaction: Transaction){
         view.showTransactionLoading()
         repository.addTransaction(type, transaction, object : TransactionRepositoryCallback<TransactionResponse>{

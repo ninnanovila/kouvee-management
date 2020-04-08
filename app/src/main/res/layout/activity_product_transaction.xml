@@ -7,7 +7,7 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".transaction.TransactionActivity">
+    tools:context=".transaction.ServiceTransactionActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -27,11 +27,10 @@
             android:id="@+id/recyclerview"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toggleButton"
+            app:layout_constraintTop_toBottomOf="@+id/paid_off_switch"
             tools:listitem="@layout/item_transaction" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -82,38 +81,6 @@
             app:layout_constraintStart_toStartOf="@+id/btn_home"
             app:layout_constraintTop_toBottomOf="@+id/btn_home" />
 
-        <com.google.android.material.button.MaterialButtonToggleGroup
-            android:id="@+id/toggleButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            app:layout_constraintStart_toStartOf="@+id/search_view"
-            app:layout_constraintTop_toBottomOf="@+id/search_view"
-            app:singleSelection="true">
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/show_all"
-                style="@style/Widget.App.Button.OutlinedButton.IconOnly"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:icon="@drawable/ic_all" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/show_product"
-                style="@style/Widget.App.Button.OutlinedButton.IconOnly"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:icon="@drawable/ic_product" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/show_service"
-                style="@style/Widget.App.Button.OutlinedButton.IconOnly"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:icon="@drawable/ic_service" />
-
-        </com.google.android.material.button.MaterialButtonToggleGroup>
-
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/paid_off_switch"
             android:layout_width="0dp"
@@ -121,9 +88,8 @@
             android:layout_marginStart="8dp"
             android:checked="false"
             android:text="@string/paid_off"
-            app:layout_constraintBottom_toBottomOf="@+id/toggleButton"
-            app:layout_constraintStart_toEndOf="@+id/toggleButton"
-            app:layout_constraintTop_toTopOf="@+id/toggleButton"
+            app:layout_constraintStart_toStartOf="@+id/search_view"
+            app:layout_constraintTop_toBottomOf="@+id/search_view"
             app:switchPadding="16dp" />
 
         <TextView
@@ -132,7 +98,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:text="@string/transaction"
+            android:text="@string/product_transaction"
             app:layout_constraintBottom_toBottomOf="@+id/cursor"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/cursor"

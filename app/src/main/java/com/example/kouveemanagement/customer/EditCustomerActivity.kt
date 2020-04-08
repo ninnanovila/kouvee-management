@@ -3,8 +3,8 @@ package com.example.kouveemanagement.customer
 import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.kouveemanagement.CustomView
 import com.example.kouveemanagement.CustomerServiceActivity
 import com.example.kouveemanagement.MainActivity
 import com.example.kouveemanagement.R
@@ -23,6 +23,7 @@ class EditCustomerActivity : AppCompatActivity(), CustomerView {
     private lateinit var lastEmp: String
     private lateinit var presenter: CustomerPresenter
     private lateinit var customer: Customer
+    private var text = "Update failed"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +39,7 @@ class EditCustomerActivity : AppCompatActivity(), CustomerView {
             }
         }
         btn_cancel.setOnClickListener {
+            text = "Delete failed"
             presenter.deleteCustomer(id, lastEmp)
         }
         btn_home.setOnClickListener {
@@ -111,14 +113,13 @@ class EditCustomerActivity : AppCompatActivity(), CustomerView {
     }
 
     override fun customerSuccess(data: CustomerResponse?) {
-        Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
         startActivity<CustomerManagementActivity>()
     }
 
     override fun customerFailed() {
         btn_save.revertAnimation()
         btn_cancel.visibility = View.VISIBLE
-        Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+        CustomView.failedSnackBar(container, baseContext, text)
     }
 
     override fun onBackPressed() {

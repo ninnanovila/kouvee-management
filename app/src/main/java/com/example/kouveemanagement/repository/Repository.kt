@@ -1088,6 +1088,43 @@ class Repository {
         })
     }
 
+    fun getAllProductTransaction(callback: TransactionRepositoryCallback<TransactionResponse>){
+        ApiClient().services.getAllProductTransaction().enqueue(object : Callback<TransactionResponse?>{
+            override fun onFailure(call: Call<TransactionResponse?>, t: Throwable) {
+                callback.transactionFailed()
+            }
+            override fun onResponse(
+                call: Call<TransactionResponse?>,
+                response: Response<TransactionResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.transactionSuccess(response.body())
+                }else{
+                    callback.transactionFailed()
+                }
+            }
+        })
+    }
+
+    fun getAllServiceTransaction(callback: TransactionRepositoryCallback<TransactionResponse>){
+        ApiClient().services.getAllServiceTransaction().enqueue(object : Callback<TransactionResponse?>{
+            override fun onFailure(call: Call<TransactionResponse?>, t: Throwable) {
+                callback.transactionFailed()
+            }
+            override fun onResponse(
+                call: Call<TransactionResponse?>,
+                response: Response<TransactionResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.transactionSuccess(response.body())
+                }else{
+                    callback.transactionFailed()
+                }
+            }
+        })
+    }
+
+
     fun addTransaction(type: String, transaction: Transaction, callback: TransactionRepositoryCallback<TransactionResponse>){
         ApiClient().services.addTransaction(type, transaction).enqueue(object : Callback<TransactionResponse?>{
             override fun onFailure(call: Call<TransactionResponse?>, t: Throwable) {

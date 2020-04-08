@@ -1,11 +1,11 @@
 package com.example.kouveemanagement.transaction
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.model.DetailProductTransaction
 import com.example.kouveemanagement.model.DetailProductTransactionResponse
@@ -77,9 +77,9 @@ class EditDetailProductTransactionFragment : Fragment(), DetailProductTransactio
     }
 
     private fun setDropdown(detailProductTransaction: DetailProductTransaction){
-        for (i in TransactionActivity.productIdDropdown.indices){
-            if (TransactionActivity.productIdDropdown[i] == detailProductTransaction.id_product){
-                product.setText(TransactionActivity.productNameDropdown[i])
+        for (i in ProductTransactionActivity.productIdDropdown.indices){
+            if (ProductTransactionActivity.productIdDropdown[i] == detailProductTransaction.id_product){
+                product.setText(ProductTransactionActivity.productNameDropdown[i])
             }
         }
     }

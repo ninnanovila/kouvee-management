@@ -24,7 +24,7 @@ class ShowTransactionActivity : AppCompatActivity(), TransactionView, DetailProd
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_show_transaction)
-        transaction = TransactionActivity.transaction
+        transaction = ServiceTransactionActivity.transaction
         val idTransaction = transaction.id.toString()
         val type = intent?.getStringExtra("type").toString()
         Toast.makeText(this, "TYPE : $type", Toast.LENGTH_LONG).show()
@@ -84,7 +84,7 @@ class ShowTransactionActivity : AppCompatActivity(), TransactionView, DetailProd
             recyclerview.layoutManager = LinearLayoutManager(this)
             recyclerview.adapter = DetailTransactionRecyclerViewAdapter("product", detailProducts, {
                 Toast.makeText(this, it.id_transaction, Toast.LENGTH_LONG).show()
-            }, TransactionActivity.products, mutableListOf(), {}, mutableListOf())
+            }, ProductTransactionActivity.products, mutableListOf(), {}, mutableListOf())
         }
     }
 
@@ -109,7 +109,7 @@ class ShowTransactionActivity : AppCompatActivity(), TransactionView, DetailProd
             recyclerview.layoutManager = LinearLayoutManager(this)
             recyclerview.adapter = DetailTransactionRecyclerViewAdapter("service", mutableListOf(), {}, mutableListOf(), detailServices, {
                 Toast.makeText(this, it.id_transaction, Toast.LENGTH_LONG).show()
-            }, TransactionActivity.services)
+            }, ServiceTransactionActivity.services)
         }
     }
 

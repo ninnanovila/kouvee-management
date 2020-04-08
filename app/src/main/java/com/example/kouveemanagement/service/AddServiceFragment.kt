@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import com.example.kouveemanagement.CustomView
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.model.Service
 import com.example.kouveemanagement.model.ServiceResponse
@@ -81,13 +82,12 @@ class AddServiceFragment : Fragment(), ServiceView {
     }
 
     override fun serviceSuccess(data: ServiceResponse?) {
-        Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
         startActivity<ServiceManagementActivity>()
     }
 
     override fun serviceFailed() {
         btn_add.revertAnimation()
-        Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show()
+        context?.let { view?.let { itView -> CustomView.failedSnackBar(itView, it, "Oops, add failed") } }
     }
 
     private fun setSizeDropDown(){
@@ -97,7 +97,8 @@ class AddServiceFragment : Fragment(), ServiceView {
         size_dropdown.setAdapter(adapter)
         size_dropdown.setOnItemClickListener { _, _, position, _ ->
             idSize = idSizeList[position]
-            Toast.makeText(context, "ID SIZE : $idSize", Toast.LENGTH_LONG).show()
+            val name = sizeDropdown[position]
+            Toast.makeText(context, "Size : $name", Toast.LENGTH_LONG).show()
         }
     }
 

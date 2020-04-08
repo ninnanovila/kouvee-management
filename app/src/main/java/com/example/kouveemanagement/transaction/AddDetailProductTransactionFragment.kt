@@ -1,12 +1,12 @@
 package com.example.kouveemanagement.transaction
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.model.DetailProductTransaction
 import com.example.kouveemanagement.model.DetailProductTransactionResponse
@@ -41,7 +41,7 @@ class AddDetailProductTransactionFragment : Fragment(), DetailProductTransaction
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         idTransaction = AddTransactionActivity.idTransaction
-        idProduct = TransactionActivity.productIdDropdown[0]
+        idProduct = ProductTransactionActivity.productIdDropdown[0]
         btn_add.setOnClickListener {
             if (isValid()){
                 getData()
@@ -90,11 +90,11 @@ class AddDetailProductTransactionFragment : Fragment(), DetailProductTransaction
 
     private fun setProductDropdown(){
         val adapter = context?.let {
-            ArrayAdapter(it, android.R.layout.simple_spinner_dropdown_item, TransactionActivity.productNameDropdown)
+            ArrayAdapter(it, android.R.layout.simple_spinner_dropdown_item, ProductTransactionActivity.productNameDropdown)
         }
         product_dropdown.setAdapter(adapter)
         product_dropdown.setOnItemClickListener { _, _, position, _ ->
-            idProduct = TransactionActivity.productIdDropdown[position]
+            idProduct = ProductTransactionActivity.productIdDropdown[position]
             Toast.makeText(context, "ID PRODUCT : $idProduct", Toast.LENGTH_LONG).show()
         }
     }

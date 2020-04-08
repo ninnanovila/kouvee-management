@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import com.example.kouveemanagement.CustomView
 import com.example.kouveemanagement.OwnerActivity
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.model.Service
@@ -24,6 +25,7 @@ class EditServiceActivity : AppCompatActivity(), ServiceView {
     private var sizeDropdown: MutableList<String> = arrayListOf()
     private var idSizeList: MutableList<String> = arrayListOf()
     private lateinit var idSize: String
+    private var text = "Update failed"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +39,7 @@ class EditServiceActivity : AppCompatActivity(), ServiceView {
             }
         }
         btn_cancel.setOnClickListener {
+            text = "Delete failed"
             presenter.deleteService(id)
         }
         btn_home.setOnClickListener {
@@ -54,12 +57,13 @@ class EditServiceActivity : AppCompatActivity(), ServiceView {
                 idSize = idSizeList[i]
             }
         }
-        val adapter = ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, sizeDropdown)
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, sizeDropdown)
         size_dropdown.setAdapter(adapter)
         size_dropdown.setText(sizeDropdown[position], true)
         size_dropdown.setOnItemClickListener { _, _, position, _ ->
             idSize = idSizeList[position]
-            Toast.makeText(this, "ID SIZE : $idSize", Toast.LENGTH_LONG).show()
+            val name = sizeDropdown[position]
+            Toast.makeText(this, "Size : $name", Toast.LENGTH_LONG).show()
         }
     }
 
@@ -105,14 +109,13 @@ class EditServiceActivity : AppCompatActivity(), ServiceView {
     }
 
     override fun serviceSuccess(data: ServiceResponse?) {
-        Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
         startActivity<ServiceManagementActivity>()
     }
 
     override fun serviceFailed() {
         btn_save.revertAnimation()
         btn_cancel.visibility = View.VISIBLE
-        Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+        CustomView.failedSnackBar(container, baseContext, text)
     }
 
     override fun onBackPressed() {

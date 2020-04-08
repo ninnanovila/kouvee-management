@@ -1,5 +1,6 @@
 package com.example.kouveemanagement.customer
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kouveemanagement.CustomerServiceActivity
 import com.example.kouveemanagement.R
+import com.example.kouveemanagement.CustomView
 import com.example.kouveemanagement.adapter.CustomerRecyclerViewAdapter
 import com.example.kouveemanagement.model.Customer
 import com.example.kouveemanagement.model.CustomerResponse
@@ -19,6 +21,7 @@ import com.example.kouveemanagement.presenter.CustomerView
 import com.example.kouveemanagement.repository.Repository
 import kotlinx.android.synthetic.main.activity_customer_management.*
 import org.jetbrains.anko.startActivity
+
 
 class CustomerManagementActivity : AppCompatActivity(), CustomerView {
 
@@ -84,6 +87,10 @@ class CustomerManagementActivity : AppCompatActivity(), CustomerView {
         sort_switch.setOnClickListener {
             getList()
         }
+        swipe_rv.setOnRefreshListener {
+            presenter.getAllCustomer()
+        }
+        CustomView.setSwipe(swipe_rv)
     }
 
     private fun getList(){
@@ -101,18 +108,20 @@ class CustomerManagementActivity : AppCompatActivity(), CustomerView {
     }
 
     override fun showCustomerLoading() {
-        progressbar.visibility = View.VISIBLE
+        swipe_rv.isRefreshing = true
     }
 
     override fun hideCustomerLoading() {
-        progressbar.visibility = View.INVISIBLE
+        swipe_rv.isRefreshing = false
     }
 
     override fun customerSuccess(data: CustomerResponse?) {
         val temp: List<Customer> = data?.customers ?: emptyList()
+//        val temp: List<Customer> = emptyList()
         if (temp.isEmpty()){
-            Toast.makeText(this, "No Result", Toast.LENGTH_SHORT).show()
+            CustomView.neutralSnackBar(container, baseContext, "Oops, no result")
         }else{
+            clearList()
             customersList.addAll(temp)
             customersTemp.addAll(temp)
             temps = customersTemp
@@ -120,15 +129,21 @@ class CustomerManagementActivity : AppCompatActivity(), CustomerView {
                 layoutManager = LinearLayoutManager(this@CustomerManagementActivity)
                 customerAdapter = CustomerRecyclerViewAdapter(customersList) {
                     showDialog(it)
-                    Toast.makeText(context, it.id, Toast.LENGTH_LONG).show()
                 }
                 adapter = customerAdapter
             }
+            CustomView.successSnackBar(container, baseContext, "Ok, success")
         }
     }
 
     override fun customerFailed() {
-        Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+        CustomView.failedSnackBar(container, baseContext, "Oops, failed")
+    }
+
+    private fun clearList(){
+        customersList.clear()
+        customersTemp.clear()
+        temps.clear()
     }
 
     private fun showDialog(customer: Customer){
@@ -137,12 +152,24 @@ class CustomerManagementActivity : AppCompatActivity(), CustomerView {
         val address = dialog.findViewById<TextView>(R.id.address)
         val phoneNumber = dialog.findViewById<TextView>(R.id.phone_number)
         val birthday = dialog.findViewById<TextView>(R.id.birthdate)
+        val createdAt = dialog.findViewById<TextView>(R.id.created_at)
+        val updatedAt = dialog.findViewById<TextView>(R.id.updated_at)
+        val deletedAt = dialog.findViewById<TextView>(R.id.deleted_at)
+        val lastEmp = dialog.findViewById<TextView>(R.id.last_emptv)
         val btnClose = dialog.findViewById<ImageButton>(R.id.btn_close)
         val btnEdit = dialog.findViewById<Button>(R.id.btn_edit)
         name.text = customer.name.toString()
         address.text = customer.address.toString()
         birthday.text = customer.birthdate.toString()
         phoneNumber.text = customer.phone_number.toString()
+        createdAt.text = customer.created_at
+        updatedAt.text = customer.updated_at
+        if (customer.deleted_at.isNullOrEmpty()){
+            deletedAt.text = "-"
+        }else{
+            deletedAt.text = customer.deleted_at
+        }
+        lastEmp.text = customer.last_emp
         val infoDialog = AlertDialog.Builder(this)
             .setView(dialog)
             .show()

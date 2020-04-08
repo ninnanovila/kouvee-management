@@ -14,10 +14,10 @@ import com.example.kouveemanagement.adapter.TransactionRecyclerViewAdapter
 import com.example.kouveemanagement.model.*
 import com.example.kouveemanagement.presenter.*
 import com.example.kouveemanagement.repository.Repository
-import kotlinx.android.synthetic.main.activity_transaction.*
+import kotlinx.android.synthetic.main.activity_service_transaction.*
 import org.jetbrains.anko.startActivity
 
-class  TransactionActivity : AppCompatActivity(), TransactionView, CustomerPetView, ProductView, ServiceView{
+class  ServiceTransactionActivity : AppCompatActivity(), TransactionView, CustomerPetView, ServiceView{
 
     private var transactionsList: MutableList<Transaction> = mutableListOf()
     private val transactionsTemp = ArrayList<Transaction>()
@@ -34,7 +34,6 @@ class  TransactionActivity : AppCompatActivity(), TransactionView, CustomerPetVi
 
     private lateinit var presenterC: CustomerPetPresenter
     private lateinit var customerPetId: String
-    private lateinit var presenterP: ProductPresenter
     private lateinit var presenterS: ServicePresenter
 
     private var add = "0"
@@ -45,9 +44,6 @@ class  TransactionActivity : AppCompatActivity(), TransactionView, CustomerPetVi
         var customerPetNameDropdown: MutableList<String> = arrayListOf()
         var customerPetIdDropdown: MutableList<String> = arrayListOf()
         var customersPet: MutableList<CustomerPet> = arrayListOf()
-        var productNameDropdown: MutableList<String> = arrayListOf()
-        var productIdDropdown: MutableList<String> = arrayListOf()
-        var products: MutableList<Product> = arrayListOf()
         var serviceNameDropdown: MutableList<String> = arrayListOf()
         var serviceIdDropdown: MutableList<String> = arrayListOf()
         var services: MutableList<Service> = arrayListOf()
@@ -56,16 +52,14 @@ class  TransactionActivity : AppCompatActivity(), TransactionView, CustomerPetVi
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_transaction)
+        setContentView(R.layout.activity_service_transaction)
         lastEmp = MainActivity.currentUser?.user_id.toString()
         presenterS = ServicePresenter(this, Repository())
         presenterS.getAllService()
-        presenterP = ProductPresenter(this, Repository())
-        presenterP.getAllProduct()
         presenterC = CustomerPetPresenter(this, Repository())
         presenterC.getAllCustomerPet()
         presenter = TransactionPresenter(this, Repository())
-        presenter.getAllTransaction()
+        presenter.getAllServiceTransaction()
         btn_home.setOnClickListener {
             startActivity<CustomerServiceActivity>()
         }
@@ -88,20 +82,6 @@ class  TransactionActivity : AppCompatActivity(), TransactionView, CustomerPetVi
         })
         fab_add.setOnClickListener {
             showAlert()
-        }
-        show_all.setOnClickListener {
-            temps = transactionsTemp
-            getList()
-        }
-        show_product.setOnClickListener {
-            val filtered = transactionsTemp.filter { it.id.toString()[0] == 'P' }
-            temps = filtered as ArrayList<Transaction>
-            getList()
-        }
-        show_service.setOnClickListener {
-            val filtered = transactionsTemp.filter { it.id.toString()[0] == 'L' }
-            temps = filtered as ArrayList<Transaction>
-            getList()
         }
     }
 
@@ -186,17 +166,14 @@ class  TransactionActivity : AppCompatActivity(), TransactionView, CustomerPetVi
     }
 
     private fun showAlert(){
+        add = "1"
+        type = "service"
         dialogAlert = AlertDialog.Builder(this)
             .setTitle("Which transaction?")
-            .setPositiveButton("Service"){ _, _ ->
-                add = "1"
-                type = "service"
+            .setPositiveButton("YES"){ _, _ ->
                 chooseCustomerPet("Service")
             }
-            .setNeutralButton("Product"){_,_ ->
-                add = "1"
-                type = "product"
-                chooseCustomerPet("Product")
+            .setNeutralButton("NO"){_,_ ->
             }
             .show()
     }
@@ -248,35 +225,6 @@ class  TransactionActivity : AppCompatActivity(), TransactionView, CustomerPetVi
                 startActivity<AddTransactionActivity>("type" to type)
             }
             .show()
-    }
-
-    override fun showProductLoading() {
-        progressbar.visibility = View.VISIBLE
-    }
-
-    override fun hideProductLoading() {
-        progressbar.visibility = View.GONE
-    }
-
-    override fun productSuccess(data: ProductResponse?) {
-        val temp: List<Product> = data?.products ?: emptyList()
-        if (temp.isEmpty()){
-            Toast.makeText(this, "No Result", Toast.LENGTH_SHORT).show()
-        }else{
-            products.addAll(temp)
-            productNameDropdown.clear()
-            productIdDropdown.clear()
-            for (i in temp.indices){
-                if (temp[i].deleted_at == null){
-                    productNameDropdown.add(temp[i].name.toString())
-                    productIdDropdown.add(temp[i].id.toString())
-                }
-            }
-        }
-    }
-
-    override fun productFailed() {
-        Toast.makeText(this, "Failed Product", Toast.LENGTH_SHORT).show()
     }
 
     override fun showServiceLoading() {

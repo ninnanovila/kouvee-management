@@ -38,20 +38,23 @@
     <string-array name="cs_menu">
         <item>Customer</item>
         <item>Customer Pet</item>
-        <item>Transaction</item>
+        <item>Product Transaction</item>
+        <item>Service Transaction</item>
     </string-array>
 
     <!--MENU DESC-->
     <string-array name="cs_desc">
         <item>Description of Customer Menu</item>
         <item>Description of Customer Pet Menu</item>
-        <item>Transaction Menu</item>
+        <item>Description of Product Transaction Menu</item>
+        <item>Description of Service Transaction Menu</item>
     </string-array>
 
     <!--MENU IMAGE-->
     <array name="cs_image">
         <item>@drawable/customer</item>
         <item>@drawable/customerspet</item>
+        <item>@drawable/transaction</item>
         <item>@drawable/transaction</item>
     </array>
 
@@ -200,5 +203,7 @@
     <string name="order_product_number">Order Product Number</string>
     <string name="transaction_number">Transaction Number</string>
     <string name="pet_s_name">Pet\'s Name</string>
+    <string name="product_transaction">Product Transaction</string>
+    <string name="service_transaction">Service Transaction</string>
 
 </resources>

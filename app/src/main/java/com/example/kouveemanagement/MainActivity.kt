@@ -1,7 +1,6 @@
 package com.example.kouveemanagement
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.room.Room
 import com.example.kouveemanagement.model.Employee
@@ -59,12 +58,12 @@ class MainActivity : AppCompatActivity(), LoginView {
     }
 
     override fun loginSuccess(data: LoginResponse?) {
-        Toast.makeText(this, "Success, welcome!", Toast.LENGTH_SHORT).show()
+        CustomView.successSnackBar(container, baseContext, "Success, welcome!")
         data?.employee?.let { insertCurrentUser(it) }
         when(data?.employee?.role){
             "Admin" -> startActivity<OwnerActivity>()
             "Customer Service" -> startActivity<CustomerServiceActivity>()
-            "Cashier" -> Toast.makeText(this, "Cashier can not log in", Toast.LENGTH_SHORT).show()
+            "Cashier" -> CustomView.failedSnackBar(container, baseContext, "Cashier can not access")
         }
 
         if(data?.employee?.role.equals("Cashier")){
@@ -74,7 +73,7 @@ class MainActivity : AppCompatActivity(), LoginView {
 
     override fun loginFailed() {
         btn_login.revertAnimation()
-        Toast.makeText(this, "Failed!", Toast.LENGTH_SHORT).show()
+        CustomView.failedLoginSnackBar(container, baseContext, id_login.text.toString(), password_login.text.toString(), loginPresenter)
     }
 
     private fun checkCurrentUser(){

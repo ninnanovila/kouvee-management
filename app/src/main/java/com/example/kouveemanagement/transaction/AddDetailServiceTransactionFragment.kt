@@ -42,7 +42,7 @@ class AddDetailServiceTransactionFragment : Fragment(), DetailServiceTransaction
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         idTransaction = AddTransactionActivity.idTransaction
-        idService = TransactionActivity.serviceIdDropdown[0]
+        idService = ServiceTransactionActivity.serviceIdDropdown[0]
         btn_add.setOnClickListener {
             if (isValid()){
                 getData()
@@ -91,11 +91,11 @@ class AddDetailServiceTransactionFragment : Fragment(), DetailServiceTransaction
 
     private fun setServiceDropdown(){
         val adapter = context?.let {
-            ArrayAdapter(it, android.R.layout.simple_spinner_dropdown_item, TransactionActivity.serviceNameDropdown)
+            ArrayAdapter(it, android.R.layout.simple_spinner_dropdown_item, ServiceTransactionActivity.serviceNameDropdown)
         }
         service_dropdown.setAdapter(adapter)
         service_dropdown.setOnItemClickListener { _, _, position, _ ->
-            idService = TransactionActivity.serviceIdDropdown[position]
+            idService = ServiceTransactionActivity.serviceIdDropdown[position]
             Toast.makeText(context, "ID PRODUCT : $idService", Toast.LENGTH_LONG).show()
         }
     }

@@ -5,8 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.example.kouveemanagement.CustomView
 import com.example.kouveemanagement.MainActivity
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.model.Customer
@@ -99,16 +99,15 @@ class AddCustomerFragment : Fragment(), CustomerView {
     }
 
     override fun hideCustomerLoading() {
-        btn_add.revertAnimation()
     }
 
     override fun customerSuccess(data: CustomerResponse?) {
-        Toast.makeText(context, "Success Customer", Toast.LENGTH_SHORT).show()
         startActivity<CustomerManagementActivity>()
     }
 
     override fun customerFailed() {
-        Toast.makeText(context, "Failed Customer", Toast.LENGTH_SHORT).show()
+        btn_add.revertAnimation()
+        context?.let { view?.let { itView -> CustomView.failedSnackBar(itView, it, "Oops, add failed") } }
     }
 
 }
