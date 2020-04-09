@@ -8,6 +8,7 @@
     tools:context=".employee.EditEmployeeActivity">
     
     <RelativeLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <RelativeLayout
@@ -155,7 +156,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
                 android:hint="@string/role"
                 android:layout_marginTop="8dp"
                 android:layout_width="match_parent"
@@ -163,11 +164,11 @@
                 app:startIconDrawable="@drawable/ic_label"
                 app:errorEnabled="true">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/role"
-                    android:inputType="phone"
+                <AutoCompleteTextView
+                    android:id="@+id/role_dropdown"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    tools:ignore="LabelFor" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout
@@ -180,7 +181,7 @@
                     android:id="@+id/btn_cancel"
                     style="@style/ProgressButtonWhite"
                     android:layout_width="wrap_content"
-                    android:layout_height="32dp"
+                    android:layout_height="40dp"
                     android:layout_margin="8dp"
                     android:text="@string/delete" />
 
@@ -188,7 +189,7 @@
                     android:id="@+id/btn_save"
                     style="@style/ProgressButton"
                     android:layout_width="wrap_content"
-                    android:layout_height="32dp"
+                    android:layout_height="40dp"
                     android:layout_margin="8dp"
                     android:text="@string/save" />
             </LinearLayout>

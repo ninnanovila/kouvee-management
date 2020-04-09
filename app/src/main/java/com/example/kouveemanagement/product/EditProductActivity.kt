@@ -11,6 +11,7 @@ import android.provider.MediaStore
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.kouveemanagement.CustomView
 import com.example.kouveemanagement.OwnerActivity
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.model.Product
@@ -58,7 +59,7 @@ class EditProductActivity : AppCompatActivity(), ProductView, UploadPhotoProduct
         }
         btn_choose.setOnClickListener {
             //IMAGE
-            startActivityForResult(getImageChooserIntent(), RESULT)
+            startActivityForResult(getImageChooserIntent(), 200)
         }
         btn_upload.setOnClickListener {
             if (bitmap!=null){
@@ -131,14 +132,13 @@ class EditProductActivity : AppCompatActivity(), ProductView, UploadPhotoProduct
     }
 
     override fun productSuccess(data: ProductResponse?) {
-        Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
         startActivity<ProductManagementActivity>()
     }
 
     override fun productFailed() {
         btn_save.revertAnimation()
         btn_cancel.visibility = View.VISIBLE
-        Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+        CustomView.failedSnackBar(container, baseContext, "Please try again")
     }
 
     override fun onBackPressed() {
@@ -148,7 +148,6 @@ class EditProductActivity : AppCompatActivity(), ProductView, UploadPhotoProduct
 
 
     //IMAGE
-    private val RESULT = 200
     var bitmap: Bitmap? = null
     var byteArray: ByteArray? = null
 
@@ -161,12 +160,24 @@ class EditProductActivity : AppCompatActivity(), ProductView, UploadPhotoProduct
         return fileUri
     }
 
-    private fun getImageFromFilePath(data: Intent?): String {
-        return getImageOutputUri()?.path.toString()
+    private fun getImageFromFilePath(dataInput: Intent?): String {
+        val isCamera = dataInput == null || dataInput.data == null
+
+        return if (isCamera) getImageOutputUri()?.path.toString()
+        else dataInput?.data?.let { getPathFromURI(it) }!!
     }
 
     private fun getImageFilePath(data: Intent?): String {
         return getImageFromFilePath(data)
+    }
+
+    private fun getPathFromURI(contentUri: Uri): String? {
+        val projectData = arrayOf(MediaStore.Audio.Media.DATA)
+        val cursor =
+            contentResolver.query(contentUri, projectData, null, null, null)
+        val columnIndex = cursor!!.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA)
+        cursor.moveToFirst()
+        return cursor.getString(columnIndex)
     }
 
     private fun getByteArrayInBackground() {
@@ -227,7 +238,7 @@ class EditProductActivity : AppCompatActivity(), ProductView, UploadPhotoProduct
         super.onActivityResult(requestCode, resultCode, data)
 
         if (resultCode == Activity.RESULT_OK){
-            if (requestCode == RESULT){
+            if (requestCode == 200){
                 val filePath = getImageFilePath(data)
                 Toast.makeText(this, filePath, Toast.LENGTH_LONG).show()
                 if (filePath != null){
@@ -269,18 +280,17 @@ class EditProductActivity : AppCompatActivity(), ProductView, UploadPhotoProduct
     }
 
     override fun hideUploadProgress() {
-        progressbar_img.visibility = View.INVISIBLE
-        btn_choose.visibility = View.VISIBLE
-        btn_upload.visibility = View.VISIBLE
     }
 
     override fun uploadProductSuccess(data: ResponseBody?) {
-        Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
         startActivity<ProductManagementActivity>()
     }
 
     override fun uploadProductFailed() {
-        Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+        progressbar_img.visibility = View.INVISIBLE
+        btn_choose.visibility = View.VISIBLE
+        btn_upload.visibility = View.VISIBLE
+        CustomView.failedSnackBar(container, baseContext, "Please try again")
     }
 
 }

@@ -3,8 +3,10 @@ package com.example.kouveemanagement.employee
 import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.kouveemanagement.CustomView
 import com.example.kouveemanagement.OwnerActivity
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.model.Employee
@@ -21,6 +23,7 @@ class EditEmployeeActivity : AppCompatActivity(), EmployeeView {
     private lateinit var id: String
     private lateinit var presenter: EmployeePresenter
     private lateinit var employee: Employee
+    private var roles: Array<String> = arrayOf("Customer Service", "Cashier")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +45,16 @@ class EditEmployeeActivity : AppCompatActivity(), EmployeeView {
         }
     }
 
+    private fun setDropdown(roleInput: String?){
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, roles)
+        role_dropdown.setAdapter(adapter)
+        role_dropdown.setText(roleInput, true)
+        role_dropdown.setOnItemClickListener { _, _, position, _ ->
+            val roleName = roles[position]
+            Toast.makeText(this, "Role : $roleName", Toast.LENGTH_LONG).show()
+        }
+    }
+
     private fun setData(){
         val employee: Employee? = intent.getParcelableExtra("employee")
         id = employee?.id.toString()
@@ -49,7 +62,7 @@ class EditEmployeeActivity : AppCompatActivity(), EmployeeView {
         address.setText(employee?.address)
         birthdate.setText(employee?.birthdate)
         phone_number.setText(employee?.phone_number)
-        role.setText(employee?.role)
+        setDropdown(employee?.role)
         created_at.setText(employee?.created_at)
         updated_at.setText(employee?.updated_at)
         if(employee?.deleted_at.isNullOrBlank()){
@@ -64,7 +77,7 @@ class EditEmployeeActivity : AppCompatActivity(), EmployeeView {
         val address = address.text.toString()
         val birthdate = birthdate.text.toString()
         val phoneNumber = phone_number.text.toString()
-        val role = role.text.toString()
+        val role = role_dropdown.text.toString()
         employee = Employee(id, name, address, birthdate, phoneNumber, role, null)
     }
 
@@ -83,10 +96,6 @@ class EditEmployeeActivity : AppCompatActivity(), EmployeeView {
         }
         if (phone_number.text.isNullOrEmpty()){
             phone_number.error = getString(R.string.error_phone_number)
-            return false
-        }
-        if (role.text.isNullOrEmpty()){
-            role.error = getString(R.string.error_role)
             return false
         }
         return true
@@ -113,14 +122,13 @@ class EditEmployeeActivity : AppCompatActivity(), EmployeeView {
     }
 
     override fun employeeSuccess(data: EmployeeResponse?) {
-        Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
         startActivity<EmployeeManagementActivity>()
     }
 
     override fun employeeFailed() {
         btn_save.revertAnimation()
         btn_cancel.visibility = View.VISIBLE
-        Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+        CustomView.failedSnackBar(container, baseContext, "Oops, try again")
     }
 
     override fun onBackPressed() {

@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.kouveemanagement.CustomView
 import com.example.kouveemanagement.OwnerActivity
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.adapter.EmployeeRecyclerViewAdapter
@@ -38,6 +39,9 @@ class EmployeeManagementActivity : AppCompatActivity(), EmployeeView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_employee_management)
+        if (!CustomView.verifiedNetwork(this)){
+            CustomView.warningSnackBar(container, baseContext, "Please check internet connection")
+        }
         presenter = EmployeePresenter(this, Repository())
         presenter.getAllEmployee()
         btn_home.setOnClickListener {
@@ -84,6 +88,10 @@ class EmployeeManagementActivity : AppCompatActivity(), EmployeeView {
         sort_switch.setOnClickListener {
             getList()
         }
+        swipe_rv.setOnRefreshListener {
+            presenter.getAllEmployee()
+        }
+        CustomView.setSwipe(swipe_rv)
     }
 
     private fun getList(){
@@ -101,31 +109,38 @@ class EmployeeManagementActivity : AppCompatActivity(), EmployeeView {
     }
 
     override fun showEmployeeLoading() {
-        progressbar.visibility = View.VISIBLE
+        swipe_rv.isRefreshing = true
     }
 
     override fun hideEmployeeLoading() {
-        progressbar.visibility = View.INVISIBLE
+        swipe_rv.isRefreshing = false
     }
 
     override fun employeeSuccess(data: EmployeeResponse?) {
         val temp: List<Employee> = data?.employees ?: emptyList()
         if (temp.isEmpty()){
-            Toast.makeText(this, "No result", Toast.LENGTH_SHORT).show()
+            CustomView.neutralSnackBar(container, baseContext, "Employee empty")
         }else{
+            clearList()
             employeesList.addAll(temp)
             employeesTemp.addAll(temp)
-            temps.addAll(temp)
+            temps = employeesTemp
             recyclerview.layoutManager = LinearLayoutManager(this)
             recyclerview.adapter = EmployeeRecyclerViewAdapter(employeesList){
                 showDialog(it)
                 Toast.makeText(this, it.id, Toast.LENGTH_LONG).show()
             }
+            CustomView.successSnackBar(container, baseContext, "Ok, success")
         }
     }
 
     override fun employeeFailed() {
-        Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+        CustomView.failedSnackBar(container, baseContext, "Oops, try again")
+    }
+
+    private fun clearList(){
+        employeesList.clear()
+        employeesTemp.clear()
     }
 
     private fun showDialog(employee: Employee){
@@ -135,27 +150,32 @@ class EmployeeManagementActivity : AppCompatActivity(), EmployeeView {
         val birthdate = dialog.findViewById<TextView>(R.id.birthdate)
         val phoneNumber = dialog.findViewById<TextView>(R.id.phone_number)
         val role = dialog.findViewById<TextView>(R.id.role)
+        val createdAt = dialog.findViewById<TextView>(R.id.created_at)
+        val updatedAt = dialog.findViewById<TextView>(R.id.updated_at)
+        val deletedAt = dialog.findViewById<TextView>(R.id.deleted_at)
         val btnClose = dialog.findViewById<ImageButton>(R.id.btn_close)
         val btnEdit = dialog.findViewById<Button>(R.id.btn_edit)
-
         name.text = employee.name.toString()
         address.text = employee.address.toString()
         birthdate.text = employee.birthdate.toString()
         phoneNumber.text = employee.phone_number.toString()
         role.text = employee.role.toString()
-
+        createdAt.text = employee.created_at
+        updatedAt.text = employee.updated_at
+        if (employee.deleted_at.isNullOrEmpty()){
+            deletedAt.text = "-"
+        }else{
+            deletedAt.text = employee.deleted_at
+        }
         if (employee.deleted_at != null){
             btnEdit.visibility = View.GONE
         }
-
         val infoDialog= AlertDialog.Builder(this)
             .setView(dialog)
             .show()
-
         btnEdit.setOnClickListener {
             startActivity<EditEmployeeActivity>("employee" to employee)
         }
-
         btnClose.setOnClickListener {
             infoDialog.dismiss()
         }

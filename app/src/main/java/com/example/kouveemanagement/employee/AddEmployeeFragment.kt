@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import com.example.kouveemanagement.CustomView
 
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.model.Employee
@@ -109,16 +110,15 @@ class AddEmployeeFragment : Fragment(), EmployeeView {
     }
 
     override fun hideEmployeeLoading() {
-        btn_add.revertAnimation()
     }
 
     override fun employeeSuccess(data: EmployeeResponse?) {
-        Toast.makeText(context, "Success Employee", Toast.LENGTH_SHORT).show()
         startActivity<EmployeeManagementActivity>()
     }
 
     override fun employeeFailed() {
-        Toast.makeText(context, "Failed Employee", Toast.LENGTH_SHORT).show()
+        btn_add.revertAnimation()
+        context?.let { view?.let { itView -> CustomView.failedSnackBar(itView, it, "Oops, try again") } }
     }
 
 }

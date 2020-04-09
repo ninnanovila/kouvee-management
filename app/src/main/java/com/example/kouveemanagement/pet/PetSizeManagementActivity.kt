@@ -9,6 +9,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.kouveemanagement.CustomView
 import com.example.kouveemanagement.OwnerActivity
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.adapter.PetRecyclerViewAdapter
@@ -89,6 +90,10 @@ class PetSizeManagementActivity : AppCompatActivity(), PetSizeView {
         sort_switch.setOnClickListener {
             getList()
         }
+        swipe_rv.setOnRefreshListener {
+            presenterSize.getAllPetSize()
+        }
+        CustomView.setSwipe(swipe_rv)
     }
 
     private fun getList(){
@@ -111,7 +116,7 @@ class PetSizeManagementActivity : AppCompatActivity(), PetSizeView {
         dialog.btn_save.visibility = View.INVISIBLE
         dialog.btn_cancel.visibility = View.INVISIBLE
         dialog.progressbar.visibility = View.VISIBLE
-        progressbar.visibility = View.VISIBLE
+        swipe_rv.isRefreshing = true
     }
 
     override fun hidePetSizeLoading() {
@@ -120,29 +125,35 @@ class PetSizeManagementActivity : AppCompatActivity(), PetSizeView {
         dialog.btn_save.visibility = View.VISIBLE
         dialog.btn_cancel.visibility = View.VISIBLE
         dialog.progressbar.visibility = View.GONE
-        progressbar.visibility = View.GONE
+        swipe_rv.isRefreshing = false
     }
 
     override fun petSizeSuccess(data: PetSizeResponse?) {
         val temp: List<PetSize> = data?.petsize ?: emptyList()
         if (temp.isEmpty()){
-            Toast.makeText(this, "No Result", Toast.LENGTH_SHORT).show()
+            CustomView.neutralSnackBar(container, baseContext, "Pet sizes empty")
         }else{
+            clearList()
             petSizesList.addAll(temp)
             petSizesTemp.addAll(temp)
             temps.addAll(temp)
             recyclerview.layoutManager = LinearLayoutManager(this)
-            recyclerview.adapter =
-                PetRecyclerViewAdapter("size", mutableListOf(), {}, petSizesList, {
-                    showPetSize(it)
-                    Toast.makeText(this, it.id, Toast.LENGTH_LONG).show()
-                })
+            recyclerview.adapter = PetRecyclerViewAdapter("size", mutableListOf(), {}, petSizesList, {
+                showPetSize(it)
+                Toast.makeText(this, it.id, Toast.LENGTH_LONG).show()
+            })
+            CustomView.successSnackBar(container, baseContext, "Ok, success")
         }
-        Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
     }
 
     override fun petSizeFailed() {
-        Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+        CustomView.failedSnackBar(container, baseContext, "Oops, try again")
+    }
+
+    private fun clearList(){
+        petSizesList.clear()
+        petSizesTemp.clear()
+        temps.clear()
     }
 
     private fun showPetSize(petSize: PetSize){

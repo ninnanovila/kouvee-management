@@ -85,7 +85,7 @@
                 <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
                     android:id="@+id/btn_cancel"
                     android:layout_width="wrap_content"
-                    android:layout_height="32dp"
+                    android:layout_height="40dp"
                     android:layout_margin="8dp"
                     android:text="@string/delete"
                     style="@style/ProgressButtonWhite"
@@ -94,7 +94,7 @@
                 <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
                     android:id="@+id/btn_save"
                     android:layout_width="wrap_content"
-                    android:layout_height="32dp"
+                    android:layout_height="40dp"
                     android:layout_margin="8dp"
                     android:text="@string/save"
                     style="@style/ProgressButton"

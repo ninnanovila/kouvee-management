@@ -12,8 +12,8 @@
     <LinearLayout
         android:id="@+id/container"
         android:orientation="vertical"
-        android:gravity="center"
-        android:layout_marginTop="64dp"
+        android:paddingVertical="96dp"
+        android:gravity="top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -31,6 +31,7 @@
 
         <ImageView
             android:layout_margin="16dp"
+            android:layout_gravity="center"
             android:src="@drawable/kouvee_logo"
             android:layout_width="200dp"
             android:layout_height="100dp"
@@ -62,6 +63,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/login_password"
+            android:id="@+id/pass_icon"
             app:endIconMode="password_toggle"
             app:errorEnabled="true">
 
@@ -75,15 +77,14 @@
         <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
             android:id="@+id/btn_login"
             android:layout_width="match_parent"
-            android:layout_height="32dp"
+            android:layout_height="40dp"
             android:layout_marginStart="32dp"
             android:layout_marginEnd="32dp"
             android:layout_marginBottom="8dp"
+            android:layout_gravity="center"
             android:text="@string/login"
             style="@style/ProgressButton"/>
 
-
     </LinearLayout>
-
 
 </ScrollView>

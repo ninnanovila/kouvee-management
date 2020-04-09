@@ -47,6 +47,9 @@ class ServiceManagementActivity : AppCompatActivity(), ServiceView, PetSizeView 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_service_management)
+        if (!CustomView.verifiedNetwork(this)){
+            CustomView.warningSnackBar(container, baseContext, "Please check internet connection")
+        }
         presenter = ServicePresenter(this, Repository())
         presenter.getAllService()
         presenterS = PetSizePresenter(this, Repository())
@@ -128,9 +131,10 @@ class ServiceManagementActivity : AppCompatActivity(), ServiceView, PetSizeView 
         if (temp.isEmpty()){
             CustomView.neutralSnackBar(container, baseContext, "Oops, no result")
         }else{
+            clearList()
             servicesList.addAll(temp)
             servicesTemp.addAll(temp)
-            temps.addAll(temp)
+            temps = servicesTemp
             recyclerview.layoutManager = LinearLayoutManager(this)
             recyclerview.adapter = ServiceRecyclerViewAdapter(servicesList){
                 showDialog(it)
@@ -140,7 +144,12 @@ class ServiceManagementActivity : AppCompatActivity(), ServiceView, PetSizeView 
     }
 
     override fun serviceFailed() {
-        CustomView.failedSnackBar(container, baseContext, "Oops, failed")
+        CustomView.failedSnackBar(container, baseContext, "Oops, try again")
+    }
+
+    private fun clearList(){
+        servicesList.clear()
+        servicesTemp.clear()
     }
 
     private fun showDialog(service: Service){
@@ -203,6 +212,6 @@ class ServiceManagementActivity : AppCompatActivity(), ServiceView, PetSizeView 
     }
 
     override fun petSizeFailed() {
-        CustomView.failedSnackBar(container, baseContext, "Pet size failed")
+        CustomView.failedSnackBar(container, baseContext, "Can't get pet size")
     }
 }

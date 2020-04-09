@@ -14,13 +14,13 @@
 
     <!--MENU DESC-->
     <string-array name="owner_desc">
-        <item>Description of Employee Menu</item>
-        <item>Description of Service Menu</item>
-        <item>Description of Pet Size Menu</item>
-        <item>Description of Pet Type Menu</item>
-        <item>Description of Supplier Menu</item>
-        <item>Description of Product Menu</item>
-        <item>Description of Order Product Menur</item>
+        <item>Employee is a person who is paid to work for somebody. In this menu, Admin can manage (contains create, read, update, delete and search) everything about it. </item>
+        <item>Service is the serving of customers in this pet shops. In this menu, Admin can manage (contains create, read, update, delete and search) everything about it.</item>
+        <item>Pet Size is the size of pet which is provided by this pet shops. In this menu, Admin can manage (contains create, read, update, delete and search) everything about it.</item>
+        <item>Pet Type is the type of pet which is provided by this pet shops. In this menu, Admin can manage (contains create, read, update, delete and search) everything about it.</item>
+        <item>Supplier is a person or company that supplies our product. In this menu, Admin can manage (contains create, read, update, delete and search) everything about it.</item>
+        <item>Product is a thing that is grown, produced or created by our pet shops. In this menu, Admin can manage (contains create, read, update, delete and search) everything about it.</item>
+        <item>Order product is a transaction for order product to our suppliers. Admin can manage (contains create, read, update, search and cancel) and monitor order product progress in this menu. </item>
     </string-array>
 
     <!--MENU IMAGE-->
@@ -31,31 +31,31 @@
         <item>@drawable/pet_type</item>
         <item>@drawable/supplier</item>
         <item>@drawable/product</item>
-        <item>@drawable/orderproduct</item>
+        <item>@drawable/order_product</item>
     </array>
 
     <!--STRING FOR MENU-->
     <string-array name="cs_menu">
         <item>Customer</item>
-        <item>Customer Pet</item>
+        <item>Customer\'s Pet</item>
         <item>Product Transaction</item>
         <item>Service Transaction</item>
     </string-array>
 
     <!--MENU DESC-->
     <string-array name="cs_desc">
-        <item>Description of Customer Menu</item>
-        <item>Description of Customer Pet Menu</item>
-        <item>Description of Product Transaction Menu</item>
-        <item>Description of Service Transaction Menu</item>
+        <item>Customer is a person who buys our product or services. In this menu, Customer Service can manage (contains create, read, update, delete and search) everything about it.</item>
+        <item>Customer\'s Pet is an animal, a bird, etc. that our customer have at home. In this menu, Customer Service can manage (contains create, read, update, delete and search) everything about it.</item>
+        <item>Product Transaction is a piece of business that is done between out pet shop and our customer, an act of buying or selling product which we have. Customer Service can manage and monitor it, not as far as Cashier.</item>
+        <item>Service Transaction is a piece of business that is done between out pet shop and our customer, an act of doing service which we have. Customer Service can manage and monitor it, not as far as Cashier.</item>
     </string-array>
 
     <!--MENU IMAGE-->
     <array name="cs_image">
         <item>@drawable/customer</item>
-        <item>@drawable/customerspet</item>
-        <item>@drawable/transaction</item>
-        <item>@drawable/transaction</item>
+        <item>@drawable/customer_pet</item>
+        <item>@drawable/product_transaction</item>
+        <item>@drawable/service_transaction</item>
     </array>
 
     <!--MANAGEMENT TITLE-->
@@ -116,8 +116,8 @@
     <string name="last_employee">Last employee</string>
 
     <!--LOGIN-->
-    <string name="login_id">Input your id</string>
-    <string name="login_password">Input your password</string>
+    <string name="login_id">Input employee number</string>
+    <string name="login_password">Input password</string>
 
     <!--STRING DATA-->
     <string name="content_desc">Image</string>

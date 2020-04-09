@@ -25,7 +25,6 @@ class EditServiceActivity : AppCompatActivity(), ServiceView {
     private var sizeDropdown: MutableList<String> = arrayListOf()
     private var idSizeList: MutableList<String> = arrayListOf()
     private lateinit var idSize: String
-    private var text = "Update failed"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,7 +38,6 @@ class EditServiceActivity : AppCompatActivity(), ServiceView {
             }
         }
         btn_cancel.setOnClickListener {
-            text = "Delete failed"
             presenter.deleteService(id)
         }
         btn_home.setOnClickListener {
@@ -115,7 +113,7 @@ class EditServiceActivity : AppCompatActivity(), ServiceView {
     override fun serviceFailed() {
         btn_save.revertAnimation()
         btn_cancel.visibility = View.VISIBLE
-        CustomView.failedSnackBar(container, baseContext, text)
+        CustomView.failedSnackBar(container, baseContext, "Oops, try again")
     }
 
     override fun onBackPressed() {

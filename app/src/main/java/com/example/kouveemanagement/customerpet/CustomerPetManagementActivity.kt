@@ -93,6 +93,10 @@ class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView, Cust
         sort_switch.setOnClickListener {
             getList()
         }
+        swipe_rv.setOnRefreshListener {
+            presenter.getAllCustomerPet()
+        }
+        CustomView.setSwipe(swipe_rv)
     }
 
     private fun getList(){
@@ -118,48 +122,39 @@ class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView, Cust
     override fun petTypeSuccess(data: PetTypeResponse?) {
         val temp: List<PetType> = data?.pettype ?: emptyList()
         if (temp.isEmpty()){
-            Toast.makeText(this, "No Result", Toast.LENGTH_SHORT).show()
+            CustomView.neutralSnackBar(container, baseContext, "Pet Type empty")
         }else{
-            if (nameTypeDropdown.isNotEmpty()){
-                nameTypeDropdown.clear()
-                idTypeList.clear()
-                petTypes.clear()
-                petTypes.addAll(temp)
-                for (i in temp.indices){
-                    if (temp[i].deleted_at == null){
-                        nameTypeDropdown.add(temp[i].name.toString())
-                        idTypeList.add(temp[i].id.toString())
-                    }
-                }
-            }else{
-                petTypes.addAll(temp)
-                for (i in temp.indices){
-                    if (temp[i].deleted_at == null){
-                        nameTypeDropdown.add(temp[i].name.toString())
-                        idTypeList.add(temp[i].id.toString())
-                    }
+            nameTypeDropdown.clear()
+            idTypeList.clear()
+            petTypes.clear()
+            petTypes.addAll(temp)
+            for (i in temp.indices){
+                if (temp[i].deleted_at == null){
+                    nameTypeDropdown.add(temp[i].name.toString())
+                    idTypeList.add(temp[i].id.toString())
                 }
             }
         }
     }
 
     override fun petTypeFailed() {
-        Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+        CustomView.failedSnackBar(container, baseContext, "Pet Type failed")
     }
 
     override fun showCustomerPetLoading() {
-        progressbar.visibility = View.VISIBLE
+        swipe_rv.isRefreshing = true
     }
 
     override fun hideCustomerPetLoading() {
-        progressbar.visibility = View.INVISIBLE
+        swipe_rv.isRefreshing = false
     }
 
     override fun customerPetSuccess(data: CustomerPetResponse?) {
         val temp: List<CustomerPet> = data?.customerpets ?: emptyList()
         if (temp.isEmpty()){
-            Toast.makeText(this, "No Result", Toast.LENGTH_SHORT).show()
+            CustomView.neutralSnackBar(container, baseContext, "Oops, no result")
         }else{
+            clearList()
             customerPetsList.addAll(temp)
             customerPetsTemp.addAll(temp)
             temps.addAll(temp)
@@ -168,11 +163,18 @@ class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView, Cust
                 showDialog(it)
                 Toast.makeText(this, it.id, Toast.LENGTH_LONG).show()
             }
+            CustomView.successSnackBar(container, baseContext, "Ok, success")
         }
     }
 
     override fun customerPetFailed() {
-        Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+        CustomView.failedSnackBar(container, baseContext, "Oops, failed")
+    }
+
+    private fun clearList(){
+        customerPetsList.clear()
+        customerPetsTemp.clear()
+        temps.clear()
     }
 
     private fun showDialog(customerPet: CustomerPet){
@@ -218,29 +220,20 @@ class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView, Cust
     override fun customerSuccess(data: CustomerResponse?) {
         val temp: List<Customer> = data?.customers ?: emptyList()
         if (temp.isEmpty()){
-            Toast.makeText(this, "No Result", Toast.LENGTH_SHORT).show()
+            CustomView.neutralSnackBar(container, baseContext, "Customer empty")
         }else{
-            if (nameCustomerDropdown.isNotEmpty()){
-                nameCustomerDropdown.clear()
-                idCustomerList.clear()
-                for (i in temp.indices){
-                    if (temp[i].deleted_at == null){
-                        nameCustomerDropdown.add(temp[i].name.toString())
-                        idCustomerList.add(temp[i].id.toString())
-                    }
-                }
-            }else{
-                for (i in temp.indices){
-                    if (temp[i].deleted_at == null){
-                        nameCustomerDropdown.add(temp[i].name.toString())
-                        idCustomerList.add(temp[i].id.toString())
-                    }
+            nameCustomerDropdown.clear()
+            idCustomerList.clear()
+            for (i in temp.indices){
+                if (temp[i].deleted_at == null){
+                    nameCustomerDropdown.add(temp[i].name.toString())
+                    idCustomerList.add(temp[i].id.toString())
                 }
             }
         }
     }
 
     override fun customerFailed() {
-        Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+        CustomView.failedSnackBar(container, baseContext, "Customer failed")
     }
 }

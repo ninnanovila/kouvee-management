@@ -25,7 +25,9 @@ class MainActivity : AppCompatActivity(), LoginView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        if (!CustomView.verifiedNetwork(this)){
+            CustomView.warningSnackBar(container, baseContext, "Please check internet connection")
+        }
         database = Room.databaseBuilder(this, AppDatabase::class.java, "kouvee-db").build()
         checkCurrentUser()
 
@@ -40,11 +42,12 @@ class MainActivity : AppCompatActivity(), LoginView {
 
     private fun isValid(): Boolean {
         if (id_login.text.isNullOrEmpty()){
-            id_login.error = getString(R.string.error_name)
+            id_login.error = getString(R.string.error_id)
+            CustomView.failedSnackBar(container, baseContext, "Check employee number")
             return false
         }
         if (password_login.text.isNullOrEmpty()){
-            password_login.error = getString(R.string.error_price)
+            CustomView.failedSnackBar(container, baseContext, "Check password")
             return false
         }
         return true
@@ -58,7 +61,6 @@ class MainActivity : AppCompatActivity(), LoginView {
     }
 
     override fun loginSuccess(data: LoginResponse?) {
-        CustomView.successSnackBar(container, baseContext, "Success, welcome!")
         data?.employee?.let { insertCurrentUser(it) }
         when(data?.employee?.role){
             "Admin" -> startActivity<OwnerActivity>()

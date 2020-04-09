@@ -1,7 +1,6 @@
 package com.example.kouveemanagement
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -31,6 +30,8 @@ class CustomerServiceActivity : AppCompatActivity() {
         menuInitialization()
         database = Room.databaseBuilder(this, AppDatabase::class.java, "kouvee-db").build()
         setContentView(R.layout.activity_customer_service)
+        if (!CustomView.verifiedNetwork(this)) CustomView.warningSnackBar(container, baseContext, "Please check internet connection")
+        else CustomView.welcomeSnackBar(container, baseContext, "Welcome Customer Service!")
         setMenu()
         getCurrentUser()
         btn_logout.setOnClickListener {
@@ -59,16 +60,14 @@ class CustomerServiceActivity : AppCompatActivity() {
                 //TRANSACTION
                 "Product Transaction" -> startActivity<ProductTransactionActivity>()
                 "Service Transaction" -> startActivity<ServiceTransactionActivity>()
-                else -> Toast.makeText(this, "Sorry, you can not access that.", Toast.LENGTH_SHORT).show()
+                else -> CustomView.warningSnackBar(container, baseContext, "Don't have permission")
             }
-            Toast.makeText(this, "Yeay!", Toast.LENGTH_SHORT).show()
         }
     }
 
     private fun getCurrentUser(){
         val thread = Thread {
             currentUser = database?.currentUserDao()?.getCurrentuser()
-
             id.text = currentUser?.user_id
             name.text = currentUser?.user_name
             role.text = currentUser?.user_role
@@ -82,9 +81,8 @@ class CustomerServiceActivity : AppCompatActivity() {
             .setMessage("Are you sure to log out ?")
 
         confirm.setNegativeButton("NO") { _, _ ->
-            Toast.makeText(this, "Stay here.", Toast.LENGTH_SHORT).show()
+            CustomView.welcomeSnackBar(container, baseContext, "Stay here")
         }
-
         confirm.setPositiveButton("YES") { _, _ ->
             val thread = Thread {
                 currentUser?.let { database?.currentUserDao()?.deleteCurrentUser(it) }

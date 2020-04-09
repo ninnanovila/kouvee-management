@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.example.kouveemanagement.CustomView
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.model.Supplier
 import com.example.kouveemanagement.model.SupplierResponse
@@ -75,16 +76,15 @@ class AddSupplierFragment : Fragment(), SupplierView {
     }
 
     override fun hideSupplierLoading() {
-        btn_add.revertAnimation()
     }
 
     override fun supplierSuccess(data: SupplierResponse?) {
-        Toast.makeText(context, "Success Supplier", Toast.LENGTH_SHORT).show()
         startActivity<SupplierManagementActivity>()
     }
 
     override fun supplierFailed() {
-        Toast.makeText(context, "Failed Supplier", Toast.LENGTH_SHORT).show()
+        btn_add.revertAnimation()
+        context?.let { view?.let { itView -> CustomView.failedSnackBar(itView, it, "Oops, add failed") } }
     }
 
 }

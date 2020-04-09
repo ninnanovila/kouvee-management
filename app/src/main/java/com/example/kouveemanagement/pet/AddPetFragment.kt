@@ -1,12 +1,11 @@
 package com.example.kouveemanagement.pet
 
-
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.example.kouveemanagement.CustomView
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.model.PetSize
 import com.example.kouveemanagement.model.PetSizeResponse
@@ -102,13 +101,12 @@ class AddPetFragment : Fragment(), PetSizeView, PetTypeView {
     }
 
     override fun petTypeSuccess(data: PetTypeResponse?) {
-        Toast.makeText(context, "Success Pet Type", Toast.LENGTH_SHORT).show()
         startActivity<PetTypeManagementActivity>()
     }
 
     override fun petTypeFailed() {
         btn_add_t.revertAnimation()
-        Toast.makeText(context, "Failed Pet Type", Toast.LENGTH_SHORT).show()
+        context?.let { view?.let { itView -> CustomView.failedSnackBar(itView, it, "Please try again") } }
     }
 
     override fun showPetSizeLoading() {
@@ -119,13 +117,12 @@ class AddPetFragment : Fragment(), PetSizeView, PetTypeView {
     }
 
     override fun petSizeSuccess(data: PetSizeResponse?) {
-        Toast.makeText(context, "Success Pet Size", Toast.LENGTH_SHORT).show()
         startActivity<PetSizeManagementActivity>()
     }
 
     override fun petSizeFailed() {
         btn_add_s.revertAnimation()
-        Toast.makeText(context, "Failed Pet Size", Toast.LENGTH_SHORT).show()
+        context?.let { view?.let { itView -> CustomView.failedSnackBar(itView, it, "Please try again") } }
     }
 
 }

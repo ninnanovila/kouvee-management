@@ -34,6 +34,8 @@ class OwnerActivity : AppCompatActivity() {
         menuInitialization()
         database = Room.databaseBuilder(this, AppDatabase::class.java, "kouvee-db").build()
         setContentView(R.layout.activity_owner)
+        if (!CustomView.verifiedNetwork(this)) CustomView.warningSnackBar(container, baseContext, "Please check internet connection")
+        else CustomView.welcomeSnackBar(container, baseContext, "Welcome Admin!")
         setMenu()
         getCurrentUser()
         btn_logout.setOnClickListener {
@@ -65,9 +67,8 @@ class OwnerActivity : AppCompatActivity() {
                 "Service" -> startActivity<ServiceManagementActivity>()
                 //TRANSACTION
                 "Order Product" -> startActivity<OrderProductActivity>()
-                else -> Toast.makeText(this, "Sorry, you can not access that.", Toast.LENGTH_SHORT).show()
+                else -> CustomView.warningSnackBar(container, baseContext, "Don't have permission")
             }
-            Toast.makeText(this, "Yeay!", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -86,7 +87,7 @@ class OwnerActivity : AppCompatActivity() {
             .setTitle("Confirmation")
             .setMessage("Are you sure to log out ?")
         confirm.setNegativeButton("NO") { _, _ ->
-            Toast.makeText(this, "Stay here.", Toast.LENGTH_SHORT).show()
+            CustomView.welcomeSnackBar(container, baseContext, "Stay here")
         }
         confirm.setPositiveButton("YES") { _, _ ->
             val thread = Thread {

@@ -1,9 +1,9 @@
 package com.example.kouveemanagement.supplier
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import com.example.kouveemanagement.CustomView
 import com.example.kouveemanagement.OwnerActivity
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.model.Supplier
@@ -86,14 +86,13 @@ class EditSupplierActivity : AppCompatActivity(), SupplierView {
     }
 
     override fun supplierSuccess(data: SupplierResponse?) {
-        Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
         startActivity<SupplierManagementActivity>()
     }
 
     override fun supplierFailed() {
         btn_save.revertAnimation()
         btn_cancel.visibility = View.VISIBLE
-        Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+        CustomView.failedSnackBar(container, baseContext, "Oops, try again")
     }
 
     override fun onBackPressed() {

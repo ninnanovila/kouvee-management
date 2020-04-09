@@ -1,18 +1,20 @@
 package com.example.kouveemanagement.customer
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.*
+import android.widget.Button
+import android.widget.ImageButton
+import android.widget.SearchView
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.kouveemanagement.CustomView
 import com.example.kouveemanagement.CustomerServiceActivity
 import com.example.kouveemanagement.R
-import com.example.kouveemanagement.CustomView
 import com.example.kouveemanagement.adapter.CustomerRecyclerViewAdapter
 import com.example.kouveemanagement.model.Customer
 import com.example.kouveemanagement.model.CustomerResponse
@@ -21,7 +23,6 @@ import com.example.kouveemanagement.presenter.CustomerView
 import com.example.kouveemanagement.repository.Repository
 import kotlinx.android.synthetic.main.activity_customer_management.*
 import org.jetbrains.anko.startActivity
-
 
 class CustomerManagementActivity : AppCompatActivity(), CustomerView {
 
@@ -41,6 +42,9 @@ class CustomerManagementActivity : AppCompatActivity(), CustomerView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_customer_management)
+        if (!CustomView.verifiedNetwork(this)){
+            CustomView.warningSnackBar(container, baseContext, "Please check internet connection")
+        }
         presenter = CustomerPresenter(this, Repository())
         presenter.getAllCustomer()
         btn_home.setOnClickListener {
@@ -137,13 +141,12 @@ class CustomerManagementActivity : AppCompatActivity(), CustomerView {
     }
 
     override fun customerFailed() {
-        CustomView.failedSnackBar(container, baseContext, "Oops, failed")
+        CustomView.failedSnackBar(container, baseContext, "Oops, try again")
     }
 
     private fun clearList(){
         customersList.clear()
         customersTemp.clear()
-        temps.clear()
     }
 
     private fun showDialog(customer: Customer){

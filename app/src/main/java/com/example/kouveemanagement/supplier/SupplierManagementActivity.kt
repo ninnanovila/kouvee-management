@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.kouveemanagement.CustomView
 import com.example.kouveemanagement.OwnerActivity
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.adapter.SupplierRecyclerViewAdapter
@@ -85,6 +86,10 @@ class SupplierManagementActivity : AppCompatActivity(), SupplierView {
         sort_switch.setOnClickListener {
             getList()
         }
+        swipe_rv.setOnRefreshListener {
+            presenter.getAllSupplier()
+        }
+        CustomView.setSwipe(swipe_rv)
     }
 
     private fun getList(){
@@ -102,31 +107,38 @@ class SupplierManagementActivity : AppCompatActivity(), SupplierView {
     }
 
     override fun showSupplierLoading() {
-        progressbar.visibility = View.VISIBLE
+        swipe_rv.isRefreshing = true
     }
 
     override fun hideSupplierLoading() {
-        progressbar.visibility = View.INVISIBLE
+        swipe_rv.isRefreshing = false
     }
 
     override fun supplierSuccess(data: SupplierResponse?) {
         val temp: List<Supplier> = data?.suppliers ?: emptyList()
         if (temp.isEmpty()){
-            Toast.makeText(this, "No Result", Toast.LENGTH_SHORT).show()
+            CustomView.neutralSnackBar(container, baseContext, "Supplier empty")
         }else{
+            clearList()
             suppliersList.addAll(temp)
             suppliersTemp.addAll(temp)
             temps.addAll(temp)
             recyclerview.layoutManager = LinearLayoutManager(this)
             recyclerview.adapter = SupplierRecyclerViewAdapter(suppliersList) {
                 showDialog(it)
-                Toast.makeText(this, it.id, Toast.LENGTH_LONG).show()
             }
+            CustomView.successSnackBar(container, baseContext, "Ok, success")
         }
     }
 
     override fun supplierFailed() {
-        Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+        CustomView.failedSnackBar(container, baseContext, "Oops, failed")
+    }
+
+    private fun clearList(){
+        suppliersList.clear()
+        suppliersTemp.clear()
+        temps.clear()
     }
 
     private fun showDialog(supplier: Supplier){

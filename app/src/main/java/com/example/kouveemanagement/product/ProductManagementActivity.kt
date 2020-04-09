@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.kouveemanagement.CustomView
 import com.example.kouveemanagement.OwnerActivity
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.adapter.ProductRecyclerViewAdapter
@@ -70,7 +71,7 @@ class ProductManagementActivity : AppCompatActivity(), ProductView {
         }
         show_min.setOnClickListener {
             if (minProducts.isNullOrEmpty()){
-                Toast.makeText(this, "There is not minimum product", Toast.LENGTH_LONG).show()
+                CustomView.warningSnackBar(container, baseContext, "Minimum product empty")
             }else{
                 temps = minProducts
                 getList()
@@ -93,6 +94,10 @@ class ProductManagementActivity : AppCompatActivity(), ProductView {
         sort_switch.setOnClickListener {
             getList()
         }
+        swipe_rv.setOnRefreshListener {
+            presenter.getAllProduct()
+        }
+        CustomView.setSwipe(swipe_rv)
     }
 
     private fun getList(){
@@ -110,18 +115,19 @@ class ProductManagementActivity : AppCompatActivity(), ProductView {
     }
 
     override fun showProductLoading() {
-        progressbar.visibility = View.VISIBLE
+        swipe_rv.isRefreshing = true
     }
 
     override fun hideProductLoading() {
-        progressbar.visibility = View.GONE
+        swipe_rv.isRefreshing = false
     }
 
     override fun productSuccess(data: ProductResponse?) {
         val temp: List<Product> = data?.products ?: emptyList()
         if (temp.isEmpty()){
-            Toast.makeText(this, "No Result", Toast.LENGTH_SHORT).show()
+            CustomView.neutralSnackBar(container, baseContext, "Product empty")
         }else{
+            clearList()
             productsList.addAll(temp)
             productsTemp.addAll(temp)
             temps.addAll(temp)
@@ -133,13 +139,20 @@ class ProductManagementActivity : AppCompatActivity(), ProductView {
             recyclerview.layoutManager = LinearLayoutManager(this)
             recyclerview.adapter = ProductRecyclerViewAdapter(productsList) {
                 showDialog(it)
-                Toast.makeText(this, it.id, Toast.LENGTH_LONG).show()
             }
+            CustomView.successSnackBar(container, baseContext, "Ok, success")
         }
     }
 
     override fun productFailed() {
-        Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+        CustomView.failedSnackBar(container, baseContext, "Please try again")
+    }
+
+    private fun clearList(){
+        productsList.clear()
+        productsTemp.clear()
+        temps.clear()
+        minProducts.clear()
     }
 
     private fun showDialog(product: Product){

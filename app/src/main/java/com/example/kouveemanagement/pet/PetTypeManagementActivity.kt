@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.kouveemanagement.CustomView
 import com.example.kouveemanagement.OwnerActivity
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.adapter.PetRecyclerViewAdapter
@@ -64,7 +65,6 @@ class PetTypeManagementActivity : AppCompatActivity(), PetTypeView {
                 newText?.let { petTypesAdapter.filterPet(it) }
                 return false
             }
-
         })
         fabAnimation()
         show_all.setOnClickListener {
@@ -106,7 +106,7 @@ class PetTypeManagementActivity : AppCompatActivity(), PetTypeView {
         dialog.btn_save.visibility = View.INVISIBLE
         dialog.btn_cancel.visibility = View.INVISIBLE
         dialog.progressbar.visibility = View.VISIBLE
-        progressbar.visibility = View.VISIBLE
+        swipe_rv.isRefreshing = true
     }
 
     override fun hidePetTypeLoading() {
@@ -115,13 +115,13 @@ class PetTypeManagementActivity : AppCompatActivity(), PetTypeView {
         dialog.btn_save.visibility = View.VISIBLE
         dialog.btn_cancel.visibility = View.VISIBLE
         dialog.progressbar.visibility = View.GONE
-        progressbar.visibility = View.GONE
+        swipe_rv.isRefreshing = false
     }
 
     override fun petTypeSuccess(data: PetTypeResponse?) {
         val temp: List<PetType> = data?.pettype ?: emptyList()
         if (temp.isEmpty()){
-            Toast.makeText(this, "No Result", Toast.LENGTH_SHORT).show()
+            CustomView.neutralSnackBar(container, baseContext, "Pet Type empty")
         }else{
             petTypesList.addAll(temp)
             petTypesTemp.addAll(temp)
@@ -131,12 +131,12 @@ class PetTypeManagementActivity : AppCompatActivity(), PetTypeView {
                 showPetType(it)
                 Toast.makeText(this, it.id, Toast.LENGTH_SHORT).show()
             }, mutableListOf(),{})
+            CustomView.successSnackBar(container, baseContext, "Ok, success")
         }
-        Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
     }
 
     override fun petTypeFailed() {
-        Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+        CustomView.failedSnackBar(container, baseContext, "Please try again")
     }
 
     private fun showPetType(petType: PetType){
@@ -150,7 +150,6 @@ class PetTypeManagementActivity : AppCompatActivity(), PetTypeView {
         val btnDelete = dialog.findViewById<Button>(R.id.btn_cancel)
         val btnClose = dialog.findViewById<ImageButton>(R.id.btn_close)
         val btnEdit = dialog.findViewById<Button>(R.id.btn_edit)
-
         val id = petType.id.toString()
         name.setText(petType.name)
         createdAt.text = petType.created_at
@@ -160,7 +159,6 @@ class PetTypeManagementActivity : AppCompatActivity(), PetTypeView {
         }else{
             deletedAt.text = petType.deleted_at
         }
-
         if (petType.deleted_at !== null){
             btnEdit.visibility = View.GONE
         }

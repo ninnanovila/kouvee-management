@@ -23,7 +23,6 @@ class EditCustomerActivity : AppCompatActivity(), CustomerView {
     private lateinit var lastEmp: String
     private lateinit var presenter: CustomerPresenter
     private lateinit var customer: Customer
-    private var text = "Update failed"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,7 +38,6 @@ class EditCustomerActivity : AppCompatActivity(), CustomerView {
             }
         }
         btn_cancel.setOnClickListener {
-            text = "Delete failed"
             presenter.deleteCustomer(id, lastEmp)
         }
         btn_home.setOnClickListener {
@@ -119,7 +117,7 @@ class EditCustomerActivity : AppCompatActivity(), CustomerView {
     override fun customerFailed() {
         btn_save.revertAnimation()
         btn_cancel.visibility = View.VISIBLE
-        CustomView.failedSnackBar(container, baseContext, text)
+        CustomView.failedSnackBar(container, baseContext, "Oops, try again")
     }
 
     override fun onBackPressed() {

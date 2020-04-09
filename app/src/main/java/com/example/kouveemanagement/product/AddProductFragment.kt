@@ -1,12 +1,11 @@
 package com.example.kouveemanagement.product
 
-
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.example.kouveemanagement.CustomView
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.model.Product
 import com.example.kouveemanagement.model.ProductResponse
@@ -84,16 +83,15 @@ class AddProductFragment : Fragment(), ProductView {
     }
 
     override fun hideProductLoading() {
-        btn_add.revertAnimation()
     }
 
     override fun productSuccess(data: ProductResponse?) {
-        Toast.makeText(context, "Success Product", Toast.LENGTH_SHORT).show()
         startActivity<ProductManagementActivity>()
     }
 
     override fun productFailed() {
-        Toast.makeText(context, "Failed Product", Toast.LENGTH_SHORT).show()
+        btn_add.revertAnimation()
+        context?.let { view?.let { itView -> CustomView.failedSnackBar(itView, it, "Oops, add failed") } }
     }
 
 }
