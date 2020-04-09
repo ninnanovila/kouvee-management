@@ -160,6 +160,8 @@
     <string name="paid_off">Paid Off</string>
     <string name="not_yet_paid_off">Not Yet Paid Off</string>
     <string name="cancel">Cancel</string>
+    <string name="product_transaction">Product Transaction</string>
+    <string name="service_transaction">Service Transaction</string>
 
     <!--ERROR-->
     <string name="error_id">ID can\'t be empty</string>
@@ -175,14 +177,12 @@
     <string name="error_role">Role can\'t be empty</string>
     <string name="error_quantity">Quantity can\'t be empty</string>
     <string name="error_zero_quantity">Quantity must more than 0</string>
+    <string name="error_zero_price">Price must more than 0</string>
 
+    <!--DETAIL-->
     <string name="detail_product_transaction">Detail Product Transaction</string>
     <string name="detail_order_product">Detail Order Product</string>
     <string name="detail_service_transaction">Detail Service Transaction</string>
-    <string name="order_product_id">Order Product ID</string>
-    <string name="status">Status</string>
-    <string name="total_price">Total Price</string>
-    <string name="transaction_id">Transaction ID</string>
     <string name="detail_supplier">Detail Supplier</string>
     <string name="detail_customer">Detail Customer</string>
     <string name="detail_customer_s_pet">Detail Customer\'s Pet</string>
@@ -190,20 +190,25 @@
     <string name="detail_pet">Detail Pet</string>
     <string name="detail_product">Detail Product</string>
     <string name="detail_service">Detail Service</string>
-    <string name="customer_s_pet">Customer\'s Pet</string>
-    <string name="x">x</string>
-    <string name="rp">Rp. </string>
     <string name="detail">Detail</string>
     <string name="detail_transaction">Detail Transaction</string>
-    <string name="welcome">welcome</string>
-    <string name="sort_a_z">Sort A-Z</string>
 
-    <string name="identity">Identity</string>
+    <!--NUMBER-->
     <string name="employee_number">Employee Number</string>
     <string name="order_product_number">Order Product Number</string>
     <string name="transaction_number">Transaction Number</string>
+
+    <!--OTHER-->
+    <string name="status">Status</string>
+    <string name="total_price">Total Price</string>
+    <string name="customer_s_pet">Customer\'s Pet</string>
+    <string name="x">x</string>
+    <string name="rp">Rp. </string>
+    <string name="welcome">Welcome</string>
+    <string name="sort_a_z">Sort A-Z</string>
     <string name="pet_s_name">Pet\'s Name</string>
-    <string name="product_transaction">Product Transaction</string>
-    <string name="service_transaction">Service Transaction</string>
+    <string name="splash">Kouvee Pet Shop Data Management</string>
+    <string name="kouvee_pet_shop">Kouvee Pet Shop</string>
+    <string name="tribute">This is data management for Kouvee Pet Shop. Admin and Customer Service have an access to this application. Enjoy!</string>
 
 </resources>

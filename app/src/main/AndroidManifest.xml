@@ -16,6 +16,12 @@
         android:theme="@style/AppTheme.NoActionBar"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".transaction.ProductTransactionActivity" />
         <activity android:name=".pet.PetSizeManagementActivity" />
         <activity android:name=".transaction.ShowTransactionActivity" />
@@ -39,13 +45,7 @@
         <activity android:name=".employee.EmployeeManagementActivity" />
         <activity android:name=".CustomerServiceActivity" />
         <activity android:name=".OwnerActivity" />
-        <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".MainActivity" />
     </application>
 
 </manifest>
