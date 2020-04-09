@@ -94,7 +94,7 @@ class EditServiceActivity : AppCompatActivity(), ServiceView {
         if (price.text.isNullOrEmpty()){
             price.error = getString(R.string.error_price)
             return false
-        }else if(Integer.parseInt(price.text.toString()) < 1){
+        }else if(Integer.parseInt(price.text.toString()) < 30000){
             price.error = getString(R.string.error_zero_price)
             return false
         }

@@ -177,7 +177,7 @@
     <string name="error_role">Role can\'t be empty</string>
     <string name="error_quantity">Quantity can\'t be empty</string>
     <string name="error_zero_quantity">Quantity must more than 0</string>
-    <string name="error_zero_price">Price must more than 0</string>
+    <string name="error_zero_price">Price must more than 30000</string>
 
     <!--DETAIL-->
     <string name="detail_product_transaction">Detail Product Transaction</string>
