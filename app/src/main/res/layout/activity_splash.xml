@@ -42,6 +42,21 @@
             android:text="@string/tribute"
             android:textAlignment="center"
             android:textStyle="italic"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/more_icon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="64dp"
+            android:layout_marginTop="64dp"
+            android:layout_marginEnd="64dp"
+            android:text="@string/icon_source"
+            android:textAlignment="center"
+            android:textStyle="italic"
+            android:textSize="8sp"
+            android:textColor="@color/colorGrey"
+            tools:ignore="SmallSp" />
+
     </LinearLayout>
 
 

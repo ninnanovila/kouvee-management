@@ -130,7 +130,7 @@ class ProductManagementActivity : AppCompatActivity(), ProductView {
             clearList()
             productsList.addAll(temp)
             productsTemp.addAll(temp)
-            temps.addAll(temp)
+            temps = productsTemp
             for (i in productsList.indices){
                 if (temps[i].deleted_at == null && (temps[i].stock!!.toInt() <= temps[i].min_stock!!.toInt())){
                     minProducts.add(temps[i])
@@ -151,44 +151,45 @@ class ProductManagementActivity : AppCompatActivity(), ProductView {
     private fun clearList(){
         productsList.clear()
         productsTemp.clear()
-        temps.clear()
         minProducts.clear()
     }
 
     private fun showDialog(product: Product){
-
         val baseUrl = "https://gregpetshop.berusahapastibisakok.tech/api/product/photo/"
-
         dialog = LayoutInflater.from(this).inflate(R.layout.dialog_detail_product, null)
-
         val name = dialog.findViewById<TextView>(R.id.name)
         val unit = dialog.findViewById<TextView>(R.id.unit)
         val stock = dialog.findViewById<TextView>(R.id.stock)
         val minStock = dialog.findViewById<TextView>(R.id.min_stock)
         val price = dialog.findViewById<TextView>(R.id.price)
         val photo = dialog.findViewById<ImageView>(R.id.photo)
+        val createdAt = dialog.findViewById<TextView>(R.id.created_at)
+        val updatedAt = dialog.findViewById<TextView>(R.id.updated_at)
+        val deletedAt = dialog.findViewById<TextView>(R.id.deleted_at)
         val btnClose = dialog.findViewById<ImageButton>(R.id.btn_close)
         val btnEdit = dialog.findViewById<Button>(R.id.btn_edit)
-
         name.text = product.name.toString()
         unit.text = product.unit.toString()
         stock.text = product.stock.toString()
         minStock.text = product.min_stock.toString()
         price.text = product.price.toString()
         product.photo.let { Picasso.get().load(baseUrl+product.photo.toString()).fit().into(photo) }
-
+        createdAt.text = product.created_at
+        updatedAt.text = product.updated_at
+        if (product.deleted_at.isNullOrEmpty()){
+            deletedAt.text = "-"
+        }else{
+            deletedAt.text = product.deleted_at
+        }
         if (product.deleted_at != null){
             btnEdit.visibility = View.GONE
         }
-
         val infoDialog = androidx.appcompat.app.AlertDialog.Builder(this)
             .setView(dialog)
             .show()
-
         btnEdit.setOnClickListener {
             startActivity<EditProductActivity>("product" to product)
         }
-
         btnClose.setOnClickListener {
             infoDialog.dismiss()
         }

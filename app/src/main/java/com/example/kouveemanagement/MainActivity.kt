@@ -65,7 +65,10 @@ class MainActivity : AppCompatActivity(), LoginView {
         when(data?.employee?.role){
             "Admin" -> startActivity<OwnerActivity>()
             "Customer Service" -> startActivity<CustomerServiceActivity>()
-            "Cashier" -> CustomView.failedSnackBar(container, baseContext, "Cashier can not access")
+            "Cashier" -> {
+                CustomView.failedSnackBar(container, baseContext, "Cashier can not access")
+                btn_login.revertAnimation()
+            }
         }
 
         if(data?.employee?.role.equals("Cashier")){

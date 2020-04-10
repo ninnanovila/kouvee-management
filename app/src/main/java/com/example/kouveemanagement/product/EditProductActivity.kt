@@ -9,7 +9,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.kouveemanagement.CustomView
 import com.example.kouveemanagement.OwnerActivity
@@ -58,15 +57,14 @@ class EditProductActivity : AppCompatActivity(), ProductView, UploadPhotoProduct
             startActivity<OwnerActivity>()
         }
         btn_choose.setOnClickListener {
-            //IMAGE
             startActivityForResult(getImageChooserIntent(), 200)
         }
         btn_upload.setOnClickListener {
             if (bitmap!=null){
-                Toast.makeText(this, "Bitmap not null.", Toast.LENGTH_SHORT).show()
+                CustomView.welcomeSnackBar(container, baseContext, "Uploading image...")
                 multipartImageUpload()
             }else{
-                Toast.makeText(this, "Bitmap null.", Toast.LENGTH_SHORT).show()
+                CustomView.warningSnackBar(container, baseContext, "Please choose image")
             }
         }
     }
@@ -138,7 +136,7 @@ class EditProductActivity : AppCompatActivity(), ProductView, UploadPhotoProduct
     override fun productFailed() {
         btn_save.revertAnimation()
         btn_cancel.visibility = View.VISIBLE
-        CustomView.failedSnackBar(container, baseContext, "Please try again")
+        CustomView.failedSnackBar(container, baseContext, "Oops, try again")
     }
 
     override fun onBackPressed() {
@@ -173,8 +171,7 @@ class EditProductActivity : AppCompatActivity(), ProductView, UploadPhotoProduct
 
     private fun getPathFromURI(contentUri: Uri): String? {
         val projectData = arrayOf(MediaStore.Audio.Media.DATA)
-        val cursor =
-            contentResolver.query(contentUri, projectData, null, null, null)
+        val cursor = contentResolver.query(contentUri, projectData, null, null, null)
         val columnIndex = cursor!!.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA)
         cursor.moveToFirst()
         return cursor.getString(columnIndex)
@@ -228,10 +225,10 @@ class EditProductActivity : AppCompatActivity(), ProductView, UploadPhotoProduct
         }
         intents.remove(mainIntent)
 
-        val choosedIntent = Intent.createChooser(mainIntent, "Select source")
-        choosedIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, intents.toTypedArray())
+        val chosenIntent = Intent.createChooser(mainIntent, "Select image source")
+        chosenIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, intents.toTypedArray())
 
-        return choosedIntent
+        return chosenIntent
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -240,12 +237,10 @@ class EditProductActivity : AppCompatActivity(), ProductView, UploadPhotoProduct
         if (resultCode == Activity.RESULT_OK){
             if (requestCode == 200){
                 val filePath = getImageFilePath(data)
-                Toast.makeText(this, filePath, Toast.LENGTH_LONG).show()
-                if (filePath != null){
-                    bitmap = BitmapFactory.decodeFile(filePath)
-                    getByteArrayInBackground()
-                    image_product.setImageBitmap(bitmap)
-                }
+                CustomView.welcomeSnackBar(container, baseContext, "Image has been chosen..")
+                bitmap = BitmapFactory.decodeFile(filePath)
+                getByteArrayInBackground()
+                image_product.setImageBitmap(bitmap)
             }
         }
     }
@@ -256,14 +251,10 @@ class EditProductActivity : AppCompatActivity(), ProductView, UploadPhotoProduct
                 val filesDir = applicationContext.filesDir
                 val file = File(filesDir, "image" + ".png")
                 val fos = FileOutputStream(file)
-                fos.write(byteArray)
+                fos.write(byteArray!!)
                 fos.flush()
                 fos.close()
-
-                val body: MultipartBody.Part =
-                    createFormData("photo", file.name,
-                        file.asRequestBody("image/*".toMediaTypeOrNull())
-                    )
+                val body: MultipartBody.Part = createFormData("photo", file.name, file.asRequestBody("image/*".toMediaTypeOrNull()))
                 imagePresenter.uploadPhotoProduct(id, body)
             }
         } catch (e: FileNotFoundException) {
@@ -290,7 +281,7 @@ class EditProductActivity : AppCompatActivity(), ProductView, UploadPhotoProduct
         progressbar_img.visibility = View.INVISIBLE
         btn_choose.visibility = View.VISIBLE
         btn_upload.visibility = View.VISIBLE
-        CustomView.failedSnackBar(container, baseContext, "Please try again")
+        CustomView.failedSnackBar(container, baseContext, "Oops, try again")
     }
 
 }

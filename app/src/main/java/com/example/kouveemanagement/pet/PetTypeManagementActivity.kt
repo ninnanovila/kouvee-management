@@ -19,7 +19,6 @@ import com.example.kouveemanagement.presenter.PetTypePresenter
 import com.example.kouveemanagement.presenter.PetTypeView
 import com.example.kouveemanagement.repository.Repository
 import kotlinx.android.synthetic.main.activity_pet_type_management.*
-import kotlinx.android.synthetic.main.dialog_detail_pet.view.*
 import org.jetbrains.anko.startActivity
 
 class PetTypeManagementActivity : AppCompatActivity(), PetTypeView {
@@ -33,6 +32,8 @@ class PetTypeManagementActivity : AppCompatActivity(), PetTypeView {
 
     private lateinit var dialog: View
     private lateinit var infoDialog: AlertDialog
+
+    private var edit = false
 
     companion object{
         var petTypes: MutableList<PetType> = mutableListOf()
@@ -84,6 +85,10 @@ class PetTypeManagementActivity : AppCompatActivity(), PetTypeView {
         sort_switch.setOnClickListener {
             getList()
         }
+        swipe_rv.setOnRefreshListener {
+            presenterType.getAllPetType()
+        }
+        CustomView.setSwipe(swipe_rv)
     }
 
     private fun getList(){
@@ -101,42 +106,48 @@ class PetTypeManagementActivity : AppCompatActivity(), PetTypeView {
     }
 
     override fun showPetTypeLoading() {
-        dialog = LayoutInflater.from(this).inflate(R.layout.dialog_detail_pet, null)
-
-        dialog.btn_save.visibility = View.INVISIBLE
-        dialog.btn_cancel.visibility = View.INVISIBLE
-        dialog.progressbar.visibility = View.VISIBLE
-        swipe_rv.isRefreshing = true
+        if (edit){
+            CustomView.warningSnackBar(container, baseContext, "Processing..")
+        }else{
+            swipe_rv.isRefreshing = true
+        }
     }
 
     override fun hidePetTypeLoading() {
-        dialog = LayoutInflater.from(this).inflate(R.layout.dialog_detail_pet, null)
-
-        dialog.btn_save.visibility = View.VISIBLE
-        dialog.btn_cancel.visibility = View.VISIBLE
-        dialog.progressbar.visibility = View.GONE
         swipe_rv.isRefreshing = false
     }
 
     override fun petTypeSuccess(data: PetTypeResponse?) {
-        val temp: List<PetType> = data?.pettype ?: emptyList()
-        if (temp.isEmpty()){
-            CustomView.neutralSnackBar(container, baseContext, "Pet Type empty")
+        clearList()
+        if (!edit){
+            val temp: List<PetType> = data?.pettype ?: emptyList()
+            if (temp.isEmpty()){
+                CustomView.neutralSnackBar(container, baseContext, "Pet Type empty")
+            }else{
+                petTypesList.addAll(temp)
+                petTypesTemp.addAll(temp)
+                temps = petTypesTemp
+                recyclerview.layoutManager = LinearLayoutManager(this)
+                recyclerview.adapter = PetRecyclerViewAdapter("type", petTypesList, {
+                    showPetType(it)
+                    Toast.makeText(this, it.id, Toast.LENGTH_SHORT).show()
+                }, mutableListOf(),{})
+                CustomView.successSnackBar(container, baseContext, "Ok, success")
+            }
         }else{
-            petTypesList.addAll(temp)
-            petTypesTemp.addAll(temp)
-            temps.addAll(temp)
-            recyclerview.layoutManager = LinearLayoutManager(this)
-            recyclerview.adapter = PetRecyclerViewAdapter("type", petTypesList, {
-                showPetType(it)
-                Toast.makeText(this, it.id, Toast.LENGTH_SHORT).show()
-            }, mutableListOf(),{})
+            startActivity<PetTypeManagementActivity>()
+            infoDialog.dismiss()
             CustomView.successSnackBar(container, baseContext, "Ok, success")
         }
     }
 
     override fun petTypeFailed() {
-        CustomView.failedSnackBar(container, baseContext, "Please try again")
+        CustomView.failedSnackBar(container, baseContext, "Oops, try again")
+    }
+
+    private fun clearList(){
+        petTypesList.clear()
+        petTypesTemp.clear()
     }
 
     private fun showPetType(petType: PetType){
@@ -175,6 +186,7 @@ class PetTypeManagementActivity : AppCompatActivity(), PetTypeView {
         }
 
         btnSave.setOnClickListener {
+            edit = true
             val newName = name.text.toString()
             if (newName.isEmpty()){
                 name.error = getString(R.string.error_name)
@@ -185,6 +197,7 @@ class PetTypeManagementActivity : AppCompatActivity(), PetTypeView {
         }
 
         btnDelete.setOnClickListener {
+            edit = true
             presenterType.deletePetType(id)
         }
 

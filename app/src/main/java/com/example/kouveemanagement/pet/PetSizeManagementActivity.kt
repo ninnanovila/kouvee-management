@@ -34,6 +34,8 @@ class PetSizeManagementActivity : AppCompatActivity(), PetSizeView {
     private lateinit var dialog: View
     private lateinit var infoDialog: AlertDialog
 
+    private var edit = false
+
     companion object{
         var petSizes: MutableList<PetSize> = mutableListOf()
     }
@@ -111,37 +113,37 @@ class PetSizeManagementActivity : AppCompatActivity(), PetSizeView {
     }
 
     override fun showPetSizeLoading() {
-        dialog = LayoutInflater.from(this).inflate(R.layout.dialog_detail_pet, null)
-
-        dialog.btn_save.visibility = View.INVISIBLE
-        dialog.btn_cancel.visibility = View.INVISIBLE
-        dialog.progressbar.visibility = View.VISIBLE
-        swipe_rv.isRefreshing = true
+        if (edit){
+            CustomView.warningSnackBar(container, baseContext, "Processing..")
+        }else{
+            swipe_rv.isRefreshing = true
+        }
     }
 
     override fun hidePetSizeLoading() {
-        dialog = LayoutInflater.from(this).inflate(R.layout.dialog_detail_pet, null)
-
-        dialog.btn_save.visibility = View.VISIBLE
-        dialog.btn_cancel.visibility = View.VISIBLE
-        dialog.progressbar.visibility = View.GONE
         swipe_rv.isRefreshing = false
     }
 
     override fun petSizeSuccess(data: PetSizeResponse?) {
-        val temp: List<PetSize> = data?.petsize ?: emptyList()
-        if (temp.isEmpty()){
-            CustomView.neutralSnackBar(container, baseContext, "Pet sizes empty")
+        clearList()
+        if (!edit){
+            val temp: List<PetSize> = data?.petsize ?: emptyList()
+            if (temp.isEmpty()){
+                CustomView.neutralSnackBar(container, baseContext, "Pet sizes empty")
+            }else{
+                petSizesList.addAll(temp)
+                petSizesTemp.addAll(temp)
+                temps = petSizesTemp
+                recyclerview.layoutManager = LinearLayoutManager(this)
+                recyclerview.adapter = PetRecyclerViewAdapter("size", mutableListOf(), {}, petSizesList, {
+                    showPetSize(it)
+                    Toast.makeText(this, it.id, Toast.LENGTH_LONG).show()
+                })
+                CustomView.successSnackBar(container, baseContext, "Ok, success")
+            }
         }else{
-            clearList()
-            petSizesList.addAll(temp)
-            petSizesTemp.addAll(temp)
-            temps.addAll(temp)
-            recyclerview.layoutManager = LinearLayoutManager(this)
-            recyclerview.adapter = PetRecyclerViewAdapter("size", mutableListOf(), {}, petSizesList, {
-                showPetSize(it)
-                Toast.makeText(this, it.id, Toast.LENGTH_LONG).show()
-            })
+            startActivity<PetSizeManagementActivity>()
+            infoDialog.dismiss()
             CustomView.successSnackBar(container, baseContext, "Ok, success")
         }
     }
@@ -153,7 +155,6 @@ class PetSizeManagementActivity : AppCompatActivity(), PetSizeView {
     private fun clearList(){
         petSizesList.clear()
         petSizesTemp.clear()
-        temps.clear()
     }
 
     private fun showPetSize(petSize: PetSize){
@@ -193,6 +194,7 @@ class PetSizeManagementActivity : AppCompatActivity(), PetSizeView {
         }
 
         btnSave.setOnClickListener {
+            edit = true
             val newName = name.text.toString()
             if (newName.isEmpty()){
                 name.error = getString(R.string.error_name)
@@ -203,6 +205,7 @@ class PetSizeManagementActivity : AppCompatActivity(), PetSizeView {
         }
 
         btnDelete.setOnClickListener {
+            edit = true
             presenterSize.deletePetSize(id)
         }
 

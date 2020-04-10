@@ -122,7 +122,7 @@ class SupplierManagementActivity : AppCompatActivity(), SupplierView {
             clearList()
             suppliersList.addAll(temp)
             suppliersTemp.addAll(temp)
-            temps.addAll(temp)
+            temps = suppliersTemp
             recyclerview.layoutManager = LinearLayoutManager(this)
             recyclerview.adapter = SupplierRecyclerViewAdapter(suppliersList) {
                 showDialog(it)
@@ -132,13 +132,12 @@ class SupplierManagementActivity : AppCompatActivity(), SupplierView {
     }
 
     override fun supplierFailed() {
-        CustomView.failedSnackBar(container, baseContext, "Oops, failed")
+        CustomView.failedSnackBar(container, baseContext, "Oops, try again")
     }
 
     private fun clearList(){
         suppliersList.clear()
         suppliersTemp.clear()
-        temps.clear()
     }
 
     private fun showDialog(supplier: Supplier){
