@@ -105,14 +105,19 @@ class ServiceManagementActivity : AppCompatActivity(), ServiceView, PetSizeView 
     }
 
     private fun getList(){
-        if(sort_switch.isChecked){
-            val sorted = temps.sortedBy { it.name }
-            recyclerview.adapter = ServiceRecyclerViewAdapter(sorted as MutableList<Service>){
-                showDialog(it)
-            }
+        if (temps.isNullOrEmpty()){
+            CustomView.warningSnackBar(container, baseContext, "Empty data")
+            recyclerview.adapter = ServiceRecyclerViewAdapter(temps as MutableList<Service>){}
         }else{
-            recyclerview.adapter = ServiceRecyclerViewAdapter(temps as MutableList<Service>){
-                showDialog(it)
+            if(sort_switch.isChecked){
+                val sorted = temps.sortedBy { it.name }
+                recyclerview.adapter = ServiceRecyclerViewAdapter(sorted as MutableList<Service>){
+                    showDialog(it)
+                }
+            }else{
+                recyclerview.adapter = ServiceRecyclerViewAdapter(temps as MutableList<Service>){
+                    showDialog(it)
+                }
             }
         }
         serviceAdapter.notifyDataSetChanged()

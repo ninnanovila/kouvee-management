@@ -98,14 +98,19 @@ class CustomerManagementActivity : AppCompatActivity(), CustomerView {
     }
 
     private fun getList(){
-        if(sort_switch.isChecked){
-            val sorted = temps.sortedBy { it.name }
-            recyclerview.adapter = CustomerRecyclerViewAdapter(sorted as MutableList<Customer>){
-                showDialog(it)
-            }
+        if (temps.isNullOrEmpty()){
+            CustomView.warningSnackBar(container, baseContext, "Empty data")
+            recyclerview.adapter = CustomerRecyclerViewAdapter(temps as MutableList<Customer>){}
         }else{
-            recyclerview.adapter = CustomerRecyclerViewAdapter(temps as MutableList<Customer>){
-                showDialog(it)
+            if(sort_switch.isChecked){
+                val sorted = temps.sortedBy { it.name }
+                recyclerview.adapter = CustomerRecyclerViewAdapter(sorted as MutableList<Customer>){
+                    showDialog(it)
+                }
+            }else{
+                recyclerview.adapter = CustomerRecyclerViewAdapter(temps as MutableList<Customer>){
+                    showDialog(it)
+                }
             }
         }
         customerAdapter.notifyDataSetChanged()

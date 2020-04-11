@@ -95,14 +95,19 @@ class EmployeeManagementActivity : AppCompatActivity(), EmployeeView {
     }
 
     private fun getList(){
-        if(sort_switch.isChecked){
-            val sorted = temps.sortedBy { it.name }
-            recyclerview.adapter = EmployeeRecyclerViewAdapter(sorted as MutableList<Employee>){
-                showDialog(it)
-            }
+        if (temps.isNullOrEmpty()){
+            CustomView.warningSnackBar(container, baseContext, "Empty data")
+            recyclerview.adapter = EmployeeRecyclerViewAdapter(temps as MutableList<Employee>){}
         }else{
-            recyclerview.adapter = EmployeeRecyclerViewAdapter(temps as MutableList<Employee>){
-                showDialog(it)
+            if(sort_switch.isChecked){
+                val sorted = temps.sortedBy { it.name }
+                recyclerview.adapter = EmployeeRecyclerViewAdapter(sorted as MutableList<Employee>){
+                    showDialog(it)
+                }
+            }else{
+                recyclerview.adapter = EmployeeRecyclerViewAdapter(temps as MutableList<Employee>){
+                    showDialog(it)
+                }
             }
         }
         employeeAdapter.notifyDataSetChanged()
