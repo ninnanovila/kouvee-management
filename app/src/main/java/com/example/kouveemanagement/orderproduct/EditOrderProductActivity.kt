@@ -1,10 +1,13 @@
 package com.example.kouveemanagement.orderproduct
 
+import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.kouveemanagement.CustomView
 import com.example.kouveemanagement.OwnerActivity
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.adapter.DetailOrderProductRecyclerViewAdapter
@@ -36,7 +39,7 @@ class EditOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOr
             startActivity<OwnerActivity>()
         }
         btn_done.setOnClickListener {
-            presenter.editDoneOrderProduct(idOrderProduct)
+            alertDialog()
         }
     }
 
@@ -67,14 +70,13 @@ class EditOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOr
     }
 
     override fun orderProductSuccess(data: OrderProductResponse?) {
-        Toast.makeText(this, "Order Product Done", Toast.LENGTH_SHORT).show()
         status.text = data?.orderProducts?.get(0)?.status.toString()
         startActivity<OrderProductActivity>()
     }
 
     override fun orderProductFailed() {
         btn_done.revertAnimation()
-        Toast.makeText(this, "Failed Order Product", Toast.LENGTH_SHORT).show()
+        CustomView.failedSnackBar(container, baseContext, "Oops, try again")
     }
 
     override fun showDetailOrderProductLoading() {
@@ -88,18 +90,31 @@ class EditOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOr
     override fun detailOrderProductSuccess(data: DetailOrderProductResponse?) {
         val temp: List<DetailOrderProduct> = data?.detailOrderProducts ?: emptyList()
         if (temp.isEmpty()){
-            Toast.makeText(this, "Empty Detail Order Product", Toast.LENGTH_SHORT).show()
+            CustomView.neutralSnackBar(container, baseContext, "Detail empty")
         }else{
             detailOrderProducts.addAll(temp)
             recyclerview.layoutManager = LinearLayoutManager(this)
             recyclerview.adapter = DetailOrderProductRecyclerViewAdapter(OrderProductActivity.products, detailOrderProducts){
                 Toast.makeText(this, it.id_order, Toast.LENGTH_LONG).show()
             }
+            CustomView.successSnackBar(container, baseContext, "Detail success")
         }
     }
 
     override fun detailOrderProductFailed() {
-        Toast.makeText(this, "Failed Detail Order Product", Toast.LENGTH_SHORT).show()
+        CustomView.failedSnackBar(container, baseContext, "Detail failed")
     }
 
+    private fun alertDialog(){
+        AlertDialog.Builder(this)
+            .setTitle("Confirmation")
+            .setMessage("Are you sure to done this order ?")
+            .setPositiveButton("YES"){ _: DialogInterface, _: Int ->
+                presenter.editDoneOrderProduct(idOrderProduct)
+            }
+            .setNegativeButton("NO"){ _: DialogInterface, _: Int ->
+                CustomView.warningSnackBar(container, baseContext, "Process canceled")
+            }
+            .create()
+    }
 }

@@ -92,15 +92,20 @@ class PetTypeManagementActivity : AppCompatActivity(), PetTypeView {
     }
 
     private fun getList(){
-        if(sort_switch.isChecked){
-            val sorted = temps.sortedBy { it.name }
-            recyclerview.adapter = PetRecyclerViewAdapter("type", sorted as MutableList<PetType>, {
-                showPetType(it)
-            }, mutableListOf()){}
+        if (temps.isNullOrEmpty()){
+            CustomView.warningSnackBar(container, baseContext, "Empty data")
+            recyclerview.adapter = PetRecyclerViewAdapter("type", temps, {}, mutableListOf()){}
         }else{
-            recyclerview.adapter = PetRecyclerViewAdapter("type", temps, {
-                showPetType(it)
-            }, mutableListOf()){}
+            if(sort_switch.isChecked){
+                val sorted = temps.sortedBy { it.name }
+                recyclerview.adapter = PetRecyclerViewAdapter("type", sorted as MutableList<PetType>, {
+                    showPetType(it)
+                }, mutableListOf()){}
+            }else{
+                recyclerview.adapter = PetRecyclerViewAdapter("type", temps, {
+                    showPetType(it)
+                }, mutableListOf()){}
+            }
         }
         petTypesAdapter.notifyDataSetChanged()
     }
@@ -130,7 +135,7 @@ class PetTypeManagementActivity : AppCompatActivity(), PetTypeView {
                 recyclerview.layoutManager = LinearLayoutManager(this)
                 recyclerview.adapter = PetRecyclerViewAdapter("type", petTypesList, {
                     showPetType(it)
-                    Toast.makeText(this, it.id, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Type : " + it.name, Toast.LENGTH_SHORT).show()
                 }, mutableListOf(),{})
                 CustomView.successSnackBar(container, baseContext, "Ok, success")
             }

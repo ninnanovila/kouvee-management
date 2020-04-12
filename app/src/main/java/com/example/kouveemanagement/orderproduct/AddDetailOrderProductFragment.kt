@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.example.kouveemanagement.CustomView
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.model.DetailOrderProduct
 import com.example.kouveemanagement.model.DetailOrderProductResponse
@@ -81,13 +82,12 @@ class AddDetailOrderProductFragment : Fragment(), DetailOrderProductView {
     }
 
     override fun detailOrderProductSuccess(data: DetailOrderProductResponse?) {
-        Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
         startActivity<AddOrderProductActivity>()
     }
 
     override fun detailOrderProductFailed() {
         btn_add.revertAnimation()
-        Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show()
+        context?.let { view?.let { itView -> CustomView.failedSnackBar(itView, it, "Oops, try again") } }
     }
 
     private fun setProductDropdown(){
@@ -97,7 +97,8 @@ class AddDetailOrderProductFragment : Fragment(), DetailOrderProductView {
         product_dropdown.setAdapter(adapter)
         product_dropdown.setOnItemClickListener { _, _, position, _ ->
             idProduct = OrderProductActivity.productIdDropdown[position]
-            Toast.makeText(context, "ID PRODUCT : $idProduct", Toast.LENGTH_LONG).show()
+            val name = OrderProductActivity.productNameDropdown[position]
+            Toast.makeText(context, "Product : $name", Toast.LENGTH_LONG).show()
         }
     }
 

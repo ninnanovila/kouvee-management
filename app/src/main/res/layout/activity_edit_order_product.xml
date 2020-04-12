@@ -139,20 +139,12 @@
             android:layout_height="wrap_content"
             android:visibility="gone"/>
 
-        <com.google.android.material.textview.MaterialTextView
-            android:layout_below="@id/linearLayout2"
-            android:id="@id/detail"
-            android:text="@string/detail"
-            android:layout_margin="16dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/detail"
+            android:layout_marginTop="8dp"
+            android:layout_below="@+id/linearLayout2"
             tools:listitem="@layout/item_detail_order_product" />
 
         <br.com.simplepass.loadingbutton.customViews.CircularProgressButton

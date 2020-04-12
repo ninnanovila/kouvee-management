@@ -99,14 +99,19 @@ class PetSizeManagementActivity : AppCompatActivity(), PetSizeView {
     }
 
     private fun getList(){
-        if(sort_switch.isChecked){
-            val sorted = temps.sortedBy { it.name }
-            recyclerview.adapter = PetRecyclerViewAdapter("size", mutableListOf(), {}, sorted as MutableList<PetSize>){
-                showPetSize(it)
-            }
+        if (temps.isNullOrEmpty()){
+            CustomView.warningSnackBar(container, baseContext, "Empty data")
+            recyclerview.adapter = PetRecyclerViewAdapter("size", mutableListOf(), {}, temps){}
         }else{
-            recyclerview.adapter = PetRecyclerViewAdapter("size", mutableListOf(), {}, temps){
-                showPetSize(it)
+            if(sort_switch.isChecked){
+                val sorted = temps.sortedBy { it.name }
+                recyclerview.adapter = PetRecyclerViewAdapter("size", mutableListOf(), {}, sorted as MutableList<PetSize>){
+                    showPetSize(it)
+                }
+            }else{
+                recyclerview.adapter = PetRecyclerViewAdapter("size", mutableListOf(), {}, temps){
+                    showPetSize(it)
+                }
             }
         }
         petSizesAdapter.notifyDataSetChanged()
@@ -137,7 +142,7 @@ class PetSizeManagementActivity : AppCompatActivity(), PetSizeView {
                 recyclerview.layoutManager = LinearLayoutManager(this)
                 recyclerview.adapter = PetRecyclerViewAdapter("size", mutableListOf(), {}, petSizesList, {
                     showPetSize(it)
-                    Toast.makeText(this, it.id, Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "Size : "+it.name, Toast.LENGTH_LONG).show()
                 })
                 CustomView.successSnackBar(container, baseContext, "Ok, success")
             }

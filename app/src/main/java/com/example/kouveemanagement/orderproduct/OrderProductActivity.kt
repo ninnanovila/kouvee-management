@@ -7,6 +7,7 @@ import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.kouveemanagement.CustomView
 import com.example.kouveemanagement.OwnerActivity
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.adapter.OrderProductRecyclerViewAdapter
@@ -78,9 +79,6 @@ class OrderProductActivity : AppCompatActivity(), OrderProductView, SupplierView
 
         })
         fabAnimation()
-        show_min_product.setOnClickListener {
-            Toast.makeText(this, "Min Product", Toast.LENGTH_LONG).show()
-        }
         show_pending.setOnClickListener {
             val filtered = orderProductsTemp.filter { it.status == "Pending" }
             temps = filtered as ArrayList<OrderProduct>
@@ -96,38 +94,51 @@ class OrderProductActivity : AppCompatActivity(), OrderProductView, SupplierView
             temps = filtered as ArrayList<OrderProduct>
             getList()
         }
+        swipe_rv.setOnRefreshListener {
+            presenter.getAllOrderProduct()
+            presenterS.getAllSupplier()
+            presenterP.getAllProduct()
+        }
+        CustomView.setSwipe(swipe_rv)
     }
 
     private fun getList(){
-        recyclerview.adapter = OrderProductRecyclerViewAdapter(temps as MutableList<OrderProduct>){
-            showDetail(it)
+        if (temps.isNullOrEmpty()){
+            CustomView.warningSnackBar(container, baseContext, "Empty data")
+            recyclerview.adapter = OrderProductRecyclerViewAdapter(temps as MutableList<OrderProduct>){}
+        }else{
+            recyclerview.adapter = OrderProductRecyclerViewAdapter(temps as MutableList<OrderProduct>){
+                showDetail(it)
+            }
         }
         orderAdapter.notifyDataSetChanged()
     }
 
     override fun showOrderProductLoading() {
-        progressbar.visibility = View.VISIBLE
+        swipe_rv.isRefreshing = true
     }
 
     override fun hideOrderProductLoading() {
-        progressbar.visibility = View.GONE
+        swipe_rv.isRefreshing = false
     }
 
     override fun orderProductSuccess(data: OrderProductResponse?) {
         if (add == "0"){
             val temp: List<OrderProduct> = data?.orderProducts ?: emptyList()
             if (temp.isEmpty()){
-                Toast.makeText(this, "No Result", Toast.LENGTH_SHORT).show()
+                CustomView.neutralSnackBar(container, baseContext, "Oops, no result")
             }else{
+                clearList()
                 orderProductsList.addAll(temp)
                 orderProductsTemp.addAll(temp)
-                temps.addAll(temp)
+                temps = orderProductsTemp
                 recyclerview.layoutManager = LinearLayoutManager(this)
                 recyclerview.adapter = OrderProductRecyclerViewAdapter(orderProductsList){
                     showDetail(it)
-                    Toast.makeText(this, it.id, Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "Order Number : "+it.id, Toast.LENGTH_LONG).show()
                 }
             }
+            CustomView.successSnackBar(container, baseContext, "Ok, success")
         }else if (add == "1"){
             orderProduct = data?.orderProducts?.get(0)!!
             startActivity<AddOrderProductActivity>()
@@ -135,17 +146,26 @@ class OrderProductActivity : AppCompatActivity(), OrderProductView, SupplierView
     }
 
     override fun orderProductFailed() {
-        Toast.makeText(this, "Failed Order Product", Toast.LENGTH_SHORT).show()
+        CustomView.failedSnackBar(container, baseContext, "Oops, try again")
+    }
+
+    private fun clearList(){
+        orderProductsList.clear()
+        orderProductsTemp.clear()
     }
 
     private fun showDetail(orderProductInput: OrderProduct){
-        var text = "DONE"
-        if (orderProductInput.status.equals("Arrived")){
-            text = "SHOW"
-        }else{
-            text = "EDIT"
+        val text: String = when {
+            orderProductInput.status.equals("Arrived") -> {
+                "SHOW"
+            }
+            orderProductInput.status.equals("On Delivery") -> {
+                "DONE"
+            }
+            else -> {
+                "EDIT"
+            }
         }
-        Toast.makeText(this, "PRINTED: "+orderProductInput.printed_at.toString() , Toast.LENGTH_SHORT).show()
         dialogAlert = AlertDialog.Builder(this)
             .setTitle("Order Product")
             .setMessage("What will you do with this order product?")
@@ -185,78 +205,73 @@ class OrderProductActivity : AppCompatActivity(), OrderProductView, SupplierView
     }
 
     override fun showSupplierLoading() {
-        progressbar.visibility = View.VISIBLE
+        swipe_rv.isRefreshing = true
     }
 
     override fun hideSupplierLoading() {
-        progressbar.visibility = View.GONE
+        swipe_rv.isRefreshing = false
     }
 
     override fun supplierSuccess(data: SupplierResponse?) {
         val temp: List<Supplier> = data?.suppliers ?: emptyList()
         if (temp.isEmpty()){
-            Toast.makeText(this, "No Result", Toast.LENGTH_SHORT).show()
+            CustomView.neutralSnackBar(container, baseContext, "Supplier empty")
         }else{
+            clearSuppliers()
             suppliers.addAll(temp)
-            if (supplierNameDropdown.isNotEmpty()){
-                supplierNameDropdown.clear()
-                supplierIdDropdown.clear()
-                for (i in temp.indices){
-                    if (temp[i].deleted_at == null){
-                        supplierNameDropdown.add(temp[i].name.toString())
-                        supplierIdDropdown.add(temp[i].id.toString())
-                    }
-                }
-            }else{
-                for (i in temp.indices){
-                    if (temp[i].deleted_at == null){
-                        supplierNameDropdown.add(temp[i].name.toString())
-                        supplierIdDropdown.add(temp[i].id.toString())
-                    }
+            for (i in temp.indices){
+                if (temp[i].deleted_at == null){
+                    supplierNameDropdown.add(temp[i].name.toString())
+                    supplierIdDropdown.add(temp[i].id.toString())
                 }
             }
+            CustomView.successSnackBar(container, baseContext, "Supplier success")
         }
     }
 
     override fun supplierFailed() {
-        Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+        CustomView.failedSnackBar(container, baseContext, "Supplier failed")
+    }
+
+    private fun clearSuppliers(){
+        supplierNameDropdown.clear()
+        supplierIdDropdown.clear()
+        suppliers.clear()
     }
 
     override fun showProductLoading() {
+        swipe_rv.isRefreshing = true
     }
 
     override fun hideProductLoading() {
+        swipe_rv.isRefreshing = false
     }
 
     override fun productSuccess(data: ProductResponse?) {
         val temp: List<Product> = data?.products ?: emptyList()
-        products.addAll(temp)
         if (temp.isEmpty()){
-            Toast.makeText(this, "No Result", Toast.LENGTH_SHORT).show()
+            CustomView.neutralSnackBar(container, baseContext, "Product empty")
         }else{
+            clearProducts()
             products.addAll(temp)
-            if (productNameDropdown.isNotEmpty()){
-                productNameDropdown.clear()
-                productIdDropdown.clear()
-                for (i in temp.indices){
-                    if (temp[i].deleted_at == null){
-                        productNameDropdown.add(temp[i].name.toString())
-                        productIdDropdown.add(temp[i].id.toString())
-                    }
-                }
-            }else{
-                for (i in temp.indices){
-                    if (temp[i].deleted_at == null){
-                        productNameDropdown.add(temp[i].name.toString())
-                        productIdDropdown.add(temp[i].id.toString())
-                    }
+            for (i in temp.indices){
+                if (temp[i].deleted_at == null){
+                    productNameDropdown.add(temp[i].name.toString())
+                    productIdDropdown.add(temp[i].id.toString())
                 }
             }
+            CustomView.successSnackBar(container, baseContext, "Product success")
         }
     }
 
     override fun productFailed() {
-        Toast.makeText(this, "Failed Product", Toast.LENGTH_SHORT).show()
+        CustomView.failedSnackBar(container, baseContext, "Product failed")
+    }
+
+    private fun clearProducts(){
+        products.clear()
+        productNameDropdown.clear()
+        productIdDropdown.clear()
     }
 
     private fun chooseSupplier() {
@@ -268,7 +283,8 @@ class OrderProductActivity : AppCompatActivity(), OrderProductView, SupplierView
         dropdown.setAdapter(adapter)
         dropdown.setOnItemClickListener { _, _, position, _ ->
             supplierId = supplierIdDropdown[position]
-            Toast.makeText(this, "ID SUPPLIER : $supplierId", Toast.LENGTH_LONG).show()
+            val supplierName = supplierNameDropdown[position]
+            Toast.makeText(this, "Supplier : $supplierName", Toast.LENGTH_LONG).show()
         }
 
         infoDialog = AlertDialog.Builder(this)

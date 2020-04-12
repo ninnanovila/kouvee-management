@@ -93,14 +93,19 @@ class SupplierManagementActivity : AppCompatActivity(), SupplierView {
     }
 
     private fun getList(){
-        if(sort_switch.isChecked){
-            val sorted = temps.sortedBy { it.name }
-            recyclerview.adapter = SupplierRecyclerViewAdapter(sorted as MutableList<Supplier>){
-                showDialog(it)
-            }
+        if (temps.isNullOrEmpty()){
+            CustomView.warningSnackBar(container, baseContext, "Empty data")
+            recyclerview.adapter = SupplierRecyclerViewAdapter(temps as MutableList<Supplier>){}
         }else{
-            recyclerview.adapter = SupplierRecyclerViewAdapter(temps as MutableList<Supplier>){
-                showDialog(it)
+            if(sort_switch.isChecked){
+                val sorted = temps.sortedBy { it.name }
+                recyclerview.adapter = SupplierRecyclerViewAdapter(sorted as MutableList<Supplier>){
+                    showDialog(it)
+                }
+            }else{
+                recyclerview.adapter = SupplierRecyclerViewAdapter(temps as MutableList<Supplier>){
+                    showDialog(it)
+                }
             }
         }
         supplierAdapter.notifyDataSetChanged()
@@ -145,11 +150,21 @@ class SupplierManagementActivity : AppCompatActivity(), SupplierView {
         val name = dialog.findViewById<TextView>(R.id.name)
         val address = dialog.findViewById<TextView>(R.id.address)
         val phoneNumber = dialog.findViewById<TextView>(R.id.phone_number)
+        val createdAt = dialog.findViewById<TextView>(R.id.created_at)
+        val updatedAt = dialog.findViewById<TextView>(R.id.updated_at)
+        val deletedAt = dialog.findViewById<TextView>(R.id.deleted_at)
         val btnClose = dialog.findViewById<ImageButton>(R.id.btn_close)
         val btnEdit = dialog.findViewById<Button>(R.id.btn_edit)
         name.text = supplier.name.toString()
         address.text = supplier.address.toString()
         phoneNumber.text = supplier.phone_number.toString()
+        createdAt.text = supplier.created_at
+        updatedAt.text = supplier.updated_at
+        if (supplier.deleted_at.isNullOrEmpty()){
+            deletedAt.text = "-"
+        }else{
+            deletedAt.text = supplier.deleted_at
+        }
         if (supplier.deleted_at !== null){
             btnEdit.visibility = View.GONE
         }

@@ -1,5 +1,6 @@
 package com.example.kouveemanagement.orderproduct
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.kouveemanagement.CustomView
 import com.example.kouveemanagement.OwnerActivity
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.adapter.DetailOrderProductRecyclerViewAdapter
@@ -69,13 +71,17 @@ class AddOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOrd
         }
         btn_status.setOnClickListener {
             state = "print"
-            presenter.editPrintOrderProduct(orderProduct.id.toString())
+            alertDialog()
         }
         btn_cancel.setOnClickListener {
             state = "delete"
-            presenter.deleteOrderProduct(orderProduct.id.toString())
+            alertDialog()
         }
         setData(orderProduct)
+        swipe_rv.setOnRefreshListener {
+            presenterD.getDetailOrderProductByOrderId(orderProduct.id.toString())
+        }
+        CustomView.setSwipe(swipe_rv)
     }
 
     private fun setData(input: OrderProduct){
@@ -91,11 +97,11 @@ class AddOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOrd
     }
 
     override fun showOrderProductLoading() {
-        progressbar.visibility = View.VISIBLE
+        swipe_rv.isRefreshing = true
     }
 
     override fun hideOrderProductLoading() {
-        progressbar.visibility = View.GONE
+        swipe_rv.isRefreshing = false
     }
 
     override fun orderProductSuccess(data: OrderProductResponse?) {
@@ -103,53 +109,56 @@ class AddOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOrd
         setData(orderProduct)
         when (state) {
             "print" -> {
-                Toast.makeText(this, "Success Print Order Product, just wait.", Toast.LENGTH_SHORT).show()
                 startActivity<OrderProductActivity>()
             }
             "edit" -> {
-                Toast.makeText(this, "Success Edit Order Product", Toast.LENGTH_SHORT).show()
+                CustomView.successSnackBar(container, baseContext, "Success edit supplier")
                 startActivity<AddOrderProductActivity>()
             }
             "delete" -> {
-                Toast.makeText(this, "Success Delete Order Product", Toast.LENGTH_SHORT).show()
                 startActivity<OrderProductActivity>()
             }
             else -> {
-                Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
+                CustomView.successSnackBar(container, baseContext, "Ok, success")
             }
         }
     }
 
     override fun orderProductFailed() {
-        Toast.makeText(this, "Failed Order Product", Toast.LENGTH_SHORT).show()
+        CustomView.failedSnackBar(container, baseContext, "Oops, try again")
     }
 
     override fun showDetailOrderProductLoading() {
-        progressbar.visibility = View.VISIBLE
+        swipe_rv.isRefreshing = true
     }
 
     override fun hideDetailOrderProductLoading() {
-        progressbar.visibility = View.GONE
+        swipe_rv.isRefreshing = false
     }
 
     override fun detailOrderProductSuccess(data: DetailOrderProductResponse?) {
         val temp: List<DetailOrderProduct> = data?.detailOrderProducts ?: emptyList()
         if (temp.isEmpty()){
-            Toast.makeText(this, "No Result", Toast.LENGTH_SHORT).show()
+            CustomView.neutralSnackBar(container, baseContext, "Empty detail")
         }else{
+            clearDetail()
             detailOrderProducts.addAll(temp)
             recyclerview.layoutManager = LinearLayoutManager(this)
             recyclerview.adapter = DetailOrderProductRecyclerViewAdapter(OrderProductActivity.products, detailOrderProducts){
                 val fragment = EditDetailOrderProductFragment.newInstance(it)
                 val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
                 transaction.replace(R.id.container, fragment).commit()
-                Toast.makeText(this, it.id_order, Toast.LENGTH_LONG).show()
             }
+            CustomView.successSnackBar(container, baseContext, "Detail success")
         }
     }
 
     override fun detailOrderProductFailed() {
-        Toast.makeText(this, "Failed Detail Order Product", Toast.LENGTH_SHORT).show()
+        CustomView.failedSnackBar(container, baseContext, "Detail failed")
+    }
+
+    private fun clearDetail(){
+        detailOrderProducts.clear()
     }
 
     override fun onBackPressed() {
@@ -172,7 +181,8 @@ class AddOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOrd
         dropdown.setAdapter(adapter)
         dropdown.setOnItemClickListener { _, _, position, _ ->
             supplierId = OrderProductActivity.supplierIdDropdown[position]
-            Toast.makeText(this, "ID SUPPLIER : $supplierId", Toast.LENGTH_LONG).show()
+            val name = OrderProductActivity.supplierNameDropdown[position]
+            Toast.makeText(this, "Supplier : $name", Toast.LENGTH_LONG).show()
         }
 
         infoDialog = AlertDialog.Builder(this)
@@ -189,4 +199,22 @@ class AddOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOrd
             presenter.editOrderProduct(orderProduct.id.toString(), newOrderProduct)
         }
     }
+
+    private fun alertDialog(){
+        AlertDialog.Builder(this)
+            .setTitle("Confirmation")
+            .setMessage("Are you sure to $state this order ?")
+            .setPositiveButton("YES"){ _: DialogInterface, _: Int ->
+                if (state == "print"){
+                    presenter.editPrintOrderProduct(orderProduct.id.toString())
+                }else{
+                    presenter.deleteOrderProduct(orderProduct.id.toString())
+                }
+            }
+            .setNegativeButton("NO"){ _: DialogInterface, _: Int ->
+                CustomView.warningSnackBar(container, baseContext, "Process canceled")
+            }
+            .create()
+    }
+
 }

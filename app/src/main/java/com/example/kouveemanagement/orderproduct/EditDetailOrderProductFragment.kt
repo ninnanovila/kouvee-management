@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.example.kouveemanagement.CustomView
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.model.DetailOrderProduct
 import com.example.kouveemanagement.model.DetailOrderProductResponse
@@ -116,11 +116,6 @@ class EditDetailOrderProductFragment : Fragment(), DetailOrderProductView {
     }
 
     override fun detailOrderProductSuccess(data: DetailOrderProductResponse?) {
-        if (state == "edit"){
-            Toast.makeText(context, "Success to edit", Toast.LENGTH_SHORT).show()
-        }else if (state == "delete"){
-            Toast.makeText(context, "Success to delete", Toast.LENGTH_SHORT).show()
-        }
         startActivity<AddOrderProductActivity>()
     }
 
@@ -129,9 +124,9 @@ class EditDetailOrderProductFragment : Fragment(), DetailOrderProductView {
         btn_save.revertAnimation()
         btn_cancel.visibility = View.VISIBLE
         if (state == "edit"){
-            Toast.makeText(context, "Failed to edit", Toast.LENGTH_SHORT).show()
+            context?.let { view?.let { itView -> CustomView.failedSnackBar(itView, it, "Oops, try edit again") } }
         }else if (state == "delete"){
-            Toast.makeText(context, "Failed to delete", Toast.LENGTH_SHORT).show()
+            context?.let { view?.let { itView -> CustomView.failedSnackBar(itView, it, "Oops, try delete again") } }
         }
     }
 

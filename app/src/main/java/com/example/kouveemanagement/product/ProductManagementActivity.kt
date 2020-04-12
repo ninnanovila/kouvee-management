@@ -101,14 +101,19 @@ class ProductManagementActivity : AppCompatActivity(), ProductView {
     }
 
     private fun getList(){
-        if(sort_switch.isChecked){
-            val sorted = temps.sortedBy { it.name }
-            recyclerview.adapter = ProductRecyclerViewAdapter(sorted as MutableList<Product>){
-                showDialog(it)
-            }
+        if(temps.isNullOrEmpty()){
+            CustomView.warningSnackBar(container, baseContext, "Empty data")
+            recyclerview.adapter = ProductRecyclerViewAdapter(temps as MutableList<Product>){}
         }else{
-            recyclerview.adapter = ProductRecyclerViewAdapter(temps as MutableList<Product>){
-                showDialog(it)
+            if(sort_switch.isChecked){
+                val sorted = temps.sortedBy { it.name }
+                recyclerview.adapter = ProductRecyclerViewAdapter(sorted as MutableList<Product>){
+                    showDialog(it)
+                }
+            }else{
+                recyclerview.adapter = ProductRecyclerViewAdapter(temps as MutableList<Product>){
+                    showDialog(it)
+                }
             }
         }
         productAdapter.notifyDataSetChanged()

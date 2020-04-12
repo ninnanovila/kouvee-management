@@ -104,18 +104,6 @@
 
         </androidx.cardview.widget.CardView>
 
-        <ProgressBar
-            android:id="@+id/progressbar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:visibility="visible"
-            app:layout_constraintBottom_toTopOf="@+id/recyclerview"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/materialCardView" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@id/detail"
@@ -123,26 +111,34 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="@string/detail"
-            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
             app:layout_constraintStart_toStartOf="@id/materialCardView"
             app:layout_constraintTop_toBottomOf="@+id/materialCardView" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_rv"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:layout_below="@+id/detail"
             android:layout_marginTop="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/detail"
-            tools:listitem="@layout/item_detail_order_product" />
+            app:layout_constraintTop_toBottomOf="@+id/detail">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:listitem="@layout/item_detail_order_product" />
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/recyclerview"
+            android:layout_below="@id/swipe_rv"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:layout_marginEnd="16dp"
