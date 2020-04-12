@@ -214,7 +214,7 @@ class AddOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOrd
             .setNegativeButton("NO"){ _: DialogInterface, _: Int ->
                 CustomView.warningSnackBar(container, baseContext, "Process canceled")
             }
-            .create()
+            .show()
     }
 
 }
