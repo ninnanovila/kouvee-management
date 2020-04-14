@@ -1432,4 +1432,22 @@ class Repository {
             }
         })
     }
+
+    fun getMinProduct(callback: MinProductRepositoryCallback<ProductResponse>){
+        ApiClient().services.getMinProduct().enqueue(object : Callback<ProductResponse?>{
+            override fun onFailure(call: Call<ProductResponse?>, t: Throwable) {
+                callback.minProductFailed()
+            }
+            override fun onResponse(
+                call: Call<ProductResponse?>,
+                response: Response<ProductResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.minProductSuccess(response.body())
+                }else{
+                    callback.minProductFailed()
+                }
+            }
+        })
+    }
 }

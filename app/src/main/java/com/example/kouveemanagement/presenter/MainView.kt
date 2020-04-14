@@ -78,3 +78,8 @@ interface DetailServiceTransactionView: DetailServiceTransactionRepositoryCallba
     fun showDetailServiceTransactionLoading()
     fun hideDetailServiceTransactionLoading()
 }
+
+interface MinProductView : MinProductRepositoryCallback<ProductResponse> {
+    fun showMinProductLoading()
+    fun hideMinProductLoading()
+}

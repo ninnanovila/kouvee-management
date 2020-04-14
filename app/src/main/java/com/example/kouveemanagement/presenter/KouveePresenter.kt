@@ -1109,3 +1109,20 @@ class DetailServiceTransactionPresenter(private val view: DetailServiceTransacti
         })
     }
 }
+
+class MinProductPresenter(private val view: MinProductView, private val repository: Repository){
+
+    fun getMinProduct(){
+        view.showMinProductLoading()
+        repository.getMinProduct(object : MinProductRepositoryCallback<ProductResponse>{
+            override fun minProductSuccess(data: ProductResponse?) {
+                view.minProductSuccess(data)
+                view.hideMinProductLoading()
+            }
+            override fun minProductFailed() {
+                view.minProductFailed()
+                view.hideMinProductLoading()
+            }
+        })
+    }
+}

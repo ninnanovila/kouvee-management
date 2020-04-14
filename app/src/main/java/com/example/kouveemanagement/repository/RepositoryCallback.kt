@@ -74,3 +74,8 @@ interface DetailServiceTransactionRepositoryCallback<DetailServiceTransactionRes
     fun detailServiceTransactionSuccess(data: DetailServiceTransactionResponse?)
     fun detailServiceTransactionFailed()
 }
+
+interface MinProductRepositoryCallback<ProductResponse> {
+    fun minProductSuccess(data: ProductResponse?)
+    fun minProductFailed()
+}

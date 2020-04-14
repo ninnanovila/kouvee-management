@@ -1,32 +1,55 @@
 package com.example.kouveemanagement
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
+import android.graphics.BitmapFactory
+import android.os.Build
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.room.Room
 import com.example.kouveemanagement.adapter.MenuRecyclerViewAdapter
 import com.example.kouveemanagement.employee.EmployeeManagementActivity
 import com.example.kouveemanagement.model.Menu
+import com.example.kouveemanagement.model.Product
+import com.example.kouveemanagement.model.ProductResponse
 import com.example.kouveemanagement.orderproduct.OrderProductActivity
 import com.example.kouveemanagement.persistent.AppDatabase
 import com.example.kouveemanagement.persistent.CurrentUser
 import com.example.kouveemanagement.pet.PetSizeManagementActivity
 import com.example.kouveemanagement.pet.PetTypeManagementActivity
+import com.example.kouveemanagement.presenter.MinProductPresenter
+import com.example.kouveemanagement.presenter.MinProductView
 import com.example.kouveemanagement.product.ProductManagementActivity
+import com.example.kouveemanagement.repository.Repository
 import com.example.kouveemanagement.service.ServiceManagementActivity
 import com.example.kouveemanagement.supplier.SupplierManagementActivity
 import kotlinx.android.synthetic.main.activity_owner.*
 import org.jetbrains.anko.startActivity
 
-class OwnerActivity : AppCompatActivity() {
+class OwnerActivity : AppCompatActivity(), MinProductView {
 
     private var menu: MutableList<Menu> = mutableListOf()
+    private var minProductPresenter = MinProductPresenter(this, Repository())
+
+    //NOTIFICATION
+    private var notificationId = 0
+    private var stackNotification = ArrayList<Product>()
 
     companion object {
         var database: AppDatabase? = null
         var currentUser: CurrentUser? = null
+        var minProducts: MutableList<Product> = mutableListOf()
+        //NOTIFICATION
+        private const val NAME_CHANNEL = "kouvee channel"
+        private const val GROUP_KEY_PRODUCTS = "group_key_products"
+        private const val NOTIFICATION_REQUEST_CODE = 200
+        private const val MAX_NOTIFICATION = 2
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,9 +61,14 @@ class OwnerActivity : AppCompatActivity() {
         else CustomView.welcomeSnackBar(container, baseContext, "Welcome Admin!")
         setMenu()
         getCurrentUser()
+        getMinProduct()
         btn_logout.setOnClickListener {
             showLogoutConfirm()
         }
+    }
+
+    private fun getMinProduct(){
+        minProductPresenter.getMinProduct()
     }
 
     private fun menuInitialization(){
@@ -102,6 +130,85 @@ class OwnerActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         showLogoutConfirm()
+    }
+
+    override fun showMinProductLoading() {
+    }
+
+    override fun hideMinProductLoading() {
+    }
+
+    override fun minProductSuccess(data: ProductResponse?) {
+        val temp = data?.products ?: emptyList()
+        if (temp.isEmpty()){
+            CustomView.successSnackBar(container, baseContext, "No Notification")
+        }else{
+            notificationId = 0
+            stackNotification.clear()
+            minProducts.clear()
+            minProducts.addAll(temp)
+            for (i in minProducts.indices){
+                stackNotification.add(minProducts[i])
+                showNotification(stackNotification[i].name, stackNotification[i].stock, stackNotification[i].min_stock)
+                notificationId++
+            }
+            CustomView.successSnackBar(container, baseContext, "Check notification")
+        }
+    }
+
+    override fun minProductFailed() {
+        CustomView.failedSnackBar(container, baseContext, "Oops, try again")
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        stackNotification.clear()
+        notificationId = 0
+    }
+
+    private fun showNotification(title: String?, stock: Int?, minStock: Int?){
+        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val bigIcon = BitmapFactory.decodeResource(resources, R.drawable.ic_product)
+        val intent = Intent(this, OrderProductActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+        val pendingIntent = PendingIntent.getActivity(this, NOTIFICATION_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        val builder: NotificationCompat.Builder
+
+        val channelId = "channel_01"
+        if (notificationId < MAX_NOTIFICATION){
+            builder = NotificationCompat.Builder(this, channelId)
+                .setContentTitle("$title on minimum stock")
+                .setContentText("Stock is $stock and minimum is $minStock, let's order")
+                .setSmallIcon(R.drawable.ic_notification_big)
+                .setLargeIcon(bigIcon)
+                .setGroup(GROUP_KEY_PRODUCTS)
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true)
+        }else{
+            val notificationStyle = NotificationCompat.InboxStyle()
+                .addLine(stackNotification[notificationId].name + "on minimum stock")
+                .addLine(stackNotification[notificationId-1].name + "on minimum stock")
+                .setBigContentTitle("$notificationId products on minimum stock")
+                .setSummaryText("Let's order product!")
+            builder = NotificationCompat.Builder(this, channelId)
+                .setContentTitle("$notificationId products on minimum stock")
+                .setContentText("Let's order product!")
+                .setSmallIcon(R.drawable.ic_notification_big)
+                .setGroup(GROUP_KEY_PRODUCTS)
+                .setGroupSummary(true)
+                .setContentIntent(pendingIntent)
+                .setStyle(notificationStyle)
+                .setAutoCancel(true)
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(channelId, NAME_CHANNEL, NotificationManager.IMPORTANCE_DEFAULT)
+            builder.setChannelId(channelId)
+            notificationManager.createNotificationChannel(channel)
+        }
+
+        val notification = builder.build()
+        notificationManager.notify(notificationId, notification)
     }
 
 }

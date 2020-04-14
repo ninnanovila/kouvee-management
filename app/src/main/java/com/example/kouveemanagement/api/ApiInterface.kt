@@ -254,4 +254,8 @@ interface ApiInterface {
     @DELETE("detail_service_transaction/{id_transaction}")
     fun deleteAllDetailServiceTransaction(@Path("id_transaction")id_transaction: String): Call<DetailServiceTransactionResponse>
 
+//    NOTIFICATION
+    @GET("product/stock")
+    fun getMinProduct(): Call<ProductResponse>
+
 }
