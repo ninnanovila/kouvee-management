@@ -15,8 +15,8 @@ class LoginPresenter(private val view: LoginView, private val repository: Reposi
                 view.loginSuccess(data)
                 view.hideLoginLoading()
             }
-            override fun loginFailed() {
-                view.loginFailed()
+            override fun loginFailed(data: String) {
+                view.loginFailed(data)
                 view.hideLoginLoading()
             }
         })
@@ -33,8 +33,8 @@ class EmployeePresenter(private val view: EmployeeView, private val repository: 
                 view.employeeSuccess(data)
                 view.hideEmployeeLoading()
             }
-            override fun employeeFailed() {
-                view.employeeFailed()
+            override fun employeeFailed(data: String) {
+                view.employeeFailed(data)
                 view.hideEmployeeLoading()
             }
         })
@@ -47,9 +47,8 @@ class EmployeePresenter(private val view: EmployeeView, private val repository: 
                 view.employeeSuccess(data)
                 view.hideEmployeeLoading()
             }
-
-            override fun employeeFailed() {
-                view.employeeFailed()
+            override fun employeeFailed(data: String) {
+                view.employeeFailed(data)
                 view.hideEmployeeLoading()
             }
         })
@@ -63,9 +62,8 @@ class EmployeePresenter(private val view: EmployeeView, private val repository: 
                 view.employeeSuccess(data)
                 view.hideEmployeeLoading()
             }
-
-            override fun employeeFailed() {
-                view.employeeFailed()
+            override fun employeeFailed(data: String) {
+                view.employeeFailed(data)
                 view.hideEmployeeLoading()
             }
 
@@ -80,9 +78,8 @@ class EmployeePresenter(private val view: EmployeeView, private val repository: 
                 view.employeeSuccess(data)
                 view.hideEmployeeLoading()
             }
-
-            override fun employeeFailed() {
-                view.employeeFailed()
+            override fun employeeFailed(data: String) {
+                view.employeeFailed(data)
                 view.hideEmployeeLoading()
             }
         })
@@ -96,9 +93,8 @@ class EmployeePresenter(private val view: EmployeeView, private val repository: 
                 view.employeeSuccess(data)
                 view.hideEmployeeLoading()
             }
-
-            override fun employeeFailed() {
-                view.employeeFailed()
+            override fun employeeFailed(data: String) {
+                view.employeeFailed(data)
                 view.hideEmployeeLoading()
             }
         })
@@ -115,8 +111,8 @@ class ProductPresenter(private val view : ProductView, private val repository: R
                 view.productSuccess(data)
                 view.hideProductLoading()
             }
-            override fun productFailed() {
-                view.productFailed()
+            override fun productFailed(data: String) {
+                view.productFailed(data)
                 view.hideProductLoading()
             }
         })
@@ -129,8 +125,8 @@ class ProductPresenter(private val view : ProductView, private val repository: R
                 view.productSuccess(data)
                 view.hideProductLoading()
             }
-            override fun productFailed() {
-                view.productFailed()
+            override fun productFailed(data: String) {
+                view.productFailed(data)
                 view.hideProductLoading()
             }
         })
@@ -143,8 +139,8 @@ class ProductPresenter(private val view : ProductView, private val repository: R
                 view.productSuccess(data)
                 view.hideProductLoading()
             }
-            override fun productFailed() {
-                view.productFailed()
+            override fun productFailed(data: String) {
+                view.productFailed(data)
                 view.hideProductLoading()
             }
         })
@@ -157,8 +153,8 @@ class ProductPresenter(private val view : ProductView, private val repository: R
                 view.productSuccess(data)
                 view.hideProductLoading()
             }
-            override fun productFailed() {
-                view.productFailed()
+            override fun productFailed(data: String) {
+                view.productFailed(data)
                 view.hideProductLoading()
             }
         })
@@ -171,8 +167,8 @@ class ProductPresenter(private val view : ProductView, private val repository: R
                 view.productSuccess(data)
                 view.hideProductLoading()
             }
-            override fun productFailed() {
-                view.productFailed()
+            override fun productFailed(data: String) {
+                view.productFailed(data)
                 view.hideProductLoading()
             }
         })
@@ -191,8 +187,8 @@ class UploadImagePresenter(private val view: UploadPhotoProductView, private val
                 view.uploadProductSuccess(data)
                 view.hideUploadProgress()
             }
-            override fun uploadProductFailed() {
-                view.uploadProductFailed()
+            override fun uploadProductFailed(data: String) {
+                view.uploadProductFailed(data)
                 view.hideUploadProgress()
             }
         })
@@ -209,8 +205,8 @@ class CustomerPresenter(private val view: CustomerView, private val repository: 
                 view.customerSuccess(data)
                 view.hideCustomerLoading()
             }
-            override fun customerFailed() {
-                view.customerFailed()
+            override fun customerFailed(data: String) {
+                view.customerFailed(data)
                 view.hideCustomerLoading()
             }
         })
@@ -223,8 +219,8 @@ class CustomerPresenter(private val view: CustomerView, private val repository: 
                 view.customerSuccess(data)
                 view.hideCustomerLoading()
             }
-            override fun customerFailed() {
-                view.customerFailed()
+            override fun customerFailed(data: String) {
+                view.customerFailed(data)
                 view.hideCustomerLoading()
             }
         })
@@ -237,8 +233,8 @@ class CustomerPresenter(private val view: CustomerView, private val repository: 
                 view.customerSuccess(data)
                 view.hideCustomerLoading()
             }
-            override fun customerFailed() {
-                view.customerFailed()
+            override fun customerFailed(data: String) {
+                view.customerFailed(data)
                 view.hideCustomerLoading()
             }
         })
@@ -251,8 +247,8 @@ class CustomerPresenter(private val view: CustomerView, private val repository: 
                 view.customerSuccess(data)
                 view.hideCustomerLoading()
             }
-            override fun customerFailed() {
-                view.customerFailed()
+            override fun customerFailed(data: String) {
+                view.customerFailed(data)
                 view.hideCustomerLoading()
             }
         })
@@ -265,8 +261,8 @@ class CustomerPresenter(private val view: CustomerView, private val repository: 
                 view.customerSuccess(data)
                 view.hideCustomerLoading()
             }
-            override fun customerFailed() {
-                view.customerFailed()
+            override fun customerFailed(data: String) {
+                view.customerFailed(data)
                 view.hideCustomerLoading()
             }
         })
@@ -283,8 +279,8 @@ class PetSizePresenter(private val view: PetSizeView, private val repository: Re
                 view.petSizeSuccess(data)
                 view.hidePetSizeLoading()
             }
-            override fun petSizeFailed() {
-                view.petSizeFailed()
+            override fun petSizeFailed(data: String) {
+                view.petSizeFailed(data)
                 view.hidePetSizeLoading()
             }
         })
@@ -297,8 +293,8 @@ class PetSizePresenter(private val view: PetSizeView, private val repository: Re
                 view.petSizeSuccess(data)
                 view.hidePetSizeLoading()
             }
-            override fun petSizeFailed() {
-                view.petSizeFailed()
+            override fun petSizeFailed(data: String) {
+                view.petSizeFailed(data)
                 view.hidePetSizeLoading()
             }
         })
@@ -311,8 +307,8 @@ class PetSizePresenter(private val view: PetSizeView, private val repository: Re
                 view.petSizeSuccess(data)
                 view.hidePetSizeLoading()
             }
-            override fun petSizeFailed() {
-                view.petSizeFailed()
+            override fun petSizeFailed(data: String) {
+                view.petSizeFailed(data)
                 view.hidePetSizeLoading()
             }
         })
@@ -325,8 +321,8 @@ class PetSizePresenter(private val view: PetSizeView, private val repository: Re
                 view.petSizeSuccess(data)
                 view.hidePetSizeLoading()
             }
-            override fun petSizeFailed() {
-                view.petSizeFailed()
+            override fun petSizeFailed(data: String) {
+                view.petSizeFailed(data)
                 view.hidePetSizeLoading()
             }
         })
@@ -339,8 +335,8 @@ class PetSizePresenter(private val view: PetSizeView, private val repository: Re
                 view.petSizeSuccess(data)
                 view.hidePetSizeLoading()
             }
-            override fun petSizeFailed() {
-                view.petSizeFailed()
+            override fun petSizeFailed(data: String) {
+                view.petSizeFailed(data)
                 view.hidePetSizeLoading()
             }
         })
@@ -357,8 +353,8 @@ class PetTypePresenter(private val view: PetTypeView, private val repository: Re
                 view.petTypeSuccess(data)
                 view.hidePetTypeLoading()
             }
-            override fun petTypeFailed() {
-                view.petTypeFailed()
+            override fun petTypeFailed(data: String) {
+                view.petTypeFailed(data)
                 view.hidePetTypeLoading()
             }
         })
@@ -371,8 +367,8 @@ class PetTypePresenter(private val view: PetTypeView, private val repository: Re
                 view.petTypeSuccess(data)
                 view.hidePetTypeLoading()
             }
-            override fun petTypeFailed() {
-                view.petTypeFailed()
+            override fun petTypeFailed(data: String) {
+                view.petTypeFailed(data)
                 view.hidePetTypeLoading()
             }
         })
@@ -385,8 +381,8 @@ class PetTypePresenter(private val view: PetTypeView, private val repository: Re
                 view.petTypeSuccess(data)
                 view.hidePetTypeLoading()
             }
-            override fun petTypeFailed() {
-                view.petTypeFailed()
+            override fun petTypeFailed(data: String) {
+                view.petTypeFailed(data)
                 view.hidePetTypeLoading()
             }
         })
@@ -399,8 +395,8 @@ class PetTypePresenter(private val view: PetTypeView, private val repository: Re
                 view.petTypeSuccess(data)
                 view.hidePetTypeLoading()
             }
-            override fun petTypeFailed() {
-                view.petTypeFailed()
+            override fun petTypeFailed(data: String) {
+                view.petTypeFailed(data)
                 view.hidePetTypeLoading()
             }
         })
@@ -413,8 +409,8 @@ class PetTypePresenter(private val view: PetTypeView, private val repository: Re
                 view.petTypeSuccess(data)
                 view.hidePetTypeLoading()
             }
-            override fun petTypeFailed() {
-                view.petTypeFailed()
+            override fun petTypeFailed(data: String) {
+                view.petTypeFailed(data)
                 view.hidePetTypeLoading()
             }
         })
@@ -431,8 +427,8 @@ class SupplierPresenter(private val view: SupplierView, private val repository: 
                 view.supplierSuccess(data)
                 view.hideSupplierLoading()
             }
-            override fun supplierFailed() {
-                view.supplierFailed()
+            override fun supplierFailed(data: String) {
+                view.supplierFailed(data)
                 view.hideSupplierLoading()
             }
         })
@@ -445,8 +441,8 @@ class SupplierPresenter(private val view: SupplierView, private val repository: 
                 view.supplierSuccess(data)
                 view.hideSupplierLoading()
             }
-            override fun supplierFailed() {
-                view.supplierFailed()
+            override fun supplierFailed(data: String) {
+                view.supplierFailed(data)
                 view.hideSupplierLoading()
             }
         })
@@ -459,8 +455,8 @@ class SupplierPresenter(private val view: SupplierView, private val repository: 
                 view.supplierSuccess(data)
                 view.hideSupplierLoading()
             }
-            override fun supplierFailed() {
-                view.supplierFailed()
+            override fun supplierFailed(data: String) {
+                view.supplierFailed(data)
                 view.hideSupplierLoading()
             }
         })
@@ -473,8 +469,8 @@ class SupplierPresenter(private val view: SupplierView, private val repository: 
                 view.supplierSuccess(data)
                 view.hideSupplierLoading()
             }
-            override fun supplierFailed() {
-                view.supplierFailed()
+            override fun supplierFailed(data: String) {
+                view.supplierFailed(data)
                 view.hideSupplierLoading()
             }
         })
@@ -487,8 +483,8 @@ class SupplierPresenter(private val view: SupplierView, private val repository: 
                 view.supplierSuccess(data)
                 view.hideSupplierLoading()
             }
-            override fun supplierFailed() {
-                view.supplierFailed()
+            override fun supplierFailed(data: String) {
+                view.supplierFailed(data)
                 view.hideSupplierLoading()
             }
         })
@@ -505,8 +501,8 @@ class ServicePresenter(private val view: ServiceView, private val repository: Re
                 view.serviceSuccess(data)
                 view.hideServiceLoading()
             }
-            override fun serviceFailed() {
-                view.serviceFailed()
+            override fun serviceFailed(data: String) {
+                view.serviceFailed(data)
                 view.hideServiceLoading()
             }
         })
@@ -519,8 +515,8 @@ class ServicePresenter(private val view: ServiceView, private val repository: Re
                 view.serviceSuccess(data)
                 view.hideServiceLoading()
             }
-            override fun serviceFailed() {
-                view.serviceFailed()
+            override fun serviceFailed(data: String) {
+                view.serviceFailed(data)
                 view.hideServiceLoading()
             }
         })
@@ -533,8 +529,8 @@ class ServicePresenter(private val view: ServiceView, private val repository: Re
                 view.serviceSuccess(data)
                 view.hideServiceLoading()
             }
-            override fun serviceFailed() {
-                view.serviceFailed()
+            override fun serviceFailed(data: String) {
+                view.serviceFailed(data)
                 view.hideServiceLoading()
             }
         })
@@ -547,8 +543,8 @@ class ServicePresenter(private val view: ServiceView, private val repository: Re
                 view.serviceSuccess(data)
                 view.hideServiceLoading()
             }
-            override fun serviceFailed() {
-                view.serviceFailed()
+            override fun serviceFailed(data: String) {
+                view.serviceFailed(data)
                 view.hideServiceLoading()
             }
         })
@@ -561,82 +557,9 @@ class ServicePresenter(private val view: ServiceView, private val repository: Re
                 view.serviceSuccess(data)
                 view.hideServiceLoading()
             }
-            override fun serviceFailed() {
-                view.serviceFailed()
+            override fun serviceFailed(data: String) {
+                view.serviceFailed(data)
                 view.hideServiceLoading()
-            }
-        })
-    }
-}
-
-//CUSTOMER PET
-class CustomerPetPresenter(private val view: CustomerPetView, private val repository: Repository){
-    fun getAllCustomerPet(){
-        view.showCustomerPetLoading()
-        repository.getAllCustomerPet(object : CustomerPetRepositoryCallback<CustomerPetResponse> {
-            override fun customerPetSuccess(data: CustomerPetResponse?) {
-                view.customerPetSuccess(data)
-                view.hideCustomerPetLoading()
-            }
-            override fun customerPetFailed() {
-                view.customerPetFailed()
-                view.hideCustomerPetLoading()
-            }
-        })
-    }
-
-    fun getCustomerPetBySearch(query: String){
-        view.showCustomerPetLoading()
-        repository.getCustomerPetBySearch(query, object : CustomerPetRepositoryCallback<CustomerPetResponse>{
-            override fun customerPetSuccess(data: CustomerPetResponse?) {
-                view.customerPetSuccess(data)
-                view.hideCustomerPetLoading()
-            }
-            override fun customerPetFailed() {
-                view.customerPetFailed()
-                view.hideCustomerPetLoading()
-            }
-        })
-    }
-
-    fun addCustomerPet(customerPet: CustomerPet){
-        view.showCustomerPetLoading()
-        repository.addCustomerPet(customerPet, object : CustomerPetRepositoryCallback<CustomerPetResponse>{
-            override fun customerPetSuccess(data: CustomerPetResponse?) {
-                view.customerPetSuccess(data)
-                view.hideCustomerPetLoading()
-            }
-            override fun customerPetFailed() {
-                view.customerPetFailed()
-                view.hideCustomerPetLoading()
-            }
-        })
-    }
-
-    fun editCustomerPet(id: String, customerPet: CustomerPet){
-        view.showCustomerPetLoading()
-        repository.editCustomerPet(id, customerPet, object : CustomerPetRepositoryCallback<CustomerPetResponse>{
-            override fun customerPetSuccess(data: CustomerPetResponse?) {
-                view.customerPetSuccess(data)
-                view.hideCustomerPetLoading()
-            }
-            override fun customerPetFailed() {
-                view.customerPetFailed()
-                view.hideCustomerPetLoading()
-            }
-        })
-    }
-
-    fun deleteCustomerPet(id: String){
-        view.showCustomerPetLoading()
-        repository.deleteCustomerPet(id, object : CustomerPetRepositoryCallback<CustomerPetResponse>{
-            override fun customerPetSuccess(data: CustomerPetResponse?) {
-                view.customerPetSuccess(data)
-                view.hideCustomerPetLoading()
-            }
-            override fun customerPetFailed() {
-                view.customerPetFailed()
-                view.hideCustomerPetLoading()
             }
         })
     }
@@ -652,8 +575,8 @@ class OrderProductPresenter(private val view: OrderProductView, private val repo
                 view.orderProductSuccess(data)
                 view.hideOrderProductLoading()
             }
-            override fun orderProductFailed() {
-                view.orderProductFailed()
+            override fun orderProductFailed(data: String) {
+                view.orderProductFailed(data)
                 view.hideOrderProductLoading()
             }
         })
@@ -666,8 +589,8 @@ class OrderProductPresenter(private val view: OrderProductView, private val repo
                 view.orderProductSuccess(data)
                 view.hideOrderProductLoading()
             }
-            override fun orderProductFailed() {
-                view.orderProductFailed()
+            override fun orderProductFailed(data: String) {
+                view.orderProductFailed(data)
                 view.hideOrderProductLoading()
             }
         })
@@ -680,8 +603,8 @@ class OrderProductPresenter(private val view: OrderProductView, private val repo
                 view.orderProductSuccess(data)
                 view.hideOrderProductLoading()
             }
-            override fun orderProductFailed() {
-                view.orderProductFailed()
+            override fun orderProductFailed(data: String) {
+                view.orderProductFailed(data)
                 view.hideOrderProductLoading()
             }
         })
@@ -694,8 +617,8 @@ class OrderProductPresenter(private val view: OrderProductView, private val repo
                 view.orderProductSuccess(data)
                 view.hideOrderProductLoading()
             }
-            override fun orderProductFailed() {
-                view.orderProductFailed()
+            override fun orderProductFailed(data: String) {
+                view.orderProductFailed(data)
                 view.hideOrderProductLoading()
             }
         })
@@ -708,8 +631,8 @@ class OrderProductPresenter(private val view: OrderProductView, private val repo
                 view.orderProductSuccess(data)
                 view.hideOrderProductLoading()
             }
-            override fun orderProductFailed() {
-                view.orderProductFailed()
+            override fun orderProductFailed(data: String) {
+                view.orderProductFailed(data)
                 view.hideOrderProductLoading()
             }
         })
@@ -722,8 +645,8 @@ class OrderProductPresenter(private val view: OrderProductView, private val repo
                 view.orderProductSuccess(data)
                 view.hideOrderProductLoading()
             }
-            override fun orderProductFailed() {
-                view.orderProductFailed()
+            override fun orderProductFailed(data: String) {
+                view.orderProductFailed(data)
                 view.hideOrderProductLoading()
             }
         })
@@ -736,8 +659,8 @@ class OrderProductPresenter(private val view: OrderProductView, private val repo
                 view.orderProductSuccess(data)
                 view.hideOrderProductLoading()
             }
-            override fun orderProductFailed() {
-                view.orderProductFailed()
+            override fun orderProductFailed(data: String) {
+                view.orderProductFailed(data)
                 view.hideOrderProductLoading()
             }
         })
@@ -754,8 +677,8 @@ class DetailOrderProductPresenter(private val view: DetailOrderProductView, priv
                 view.detailOrderProductSuccess(data)
                 view.hideDetailOrderProductLoading()
             }
-            override fun detailOrderProductFailed() {
-                view.detailOrderProductFailed()
+            override fun detailOrderProductFailed(data: String) {
+                view.detailOrderProductFailed(data)
                 view.hideDetailOrderProductLoading()
             }
         })
@@ -768,8 +691,8 @@ class DetailOrderProductPresenter(private val view: DetailOrderProductView, priv
                 view.detailOrderProductSuccess(data)
                 view.hideDetailOrderProductLoading()
             }
-            override fun detailOrderProductFailed() {
-                view.detailOrderProductFailed()
+            override fun detailOrderProductFailed(data: String) {
+                view.detailOrderProductFailed(data)
                 view.hideDetailOrderProductLoading()
             }
         })
@@ -782,8 +705,8 @@ class DetailOrderProductPresenter(private val view: DetailOrderProductView, priv
                 view.detailOrderProductSuccess(data)
                 view.hideDetailOrderProductLoading()
             }
-            override fun detailOrderProductFailed() {
-                view.detailOrderProductFailed()
+            override fun detailOrderProductFailed(data: String) {
+                view.detailOrderProductFailed(data)
                 view.hideDetailOrderProductLoading()
             }
         })
@@ -796,8 +719,8 @@ class DetailOrderProductPresenter(private val view: DetailOrderProductView, priv
                 view.detailOrderProductSuccess(data)
                 view.hideDetailOrderProductLoading()
             }
-            override fun detailOrderProductFailed() {
-                view.detailOrderProductFailed()
+            override fun detailOrderProductFailed(data: String) {
+                view.detailOrderProductFailed(data)
                 view.hideDetailOrderProductLoading()
             }
         })
@@ -810,9 +733,82 @@ class DetailOrderProductPresenter(private val view: DetailOrderProductView, priv
                 view.detailOrderProductSuccess(data)
                 view.hideDetailOrderProductLoading()
             }
-            override fun detailOrderProductFailed() {
-                view.detailOrderProductFailed()
+            override fun detailOrderProductFailed(data: String) {
+                view.detailOrderProductFailed(data)
                 view.hideDetailOrderProductLoading()
+            }
+        })
+    }
+}
+
+//CUSTOMER PET
+class CustomerPetPresenter(private val view: CustomerPetView, private val repository: Repository){
+    fun getAllCustomerPet(){
+        view.showCustomerPetLoading()
+        repository.getAllCustomerPet(object : CustomerPetRepositoryCallback<CustomerPetResponse> {
+            override fun customerPetSuccess(data: CustomerPetResponse?) {
+                view.customerPetSuccess(data)
+                view.hideCustomerPetLoading()
+            }
+            override fun customerPetFailed(data: String) {
+                view.customerPetFailed(data)
+                view.hideCustomerPetLoading()
+            }
+        })
+    }
+
+    fun getCustomerPetBySearch(query: String){
+        view.showCustomerPetLoading()
+        repository.getCustomerPetBySearch(query, object : CustomerPetRepositoryCallback<CustomerPetResponse>{
+            override fun customerPetSuccess(data: CustomerPetResponse?) {
+                view.customerPetSuccess(data)
+                view.hideCustomerPetLoading()
+            }
+            override fun customerPetFailed(data: String) {
+                view.customerPetFailed(data)
+                view.hideCustomerPetLoading()
+            }
+        })
+    }
+
+    fun addCustomerPet(customerPet: CustomerPet){
+        view.showCustomerPetLoading()
+        repository.addCustomerPet(customerPet, object : CustomerPetRepositoryCallback<CustomerPetResponse>{
+            override fun customerPetSuccess(data: CustomerPetResponse?) {
+                view.customerPetSuccess(data)
+                view.hideCustomerPetLoading()
+            }
+            override fun customerPetFailed(data: String) {
+                view.customerPetFailed(data)
+                view.hideCustomerPetLoading()
+            }
+        })
+    }
+
+    fun editCustomerPet(id: String, customerPet: CustomerPet){
+        view.showCustomerPetLoading()
+        repository.editCustomerPet(id, customerPet, object : CustomerPetRepositoryCallback<CustomerPetResponse>{
+            override fun customerPetSuccess(data: CustomerPetResponse?) {
+                view.customerPetSuccess(data)
+                view.hideCustomerPetLoading()
+            }
+            override fun customerPetFailed(data: String) {
+                view.customerPetFailed(data)
+                view.hideCustomerPetLoading()
+            }
+        })
+    }
+
+    fun deleteCustomerPet(id: String){
+        view.showCustomerPetLoading()
+        repository.deleteCustomerPet(id, object : CustomerPetRepositoryCallback<CustomerPetResponse>{
+            override fun customerPetSuccess(data: CustomerPetResponse?) {
+                view.customerPetSuccess(data)
+                view.hideCustomerPetLoading()
+            }
+            override fun customerPetFailed(data: String) {
+                view.customerPetFailed(data)
+                view.hideCustomerPetLoading()
             }
         })
     }
@@ -828,8 +824,8 @@ class TransactionPresenter(private val view: TransactionView, private val reposi
                 view.transactionSuccess(data)
                 view.hideTransactionLoading()
             }
-            override fun transactionFailed() {
-                view.transactionFailed()
+            override fun transactionFailed(data: String) {
+                view.transactionFailed(data)
                 view.hideTransactionLoading()
             }
         })
@@ -842,8 +838,8 @@ class TransactionPresenter(private val view: TransactionView, private val reposi
                 view.transactionSuccess(data)
                 view.hideTransactionLoading()
             }
-            override fun transactionFailed() {
-                view.transactionFailed()
+            override fun transactionFailed(data: String) {
+                view.transactionFailed(data)
                 view.hideTransactionLoading()
             }
         })
@@ -856,8 +852,8 @@ class TransactionPresenter(private val view: TransactionView, private val reposi
                 view.transactionSuccess(data)
                 view.hideTransactionLoading()
             }
-            override fun transactionFailed() {
-                view.transactionFailed()
+            override fun transactionFailed(data: String) {
+                view.transactionFailed(data)
                 view.hideTransactionLoading()
             }
         })
@@ -870,8 +866,8 @@ class TransactionPresenter(private val view: TransactionView, private val reposi
                 view.transactionSuccess(data)
                 view.hideTransactionLoading()
             }
-            override fun transactionFailed() {
-                view.transactionFailed()
+            override fun transactionFailed(data: String) {
+                view.transactionFailed(data)
                 view.hideTransactionLoading()
             }
         })
@@ -884,8 +880,8 @@ class TransactionPresenter(private val view: TransactionView, private val reposi
                 view.transactionSuccess(data)
                 view.hideTransactionLoading()
             }
-            override fun transactionFailed() {
-                view.transactionFailed()
+            override fun transactionFailed(data: String) {
+                view.transactionFailed(data)
                 view.hideTransactionLoading()
             }
         })
@@ -898,8 +894,8 @@ class TransactionPresenter(private val view: TransactionView, private val reposi
                 view.transactionSuccess(data)
                 view.hideTransactionLoading()
             }
-            override fun transactionFailed() {
-                view.transactionFailed()
+            override fun transactionFailed(data: String) {
+                view.transactionFailed(data)
                 view.hideTransactionLoading()
             }
         })
@@ -912,8 +908,8 @@ class TransactionPresenter(private val view: TransactionView, private val reposi
                 view.transactionSuccess(data)
                 view.hideTransactionLoading()
             }
-            override fun transactionFailed() {
-                view.transactionFailed()
+            override fun transactionFailed(data: String) {
+                view.transactionFailed(data)
                 view.hideTransactionLoading()
             }
         })
@@ -926,8 +922,8 @@ class TransactionPresenter(private val view: TransactionView, private val reposi
                 view.transactionSuccess(data)
                 view.hideTransactionLoading()
             }
-            override fun transactionFailed() {
-                view.transactionFailed()
+            override fun transactionFailed(data: String) {
+                view.transactionFailed(data)
                 view.hideTransactionLoading()
             }
         })
@@ -944,8 +940,8 @@ class DetailProductTransactionPresenter(private val view: DetailProductTransacti
                 view.detailProductTransactionSuccess(data)
                 view.hideDetailProductTransactionLoading()
             }
-            override fun detailProductTransactionFailed() {
-                view.detailProductTransactionFailed()
+            override fun detailProductTransactionFailed(data: String) {
+                view.detailProductTransactionFailed(data)
                 view.hideDetailProductTransactionLoading()
             }
         })
@@ -958,8 +954,8 @@ class DetailProductTransactionPresenter(private val view: DetailProductTransacti
                 view.detailProductTransactionSuccess(data)
                 view.hideDetailProductTransactionLoading()
             }
-            override fun detailProductTransactionFailed() {
-                view.detailProductTransactionFailed()
+            override fun detailProductTransactionFailed(data: String) {
+                view.detailProductTransactionFailed(data)
                 view.hideDetailProductTransactionLoading()
             }
         })
@@ -972,8 +968,8 @@ class DetailProductTransactionPresenter(private val view: DetailProductTransacti
                 view.detailProductTransactionSuccess(data)
                 view.hideDetailProductTransactionLoading()
             }
-            override fun detailProductTransactionFailed() {
-                view.detailProductTransactionFailed()
+            override fun detailProductTransactionFailed(data: String) {
+                view.detailProductTransactionFailed(data)
                 view.hideDetailProductTransactionLoading()
             }
         })
@@ -986,8 +982,8 @@ class DetailProductTransactionPresenter(private val view: DetailProductTransacti
                 view.detailProductTransactionSuccess(data)
                 view.hideDetailProductTransactionLoading()
             }
-            override fun detailProductTransactionFailed() {
-                view.detailProductTransactionFailed()
+            override fun detailProductTransactionFailed(data: String) {
+                view.detailProductTransactionFailed(data)
                 view.hideDetailProductTransactionLoading()
             }
         })
@@ -1000,8 +996,8 @@ class DetailProductTransactionPresenter(private val view: DetailProductTransacti
                 view.detailProductTransactionSuccess(data)
                 view.hideDetailProductTransactionLoading()
             }
-            override fun detailProductTransactionFailed() {
-                view.detailProductTransactionFailed()
+            override fun detailProductTransactionFailed(data: String) {
+                view.detailProductTransactionFailed(data)
                 view.hideDetailProductTransactionLoading()
             }
         })
@@ -1014,8 +1010,8 @@ class DetailProductTransactionPresenter(private val view: DetailProductTransacti
                 view.detailProductTransactionSuccess(data)
                 view.hideDetailProductTransactionLoading()
             }
-            override fun detailProductTransactionFailed() {
-                view.detailProductTransactionFailed()
+            override fun detailProductTransactionFailed(data: String) {
+                view.detailProductTransactionFailed(data)
                 view.hideDetailProductTransactionLoading()
             }
         })
@@ -1032,8 +1028,8 @@ class DetailServiceTransactionPresenter(private val view: DetailServiceTransacti
                 view.detailServiceTransactionSuccess(data)
                 view.hideDetailServiceTransactionLoading()
             }
-            override fun detailServiceTransactionFailed() {
-                view.detailServiceTransactionFailed()
+            override fun detailServiceTransactionFailed(data: String) {
+                view.detailServiceTransactionFailed(data)
                 view.hideDetailServiceTransactionLoading()
             }
         })
@@ -1046,8 +1042,8 @@ class DetailServiceTransactionPresenter(private val view: DetailServiceTransacti
                 view.detailServiceTransactionSuccess(data)
                 view.hideDetailServiceTransactionLoading()
             }
-            override fun detailServiceTransactionFailed() {
-                view.detailServiceTransactionFailed()
+            override fun detailServiceTransactionFailed(data: String) {
+                view.detailServiceTransactionFailed(data)
                 view.hideDetailServiceTransactionLoading()
             }
         })
@@ -1060,8 +1056,8 @@ class DetailServiceTransactionPresenter(private val view: DetailServiceTransacti
                 view.detailServiceTransactionSuccess(data)
                 view.hideDetailServiceTransactionLoading()
             }
-            override fun detailServiceTransactionFailed() {
-                view.detailServiceTransactionFailed()
+            override fun detailServiceTransactionFailed(data: String) {
+                view.detailServiceTransactionFailed(data)
                 view.hideDetailServiceTransactionLoading()
             }
         })
@@ -1074,8 +1070,8 @@ class DetailServiceTransactionPresenter(private val view: DetailServiceTransacti
                 view.detailServiceTransactionSuccess(data)
                 view.hideDetailServiceTransactionLoading()
             }
-            override fun detailServiceTransactionFailed() {
-                view.detailServiceTransactionFailed()
+            override fun detailServiceTransactionFailed(data: String) {
+                view.detailServiceTransactionFailed(data)
                 view.hideDetailServiceTransactionLoading()
             }
         })
@@ -1088,8 +1084,8 @@ class DetailServiceTransactionPresenter(private val view: DetailServiceTransacti
                 view.detailServiceTransactionSuccess(data)
                 view.hideDetailServiceTransactionLoading()
             }
-            override fun detailServiceTransactionFailed() {
-                view.detailServiceTransactionFailed()
+            override fun detailServiceTransactionFailed(data: String) {
+                view.detailServiceTransactionFailed(data)
                 view.hideDetailServiceTransactionLoading()
             }
         })
@@ -1102,8 +1098,8 @@ class DetailServiceTransactionPresenter(private val view: DetailServiceTransacti
                 view.detailServiceTransactionSuccess(data)
                 view.hideDetailServiceTransactionLoading()
             }
-            override fun detailServiceTransactionFailed() {
-                view.detailServiceTransactionFailed()
+            override fun detailServiceTransactionFailed(data: String) {
+                view.detailServiceTransactionFailed(data)
                 view.hideDetailServiceTransactionLoading()
             }
         })
@@ -1119,8 +1115,8 @@ class MinProductPresenter(private val view: MinProductView, private val reposito
                 view.minProductSuccess(data)
                 view.hideMinProductLoading()
             }
-            override fun minProductFailed() {
-                view.minProductFailed()
+            override fun minProductFailed(data: String) {
+                view.minProductFailed(data)
                 view.hideMinProductLoading()
             }
         })

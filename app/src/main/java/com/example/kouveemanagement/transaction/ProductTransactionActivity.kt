@@ -173,8 +173,8 @@ class ProductTransactionActivity : AppCompatActivity(), TransactionView, Custome
         }
     }
 
-    override fun transactionFailed() {
-        Toast.makeText(this, "Failed Transaction", Toast.LENGTH_SHORT).show()
+    override fun transactionFailed(data: String) {
+        Toast.makeText(this, data, Toast.LENGTH_SHORT).show()
     }
 
     override fun onBackPressed() {
@@ -205,8 +205,8 @@ class ProductTransactionActivity : AppCompatActivity(), TransactionView, Custome
         }
     }
 
-    override fun customerPetFailed() {
-        Toast.makeText(this, "Failed Customer Pet", Toast.LENGTH_SHORT).show()
+    override fun customerPetFailed(data: String) {
+        Toast.makeText(this, data, Toast.LENGTH_SHORT).show()
     }
 
     override fun showProductLoading() {
@@ -234,7 +234,7 @@ class ProductTransactionActivity : AppCompatActivity(), TransactionView, Custome
         }
     }
 
-    override fun productFailed() {
-        Toast.makeText(this, "Failed Product", Toast.LENGTH_SHORT).show()
+    override fun productFailed(data: String) {
+        Toast.makeText(this, data, Toast.LENGTH_SHORT).show()
     }
 }

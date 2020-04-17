@@ -89,9 +89,9 @@ class AddProductFragment : Fragment(), ProductView {
         startActivity<ProductManagementActivity>()
     }
 
-    override fun productFailed() {
+    override fun productFailed(data: String) {
         btn_add.revertAnimation()
-        context?.let { view?.let { itView -> CustomView.failedSnackBar(itView, it, "Oops, add failed") } }
+        context?.let { view?.let { itView -> CustomView.failedSnackBar(itView, it, data) } }
     }
 
 }

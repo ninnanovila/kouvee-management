@@ -137,8 +137,8 @@ class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView, Cust
         }
     }
 
-    override fun petTypeFailed() {
-        CustomView.failedSnackBar(container, baseContext, "Pet Type failed")
+    override fun petTypeFailed(data: String) {
+        CustomView.failedSnackBar(container, baseContext, data)
     }
 
     override fun showCustomerPetLoading() {
@@ -167,8 +167,8 @@ class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView, Cust
         }
     }
 
-    override fun customerPetFailed() {
-        CustomView.failedSnackBar(container, baseContext, "Oops, failed")
+    override fun customerPetFailed(data: String) {
+        CustomView.failedSnackBar(container, baseContext, data)
     }
 
     private fun clearList(){
@@ -233,7 +233,7 @@ class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView, Cust
         }
     }
 
-    override fun customerFailed() {
-        CustomView.failedSnackBar(container, baseContext, "Customer failed")
+    override fun customerFailed(data: String) {
+        CustomView.failedSnackBar(container, baseContext, data)
     }
 }

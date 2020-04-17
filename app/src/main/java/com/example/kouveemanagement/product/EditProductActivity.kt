@@ -133,10 +133,10 @@ class EditProductActivity : AppCompatActivity(), ProductView, UploadPhotoProduct
         startActivity<ProductManagementActivity>()
     }
 
-    override fun productFailed() {
+    override fun productFailed(data: String) {
         btn_save.revertAnimation()
         btn_cancel.visibility = View.VISIBLE
-        CustomView.failedSnackBar(container, baseContext, "Oops, try again")
+        CustomView.failedSnackBar(container, baseContext, data)
     }
 
     override fun onBackPressed() {
@@ -277,11 +277,11 @@ class EditProductActivity : AppCompatActivity(), ProductView, UploadPhotoProduct
         startActivity<ProductManagementActivity>()
     }
 
-    override fun uploadProductFailed() {
+    override fun uploadProductFailed(data: String) {
         progressbar_img.visibility = View.INVISIBLE
         btn_choose.visibility = View.VISIBLE
         btn_upload.visibility = View.VISIBLE
-        CustomView.failedSnackBar(container, baseContext, "Oops, try again")
+        CustomView.failedSnackBar(container, baseContext, data)
     }
 
 }

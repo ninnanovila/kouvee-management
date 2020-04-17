@@ -149,8 +149,8 @@ class ProductManagementActivity : AppCompatActivity(), ProductView {
         }
     }
 
-    override fun productFailed() {
-        CustomView.failedSnackBar(container, baseContext, "Please try again")
+    override fun productFailed(data: String) {
+        CustomView.failedSnackBar(container, baseContext, data)
     }
 
     private fun clearList(){

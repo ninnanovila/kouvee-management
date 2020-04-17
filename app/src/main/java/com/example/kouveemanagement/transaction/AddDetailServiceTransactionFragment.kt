@@ -85,8 +85,8 @@ class AddDetailServiceTransactionFragment : Fragment(), DetailServiceTransaction
         startActivity<AddTransactionActivity>("type" to "service")
     }
 
-    override fun detailServiceTransactionFailed() {
-        Toast.makeText(context, "Failed Detail Service", Toast.LENGTH_SHORT).show()
+    override fun detailServiceTransactionFailed(data: String) {
+        Toast.makeText(context, data, Toast.LENGTH_SHORT).show()
     }
 
     private fun setServiceDropdown(){

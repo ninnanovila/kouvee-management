@@ -126,11 +126,11 @@ class EditDetailProductTransactionFragment : Fragment(), DetailProductTransactio
         startActivity<AddTransactionActivity>("type" to "product")
     }
 
-    override fun detailProductTransactionFailed() {
+    override fun detailProductTransactionFailed(data: String) {
         if (state == "edit"){
-            Toast.makeText(context, "Failed to edit", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, data, Toast.LENGTH_SHORT).show()
         }else if (state == "delete"){
-            Toast.makeText(context, "Failed to delete", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, data, Toast.LENGTH_SHORT).show()
         }
     }
 

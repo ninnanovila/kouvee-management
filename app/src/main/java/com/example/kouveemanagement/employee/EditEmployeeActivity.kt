@@ -125,10 +125,10 @@ class EditEmployeeActivity : AppCompatActivity(), EmployeeView {
         startActivity<EmployeeManagementActivity>()
     }
 
-    override fun employeeFailed() {
+    override fun employeeFailed(data: String) {
         btn_save.revertAnimation()
         btn_cancel.visibility = View.VISIBLE
-        CustomView.failedSnackBar(container, baseContext, "Oops, try again")
+        CustomView.failedSnackBar(container, baseContext, data)
     }
 
     override fun onBackPressed() {

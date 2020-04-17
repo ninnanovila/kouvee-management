@@ -74,9 +74,9 @@ class EditOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOr
         startActivity<OrderProductActivity>()
     }
 
-    override fun orderProductFailed() {
+    override fun orderProductFailed(data: String) {
         btn_done.revertAnimation()
-        CustomView.failedSnackBar(container, baseContext, "Oops, try again")
+        CustomView.failedSnackBar(container, baseContext, data)
     }
 
     override fun showDetailOrderProductLoading() {
@@ -101,8 +101,8 @@ class EditOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOr
         }
     }
 
-    override fun detailOrderProductFailed() {
-        CustomView.failedSnackBar(container, baseContext, "Detail failed")
+    override fun detailOrderProductFailed(data: String) {
+        CustomView.failedSnackBar(container, baseContext, data)
     }
 
     private fun alertDialog(){

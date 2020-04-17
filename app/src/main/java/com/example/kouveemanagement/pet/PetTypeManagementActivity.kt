@@ -146,8 +146,8 @@ class PetTypeManagementActivity : AppCompatActivity(), PetTypeView {
         }
     }
 
-    override fun petTypeFailed() {
-        CustomView.failedSnackBar(container, baseContext, "Oops, try again")
+    override fun petTypeFailed(data: String) {
+        CustomView.failedSnackBar(container, baseContext, data)
     }
 
     private fun clearList(){

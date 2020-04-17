@@ -153,8 +153,8 @@ class PetSizeManagementActivity : AppCompatActivity(), PetSizeView {
         }
     }
 
-    override fun petSizeFailed() {
-        CustomView.failedSnackBar(container, baseContext, "Oops, try again")
+    override fun petSizeFailed(data: String) {
+        CustomView.failedSnackBar(container, baseContext, data)
     }
 
     private fun clearList(){

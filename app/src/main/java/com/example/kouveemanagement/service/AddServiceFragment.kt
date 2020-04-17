@@ -88,9 +88,9 @@ class AddServiceFragment : Fragment(), ServiceView {
         startActivity<ServiceManagementActivity>()
     }
 
-    override fun serviceFailed() {
+    override fun serviceFailed(data: String) {
         btn_add.revertAnimation()
-        context?.let { view?.let { itView -> CustomView.failedSnackBar(itView, it, "Oops, try again") } }
+        context?.let { view?.let { itView -> CustomView.failedSnackBar(itView, it, data) } }
     }
 
     private fun setSizeDropDown(){

@@ -63,8 +63,8 @@ class ShowTransactionActivity : AppCompatActivity(), TransactionView, DetailProd
         transaction = data?.transactions?.get(0)!!
     }
 
-    override fun transactionFailed() {
-        Toast.makeText(this, "Failed Transaction", Toast.LENGTH_SHORT).show()
+    override fun transactionFailed(data: String) {
+        Toast.makeText(this, data, Toast.LENGTH_SHORT).show()
     }
 
     override fun showDetailProductTransactionLoading() {
@@ -88,8 +88,8 @@ class ShowTransactionActivity : AppCompatActivity(), TransactionView, DetailProd
         }
     }
 
-    override fun detailProductTransactionFailed() {
-        Toast.makeText(this, "Failed Detail Product Transaction", Toast.LENGTH_SHORT).show()
+    override fun detailProductTransactionFailed(data: String) {
+        Toast.makeText(this, data, Toast.LENGTH_SHORT).show()
     }
 
     override fun showDetailServiceTransactionLoading() {
@@ -113,8 +113,8 @@ class ShowTransactionActivity : AppCompatActivity(), TransactionView, DetailProd
         }
     }
 
-    override fun detailServiceTransactionFailed() {
-        Toast.makeText(this, "Failed Detail Service Transaction", Toast.LENGTH_SHORT).show()
+    override fun detailServiceTransactionFailed(data: String) {
+        Toast.makeText(this, data, Toast.LENGTH_SHORT).show()
     }
 
 

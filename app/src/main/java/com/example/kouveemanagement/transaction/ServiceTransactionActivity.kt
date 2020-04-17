@@ -129,8 +129,8 @@ class  ServiceTransactionActivity : AppCompatActivity(), TransactionView, Custom
         }
     }
 
-    override fun transactionFailed() {
-        Toast.makeText(this, "Failed Transaction", Toast.LENGTH_SHORT).show()
+    override fun transactionFailed(data: String) {
+        Toast.makeText(this, data, Toast.LENGTH_SHORT).show()
     }
 
     override fun onBackPressed() {
@@ -161,8 +161,8 @@ class  ServiceTransactionActivity : AppCompatActivity(), TransactionView, Custom
         }
     }
 
-    override fun customerPetFailed() {
-        Toast.makeText(this, "Failed Customer Pet", Toast.LENGTH_SHORT).show()
+    override fun customerPetFailed(data: String) {
+        Toast.makeText(this, data, Toast.LENGTH_SHORT).show()
     }
 
     private fun showAlert(){
@@ -252,8 +252,8 @@ class  ServiceTransactionActivity : AppCompatActivity(), TransactionView, Custom
         }
     }
 
-    override fun serviceFailed() {
-        Toast.makeText(this, "Failed Service", Toast.LENGTH_SHORT).show()
+    override fun serviceFailed(data: String) {
+        Toast.makeText(this, data, Toast.LENGTH_SHORT).show()
     }
 
 }

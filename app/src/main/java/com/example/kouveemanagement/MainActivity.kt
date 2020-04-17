@@ -76,9 +76,9 @@ class MainActivity : AppCompatActivity(), LoginView {
         }
     }
 
-    override fun loginFailed() {
+    override fun loginFailed(data: String) {
         btn_login.revertAnimation()
-        CustomView.failedLoginSnackBar(container, baseContext, id_login.text.toString(), password_login.text.toString(), loginPresenter)
+        CustomView.failedLoginSnackBar(container, baseContext, id_login.text.toString(), password_login.text.toString(), loginPresenter, data)
     }
 
     private fun checkCurrentUser(){

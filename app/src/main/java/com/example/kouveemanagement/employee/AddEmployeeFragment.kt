@@ -116,9 +116,9 @@ class AddEmployeeFragment : Fragment(), EmployeeView {
         startActivity<EmployeeManagementActivity>()
     }
 
-    override fun employeeFailed() {
+    override fun employeeFailed(data: String) {
         btn_add.revertAnimation()
-        context?.let { view?.let { itView -> CustomView.failedSnackBar(itView, it, "Oops, try again") } }
+        context?.let { view?.let { itView -> CustomView.failedSnackBar(itView, it, data) } }
     }
 
 }

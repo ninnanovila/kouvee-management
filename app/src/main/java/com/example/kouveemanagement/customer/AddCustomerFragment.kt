@@ -105,9 +105,9 @@ class AddCustomerFragment : Fragment(), CustomerView {
         startActivity<CustomerManagementActivity>()
     }
 
-    override fun customerFailed() {
+    override fun customerFailed(data: String) {
         btn_add.revertAnimation()
-        context?.let { view?.let { itView -> CustomView.failedSnackBar(itView, it, "Oops, try again") } }
+        context?.let { view?.let { itView -> CustomView.failedSnackBar(itView, it, data) } }
     }
 
 }

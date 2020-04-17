@@ -148,8 +148,8 @@ class ServiceManagementActivity : AppCompatActivity(), ServiceView, PetSizeView 
         }
     }
 
-    override fun serviceFailed() {
-        CustomView.failedSnackBar(container, baseContext, "Oops, try again")
+    override fun serviceFailed(data: String) {
+        CustomView.failedSnackBar(container, baseContext, data)
     }
 
     private fun clearList(){
@@ -216,7 +216,7 @@ class ServiceManagementActivity : AppCompatActivity(), ServiceView, PetSizeView 
         }
     }
 
-    override fun petSizeFailed() {
-        CustomView.failedSnackBar(container, baseContext, "Can't get pet size")
+    override fun petSizeFailed(data: String) {
+        CustomView.failedSnackBar(container, baseContext, data)
     }
 }

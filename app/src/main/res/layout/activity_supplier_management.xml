@@ -86,7 +86,9 @@
             android:layout_marginTop="8dp"
             app:layout_constraintStart_toStartOf="@+id/search_view"
             app:layout_constraintTop_toBottomOf="@+id/search_view"
-            app:singleSelection="true">
+            app:singleSelection="true"
+            app:checkedButton="@id/show_all"
+            app:selectionRequired="true">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/show_all"

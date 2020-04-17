@@ -145,8 +145,8 @@ class OrderProductActivity : AppCompatActivity(), OrderProductView, SupplierView
         }
     }
 
-    override fun orderProductFailed() {
-        CustomView.failedSnackBar(container, baseContext, "Oops, try again")
+    override fun orderProductFailed(data: String) {
+        CustomView.failedSnackBar(container, baseContext, data)
     }
 
     private fun clearList(){
@@ -229,8 +229,8 @@ class OrderProductActivity : AppCompatActivity(), OrderProductView, SupplierView
         }
     }
 
-    override fun supplierFailed() {
-        CustomView.failedSnackBar(container, baseContext, "Supplier failed")
+    override fun supplierFailed(data: String) {
+        CustomView.failedSnackBar(container, baseContext, data)
     }
 
     private fun clearSuppliers(){
@@ -264,8 +264,8 @@ class OrderProductActivity : AppCompatActivity(), OrderProductView, SupplierView
         }
     }
 
-    override fun productFailed() {
-        CustomView.failedSnackBar(container, baseContext, "Product failed")
+    override fun productFailed(data: String) {
+        CustomView.failedSnackBar(container, baseContext, data)
     }
 
     private fun clearProducts(){

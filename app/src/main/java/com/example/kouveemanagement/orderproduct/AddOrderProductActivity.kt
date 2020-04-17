@@ -124,8 +124,8 @@ class AddOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOrd
         }
     }
 
-    override fun orderProductFailed() {
-        CustomView.failedSnackBar(container, baseContext, "Oops, try again")
+    override fun orderProductFailed(data: String) {
+        CustomView.failedSnackBar(container, baseContext, data)
     }
 
     override fun showDetailOrderProductLoading() {
@@ -153,8 +153,8 @@ class AddOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOrd
         }
     }
 
-    override fun detailOrderProductFailed() {
-        CustomView.failedSnackBar(container, baseContext, "Detail failed")
+    override fun detailOrderProductFailed(data: String) {
+        CustomView.failedSnackBar(container, baseContext, data)
     }
 
     private fun clearDetail(){

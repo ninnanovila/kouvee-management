@@ -96,8 +96,8 @@ object CustomView {
         snackBar.show()
     }
 
-    fun failedLoginSnackBar(input: View, baseContext: Context, id: String, pass: String, presenter: LoginPresenter){
-        val snackBar = Snackbar.make(input, "Please check your input", Snackbar.LENGTH_SHORT)
+    fun failedLoginSnackBar(input: View, baseContext: Context, id: String, pass: String, presenter: LoginPresenter, msg: String){
+        val snackBar = Snackbar.make(input, msg, Snackbar.LENGTH_SHORT)
         snackBar.setActionTextColor(
             ContextCompat.getColor(baseContext, R.color.colorGrey)
         )

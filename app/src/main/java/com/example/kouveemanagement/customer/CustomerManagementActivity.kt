@@ -145,8 +145,8 @@ class CustomerManagementActivity : AppCompatActivity(), CustomerView {
         }
     }
 
-    override fun customerFailed() {
-        CustomView.failedSnackBar(container, baseContext, "Oops, try again")
+    override fun customerFailed(data: String) {
+        CustomView.failedSnackBar(container, baseContext, data)
     }
 
     private fun clearList(){

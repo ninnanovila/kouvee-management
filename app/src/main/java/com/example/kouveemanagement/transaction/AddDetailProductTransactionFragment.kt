@@ -84,8 +84,8 @@ class AddDetailProductTransactionFragment : Fragment(), DetailProductTransaction
         startActivity<AddTransactionActivity>("type" to "product")
     }
 
-    override fun detailProductTransactionFailed() {
-        Toast.makeText(context, "Failed Detail Product", Toast.LENGTH_SHORT).show()
+    override fun detailProductTransactionFailed(data: String) {
+        Toast.makeText(context, data, Toast.LENGTH_SHORT).show()
     }
 
     private fun setProductDropdown(){

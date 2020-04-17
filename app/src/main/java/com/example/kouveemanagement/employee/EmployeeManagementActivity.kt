@@ -139,8 +139,8 @@ class EmployeeManagementActivity : AppCompatActivity(), EmployeeView {
         }
     }
 
-    override fun employeeFailed() {
-        CustomView.failedSnackBar(container, baseContext, "Oops, try again")
+    override fun employeeFailed(data: String) {
+        CustomView.failedSnackBar(container, baseContext, data)
     }
 
     private fun clearList(){

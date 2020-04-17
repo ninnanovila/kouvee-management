@@ -149,10 +149,10 @@ class EditCustomerPetActivity : AppCompatActivity(), CustomerPetView {
         startActivity<CustomerPetManagementActivity>()
     }
 
-    override fun customerPetFailed() {
+    override fun customerPetFailed(data: String) {
         btn_save.revertAnimation()
         btn_cancel.visibility = View.VISIBLE
-        Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, data, Toast.LENGTH_SHORT).show()
     }
 
     override fun onBackPressed() {

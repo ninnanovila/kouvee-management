@@ -119,14 +119,14 @@ class EditDetailOrderProductFragment : Fragment(), DetailOrderProductView {
         startActivity<AddOrderProductActivity>()
     }
 
-    override fun detailOrderProductFailed() {
+    override fun detailOrderProductFailed(data: String) {
         btn_edit.visibility = View.GONE
         btn_save.revertAnimation()
         btn_cancel.visibility = View.VISIBLE
         if (state == "edit"){
-            context?.let { view?.let { itView -> CustomView.failedSnackBar(itView, it, "Oops, try edit again") } }
+            context?.let { view?.let { itView -> CustomView.failedSnackBar(itView, it, data) } }
         }else if (state == "delete"){
-            context?.let { view?.let { itView -> CustomView.failedSnackBar(itView, it, "Oops, try delete again") } }
+            context?.let { view?.let { itView -> CustomView.failedSnackBar(itView, it, data) } }
         }
     }
 

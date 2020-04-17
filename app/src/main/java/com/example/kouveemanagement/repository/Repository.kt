@@ -1,6 +1,5 @@
 package com.example.kouveemanagement.repository
 
-import android.util.Log
 import com.example.kouveemanagement.api.ApiClient
 import com.example.kouveemanagement.model.*
 import okhttp3.MultipartBody
@@ -16,17 +15,24 @@ class Repository {
 
         ApiClient().services.loginPost(id, password).enqueue(object : Callback<LoginResponse?> {
             override fun onFailure(call: Call<LoginResponse?>, t: Throwable) {
-                callback.loginFailed()
+                callback.loginFailed(t.message.toString())
             }
 
             override fun onResponse(
                 call: Call<LoginResponse?>,
                 response: Response<LoginResponse?>
             ) {
-                if (response.isSuccessful){
-                    callback.loginSuccess(response.body())
-                }else{
-                    callback.loginFailed()
+                when {
+                    response.isSuccessful -> {
+                        callback.loginSuccess(response.body())
+                    }
+                    response.code() == 404 -> {
+                        callback.loginFailed("User not exist..")
+                    }
+                    response.code() == 500 -> {
+                        callback.loginFailed("Wrong password..")
+                    }
+                    else -> callback.loginFailed("Else ...")
                 }
             }
         })
@@ -36,7 +42,7 @@ class Repository {
     fun getAllEmployee(callback: EmployeeRepositoryCallback<EmployeeResponse>) {
         ApiClient().services.getAllEmployee().enqueue(object : Callback<EmployeeResponse?> {
             override fun onFailure(call: Call<EmployeeResponse?>, t: Throwable) {
-                callback.employeeFailed()
+                callback.employeeFailed(t.message.toString())
             }
 
             override fun onResponse(
@@ -46,7 +52,7 @@ class Repository {
                 if (response.isSuccessful){
                     callback.employeeSuccess(response.body())
                 }else{
-                    callback.employeeFailed()
+                    callback.employeeFailed("Show error..")
                 }
             }
 
@@ -56,7 +62,7 @@ class Repository {
     fun getEmployeeBySearch(query: String, callback: EmployeeRepositoryCallback<EmployeeResponse>){
         ApiClient().services.getEmployeeBySearch(query).enqueue(object : Callback<EmployeeResponse?> {
             override fun onFailure(call: Call<EmployeeResponse?>, t: Throwable) {
-                callback.employeeFailed()
+                callback.employeeFailed(t.message.toString())
             }
 
             override fun onResponse(
@@ -66,7 +72,7 @@ class Repository {
                 if (response.isSuccessful){
                     callback.employeeSuccess(response.body())
                 }else{
-                    callback.employeeFailed()
+                    callback.employeeFailed("Show error..")
                 }
             }
         })
@@ -76,7 +82,7 @@ class Repository {
 
         ApiClient().services.addEmployee(employee).enqueue(object : Callback<EmployeeResponse?> {
             override fun onFailure(call: Call<EmployeeResponse?>, t: Throwable) {
-                callback.employeeFailed()
+                callback.employeeFailed(t.message.toString())
             }
 
             override fun onResponse(
@@ -85,8 +91,8 @@ class Repository {
             ) {
                 if (response.isSuccessful){
                     callback.employeeSuccess(response.body())
-                }else{
-                    callback.employeeFailed()
+                }else if (response.code() == 500){
+                    callback.employeeFailed("Create error..")
                 }
             }
         })
@@ -96,8 +102,7 @@ class Repository {
 
         ApiClient().services.editEmployee(id, employee).enqueue(object : Callback<EmployeeResponse?> {
             override fun onFailure(call: Call<EmployeeResponse?>, t: Throwable) {
-                Log.d("FAILED", "WHY?", t)
-                callback.employeeFailed()
+                callback.employeeFailed(t.message.toString())
             }
 
             override fun onResponse(
@@ -106,8 +111,8 @@ class Repository {
             ) {
                 if (response.isSuccessful){
                     callback.employeeSuccess(response.body())
-                }else{
-                    callback.employeeFailed()
+                }else if (response.code() == 500){
+                    callback.employeeFailed("Edit error..")
                 }
             }
         })
@@ -117,7 +122,7 @@ class Repository {
 
         ApiClient().services.deleteEmployee(id).enqueue(object : Callback<EmployeeResponse?> {
             override fun onFailure(call: Call<EmployeeResponse?>, t: Throwable) {
-                callback.employeeFailed()
+                callback.employeeFailed(t.message.toString())
             }
 
             override fun onResponse(
@@ -126,8 +131,8 @@ class Repository {
             ) {
                 if (response.isSuccessful){
                     callback.employeeSuccess(response.body())
-                }else{
-                    callback.employeeFailed()
+                }else if (response.code() == 404){
+                    callback.employeeFailed("Employee not found..")
                 }
             }
         })
@@ -137,7 +142,7 @@ class Repository {
     fun getAllProduct(callback: ProductRepositoryCallback<ProductResponse>) {
         ApiClient().services.getAllProduct().enqueue(object : Callback<ProductResponse?> {
             override fun onFailure(call: Call<ProductResponse?>, t: Throwable) {
-                callback.productFailed()
+                callback.productFailed(t.message.toString())
             }
 
             override fun onResponse(
@@ -146,8 +151,8 @@ class Repository {
             ) {
                 if (response.isSuccessful){
                     callback.productSuccess(response.body())
-                }else{
-                    callback.productFailed()
+                }else if (response.code() == 500){
+                    callback.productFailed("Show error..")
                 }
             }
         })
@@ -156,7 +161,7 @@ class Repository {
     fun getProductBySearch(query: String, callback: ProductRepositoryCallback<ProductResponse>){
         ApiClient().services.getProductBySearch(query).enqueue(object : Callback<ProductResponse?>{
             override fun onFailure(call: Call<ProductResponse?>, t: Throwable) {
-                callback.productFailed()
+                callback.productFailed(t.message.toString())
             }
 
             override fun onResponse(
@@ -165,8 +170,8 @@ class Repository {
             ) {
                 if (response.isSuccessful){
                     callback.productSuccess(response.body())
-                }else{
-                    callback.productFailed()
+                }else if (response.code() == 500){
+                    callback.productFailed("Show error..")
                 }
             }
         })
@@ -175,7 +180,7 @@ class Repository {
     fun addProduct(product: Product, callback: ProductRepositoryCallback<ProductResponse>) {
         ApiClient().services.addProduct(product).enqueue(object : Callback<ProductResponse?> {
             override fun onFailure(call: Call<ProductResponse?>, t: Throwable) {
-                callback.productFailed()
+                callback.productFailed(t.message.toString())
             }
 
             override fun onResponse(
@@ -184,8 +189,8 @@ class Repository {
             ) {
                 if (response.isSuccessful){
                     callback.productSuccess(response.body())
-                }else{
-                    callback.productFailed()
+                }else if (response.code() == 500){
+                    callback.productFailed("Add error..")
                 }
             }
         })
@@ -194,17 +199,24 @@ class Repository {
     fun editProduct(id: String, product: Product, callback: ProductRepositoryCallback<ProductResponse>) {
         ApiClient().services.editProduct(id, product).enqueue(object : Callback<ProductResponse?> {
             override fun onFailure(call: Call<ProductResponse?>, t: Throwable) {
-                callback.productFailed()
+                callback.productFailed(t.message.toString())
             }
 
             override fun onResponse(
                 call: Call<ProductResponse?>,
                 response: Response<ProductResponse?>
             ) {
-                if (response.isSuccessful){
-                    callback.productSuccess(response.body())
-                }else{
-                    callback.productFailed()
+                when {
+                    response.isSuccessful -> {
+                        callback.productSuccess(response.body())
+                    }
+                    response.code() == 500 -> {
+                        callback.productFailed("Edit error..")
+                    }
+                    response.code() == 404 -> {
+                        callback.productFailed("Data not found..")
+                    }
+                    else -> callback.productFailed("Else..")
                 }
             }
         })
@@ -213,7 +225,7 @@ class Repository {
     fun deleteProduct(id: String, callback: ProductRepositoryCallback<ProductResponse>) {
         ApiClient().services.deleteProduct(id).enqueue(object : Callback<ProductResponse?> {
             override fun onFailure(call: Call<ProductResponse?>, t: Throwable) {
-                callback.productFailed()
+                callback.productFailed(t.message.toString())
             }
 
             override fun onResponse(
@@ -222,8 +234,8 @@ class Repository {
             ) {
                 if (response.isSuccessful){
                     callback.productSuccess(response.body())
-                }else{
-                    callback.productFailed()
+                }else if (response.code() == 404){
+                    callback.productFailed("Data not found..")
                 }
             }
 
@@ -234,14 +246,20 @@ class Repository {
 
         ApiClient().services.uploadPhotoProduct(id, photo).enqueue(object : Callback<ResponseBody?> {
             override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {
-                callback.uploadProductFailed()
+                callback.uploadProductFailed(t.message.toString())
             }
-
             override fun onResponse(call: Call<ResponseBody?>, response: Response<ResponseBody?>) {
-                if (response.isSuccessful){
-                    callback.uploadProductSuccess(response.body())
-                }else{
-                    callback.uploadProductFailed()
+                when {
+                    response.isSuccessful -> {
+                        callback.uploadProductSuccess(response.body())
+                    }
+                    response.code() == 404 -> {
+                        callback.uploadProductFailed("Data not found..")
+                    }
+                    response.code() == 500 -> {
+                        callback.uploadProductFailed("Upload error..")
+                    }
+                    else -> callback.uploadProductFailed("Else...")
                 }
             }
 
@@ -252,17 +270,16 @@ class Repository {
     fun getAllCustomer(callback: CustomerRepositoryCallback<CustomerResponse>) {
         ApiClient().services.getAllCustomer().enqueue(object : Callback<CustomerResponse?> {
             override fun onFailure(call: Call<CustomerResponse?>, t: Throwable) {
-                callback.customerFailed()
+                callback.customerFailed(t.message.toString())
             }
-
             override fun onResponse(
                 call: Call<CustomerResponse?>,
                 response: Response<CustomerResponse?>
             ) {
                 if (response.isSuccessful){
                     callback.customerSuccess(response.body())
-                }else{
-                    callback.customerFailed()
+                }else if (response.code() == 500){
+                    callback.customerFailed("Show error..")
                 }
             }
         })
@@ -271,17 +288,16 @@ class Repository {
     fun getCustomerBySearch(query: String, callback: CustomerRepositoryCallback<CustomerResponse>){
         ApiClient().services.getCustomerBySearch(query).enqueue(object : Callback<CustomerResponse?> {
             override fun onFailure(call: Call<CustomerResponse?>, t: Throwable) {
-                callback.customerFailed()
+                callback.customerFailed(t.message.toString())
             }
-
             override fun onResponse(
                 call: Call<CustomerResponse?>,
                 response: Response<CustomerResponse?>
             ) {
                 if (response.isSuccessful){
                     callback.customerSuccess(response.body())
-                }else{
-                    callback.customerFailed()
+                }else if (response.code() == 500){
+                    callback.customerFailed("Show error..")
                 }
             }
         })
@@ -291,17 +307,16 @@ class Repository {
 
         ApiClient().services.addCustomer(customer).enqueue(object : Callback<CustomerResponse?> {
             override fun onFailure(call: Call<CustomerResponse?>, t: Throwable) {
-                callback.customerFailed()
+                callback.customerFailed(t.message.toString())
             }
-
             override fun onResponse(
                 call: Call<CustomerResponse?>,
                 response: Response<CustomerResponse?>
             ) {
                 if (response.isSuccessful){
                     callback.customerSuccess(response.body())
-                }else{
-                    callback.customerFailed()
+                }else if (response.code() == 500){
+                    callback.customerFailed("Create error..")
                 }
             }
 
@@ -312,20 +327,25 @@ class Repository {
 
         ApiClient().services.editCustomer(id, customer).enqueue(object : Callback<CustomerResponse?> {
             override fun onFailure(call: Call<CustomerResponse?>, t: Throwable) {
-                callback.customerFailed()
+                callback.customerFailed(t.message.toString())
             }
-
             override fun onResponse(
                 call: Call<CustomerResponse?>,
                 response: Response<CustomerResponse?>
             ) {
-                if (response.isSuccessful){
-                    callback.customerSuccess(response.body())
-                }else{
-                    callback.customerFailed()
+                when {
+                    response.isSuccessful -> {
+                        callback.customerSuccess(response.body())
+                    }
+                    response.code() == 500 -> {
+                        callback.customerFailed("Edit error..")
+                    }
+                    response.code() == 404 -> {
+                        callback.customerFailed("Data not found..")
+                    }
+                    else -> callback.customerFailed("Else ...")
                 }
             }
-
         })
     }
 
@@ -333,20 +353,25 @@ class Repository {
 
         ApiClient().services.deleteCustomer(id, last_emp).enqueue(object : Callback<CustomerResponse?> {
             override fun onFailure(call: Call<CustomerResponse?>, t: Throwable) {
-                callback.customerFailed()
+                callback.customerFailed(t.message.toString())
             }
-
             override fun onResponse(
                 call: Call<CustomerResponse?>,
                 response: Response<CustomerResponse?>
             ) {
-                if (response.isSuccessful){
-                    callback.customerSuccess(response.body())
-                }else{
-                    callback.customerFailed()
+                when {
+                    response.isSuccessful -> {
+                        callback.customerSuccess(response.body())
+                    }
+                    response.code() == 500 -> {
+                        callback.customerFailed("Delete error..")
+                    }
+                    response.code() == 404 -> {
+                        callback.customerFailed("Data not found..")
+                    }
+                    else -> callback.customerFailed("Else ...")
                 }
             }
-
         })
     }
 
@@ -355,7 +380,7 @@ class Repository {
 
         ApiClient().services.getAllPetSize().enqueue(object : Callback<PetSizeResponse?> {
             override fun onFailure(call: Call<PetSizeResponse?>, t: Throwable) {
-                callback.petSizeFailed()
+                callback.petSizeFailed(t.message.toString())
             }
 
             override fun onResponse(
@@ -364,8 +389,8 @@ class Repository {
             ) {
                 if (response.isSuccessful){
                     callback.petSizeSuccess(response.body())
-                }else{
-                    callback.petSizeFailed()
+                }else if (response.code() == 500){
+                    callback.petSizeFailed("Show error..")
                 }
             }
         })
@@ -374,17 +399,16 @@ class Repository {
     fun getPetSizeBySearch(query: String, callback: PetSizeRepositoryCallback<PetSizeResponse>) {
         ApiClient().services.getPetSizeBySearch(query).enqueue(object : Callback<PetSizeResponse?> {
             override fun onFailure(call: Call<PetSizeResponse?>, t: Throwable) {
-                callback.petSizeFailed()
+                callback.petSizeFailed(t.message.toString())
             }
-
             override fun onResponse(
                 call: Call<PetSizeResponse?>,
                 response: Response<PetSizeResponse?>
             ) {
                 if (response.isSuccessful){
                     callback.petSizeSuccess(response.body())
-                }else{
-                    callback.petSizeFailed()
+                }else if (response.code() == 500){
+                    callback.petSizeFailed("Show error..")
                 }
             }
         })
@@ -394,7 +418,7 @@ class Repository {
 
         ApiClient().services.addPetSize(petSize).enqueue(object : Callback<PetSizeResponse?> {
             override fun onFailure(call: Call<PetSizeResponse?>, t: Throwable) {
-                callback.petSizeFailed()
+                callback.petSizeFailed(t.message.toString())
             }
 
             override fun onResponse(
@@ -403,8 +427,8 @@ class Repository {
             ) {
                 if (response.isSuccessful){
                     callback.petSizeSuccess(response.body())
-                }else{
-                    callback.petSizeFailed()
+                }else if (response.code() == 500){
+                    callback.petSizeFailed("Add error..")
                 }
             }
         })
@@ -414,7 +438,7 @@ class Repository {
 
         ApiClient().services.editPetSize(id, petSize).enqueue(object : Callback<PetSizeResponse?> {
             override fun onFailure(call: Call<PetSizeResponse?>, t: Throwable) {
-                callback.petSizeFailed()
+                callback.petSizeFailed(t.message.toString())
             }
 
             override fun onResponse(
@@ -423,8 +447,8 @@ class Repository {
             ) {
                 if (response.isSuccessful){
                     callback.petSizeSuccess(response.body())
-                }else{
-                    callback.petSizeFailed()
+                }else if (response.code() == 500){
+                    callback.petSizeFailed("Edit error..")
                 }
             }
         })
@@ -433,7 +457,7 @@ class Repository {
     fun deletePetSize(id: String, callback: PetSizeRepositoryCallback<PetSizeResponse>) {
         ApiClient().services.deletePetSize(id).enqueue(object : Callback<PetSizeResponse?> {
             override fun onFailure(call: Call<PetSizeResponse?>, t: Throwable) {
-                callback.petSizeFailed()
+                callback.petSizeFailed(t.message.toString())
             }
 
             override fun onResponse(
@@ -442,8 +466,8 @@ class Repository {
             ) {
                 if (response.isSuccessful){
                     callback.petSizeSuccess(response.body())
-                }else{
-                    callback.petSizeFailed()
+                }else if (response.code() == 404){
+                    callback.petSizeFailed("Data not found..")
                 }
             }
         })
@@ -454,7 +478,7 @@ class Repository {
     fun getAllPetType(callback: PetTypeRepositoryCallback<PetTypeResponse>) {
         ApiClient().services.getAllPetType().enqueue(object : Callback<PetTypeResponse?> {
             override fun onFailure(call: Call<PetTypeResponse?>, t: Throwable) {
-                callback.petTypeFailed()
+                callback.petTypeFailed(t.message.toString())
             }
 
             override fun onResponse(
@@ -463,8 +487,8 @@ class Repository {
             ) {
                 if (response.isSuccessful){
                     callback.petTypeSuccess(response.body())
-                }else{
-                    callback.petTypeFailed()
+                }else if (response.code() == 500){
+                    callback.petTypeFailed("Show error..")
                 }
             }
         })
@@ -473,7 +497,7 @@ class Repository {
     fun getPetTypeBySearch(query: String, callback: PetTypeRepositoryCallback<PetTypeResponse>){
         ApiClient().services.getPetTypeBySearch(query).enqueue(object : Callback<PetTypeResponse>{
             override fun onFailure(call: Call<PetTypeResponse?>, t: Throwable) {
-                callback.petTypeFailed()
+                callback.petTypeFailed(t.message.toString())
             }
 
             override fun onResponse(
@@ -482,8 +506,8 @@ class Repository {
             ) {
                 if (response.isSuccessful){
                     callback.petTypeSuccess(response.body())
-                }else{
-                    callback.petTypeFailed()
+                }else if (response.code() == 500){
+                    callback.petTypeFailed("Show error..")
                 }
             }
         })
@@ -493,7 +517,7 @@ class Repository {
 
         ApiClient().services.addPetType(petType).enqueue(object : Callback<PetTypeResponse?> {
             override fun onFailure(call: Call<PetTypeResponse?>, t: Throwable) {
-                callback.petTypeFailed()
+                callback.petTypeFailed(t.message.toString())
             }
 
             override fun onResponse(
@@ -502,8 +526,8 @@ class Repository {
             ) {
                 if (response.isSuccessful){
                     callback.petTypeSuccess(response.body())
-                }else{
-                    callback.petTypeFailed()
+                }else if (response.code() == 500){
+                    callback.petTypeFailed("Add error..")
                 }
             }
         })
@@ -513,7 +537,7 @@ class Repository {
 
         ApiClient().services.editPetType(id, petType).enqueue(object : Callback<PetTypeResponse?> {
             override fun onFailure(call: Call<PetTypeResponse?>, t: Throwable) {
-                callback.petTypeFailed()
+                callback.petTypeFailed(t.message.toString())
             }
 
             override fun onResponse(
@@ -522,8 +546,8 @@ class Repository {
             ) {
                 if (response.isSuccessful){
                     callback.petTypeSuccess(response.body())
-                }else{
-                    callback.petTypeFailed()
+                }else if (response.code() == 500){
+                    callback.petTypeFailed("Edit error..")
                 }
             }
         })
@@ -533,7 +557,7 @@ class Repository {
 
         ApiClient().services.deletePetType(id).enqueue(object : Callback<PetTypeResponse?> {
             override fun onFailure(call: Call<PetTypeResponse?>, t: Throwable) {
-                callback.petTypeFailed()
+                callback.petTypeFailed(t.message.toString())
             }
 
             override fun onResponse(
@@ -542,8 +566,8 @@ class Repository {
             ) {
                 if (response.isSuccessful){
                     callback.petTypeSuccess(response.body())
-                }else{
-                    callback.petTypeFailed()
+                }else if (response.code() == 500){
+                    callback.petTypeFailed("Delete error..")
                 }
             }
         })
@@ -554,17 +578,16 @@ class Repository {
 
         ApiClient().services.getAllSupplier().enqueue(object : Callback<SupplierResponse?> {
             override fun onFailure(call: Call<SupplierResponse?>, t: Throwable) {
-                callback.supplierFailed()
+                callback.supplierFailed(t.message.toString())
             }
-
             override fun onResponse(
                 call: Call<SupplierResponse?>,
                 response: Response<SupplierResponse?>
             ) {
                 if (response.isSuccessful){
                     callback.supplierSuccess(response.body())
-                }else{
-                    callback.supplierFailed()
+                }else if (response.code() == 500){
+                    callback.supplierFailed("Show error..")
                 }
             }
 
@@ -574,77 +597,70 @@ class Repository {
     fun getSupplierBySearch(query: String, callback: SupplierRepositoryCallback<SupplierResponse>){
         ApiClient().services.getSupplierBySearch(query).enqueue(object : Callback<SupplierResponse?> {
             override fun onFailure(call: Call<SupplierResponse?>, t: Throwable) {
-                callback.supplierFailed()
+                callback.supplierFailed(t.message.toString())
             }
-
             override fun onResponse(
                 call: Call<SupplierResponse?>,
                 response: Response<SupplierResponse?>
             ) {
                 if (response.isSuccessful){
                     callback.supplierSuccess(response.body())
-                }else{
-                    callback.supplierFailed()
+                }else if (response.code() == 500){
+                    callback.supplierFailed("Show error..")
                 }
             }
         })
     }
 
     fun addSupplier(supplier: Supplier, callback: SupplierRepositoryCallback<SupplierResponse>) {
-
         ApiClient().services.addSupplier(supplier).enqueue(object : Callback<SupplierResponse?> {
             override fun onFailure(call: Call<SupplierResponse?>, t: Throwable) {
-                callback.supplierFailed()
+                callback.supplierFailed(t.message.toString())
             }
-
             override fun onResponse(
                 call: Call<SupplierResponse?>,
                 response: Response<SupplierResponse?>
             ) {
                 if (response.isSuccessful){
                     callback.supplierSuccess(response.body())
-                }else{
-                    callback.supplierFailed()
+                }else if (response.code() == 500){
+                    callback.supplierFailed("Add error..")
                 }
             }
         })
     }
 
     fun editSupplier(id: String, supplier: Supplier, callback: SupplierRepositoryCallback<SupplierResponse>) {
-
         ApiClient().services.editSupplier(id, supplier).enqueue(object : Callback<SupplierResponse?> {
             override fun onFailure(call: Call<SupplierResponse?>, t: Throwable) {
-                callback.supplierFailed()
+                callback.supplierFailed(t.message.toString())
             }
-
             override fun onResponse(
                 call: Call<SupplierResponse?>,
                 response: Response<SupplierResponse?>
             ) {
                 if (response.isSuccessful){
                     callback.supplierSuccess(response.body())
-                }else{
-                    callback.supplierFailed()
+                }else if (response.code() == 500){
+                    callback.supplierFailed("Edit error..")
                 }
             }
         })
     }
 
     fun deleteSupplier(id: String, callback: SupplierRepositoryCallback<SupplierResponse>) {
-
         ApiClient().services.deleteSupplier(id).enqueue(object : Callback<SupplierResponse?> {
             override fun onFailure(call: Call<SupplierResponse?>, t: Throwable) {
-                callback.supplierFailed()
+                callback.supplierFailed(t.message.toString())
             }
-
             override fun onResponse(
                 call: Call<SupplierResponse?>,
                 response: Response<SupplierResponse?>
             ) {
                 if (response.isSuccessful){
                     callback.supplierSuccess(response.body())
-                }else{
-                    callback.supplierFailed()
+                }else if (response.code() == 500){
+                    callback.supplierFailed("Delete error..")
                 }
             }
         })
@@ -655,7 +671,7 @@ class Repository {
 
         ApiClient().services.getAllService().enqueue(object : Callback<ServiceResponse?> {
             override fun onFailure(call: Call<ServiceResponse?>, t: Throwable) {
-                callback.serviceFailed()
+                callback.serviceFailed(t.message.toString())
             }
 
             override fun onResponse(
@@ -665,7 +681,7 @@ class Repository {
                 if (response.isSuccessful){
                     callback.serviceSuccess(response.body())
                 }else{
-                    callback.serviceFailed()
+                    callback.serviceFailed("Show error..")
                 }
             }
         })
@@ -674,7 +690,7 @@ class Repository {
     fun getServiceBySearch(query: String, callback: ServiceRepositoryCallback<ServiceResponse>){
         ApiClient().services.getServiceBySearch(query).enqueue(object : Callback<ServiceResponse?>{
             override fun onFailure(call: Call<ServiceResponse?>, t: Throwable) {
-                callback.serviceFailed()
+                callback.serviceFailed(t.message.toString())
             }
 
             override fun onResponse(
@@ -684,7 +700,7 @@ class Repository {
                 if (response.isSuccessful){
                     callback.serviceSuccess(response.body())
                 }else{
-                    callback.serviceFailed()
+                    callback.serviceFailed("Show error..")
                 }
             }
         })
@@ -694,7 +710,7 @@ class Repository {
 
         ApiClient().services.addService(service).enqueue(object : Callback<ServiceResponse?> {
             override fun onFailure(call: Call<ServiceResponse?>, t: Throwable) {
-                callback.serviceFailed()
+                callback.serviceFailed(t.message.toString())
             }
 
             override fun onResponse(
@@ -703,8 +719,8 @@ class Repository {
             ) {
                 if (response.isSuccessful){
                     callback.serviceSuccess(response.body())
-                }else{
-                    callback.serviceFailed()
+                }else if (response.code() == 500){
+                    callback.serviceFailed("Create error..")
                 }
             }
         })
@@ -713,7 +729,7 @@ class Repository {
     fun editService(id: String, service: Service, callback: ServiceRepositoryCallback<ServiceResponse>) {
         ApiClient().services.editService(id, service).enqueue(object : Callback<ServiceResponse?> {
             override fun onFailure(call: Call<ServiceResponse?>, t: Throwable) {
-                callback.serviceFailed()
+                callback.serviceFailed(t.message.toString())
             }
 
             override fun onResponse(
@@ -722,8 +738,8 @@ class Repository {
             ) {
                 if (response.isSuccessful){
                     callback.serviceSuccess(response.body())
-                }else{
-                    callback.serviceFailed()
+                }else if (response.code() == 500){
+                    callback.serviceFailed("Edit error..")
                 }
             }
         })
@@ -732,7 +748,7 @@ class Repository {
     fun deleteService(id: String, callback : ServiceRepositoryCallback<ServiceResponse>){
         ApiClient().services.deleteService(id).enqueue(object : Callback<ServiceResponse?> {
             override fun onFailure(call: Call<ServiceResponse?>, t: Throwable) {
-                callback.serviceFailed()
+                callback.serviceFailed(t.message.toString())
             }
 
             override fun onResponse(
@@ -741,104 +757,8 @@ class Repository {
             ) {
                 if (response.isSuccessful){
                     callback.serviceSuccess(response.body())
-                }else{
-                    callback.serviceFailed()
-                }
-            }
-        })
-    }
-
-    //CUSTOMER PET
-    fun getAllCustomerPet(callback: CustomerPetRepositoryCallback<CustomerPetResponse>){
-        ApiClient().services.getAllCustomerPet().enqueue(object : Callback<CustomerPetResponse?> {
-            override fun onFailure(call: Call<CustomerPetResponse?>, t: Throwable) {
-                callback.customerPetFailed()
-            }
-
-            override fun onResponse(
-                call: Call<CustomerPetResponse?>,
-                response: Response<CustomerPetResponse?>
-            ) {
-                if (response.isSuccessful){
-                    callback.customerPetSuccess(response.body())
-                }else{
-                    callback.customerPetFailed()
-                }
-            }
-        })
-    }
-
-    fun getCustomerPetBySearch(query: String, callback: CustomerPetRepositoryCallback<CustomerPetResponse>){
-        ApiClient().services.getCustomerPetBySearch(query).enqueue(object : Callback<CustomerPetResponse?>{
-            override fun onFailure(call: Call<CustomerPetResponse?>, t: Throwable) {
-                callback.customerPetFailed()
-            }
-
-            override fun onResponse(
-                call: Call<CustomerPetResponse?>,
-                response: Response<CustomerPetResponse?>
-            ) {
-                if (response.isSuccessful){
-                    callback.customerPetSuccess(response.body())
-                }else{
-                    callback.customerPetFailed()
-                }
-            }
-        })
-    }
-
-    fun addCustomerPet(customerPet: CustomerPet, callback: CustomerPetRepositoryCallback<CustomerPetResponse>){
-        ApiClient().services.addCustomerPet(customerPet).enqueue(object : Callback<CustomerPetResponse?>{
-            override fun onFailure(call: Call<CustomerPetResponse?>, t: Throwable) {
-                callback.customerPetFailed()
-            }
-
-            override fun onResponse(
-                call: Call<CustomerPetResponse?>,
-                response: Response<CustomerPetResponse?>
-            ) {
-                if (response.isSuccessful){
-                    callback.customerPetSuccess(response.body())
-                }else{
-                    callback.customerPetFailed()
-                }
-            }
-        })
-    }
-
-    fun editCustomerPet(id: String, customerPet: CustomerPet, callback: CustomerPetRepositoryCallback<CustomerPetResponse>){
-        ApiClient().services.editCustomerPet(id, customerPet).enqueue(object : Callback<CustomerPetResponse?>{
-            override fun onFailure(call: Call<CustomerPetResponse?>, t: Throwable) {
-                callback.customerPetFailed()
-            }
-
-            override fun onResponse(
-                call: Call<CustomerPetResponse?>,
-                response: Response<CustomerPetResponse?>
-            ) {
-                if (response.isSuccessful){
-                    callback.customerPetSuccess(response.body())
-                }else{
-                    callback.customerPetFailed()
-                }
-            }
-        })
-    }
-
-    fun deleteCustomerPet(id: String, callback: CustomerPetRepositoryCallback<CustomerPetResponse>){
-        ApiClient().services.deleteCustomerPet(id).enqueue(object : Callback<CustomerPetResponse?> {
-            override fun onFailure(call: Call<CustomerPetResponse?>, t: Throwable) {
-                callback.customerPetFailed()
-            }
-
-            override fun onResponse(
-                call: Call<CustomerPetResponse?>,
-                response: Response<CustomerPetResponse?>
-            ) {
-                if (response.isSuccessful){
-                    callback.customerPetSuccess(response.body())
-                }else{
-                    callback.customerPetFailed()
+                }else if (response.code() == 404){
+                    callback.serviceFailed("Data not found..")
                 }
             }
         })
@@ -848,17 +768,16 @@ class Repository {
     fun getAllOrderProduct(callback: OrderProductRepositoryCallback<OrderProductResponse>){
         ApiClient().services.getAllOrderProduct().enqueue(object : Callback<OrderProductResponse?>{
             override fun onFailure(call: Call<OrderProductResponse?>, t: Throwable) {
-                callback.orderProductFailed()
+                callback.orderProductFailed(t.message.toString())
             }
-
             override fun onResponse(
                 call: Call<OrderProductResponse?>,
                 response: Response<OrderProductResponse?>
             ) {
                 if (response.isSuccessful){
                     callback.orderProductSuccess(response.body())
-                }else{
-                    callback.orderProductFailed()
+                }else if (response.code() == 500){
+                    callback.orderProductFailed("Show error..")
                 }
             }
         })
@@ -867,17 +786,16 @@ class Repository {
     fun addOrderProduct(orderProduct: OrderProduct, callback: OrderProductRepositoryCallback<OrderProductResponse>){
         ApiClient().services.addOrderProduct(orderProduct).enqueue(object : Callback<OrderProductResponse?>{
             override fun onFailure(call: Call<OrderProductResponse?>, t: Throwable) {
-                callback.orderProductFailed()
+                callback.orderProductFailed(t.message.toString())
             }
-
             override fun onResponse(
                 call: Call<OrderProductResponse?>,
                 response: Response<OrderProductResponse?>
             ) {
                 if (response.isSuccessful){
                     callback.orderProductSuccess(response.body())
-                }else{
-                    callback.orderProductFailed()
+                }else if (response.code() == 500){
+                    callback.orderProductFailed("Add error..")
                 }
             }
         })
@@ -886,17 +804,16 @@ class Repository {
     fun editOrderProduct(id: String, orderProduct: OrderProduct, callback: OrderProductRepositoryCallback<OrderProductResponse>){
         ApiClient().services.editOrderProduct(id, orderProduct).enqueue(object : Callback<OrderProductResponse?>{
             override fun onFailure(call: Call<OrderProductResponse?>, t: Throwable) {
-                callback.orderProductFailed()
+                callback.orderProductFailed(t.message.toString())
             }
-
             override fun onResponse(
                 call: Call<OrderProductResponse?>,
                 response: Response<OrderProductResponse?>
             ) {
                 if (response.isSuccessful){
                     callback.orderProductSuccess(response.body())
-                }else{
-                    callback.orderProductFailed()
+                }else if (response.code() == 500){
+                    callback.orderProductFailed("Edit error..")
                 }
             }
         })
@@ -905,17 +822,16 @@ class Repository {
     fun deleteOrderProduct(id: String, callback: OrderProductRepositoryCallback<OrderProductResponse>){
         ApiClient().services.deleteOrderProduct(id).enqueue(object : Callback<OrderProductResponse?>{
             override fun onFailure(call: Call<OrderProductResponse?>, t: Throwable) {
-                callback.orderProductFailed()
+                callback.orderProductFailed(t.message.toString())
             }
-
             override fun onResponse(
                 call: Call<OrderProductResponse?>,
                 response: Response<OrderProductResponse?>
             ) {
                 if (response.isSuccessful){
                     callback.orderProductSuccess(response.body())
-                }else{
-                    callback.orderProductFailed()
+                }else if (response.code() == 500){
+                    callback.orderProductFailed("Delete error..")
                 }
             }
         })
@@ -924,7 +840,7 @@ class Repository {
     fun editTotalOrderProduct(id: String, callback: OrderProductRepositoryCallback<OrderProductResponse>){
         ApiClient().services.editTotalOrderProduct(id).enqueue(object : Callback<OrderProductResponse?>{
             override fun onFailure(call: Call<OrderProductResponse?>, t: Throwable) {
-                callback.orderProductFailed()
+                callback.orderProductFailed(t.message.toString())
             }
 
             override fun onResponse(
@@ -933,8 +849,8 @@ class Repository {
             ) {
                 if (response.isSuccessful){
                     callback.orderProductSuccess(response.body())
-                }else{
-                    callback.orderProductFailed()
+                }else if (response.code() == 500){
+                    callback.orderProductFailed("Total error..")
                 }
             }
         })
@@ -943,7 +859,7 @@ class Repository {
     fun editDoneOrderProduct(id: String, callback: OrderProductRepositoryCallback<OrderProductResponse>){
         ApiClient().services.editDoneOrderProduct(id).enqueue(object : Callback<OrderProductResponse>{
             override fun onFailure(call: Call<OrderProductResponse?>, t: Throwable) {
-                callback.orderProductFailed()
+                callback.orderProductFailed(t.message.toString())
             }
 
             override fun onResponse(
@@ -952,8 +868,8 @@ class Repository {
             ) {
                 if (response.isSuccessful){
                     callback.orderProductSuccess(response.body())
-                }else{
-                    callback.orderProductFailed()
+                }else if (response.code() == 500){
+                    callback.orderProductFailed("Done error..")
                 }
             }
         })
@@ -962,7 +878,7 @@ class Repository {
     fun editPrintOrderProduct(id: String, callback: OrderProductRepositoryCallback<OrderProductResponse>){
         ApiClient().services.editPrintOrderProduct(id).enqueue(object : Callback<OrderProductResponse?>{
             override fun onFailure(call: Call<OrderProductResponse?>, t: Throwable) {
-                callback.orderProductFailed()
+                callback.orderProductFailed(t.message.toString())
             }
 
             override fun onResponse(
@@ -971,8 +887,8 @@ class Repository {
             ) {
                 if (response.isSuccessful){
                     callback.orderProductSuccess(response.body())
-                }else{
-                    callback.orderProductFailed()
+                }else if (response.code() == 500){
+                    callback.orderProductFailed("Print error..")
                 }
             }
         })
@@ -982,7 +898,7 @@ class Repository {
     fun getAllDetailOrderProduct(callback: DetailOrderProductRepositoryCallback<DetailOrderProductResponse>){
         ApiClient().services.getAllDetailOrderProduct().enqueue(object : Callback<DetailOrderProductResponse?>{
             override fun onFailure(call: Call<DetailOrderProductResponse?>, t: Throwable) {
-                callback.detailOrderProductFailed()
+                callback.detailOrderProductFailed(t.message.toString())
             }
             override fun onResponse(
                 call: Call<DetailOrderProductResponse?>,
@@ -990,8 +906,8 @@ class Repository {
             ) {
                 if (response.isSuccessful){
                     callback.detailOrderProductSuccess(response.body())
-                }else{
-                    callback.detailOrderProductFailed()
+                }else if (response.code() == 500){
+                    callback.detailOrderProductFailed("Show error..")
                 }
             }
         })
@@ -1000,7 +916,7 @@ class Repository {
     fun getDetailOrderProductByOrderId(id: String, callback: DetailOrderProductRepositoryCallback<DetailOrderProductResponse>){
         ApiClient().services.getDetailOrderProductByOrderId(id).enqueue(object : Callback<DetailOrderProductResponse?>{
             override fun onFailure(call: Call<DetailOrderProductResponse?>, t: Throwable) {
-                callback.detailOrderProductFailed()
+                callback.detailOrderProductFailed(t.message.toString())
             }
             override fun onResponse(
                 call: Call<DetailOrderProductResponse?>,
@@ -1008,8 +924,8 @@ class Repository {
             ) {
                 if (response.isSuccessful){
                     callback.detailOrderProductSuccess(response.body())
-                }else{
-                    callback.detailOrderProductFailed()
+                }else if (response.code() == 500){
+                    callback.detailOrderProductFailed("Show error..")
                 }
             }
         })
@@ -1018,7 +934,7 @@ class Repository {
     fun addDetailOrderProduct(detailOrderProduct: DetailOrderProduct, callback: DetailOrderProductRepositoryCallback<DetailOrderProductResponse>){
         ApiClient().services.addDetailOrderProduct(detailOrderProduct).enqueue(object : Callback<DetailOrderProductResponse?>{
             override fun onFailure(call: Call<DetailOrderProductResponse?>, t: Throwable) {
-                callback.detailOrderProductFailed()
+                callback.detailOrderProductFailed(t.message.toString())
             }
             override fun onResponse(
                 call: Call<DetailOrderProductResponse?>,
@@ -1026,8 +942,8 @@ class Repository {
             ) {
                 if (response.isSuccessful){
                     callback.detailOrderProductSuccess(response.body())
-                }else{
-                    callback.detailOrderProductFailed()
+                }else if (response.code() == 500){
+                    callback.detailOrderProductFailed("Add error..")
                 }
             }
         })
@@ -1036,7 +952,7 @@ class Repository {
     fun editDetailOrderProduct(detailOrderProduct: DetailOrderProduct, callback: DetailOrderProductRepositoryCallback<DetailOrderProductResponse>){
         ApiClient().services.editDetailOrderProduct(detailOrderProduct).enqueue(object : Callback<DetailOrderProductResponse?>{
             override fun onFailure(call: Call<DetailOrderProductResponse?>, t: Throwable) {
-                callback.detailOrderProductFailed()
+                callback.detailOrderProductFailed(t.message.toString())
             }
             override fun onResponse(
                 call: Call<DetailOrderProductResponse?>,
@@ -1044,8 +960,8 @@ class Repository {
             ) {
                 if (response.isSuccessful){
                     callback.detailOrderProductSuccess(response.body())
-                }else{
-                    callback.detailOrderProductFailed()
+                }else if (response.code() == 500){
+                    callback.detailOrderProductFailed("Edit error..")
                 }
             }
         })
@@ -1054,7 +970,7 @@ class Repository {
     fun deleteDetailOrderProduct(id_order: String, id_product: String, callback: DetailOrderProductRepositoryCallback<DetailOrderProductResponse>){
         ApiClient().services.deleteDetailOrderProduct(id_order, id_product).enqueue(object : Callback<DetailOrderProductResponse?>{
             override fun onFailure(call: Call<DetailOrderProductResponse?>, t: Throwable) {
-                callback.detailOrderProductFailed()
+                callback.detailOrderProductFailed(t.message.toString())
             }
             override fun onResponse(
                 call: Call<DetailOrderProductResponse?>,
@@ -1062,8 +978,104 @@ class Repository {
             ) {
                 if (response.isSuccessful){
                     callback.detailOrderProductSuccess(response.body())
-                }else{
-                    callback.detailOrderProductFailed()
+                }else if (response.code() == 500){
+                    callback.detailOrderProductFailed("Delete error..")
+                }
+            }
+        })
+    }
+
+    //CUSTOMER PET
+    fun getAllCustomerPet(callback: CustomerPetRepositoryCallback<CustomerPetResponse>){
+        ApiClient().services.getAllCustomerPet().enqueue(object : Callback<CustomerPetResponse?> {
+            override fun onFailure(call: Call<CustomerPetResponse?>, t: Throwable) {
+                callback.customerPetFailed(t.message.toString())
+            }
+
+            override fun onResponse(
+                call: Call<CustomerPetResponse?>,
+                response: Response<CustomerPetResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.customerPetSuccess(response.body())
+                }else if (response.code() == 500){
+                    callback.customerPetFailed("Show error..")
+                }
+            }
+        })
+    }
+
+    fun getCustomerPetBySearch(query: String, callback: CustomerPetRepositoryCallback<CustomerPetResponse>){
+        ApiClient().services.getCustomerPetBySearch(query).enqueue(object : Callback<CustomerPetResponse?>{
+            override fun onFailure(call: Call<CustomerPetResponse?>, t: Throwable) {
+                callback.customerPetFailed(t.message.toString())
+            }
+
+            override fun onResponse(
+                call: Call<CustomerPetResponse?>,
+                response: Response<CustomerPetResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.customerPetSuccess(response.body())
+                }else if (response.code() == 500){
+                    callback.customerPetFailed("Show error..")
+                }
+            }
+        })
+    }
+
+    fun addCustomerPet(customerPet: CustomerPet, callback: CustomerPetRepositoryCallback<CustomerPetResponse>){
+        ApiClient().services.addCustomerPet(customerPet).enqueue(object : Callback<CustomerPetResponse?>{
+            override fun onFailure(call: Call<CustomerPetResponse?>, t: Throwable) {
+                callback.customerPetFailed(t.message.toString())
+            }
+
+            override fun onResponse(
+                call: Call<CustomerPetResponse?>,
+                response: Response<CustomerPetResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.customerPetSuccess(response.body())
+                }else if (response.code() == 500){
+                    callback.customerPetFailed("Show error..")
+                }
+            }
+        })
+    }
+
+    fun editCustomerPet(id: String, customerPet: CustomerPet, callback: CustomerPetRepositoryCallback<CustomerPetResponse>){
+        ApiClient().services.editCustomerPet(id, customerPet).enqueue(object : Callback<CustomerPetResponse?>{
+            override fun onFailure(call: Call<CustomerPetResponse?>, t: Throwable) {
+                callback.customerPetFailed(t.message.toString())
+            }
+
+            override fun onResponse(
+                call: Call<CustomerPetResponse?>,
+                response: Response<CustomerPetResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.customerPetSuccess(response.body())
+                }else if (response.code() == 500){
+                    callback.customerPetFailed("Show error..")
+                }
+            }
+        })
+    }
+
+    fun deleteCustomerPet(id: String, callback: CustomerPetRepositoryCallback<CustomerPetResponse>){
+        ApiClient().services.deleteCustomerPet(id).enqueue(object : Callback<CustomerPetResponse?> {
+            override fun onFailure(call: Call<CustomerPetResponse?>, t: Throwable) {
+                callback.customerPetFailed(t.message.toString())
+            }
+
+            override fun onResponse(
+                call: Call<CustomerPetResponse?>,
+                response: Response<CustomerPetResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.customerPetSuccess(response.body())
+                }else if (response.code() == 500){
+                    callback.customerPetFailed("Show error..")
                 }
             }
         })
@@ -1073,7 +1085,7 @@ class Repository {
     fun getAllTransaction(callback: TransactionRepositoryCallback<TransactionResponse>){
         ApiClient().services.getAllTransaction().enqueue(object : Callback<TransactionResponse?>{
             override fun onFailure(call: Call<TransactionResponse?>, t: Throwable) {
-                callback.transactionFailed()
+                callback.transactionFailed(t.message.toString())
             }
             override fun onResponse(
                 call: Call<TransactionResponse?>,
@@ -1081,8 +1093,8 @@ class Repository {
             ) {
                 if (response.isSuccessful){
                     callback.transactionSuccess(response.body())
-                }else{
-                    callback.transactionFailed()
+                }else if (response.code() == 500){
+                    callback.transactionFailed("Show error..")
                 }
             }
         })
@@ -1091,7 +1103,7 @@ class Repository {
     fun getAllProductTransaction(callback: TransactionRepositoryCallback<TransactionResponse>){
         ApiClient().services.getAllProductTransaction().enqueue(object : Callback<TransactionResponse?>{
             override fun onFailure(call: Call<TransactionResponse?>, t: Throwable) {
-                callback.transactionFailed()
+                callback.transactionFailed(t.message.toString())
             }
             override fun onResponse(
                 call: Call<TransactionResponse?>,
@@ -1099,8 +1111,8 @@ class Repository {
             ) {
                 if (response.isSuccessful){
                     callback.transactionSuccess(response.body())
-                }else{
-                    callback.transactionFailed()
+                }else if (response.code() == 500){
+                    callback.transactionFailed("Show error..")
                 }
             }
         })
@@ -1109,7 +1121,7 @@ class Repository {
     fun getAllServiceTransaction(callback: TransactionRepositoryCallback<TransactionResponse>){
         ApiClient().services.getAllServiceTransaction().enqueue(object : Callback<TransactionResponse?>{
             override fun onFailure(call: Call<TransactionResponse?>, t: Throwable) {
-                callback.transactionFailed()
+                callback.transactionFailed(t.message.toString())
             }
             override fun onResponse(
                 call: Call<TransactionResponse?>,
@@ -1117,8 +1129,8 @@ class Repository {
             ) {
                 if (response.isSuccessful){
                     callback.transactionSuccess(response.body())
-                }else{
-                    callback.transactionFailed()
+                }else if (response.code() == 500){
+                    callback.transactionFailed("Show error..")
                 }
             }
         })
@@ -1128,7 +1140,7 @@ class Repository {
     fun addTransaction(type: String, transaction: Transaction, callback: TransactionRepositoryCallback<TransactionResponse>){
         ApiClient().services.addTransaction(type, transaction).enqueue(object : Callback<TransactionResponse?>{
             override fun onFailure(call: Call<TransactionResponse?>, t: Throwable) {
-                callback.transactionFailed()
+                callback.transactionFailed(t.message.toString())
             }
             override fun onResponse(
                 call: Call<TransactionResponse?>,
@@ -1136,8 +1148,8 @@ class Repository {
             ) {
                 if (response.isSuccessful){
                     callback.transactionSuccess(response.body())
-                }else{
-                    callback.transactionFailed()
+                }else if (response.code() == 500){
+                    callback.transactionFailed("Show error..")
                 }
             }
         })
@@ -1146,7 +1158,7 @@ class Repository {
     fun editTotalTransaction(id: String, callback: TransactionRepositoryCallback<TransactionResponse>){
         ApiClient().services.editTotalTransaction(id).enqueue(object : Callback<TransactionResponse?>{
             override fun onFailure(call: Call<TransactionResponse?>, t: Throwable) {
-                callback.transactionFailed()
+                callback.transactionFailed(t.message.toString())
             }
             override fun onResponse(
                 call: Call<TransactionResponse?>,
@@ -1154,8 +1166,8 @@ class Repository {
             ) {
                 if (response.isSuccessful){
                     callback.transactionSuccess(response.body())
-                }else{
-                    callback.transactionFailed()
+                }else if (response.code() == 500){
+                    callback.transactionFailed("Show error..")
                 }
             }
         })
@@ -1164,7 +1176,7 @@ class Repository {
     fun editDoneTransaction(id: String, transaction: Transaction, callback: TransactionRepositoryCallback<TransactionResponse>){
         ApiClient().services.editDoneTransaction(id, transaction).enqueue(object : Callback<TransactionResponse?>{
             override fun onFailure(call: Call<TransactionResponse?>, t: Throwable) {
-                callback.transactionFailed()
+                callback.transactionFailed(t.message.toString())
             }
             override fun onResponse(
                 call: Call<TransactionResponse?>,
@@ -1172,8 +1184,8 @@ class Repository {
             ) {
                 if (response.isSuccessful){
                     callback.transactionSuccess(response.body())
-                }else{
-                    callback.transactionFailed()
+                }else if (response.code() == 500){
+                    callback.transactionFailed("Show error..")
                 }
             }
         })
@@ -1182,7 +1194,7 @@ class Repository {
     fun editStatusTransaction(id: String, transaction: Transaction, callback: TransactionRepositoryCallback<TransactionResponse>){
         ApiClient().services.editStatusTransaction(id, transaction).enqueue(object : Callback<TransactionResponse?>{
             override fun onFailure(call: Call<TransactionResponse?>, t: Throwable) {
-                callback.transactionFailed()
+                callback.transactionFailed(t.message.toString())
             }
             override fun onResponse(
                 call: Call<TransactionResponse?>,
@@ -1190,8 +1202,8 @@ class Repository {
             ) {
                 if (response.isSuccessful){
                     callback.transactionSuccess(response.body())
-                }else{
-                    callback.transactionFailed()
+                }else if (response.code() == 500){
+                    callback.transactionFailed("Show error..")
                 }
             }
         })
@@ -1200,7 +1212,7 @@ class Repository {
     fun cancelTransaction(id: String, callback: TransactionRepositoryCallback<TransactionResponse>){
         ApiClient().services.cancelTransaction(id).enqueue(object : Callback<TransactionResponse?>{
             override fun onFailure(call: Call<TransactionResponse?>, t: Throwable) {
-                callback.transactionFailed()
+                callback.transactionFailed(t.message.toString())
             }
             override fun onResponse(
                 call: Call<TransactionResponse?>,
@@ -1208,8 +1220,8 @@ class Repository {
             ) {
                 if (response.isSuccessful){
                     callback.transactionSuccess(response.body())
-                }else{
-                    callback.transactionFailed()
+                }else if (response.code() == 500){
+                    callback.transactionFailed("Show error..")
                 }
             }
         })
@@ -1219,7 +1231,7 @@ class Repository {
     fun getAllDetailProductTransaction(callback: DetailProductTransactionRepositoryCallback<DetailProductTransactionResponse>){
         ApiClient().services.getAllDetailProductTransaction().enqueue(object : Callback<DetailProductTransactionResponse?>{
             override fun onFailure(call: Call<DetailProductTransactionResponse?>, t: Throwable) {
-                callback.detailProductTransactionFailed()
+                callback.detailProductTransactionFailed(t.message.toString())
             }
             override fun onResponse(
                 call: Call<DetailProductTransactionResponse?>,
@@ -1227,8 +1239,8 @@ class Repository {
             ) {
                 if (response.isSuccessful){
                     callback.detailProductTransactionSuccess(response.body())
-                }else{
-                    callback.detailProductTransactionFailed()
+                }else if (response.code() == 500){
+                    callback.detailProductTransactionFailed("Show error..")
                 }
             }
         })
@@ -1237,7 +1249,7 @@ class Repository {
     fun addDetailProductTransaction(detailProductTransaction: DetailProductTransaction, callback: DetailProductTransactionRepositoryCallback<DetailProductTransactionResponse>){
         ApiClient().services.addDetailProductTransaction(detailProductTransaction).enqueue(object : Callback<DetailProductTransactionResponse?>{
             override fun onFailure(call: Call<DetailProductTransactionResponse?>, t: Throwable) {
-                callback.detailProductTransactionFailed()
+                callback.detailProductTransactionFailed(t.message.toString())
             }
             override fun onResponse(
                 call: Call<DetailProductTransactionResponse?>,
@@ -1245,8 +1257,8 @@ class Repository {
             ) {
                 if (response.isSuccessful){
                     callback.detailProductTransactionSuccess(response.body())
-                }else{
-                    callback.detailProductTransactionFailed()
+                }else if (response.code() == 500){
+                    callback.detailProductTransactionFailed("Show error..")
                 }
             }
         })
@@ -1255,7 +1267,7 @@ class Repository {
     fun editDetailProductTransaction(detailProductTransaction: DetailProductTransaction, callback: DetailProductTransactionRepositoryCallback<DetailProductTransactionResponse>){
         ApiClient().services.editDetailProductTransaction(detailProductTransaction).enqueue(object : Callback<DetailProductTransactionResponse?>{
             override fun onFailure(call: Call<DetailProductTransactionResponse?>, t: Throwable) {
-                callback.detailProductTransactionFailed()
+                callback.detailProductTransactionFailed(t.message.toString())
             }
             override fun onResponse(
                 call: Call<DetailProductTransactionResponse?>,
@@ -1263,8 +1275,8 @@ class Repository {
             ) {
                 if (response.isSuccessful){
                     callback.detailProductTransactionSuccess(response.body())
-                }else{
-                    callback.detailProductTransactionFailed()
+                }else if (response.code() == 500){
+                    callback.detailProductTransactionFailed("Show error..")
                 }
             }
         })
@@ -1273,7 +1285,7 @@ class Repository {
     fun deleteDetailProductTransaction(id_transaction: String, id_product: String, callback: DetailProductTransactionRepositoryCallback<DetailProductTransactionResponse>){
         ApiClient().services.deleteDetailProductTransaction(id_transaction, id_product).enqueue(object : Callback<DetailProductTransactionResponse?>{
             override fun onFailure(call: Call<DetailProductTransactionResponse?>, t: Throwable) {
-                callback.detailProductTransactionFailed()
+                callback.detailProductTransactionFailed(t.message.toString())
             }
             override fun onResponse(
                 call: Call<DetailProductTransactionResponse?>,
@@ -1281,8 +1293,8 @@ class Repository {
             ) {
                 if (response.isSuccessful){
                     callback.detailProductTransactionSuccess(response.body())
-                }else{
-                    callback.detailProductTransactionFailed()
+                }else if (response.code() == 500){
+                    callback.detailProductTransactionFailed("Show error..")
                 }
             }
         })
@@ -1291,7 +1303,7 @@ class Repository {
     fun getDetailProductTransactionByIdTransaction(id_transaction: String, callback: DetailProductTransactionRepositoryCallback<DetailProductTransactionResponse>){
         ApiClient().services.getDetailProductTransactionByIdTransaction(id_transaction).enqueue(object : Callback<DetailProductTransactionResponse?>{
             override fun onFailure(call: Call<DetailProductTransactionResponse?>, t: Throwable) {
-                callback.detailProductTransactionFailed()
+                callback.detailProductTransactionFailed(t.message.toString())
             }
             override fun onResponse(
                 call: Call<DetailProductTransactionResponse?>,
@@ -1299,8 +1311,8 @@ class Repository {
             ) {
                 if (response.isSuccessful){
                     callback.detailProductTransactionSuccess(response.body())
-                }else{
-                    callback.detailProductTransactionFailed()
+                }else if (response.code() == 500){
+                    callback.detailProductTransactionFailed("Show error..")
                 }
             }
         })
@@ -1309,7 +1321,7 @@ class Repository {
     fun deleteAllDetailProductTransaction(id_transaction: String, callback: DetailProductTransactionRepositoryCallback<DetailProductTransactionResponse>){
         ApiClient().services.deleteAllDetailProductTransaction(id_transaction).enqueue(object : Callback<DetailProductTransactionResponse?>{
             override fun onFailure(call: Call<DetailProductTransactionResponse?>, t: Throwable) {
-                callback.detailProductTransactionFailed()
+                callback.detailProductTransactionFailed(t.message.toString())
             }
             override fun onResponse(
                 call: Call<DetailProductTransactionResponse?>,
@@ -1317,8 +1329,8 @@ class Repository {
             ) {
                 if (response.isSuccessful){
                     callback.detailProductTransactionSuccess(response.body())
-                }else{
-                    callback.detailProductTransactionFailed()
+                }else if (response.code() == 500){
+                    callback.detailProductTransactionFailed("Show error..")
                 }
             }
         })
@@ -1328,7 +1340,7 @@ class Repository {
     fun getAllDetailServiceTransaction(callback: DetailServiceTransactionRepositoryCallback<DetailServiceTransactionResponse>){
         ApiClient().services.getAllDetailServiceTransaction().enqueue(object : Callback<DetailServiceTransactionResponse?>{
             override fun onFailure(call: Call<DetailServiceTransactionResponse?>, t: Throwable) {
-                callback.detailServiceTransactionFailed()
+                callback.detailServiceTransactionFailed(t.message.toString())
             }
             override fun onResponse(
                 call: Call<DetailServiceTransactionResponse?>,
@@ -1336,8 +1348,8 @@ class Repository {
             ) {
                 if (response.isSuccessful){
                     callback.detailServiceTransactionSuccess(response.body())
-                }else{
-                    callback.detailServiceTransactionFailed()
+                }else if (response.code() == 500){
+                    callback.detailServiceTransactionFailed("Show error..")
                 }
             }
         })
@@ -1346,7 +1358,7 @@ class Repository {
     fun addDetailServiceTransaction(detailServiceTransaction: DetailServiceTransaction, callback: DetailServiceTransactionRepositoryCallback<DetailServiceTransactionResponse>){
         ApiClient().services.addDetailServiceTransaction(detailServiceTransaction).enqueue(object : Callback<DetailServiceTransactionResponse?>{
             override fun onFailure(call: Call<DetailServiceTransactionResponse?>, t: Throwable) {
-                callback.detailServiceTransactionFailed()
+                callback.detailServiceTransactionFailed(t.message.toString())
             }
             override fun onResponse(
                 call: Call<DetailServiceTransactionResponse?>,
@@ -1354,8 +1366,8 @@ class Repository {
             ) {
                 if (response.isSuccessful){
                     callback.detailServiceTransactionSuccess(response.body())
-                }else{
-                    callback.detailServiceTransactionFailed()
+                }else if (response.code() == 500){
+                    callback.detailServiceTransactionFailed("Show error..")
                 }
             }
         })
@@ -1364,7 +1376,7 @@ class Repository {
     fun editDetailServiceTransaction(detailServiceTransaction: DetailServiceTransaction, callback: DetailServiceTransactionRepositoryCallback<DetailServiceTransactionResponse>){
         ApiClient().services.editDetailServiceTransaction(detailServiceTransaction).enqueue(object : Callback<DetailServiceTransactionResponse?>{
             override fun onFailure(call: Call<DetailServiceTransactionResponse?>, t: Throwable) {
-                callback.detailServiceTransactionFailed()
+                callback.detailServiceTransactionFailed(t.message.toString())
             }
             override fun onResponse(
                 call: Call<DetailServiceTransactionResponse?>,
@@ -1372,8 +1384,8 @@ class Repository {
             ) {
                 if (response.isSuccessful){
                     callback.detailServiceTransactionSuccess(response.body())
-                }else{
-                    callback.detailServiceTransactionFailed()
+                }else if (response.code() == 500){
+                    callback.detailServiceTransactionFailed("Show error..")
                 }
             }
         })
@@ -1382,7 +1394,7 @@ class Repository {
     fun deleteDetailServiceTransaction(id_transaction: String, id_service: String, callback: DetailServiceTransactionRepositoryCallback<DetailServiceTransactionResponse>){
         ApiClient().services.deleteDetailServiceTransaction(id_transaction, id_service).enqueue(object : Callback<DetailServiceTransactionResponse?>{
             override fun onFailure(call: Call<DetailServiceTransactionResponse?>, t: Throwable) {
-                callback.detailServiceTransactionFailed()
+                callback.detailServiceTransactionFailed(t.message.toString())
             }
             override fun onResponse(
                 call: Call<DetailServiceTransactionResponse?>,
@@ -1390,8 +1402,8 @@ class Repository {
             ) {
                 if (response.isSuccessful){
                     callback.detailServiceTransactionSuccess(response.body())
-                }else{
-                    callback.detailServiceTransactionFailed()
+                }else if (response.code() == 500){
+                    callback.detailServiceTransactionFailed("Show error..")
                 }
             }
         })
@@ -1400,7 +1412,7 @@ class Repository {
     fun getDetailServiceTransactionByIdTransaction(id_transaction: String, callback: DetailServiceTransactionRepositoryCallback<DetailServiceTransactionResponse>){
         ApiClient().services.getDetailServiceTransactionByIdTransaction(id_transaction).enqueue(object : Callback<DetailServiceTransactionResponse?>{
             override fun onFailure(call: Call<DetailServiceTransactionResponse?>, t: Throwable) {
-                callback.detailServiceTransactionFailed()
+                callback.detailServiceTransactionFailed(t.message.toString())
             }
             override fun onResponse(
                 call: Call<DetailServiceTransactionResponse?>,
@@ -1408,8 +1420,8 @@ class Repository {
             ) {
                 if (response.isSuccessful){
                     callback.detailServiceTransactionSuccess(response.body())
-                }else{
-                    callback.detailServiceTransactionFailed()
+                }else if (response.code() == 500){
+                    callback.detailServiceTransactionFailed("Show error..")
                 }
             }
         })
@@ -1418,7 +1430,7 @@ class Repository {
     fun deleteAllDetailServiceTransaction(id_transaction: String, callback: DetailServiceTransactionRepositoryCallback<DetailServiceTransactionResponse>){
         ApiClient().services.deleteAllDetailServiceTransaction(id_transaction).enqueue(object : Callback<DetailServiceTransactionResponse?>{
             override fun onFailure(call: Call<DetailServiceTransactionResponse?>, t: Throwable) {
-                callback.detailServiceTransactionFailed()
+                callback.detailServiceTransactionFailed(t.message.toString())
             }
             override fun onResponse(
                 call: Call<DetailServiceTransactionResponse?>,
@@ -1426,8 +1438,8 @@ class Repository {
             ) {
                 if (response.isSuccessful){
                     callback.detailServiceTransactionSuccess(response.body())
-                }else{
-                    callback.detailServiceTransactionFailed()
+                }else if (response.code() == 500){
+                    callback.detailServiceTransactionFailed("Show error..")
                 }
             }
         })
@@ -1436,7 +1448,7 @@ class Repository {
     fun getMinProduct(callback: MinProductRepositoryCallback<ProductResponse>){
         ApiClient().services.getMinProduct().enqueue(object : Callback<ProductResponse?>{
             override fun onFailure(call: Call<ProductResponse?>, t: Throwable) {
-                callback.minProductFailed()
+                callback.minProductFailed(t.message.toString())
             }
             override fun onResponse(
                 call: Call<ProductResponse?>,
@@ -1444,8 +1456,8 @@ class Repository {
             ) {
                 if (response.isSuccessful){
                     callback.minProductSuccess(response.body())
-                }else{
-                    callback.minProductFailed()
+                }else if (response.code() == 500){
+                    callback.minProductFailed("Show error..")
                 }
             }
         })

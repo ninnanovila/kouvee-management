@@ -85,9 +85,9 @@ class AddDetailOrderProductFragment : Fragment(), DetailOrderProductView {
         startActivity<AddOrderProductActivity>()
     }
 
-    override fun detailOrderProductFailed() {
+    override fun detailOrderProductFailed(data: String) {
         btn_add.revertAnimation()
-        context?.let { view?.let { itView -> CustomView.failedSnackBar(itView, it, "Oops, try again") } }
+        context?.let { view?.let { itView -> CustomView.failedSnackBar(itView, it, data) } }
     }
 
     private fun setProductDropdown(){

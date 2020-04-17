@@ -106,8 +106,8 @@ class AddCustomerPetFragment : Fragment(), CustomerPetView{
         startActivity<CustomerPetManagementActivity>()
     }
 
-    override fun customerPetFailed() {
-        Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show()
+    override fun customerPetFailed(data: String) {
+        Toast.makeText(context, data, Toast.LENGTH_SHORT).show()
     }
 
     override fun showCustomerPetLoading() {

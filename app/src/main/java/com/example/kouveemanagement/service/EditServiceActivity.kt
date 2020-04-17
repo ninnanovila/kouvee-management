@@ -113,10 +113,10 @@ class EditServiceActivity : AppCompatActivity(), ServiceView {
         startActivity<ServiceManagementActivity>()
     }
 
-    override fun serviceFailed() {
+    override fun serviceFailed(data: String) {
         btn_save.revertAnimation()
         btn_cancel.visibility = View.VISIBLE
-        CustomView.failedSnackBar(container, baseContext, "Oops, try again")
+        CustomView.failedSnackBar(container, baseContext, data)
     }
 
     override fun onBackPressed() {

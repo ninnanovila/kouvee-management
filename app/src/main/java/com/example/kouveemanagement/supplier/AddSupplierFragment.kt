@@ -82,9 +82,9 @@ class AddSupplierFragment : Fragment(), SupplierView {
         startActivity<SupplierManagementActivity>()
     }
 
-    override fun supplierFailed() {
+    override fun supplierFailed(data: String) {
         btn_add.revertAnimation()
-        context?.let { view?.let { itView -> CustomView.failedSnackBar(itView, it, "Oops, try again") } }
+        context?.let { view?.let { itView -> CustomView.failedSnackBar(itView, it, data) } }
     }
 
 }

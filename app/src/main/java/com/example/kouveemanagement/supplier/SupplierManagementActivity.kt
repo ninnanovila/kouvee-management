@@ -136,8 +136,8 @@ class SupplierManagementActivity : AppCompatActivity(), SupplierView {
         }
     }
 
-    override fun supplierFailed() {
-        CustomView.failedSnackBar(container, baseContext, "Oops, try again")
+    override fun supplierFailed(data: String) {
+        CustomView.failedSnackBar(container, baseContext, data)
     }
 
     private fun clearList(){

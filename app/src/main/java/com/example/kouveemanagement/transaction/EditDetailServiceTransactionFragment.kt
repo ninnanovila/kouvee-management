@@ -127,11 +127,11 @@ class EditDetailServiceTransactionFragment : Fragment(), DetailServiceTransactio
         startActivity<AddTransactionActivity>("type" to "service")
     }
 
-    override fun detailServiceTransactionFailed() {
+    override fun detailServiceTransactionFailed(data: String) {
         if (state == "edit"){
-            Toast.makeText(context, "Failed to edit", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, data, Toast.LENGTH_SHORT).show()
         }else if (state == "delete"){
-            Toast.makeText(context, "Failed to delete", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, data, Toast.LENGTH_SHORT).show()
         }    }
 
 }

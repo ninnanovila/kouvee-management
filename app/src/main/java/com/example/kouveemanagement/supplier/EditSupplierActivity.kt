@@ -89,10 +89,10 @@ class EditSupplierActivity : AppCompatActivity(), SupplierView {
         startActivity<SupplierManagementActivity>()
     }
 
-    override fun supplierFailed() {
+    override fun supplierFailed(data: String) {
         btn_save.revertAnimation()
         btn_cancel.visibility = View.VISIBLE
-        CustomView.failedSnackBar(container, baseContext, "Oops, try again")
+        CustomView.failedSnackBar(container, baseContext, data)
     }
 
     override fun onBackPressed() {

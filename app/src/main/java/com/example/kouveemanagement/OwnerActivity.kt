@@ -156,8 +156,8 @@ class OwnerActivity : AppCompatActivity(), MinProductView {
         }
     }
 
-    override fun minProductFailed() {
-        CustomView.failedSnackBar(container, baseContext, "Oops, try again")
+    override fun minProductFailed(data: String) {
+        CustomView.failedSnackBar(container, baseContext, data)
     }
 
     override fun onNewIntent(intent: Intent) {

@@ -104,9 +104,9 @@ class AddPetFragment : Fragment(), PetSizeView, PetTypeView {
         startActivity<PetTypeManagementActivity>()
     }
 
-    override fun petTypeFailed() {
+    override fun petTypeFailed(data: String) {
         btn_add_t.revertAnimation()
-        context?.let { view?.let { itView -> CustomView.failedSnackBar(itView, it, "Please try again") } }
+        context?.let { view?.let { itView -> CustomView.failedSnackBar(itView, it, data) } }
     }
 
     override fun showPetSizeLoading() {
@@ -120,9 +120,9 @@ class AddPetFragment : Fragment(), PetSizeView, PetTypeView {
         startActivity<PetSizeManagementActivity>()
     }
 
-    override fun petSizeFailed() {
+    override fun petSizeFailed(data: String) {
         btn_add_s.revertAnimation()
-        context?.let { view?.let { itView -> CustomView.failedSnackBar(itView, it, "Please try again") } }
+        context?.let { view?.let { itView -> CustomView.failedSnackBar(itView, it, data) } }
     }
 
 }

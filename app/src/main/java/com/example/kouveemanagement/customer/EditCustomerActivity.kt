@@ -114,10 +114,10 @@ class EditCustomerActivity : AppCompatActivity(), CustomerView {
         startActivity<CustomerManagementActivity>()
     }
 
-    override fun customerFailed() {
+    override fun customerFailed(data: String) {
         btn_save.revertAnimation()
         btn_cancel.visibility = View.VISIBLE
-        CustomView.failedSnackBar(container, baseContext, "Oops, try again")
+        CustomView.failedSnackBar(container, baseContext, data)
     }
 
     override fun onBackPressed() {
