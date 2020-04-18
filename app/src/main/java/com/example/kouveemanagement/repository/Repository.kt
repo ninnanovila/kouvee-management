@@ -138,135 +138,7 @@ class Repository {
         })
     }
 
-//    PRODUCT
-    fun getAllProduct(callback: ProductRepositoryCallback<ProductResponse>) {
-        ApiClient().services.getAllProduct().enqueue(object : Callback<ProductResponse?> {
-            override fun onFailure(call: Call<ProductResponse?>, t: Throwable) {
-                callback.productFailed(t.message.toString())
-            }
-
-            override fun onResponse(
-                call: Call<ProductResponse?>,
-                response: Response<ProductResponse?>
-            ) {
-                if (response.isSuccessful){
-                    callback.productSuccess(response.body())
-                }else if (response.code() == 500){
-                    callback.productFailed("Show error..")
-                }
-            }
-        })
-    }
-
-    fun getProductBySearch(query: String, callback: ProductRepositoryCallback<ProductResponse>){
-        ApiClient().services.getProductBySearch(query).enqueue(object : Callback<ProductResponse?>{
-            override fun onFailure(call: Call<ProductResponse?>, t: Throwable) {
-                callback.productFailed(t.message.toString())
-            }
-
-            override fun onResponse(
-                call: Call<ProductResponse?>,
-                response: Response<ProductResponse?>
-            ) {
-                if (response.isSuccessful){
-                    callback.productSuccess(response.body())
-                }else if (response.code() == 500){
-                    callback.productFailed("Show error..")
-                }
-            }
-        })
-    }
-
-    fun addProduct(product: Product, callback: ProductRepositoryCallback<ProductResponse>) {
-        ApiClient().services.addProduct(product).enqueue(object : Callback<ProductResponse?> {
-            override fun onFailure(call: Call<ProductResponse?>, t: Throwable) {
-                callback.productFailed(t.message.toString())
-            }
-
-            override fun onResponse(
-                call: Call<ProductResponse?>,
-                response: Response<ProductResponse?>
-            ) {
-                if (response.isSuccessful){
-                    callback.productSuccess(response.body())
-                }else if (response.code() == 500){
-                    callback.productFailed("Add error..")
-                }
-            }
-        })
-    }
-
-    fun editProduct(id: String, product: Product, callback: ProductRepositoryCallback<ProductResponse>) {
-        ApiClient().services.editProduct(id, product).enqueue(object : Callback<ProductResponse?> {
-            override fun onFailure(call: Call<ProductResponse?>, t: Throwable) {
-                callback.productFailed(t.message.toString())
-            }
-
-            override fun onResponse(
-                call: Call<ProductResponse?>,
-                response: Response<ProductResponse?>
-            ) {
-                when {
-                    response.isSuccessful -> {
-                        callback.productSuccess(response.body())
-                    }
-                    response.code() == 500 -> {
-                        callback.productFailed("Edit error..")
-                    }
-                    response.code() == 404 -> {
-                        callback.productFailed("Data not found..")
-                    }
-                    else -> callback.productFailed("Else..")
-                }
-            }
-        })
-    }
-
-    fun deleteProduct(id: String, callback: ProductRepositoryCallback<ProductResponse>) {
-        ApiClient().services.deleteProduct(id).enqueue(object : Callback<ProductResponse?> {
-            override fun onFailure(call: Call<ProductResponse?>, t: Throwable) {
-                callback.productFailed(t.message.toString())
-            }
-
-            override fun onResponse(
-                call: Call<ProductResponse?>,
-                response: Response<ProductResponse?>
-            ) {
-                if (response.isSuccessful){
-                    callback.productSuccess(response.body())
-                }else if (response.code() == 404){
-                    callback.productFailed("Data not found..")
-                }
-            }
-
-        })
-    }
-
-    fun uploadPhotoProduct(id: String, photo: MultipartBody.Part, callback: UploadPhotoProductRepositoryCallback<ResponseBody>) {
-
-        ApiClient().services.uploadPhotoProduct(id, photo).enqueue(object : Callback<ResponseBody?> {
-            override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {
-                callback.uploadProductFailed(t.message.toString())
-            }
-            override fun onResponse(call: Call<ResponseBody?>, response: Response<ResponseBody?>) {
-                when {
-                    response.isSuccessful -> {
-                        callback.uploadProductSuccess(response.body())
-                    }
-                    response.code() == 404 -> {
-                        callback.uploadProductFailed("Data not found..")
-                    }
-                    response.code() == 500 -> {
-                        callback.uploadProductFailed("Upload error..")
-                    }
-                    else -> callback.uploadProductFailed("Else...")
-                }
-            }
-
-        })
-    }
-
-    //CUSTOMER
+//    CUSTOMER
     fun getAllCustomer(callback: CustomerRepositoryCallback<CustomerResponse>) {
         ApiClient().services.getAllCustomer().enqueue(object : Callback<CustomerResponse?> {
             override fun onFailure(call: Call<CustomerResponse?>, t: Throwable) {
@@ -375,298 +247,7 @@ class Repository {
         })
     }
 
-//    PET SIZE
-    fun getAllPetSize(callback: PetSizeRepositoryCallback<PetSizeResponse>) {
-
-        ApiClient().services.getAllPetSize().enqueue(object : Callback<PetSizeResponse?> {
-            override fun onFailure(call: Call<PetSizeResponse?>, t: Throwable) {
-                callback.petSizeFailed(t.message.toString())
-            }
-
-            override fun onResponse(
-                call: Call<PetSizeResponse?>,
-                response: Response<PetSizeResponse?>
-            ) {
-                if (response.isSuccessful){
-                    callback.petSizeSuccess(response.body())
-                }else if (response.code() == 500){
-                    callback.petSizeFailed("Show error..")
-                }
-            }
-        })
-    }
-
-    fun getPetSizeBySearch(query: String, callback: PetSizeRepositoryCallback<PetSizeResponse>) {
-        ApiClient().services.getPetSizeBySearch(query).enqueue(object : Callback<PetSizeResponse?> {
-            override fun onFailure(call: Call<PetSizeResponse?>, t: Throwable) {
-                callback.petSizeFailed(t.message.toString())
-            }
-            override fun onResponse(
-                call: Call<PetSizeResponse?>,
-                response: Response<PetSizeResponse?>
-            ) {
-                if (response.isSuccessful){
-                    callback.petSizeSuccess(response.body())
-                }else if (response.code() == 500){
-                    callback.petSizeFailed("Show error..")
-                }
-            }
-        })
-    }
-
-    fun addPetSize(petSize: PetSize, callback: PetSizeRepositoryCallback<PetSizeResponse>) {
-
-        ApiClient().services.addPetSize(petSize).enqueue(object : Callback<PetSizeResponse?> {
-            override fun onFailure(call: Call<PetSizeResponse?>, t: Throwable) {
-                callback.petSizeFailed(t.message.toString())
-            }
-
-            override fun onResponse(
-                call: Call<PetSizeResponse?>,
-                response: Response<PetSizeResponse?>
-            ) {
-                if (response.isSuccessful){
-                    callback.petSizeSuccess(response.body())
-                }else if (response.code() == 500){
-                    callback.petSizeFailed("Add error..")
-                }
-            }
-        })
-    }
-
-    fun editPetSize(id: String, petSize: PetSize, callback: PetSizeRepositoryCallback<PetSizeResponse>) {
-
-        ApiClient().services.editPetSize(id, petSize).enqueue(object : Callback<PetSizeResponse?> {
-            override fun onFailure(call: Call<PetSizeResponse?>, t: Throwable) {
-                callback.petSizeFailed(t.message.toString())
-            }
-
-            override fun onResponse(
-                call: Call<PetSizeResponse?>,
-                response: Response<PetSizeResponse?>
-            ) {
-                if (response.isSuccessful){
-                    callback.petSizeSuccess(response.body())
-                }else if (response.code() == 500){
-                    callback.petSizeFailed("Edit error..")
-                }
-            }
-        })
-    }
-
-    fun deletePetSize(id: String, callback: PetSizeRepositoryCallback<PetSizeResponse>) {
-        ApiClient().services.deletePetSize(id).enqueue(object : Callback<PetSizeResponse?> {
-            override fun onFailure(call: Call<PetSizeResponse?>, t: Throwable) {
-                callback.petSizeFailed(t.message.toString())
-            }
-
-            override fun onResponse(
-                call: Call<PetSizeResponse?>,
-                response: Response<PetSizeResponse?>
-            ) {
-                if (response.isSuccessful){
-                    callback.petSizeSuccess(response.body())
-                }else if (response.code() == 404){
-                    callback.petSizeFailed("Data not found..")
-                }
-            }
-        })
-    }
-
-
-//    PET TYPE
-    fun getAllPetType(callback: PetTypeRepositoryCallback<PetTypeResponse>) {
-        ApiClient().services.getAllPetType().enqueue(object : Callback<PetTypeResponse?> {
-            override fun onFailure(call: Call<PetTypeResponse?>, t: Throwable) {
-                callback.petTypeFailed(t.message.toString())
-            }
-
-            override fun onResponse(
-                call: Call<PetTypeResponse?>,
-                response: Response<PetTypeResponse?>
-            ) {
-                if (response.isSuccessful){
-                    callback.petTypeSuccess(response.body())
-                }else if (response.code() == 500){
-                    callback.petTypeFailed("Show error..")
-                }
-            }
-        })
-    }
-
-    fun getPetTypeBySearch(query: String, callback: PetTypeRepositoryCallback<PetTypeResponse>){
-        ApiClient().services.getPetTypeBySearch(query).enqueue(object : Callback<PetTypeResponse>{
-            override fun onFailure(call: Call<PetTypeResponse?>, t: Throwable) {
-                callback.petTypeFailed(t.message.toString())
-            }
-
-            override fun onResponse(
-                call: Call<PetTypeResponse?>,
-                response: Response<PetTypeResponse?>
-            ) {
-                if (response.isSuccessful){
-                    callback.petTypeSuccess(response.body())
-                }else if (response.code() == 500){
-                    callback.petTypeFailed("Show error..")
-                }
-            }
-        })
-    }
-
-    fun addPetType(petType: PetType, callback: PetTypeRepositoryCallback<PetTypeResponse>) {
-
-        ApiClient().services.addPetType(petType).enqueue(object : Callback<PetTypeResponse?> {
-            override fun onFailure(call: Call<PetTypeResponse?>, t: Throwable) {
-                callback.petTypeFailed(t.message.toString())
-            }
-
-            override fun onResponse(
-                call: Call<PetTypeResponse?>,
-                response: Response<PetTypeResponse?>
-            ) {
-                if (response.isSuccessful){
-                    callback.petTypeSuccess(response.body())
-                }else if (response.code() == 500){
-                    callback.petTypeFailed("Add error..")
-                }
-            }
-        })
-    }
-
-    fun editPetType(id: String, petType: PetType, callback: PetTypeRepositoryCallback<PetTypeResponse>) {
-
-        ApiClient().services.editPetType(id, petType).enqueue(object : Callback<PetTypeResponse?> {
-            override fun onFailure(call: Call<PetTypeResponse?>, t: Throwable) {
-                callback.petTypeFailed(t.message.toString())
-            }
-
-            override fun onResponse(
-                call: Call<PetTypeResponse?>,
-                response: Response<PetTypeResponse?>
-            ) {
-                if (response.isSuccessful){
-                    callback.petTypeSuccess(response.body())
-                }else if (response.code() == 500){
-                    callback.petTypeFailed("Edit error..")
-                }
-            }
-        })
-    }
-
-    fun deletePetType(id: String, callback: PetTypeRepositoryCallback<PetTypeResponse>) {
-
-        ApiClient().services.deletePetType(id).enqueue(object : Callback<PetTypeResponse?> {
-            override fun onFailure(call: Call<PetTypeResponse?>, t: Throwable) {
-                callback.petTypeFailed(t.message.toString())
-            }
-
-            override fun onResponse(
-                call: Call<PetTypeResponse?>,
-                response: Response<PetTypeResponse?>
-            ) {
-                if (response.isSuccessful){
-                    callback.petTypeSuccess(response.body())
-                }else if (response.code() == 500){
-                    callback.petTypeFailed("Delete error..")
-                }
-            }
-        })
-    }
-
-    //SUPPLIER
-    fun getAllSupplier(callback: SupplierRepositoryCallback<SupplierResponse>) {
-
-        ApiClient().services.getAllSupplier().enqueue(object : Callback<SupplierResponse?> {
-            override fun onFailure(call: Call<SupplierResponse?>, t: Throwable) {
-                callback.supplierFailed(t.message.toString())
-            }
-            override fun onResponse(
-                call: Call<SupplierResponse?>,
-                response: Response<SupplierResponse?>
-            ) {
-                if (response.isSuccessful){
-                    callback.supplierSuccess(response.body())
-                }else if (response.code() == 500){
-                    callback.supplierFailed("Show error..")
-                }
-            }
-
-        })
-    }
-
-    fun getSupplierBySearch(query: String, callback: SupplierRepositoryCallback<SupplierResponse>){
-        ApiClient().services.getSupplierBySearch(query).enqueue(object : Callback<SupplierResponse?> {
-            override fun onFailure(call: Call<SupplierResponse?>, t: Throwable) {
-                callback.supplierFailed(t.message.toString())
-            }
-            override fun onResponse(
-                call: Call<SupplierResponse?>,
-                response: Response<SupplierResponse?>
-            ) {
-                if (response.isSuccessful){
-                    callback.supplierSuccess(response.body())
-                }else if (response.code() == 500){
-                    callback.supplierFailed("Show error..")
-                }
-            }
-        })
-    }
-
-    fun addSupplier(supplier: Supplier, callback: SupplierRepositoryCallback<SupplierResponse>) {
-        ApiClient().services.addSupplier(supplier).enqueue(object : Callback<SupplierResponse?> {
-            override fun onFailure(call: Call<SupplierResponse?>, t: Throwable) {
-                callback.supplierFailed(t.message.toString())
-            }
-            override fun onResponse(
-                call: Call<SupplierResponse?>,
-                response: Response<SupplierResponse?>
-            ) {
-                if (response.isSuccessful){
-                    callback.supplierSuccess(response.body())
-                }else if (response.code() == 500){
-                    callback.supplierFailed("Add error..")
-                }
-            }
-        })
-    }
-
-    fun editSupplier(id: String, supplier: Supplier, callback: SupplierRepositoryCallback<SupplierResponse>) {
-        ApiClient().services.editSupplier(id, supplier).enqueue(object : Callback<SupplierResponse?> {
-            override fun onFailure(call: Call<SupplierResponse?>, t: Throwable) {
-                callback.supplierFailed(t.message.toString())
-            }
-            override fun onResponse(
-                call: Call<SupplierResponse?>,
-                response: Response<SupplierResponse?>
-            ) {
-                if (response.isSuccessful){
-                    callback.supplierSuccess(response.body())
-                }else if (response.code() == 500){
-                    callback.supplierFailed("Edit error..")
-                }
-            }
-        })
-    }
-
-    fun deleteSupplier(id: String, callback: SupplierRepositoryCallback<SupplierResponse>) {
-        ApiClient().services.deleteSupplier(id).enqueue(object : Callback<SupplierResponse?> {
-            override fun onFailure(call: Call<SupplierResponse?>, t: Throwable) {
-                callback.supplierFailed(t.message.toString())
-            }
-            override fun onResponse(
-                call: Call<SupplierResponse?>,
-                response: Response<SupplierResponse?>
-            ) {
-                if (response.isSuccessful){
-                    callback.supplierSuccess(response.body())
-                }else if (response.code() == 500){
-                    callback.supplierFailed("Delete error..")
-                }
-            }
-        })
-    }
-
-    //SERVICE
+//    SERVICE
     fun getAllService(callback: ServiceRepositoryCallback<ServiceResponse>) {
 
         ApiClient().services.getAllService().enqueue(object : Callback<ServiceResponse?> {
@@ -759,6 +340,516 @@ class Repository {
                     callback.serviceSuccess(response.body())
                 }else if (response.code() == 404){
                     callback.serviceFailed("Data not found..")
+                }
+            }
+        })
+    }
+
+//    SUPPLIER
+    fun getAllSupplier(callback: SupplierRepositoryCallback<SupplierResponse>) {
+
+        ApiClient().services.getAllSupplier().enqueue(object : Callback<SupplierResponse?> {
+            override fun onFailure(call: Call<SupplierResponse?>, t: Throwable) {
+                callback.supplierFailed(t.message.toString())
+            }
+            override fun onResponse(
+                call: Call<SupplierResponse?>,
+                response: Response<SupplierResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.supplierSuccess(response.body())
+                }else if (response.code() == 500){
+                    callback.supplierFailed("Show error..")
+                }
+            }
+
+        })
+    }
+
+    fun getSupplierBySearch(query: String, callback: SupplierRepositoryCallback<SupplierResponse>){
+        ApiClient().services.getSupplierBySearch(query).enqueue(object : Callback<SupplierResponse?> {
+            override fun onFailure(call: Call<SupplierResponse?>, t: Throwable) {
+                callback.supplierFailed(t.message.toString())
+            }
+            override fun onResponse(
+                call: Call<SupplierResponse?>,
+                response: Response<SupplierResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.supplierSuccess(response.body())
+                }else if (response.code() == 500){
+                    callback.supplierFailed("Show error..")
+                }
+            }
+        })
+    }
+
+    fun addSupplier(supplier: Supplier, callback: SupplierRepositoryCallback<SupplierResponse>) {
+        ApiClient().services.addSupplier(supplier).enqueue(object : Callback<SupplierResponse?> {
+            override fun onFailure(call: Call<SupplierResponse?>, t: Throwable) {
+                callback.supplierFailed(t.message.toString())
+            }
+            override fun onResponse(
+                call: Call<SupplierResponse?>,
+                response: Response<SupplierResponse?>
+            ) {
+                when {
+                    response.isSuccessful -> {
+                        callback.supplierSuccess(response.body())
+                    }
+                    response.code() == 406 -> {
+                        callback.supplierFailed("Supplier exist..")
+                    }
+                    response.code() == 500 -> {
+                        callback.supplierFailed("Error add..")
+                    }
+                    else -> callback.supplierFailed("Else..")
+                }
+            }
+        })
+    }
+
+    fun editSupplier(id: String, supplier: Supplier, callback: SupplierRepositoryCallback<SupplierResponse>) {
+        ApiClient().services.editSupplier(id, supplier).enqueue(object : Callback<SupplierResponse?> {
+            override fun onFailure(call: Call<SupplierResponse?>, t: Throwable) {
+                callback.supplierFailed(t.message.toString())
+            }
+            override fun onResponse(
+                call: Call<SupplierResponse?>,
+                response: Response<SupplierResponse?>
+            ) {
+                when {
+                    response.isSuccessful -> {
+                        callback.supplierSuccess(response.body())
+                    }
+                    response.code() == 500 -> {
+                        callback.supplierFailed("Edit error..")
+                    }
+                    response.code() == 404 -> {
+                        callback.supplierFailed("Data not found..")
+                    }
+                    response.code() == 406 -> {
+                        callback.supplierFailed("Supplier exist..")
+                    }
+                    else -> callback.supplierFailed("Else..")
+                }
+            }
+        })
+    }
+
+    fun deleteSupplier(id: String, callback: SupplierRepositoryCallback<SupplierResponse>) {
+        ApiClient().services.deleteSupplier(id).enqueue(object : Callback<SupplierResponse?> {
+            override fun onFailure(call: Call<SupplierResponse?>, t: Throwable) {
+                callback.supplierFailed(t.message.toString())
+            }
+            override fun onResponse(
+                call: Call<SupplierResponse?>,
+                response: Response<SupplierResponse?>
+            ) {
+                when {
+                    response.isSuccessful -> {
+                        callback.supplierSuccess(response.body())
+                    }
+                    response.code() == 500 -> {
+                        callback.supplierFailed("Check constraint..")
+                    }
+                    response.code() == 404 -> {
+                        callback.supplierFailed("Data not found..")
+                    }
+                }
+            }
+        })
+    }
+
+//    PRODUCT
+    fun getAllProduct(callback: ProductRepositoryCallback<ProductResponse>) {
+        ApiClient().services.getAllProduct().enqueue(object : Callback<ProductResponse?> {
+            override fun onFailure(call: Call<ProductResponse?>, t: Throwable) {
+                callback.productFailed(t.message.toString())
+            }
+
+            override fun onResponse(
+                call: Call<ProductResponse?>,
+                response: Response<ProductResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.productSuccess(response.body())
+                }else if (response.code() == 500){
+                    callback.productFailed("Show error..")
+                }
+            }
+        })
+    }
+
+    fun getProductBySearch(query: String, callback: ProductRepositoryCallback<ProductResponse>){
+        ApiClient().services.getProductBySearch(query).enqueue(object : Callback<ProductResponse?>{
+            override fun onFailure(call: Call<ProductResponse?>, t: Throwable) {
+                callback.productFailed(t.message.toString())
+            }
+
+            override fun onResponse(
+                call: Call<ProductResponse?>,
+                response: Response<ProductResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.productSuccess(response.body())
+                }else if (response.code() == 500){
+                    callback.productFailed("Show error..")
+                }
+            }
+        })
+    }
+
+    fun addProduct(product: Product, callback: ProductRepositoryCallback<ProductResponse>) {
+        ApiClient().services.addProduct(product).enqueue(object : Callback<ProductResponse?> {
+            override fun onFailure(call: Call<ProductResponse?>, t: Throwable) {
+                callback.productFailed(t.message.toString())
+            }
+
+            override fun onResponse(
+                call: Call<ProductResponse?>,
+                response: Response<ProductResponse?>
+            ) {
+                when {
+                    response.isSuccessful -> {
+                        callback.productSuccess(response.body())
+                    }
+                    response.code() == 406 -> {
+                        callback.productFailed("Product exist..")
+                    }
+                    response.code() == 500 -> {
+                        callback.productFailed("Add error..")
+                    }
+                    else -> callback.productFailed("Else..")
+                }
+            }
+        })
+    }
+
+    fun editProduct(id: String, product: Product, callback: ProductRepositoryCallback<ProductResponse>) {
+        ApiClient().services.editProduct(id, product).enqueue(object : Callback<ProductResponse?> {
+            override fun onFailure(call: Call<ProductResponse?>, t: Throwable) {
+                callback.productFailed(t.message.toString())
+            }
+
+            override fun onResponse(
+                call: Call<ProductResponse?>,
+                response: Response<ProductResponse?>
+            ) {
+                when {
+                    response.isSuccessful -> {
+                        callback.productSuccess(response.body())
+                    }
+                    response.code() == 500 -> {
+                        callback.productFailed("Edit error..")
+                    }
+                    response.code() == 404 -> {
+                        callback.productFailed("Data not found..")
+                    }
+                    response.code() == 406 -> {
+                        callback.productFailed("Product exist..")
+                    }
+                    else -> callback.productFailed("Else..")
+                }
+            }
+        })
+    }
+
+    fun deleteProduct(id: String, callback: ProductRepositoryCallback<ProductResponse>) {
+        ApiClient().services.deleteProduct(id).enqueue(object : Callback<ProductResponse?> {
+            override fun onFailure(call: Call<ProductResponse?>, t: Throwable) {
+                callback.productFailed(t.message.toString())
+            }
+
+            override fun onResponse(
+                call: Call<ProductResponse?>,
+                response: Response<ProductResponse?>
+            ) {
+                when {
+                    response.isSuccessful -> {
+                        callback.productSuccess(response.body())
+                    }
+                    response.code() == 404 -> {
+                        callback.productFailed("Data not found..")
+                    }
+                    response.code() == 500 -> {
+                        callback.productFailed("Check constraint..")
+                    }
+                    else -> callback.productFailed("Else..")
+                }
+            }
+        })
+    }
+
+    fun uploadPhotoProduct(id: String, photo: MultipartBody.Part, callback: UploadPhotoProductRepositoryCallback<ResponseBody>) {
+
+        ApiClient().services.uploadPhotoProduct(id, photo).enqueue(object : Callback<ResponseBody?> {
+            override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {
+                callback.uploadProductFailed(t.message.toString())
+            }
+            override fun onResponse(call: Call<ResponseBody?>, response: Response<ResponseBody?>) {
+                when {
+                    response.isSuccessful -> {
+                        callback.uploadProductSuccess(response.body())
+                    }
+                    response.code() == 404 -> {
+                        callback.uploadProductFailed("Data not found..")
+                    }
+                    response.code() == 500 -> {
+                        callback.uploadProductFailed("Upload error..")
+                    }
+                    else -> callback.uploadProductFailed("Else...")
+                }
+            }
+
+        })
+    }
+
+//    PET SIZE
+    fun getAllPetSize(callback: PetSizeRepositoryCallback<PetSizeResponse>) {
+
+        ApiClient().services.getAllPetSize().enqueue(object : Callback<PetSizeResponse?> {
+            override fun onFailure(call: Call<PetSizeResponse?>, t: Throwable) {
+                callback.petSizeFailed(t.message.toString())
+            }
+
+            override fun onResponse(
+                call: Call<PetSizeResponse?>,
+                response: Response<PetSizeResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.petSizeSuccess(response.body())
+                }else if (response.code() == 500){
+                    callback.petSizeFailed("Show error..")
+                }
+            }
+        })
+    }
+
+    fun getPetSizeBySearch(query: String, callback: PetSizeRepositoryCallback<PetSizeResponse>) {
+        ApiClient().services.getPetSizeBySearch(query).enqueue(object : Callback<PetSizeResponse?> {
+            override fun onFailure(call: Call<PetSizeResponse?>, t: Throwable) {
+                callback.petSizeFailed(t.message.toString())
+            }
+            override fun onResponse(
+                call: Call<PetSizeResponse?>,
+                response: Response<PetSizeResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.petSizeSuccess(response.body())
+                }else if (response.code() == 500){
+                    callback.petSizeFailed("Show error..")
+                }
+            }
+        })
+    }
+
+    fun addPetSize(petSize: PetSize, callback: PetSizeRepositoryCallback<PetSizeResponse>) {
+
+        ApiClient().services.addPetSize(petSize).enqueue(object : Callback<PetSizeResponse?> {
+            override fun onFailure(call: Call<PetSizeResponse?>, t: Throwable) {
+                callback.petSizeFailed(t.message.toString())
+            }
+
+            override fun onResponse(
+                call: Call<PetSizeResponse?>,
+                response: Response<PetSizeResponse?>
+            ) {
+                when {
+                    response.isSuccessful -> {
+                        callback.petSizeSuccess(response.body())
+                    }
+                    response.code() == 500 -> {
+                        callback.petSizeFailed("Add error..")
+                    }
+                    response.code() == 406 -> {
+                        callback.petSizeFailed("Pet size exist..")
+                    }
+                    else -> callback.petSizeFailed("Else..")
+                }
+            }
+        })
+    }
+
+    fun editPetSize(id: String, petSize: PetSize, callback: PetSizeRepositoryCallback<PetSizeResponse>) {
+
+        ApiClient().services.editPetSize(id, petSize).enqueue(object : Callback<PetSizeResponse?> {
+            override fun onFailure(call: Call<PetSizeResponse?>, t: Throwable) {
+                callback.petSizeFailed(t.message.toString())
+            }
+
+            override fun onResponse(
+                call: Call<PetSizeResponse?>,
+                response: Response<PetSizeResponse?>
+            ) {
+                when {
+                    response.isSuccessful -> {
+                        callback.petSizeSuccess(response.body())
+                    }
+                    response.code() == 500 -> {
+                        callback.petSizeFailed("Edit error..")
+                    }
+                    response.code() == 404 -> {
+                        callback.petSizeFailed("Data not found..")
+                    }
+                    response.code() == 406 -> {
+                        callback.petSizeFailed("Data not found..")
+                    }
+                    else -> {
+                        callback.petSizeFailed("Else..")
+                    }
+                }
+            }
+        })
+    }
+
+    fun deletePetSize(id: String, callback: PetSizeRepositoryCallback<PetSizeResponse>) {
+        ApiClient().services.deletePetSize(id).enqueue(object : Callback<PetSizeResponse?> {
+            override fun onFailure(call: Call<PetSizeResponse?>, t: Throwable) {
+                callback.petSizeFailed(t.message.toString())
+            }
+
+            override fun onResponse(
+                call: Call<PetSizeResponse?>,
+                response: Response<PetSizeResponse?>
+            ) {
+                when {
+                    response.isSuccessful -> {
+                        callback.petSizeSuccess(response.body())
+                    }
+                    response.code() == 404 -> {
+                        callback.petSizeFailed("Data not found..")
+                    }
+                    response.code() == 500 -> {
+                        callback.petSizeFailed("Check constraint..")
+                    }
+                    else -> callback.petSizeFailed("Else..")
+                }
+            }
+        })
+    }
+
+//    PET TYPE
+    fun getAllPetType(callback: PetTypeRepositoryCallback<PetTypeResponse>) {
+        ApiClient().services.getAllPetType().enqueue(object : Callback<PetTypeResponse?> {
+            override fun onFailure(call: Call<PetTypeResponse?>, t: Throwable) {
+                callback.petTypeFailed(t.message.toString())
+            }
+
+            override fun onResponse(
+                call: Call<PetTypeResponse?>,
+                response: Response<PetTypeResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.petTypeSuccess(response.body())
+                }else if (response.code() == 500){
+                    callback.petTypeFailed("Show error..")
+                }
+            }
+        })
+    }
+
+    fun getPetTypeBySearch(query: String, callback: PetTypeRepositoryCallback<PetTypeResponse>){
+        ApiClient().services.getPetTypeBySearch(query).enqueue(object : Callback<PetTypeResponse>{
+            override fun onFailure(call: Call<PetTypeResponse?>, t: Throwable) {
+                callback.petTypeFailed(t.message.toString())
+            }
+
+            override fun onResponse(
+                call: Call<PetTypeResponse?>,
+                response: Response<PetTypeResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.petTypeSuccess(response.body())
+                }else if (response.code() == 500){
+                    callback.petTypeFailed("Show error..")
+                }
+            }
+        })
+    }
+
+    fun addPetType(petType: PetType, callback: PetTypeRepositoryCallback<PetTypeResponse>) {
+
+        ApiClient().services.addPetType(petType).enqueue(object : Callback<PetTypeResponse?> {
+            override fun onFailure(call: Call<PetTypeResponse?>, t: Throwable) {
+                callback.petTypeFailed(t.message.toString())
+            }
+
+            override fun onResponse(
+                call: Call<PetTypeResponse?>,
+                response: Response<PetTypeResponse?>
+            ) {
+                when {
+                    response.isSuccessful -> {
+                        callback.petTypeSuccess(response.body())
+                    }
+                    response.code() == 500 -> {
+                        callback.petTypeFailed("Add error..")
+                    }
+                    response.code() == 406 -> {
+                        callback.petTypeFailed("Pet type exist..")
+                    }
+                    else -> callback.petTypeFailed("Else..")
+                }
+            }
+        })
+    }
+
+    fun editPetType(id: String, petType: PetType, callback: PetTypeRepositoryCallback<PetTypeResponse>) {
+
+        ApiClient().services.editPetType(id, petType).enqueue(object : Callback<PetTypeResponse?> {
+            override fun onFailure(call: Call<PetTypeResponse?>, t: Throwable) {
+                callback.petTypeFailed(t.message.toString())
+            }
+
+            override fun onResponse(
+                call: Call<PetTypeResponse?>,
+                response: Response<PetTypeResponse?>
+            ) {
+                when {
+                    response.isSuccessful -> {
+                        callback.petTypeSuccess(response.body())
+                    }
+                    response.code() == 500 -> {
+                        callback.petTypeFailed("Edit error..")
+                    }
+                    response.code() == 404 -> {
+                        callback.petTypeFailed("Data not found..")
+                    }
+                    response.code() == 406 -> {
+                        callback.petTypeFailed("Pet type exist..")
+                    }
+                    else -> callback.petTypeFailed("Else..")
+                }
+            }
+        })
+    }
+
+    fun deletePetType(id: String, callback: PetTypeRepositoryCallback<PetTypeResponse>) {
+
+        ApiClient().services.deletePetType(id).enqueue(object : Callback<PetTypeResponse?> {
+            override fun onFailure(call: Call<PetTypeResponse?>, t: Throwable) {
+                callback.petTypeFailed(t.message.toString())
+            }
+
+            override fun onResponse(
+                call: Call<PetTypeResponse?>,
+                response: Response<PetTypeResponse?>
+            ) {
+                when {
+                    response.isSuccessful -> {
+                        callback.petTypeSuccess(response.body())
+                    }
+                    response.code() == 500 -> {
+                        callback.petTypeFailed("Delete error..")
+                    }
+                    response.code() == 403 -> {
+                        callback.petTypeFailed("Check constraint..")
+                    }
+                    response.code() == 404 -> {
+                        callback.petTypeFailed("Data not found..")
+                    }
+                    else -> callback.petTypeFailed("Else..")
                 }
             }
         })
@@ -985,7 +1076,7 @@ class Repository {
         })
     }
 
-    //CUSTOMER PET
+//    CUSTOMER PET
     fun getAllCustomerPet(callback: CustomerPetRepositoryCallback<CustomerPetResponse>){
         ApiClient().services.getAllCustomerPet().enqueue(object : Callback<CustomerPetResponse?> {
             override fun onFailure(call: Call<CustomerPetResponse?>, t: Throwable) {
@@ -1034,10 +1125,17 @@ class Repository {
                 call: Call<CustomerPetResponse?>,
                 response: Response<CustomerPetResponse?>
             ) {
-                if (response.isSuccessful){
-                    callback.customerPetSuccess(response.body())
-                }else if (response.code() == 500){
-                    callback.customerPetFailed("Show error..")
+                when {
+                    response.isSuccessful -> {
+                        callback.customerPetSuccess(response.body())
+                    }
+                    response.code() == 500 -> {
+                        callback.customerPetFailed("Add error..")
+                    }
+                    response.code() == 404 -> {
+                        callback.customerPetFailed("Customer not found..")
+                    }
+                    else -> callback.customerPetFailed("Else..")
                 }
             }
         })
@@ -1053,10 +1151,17 @@ class Repository {
                 call: Call<CustomerPetResponse?>,
                 response: Response<CustomerPetResponse?>
             ) {
-                if (response.isSuccessful){
-                    callback.customerPetSuccess(response.body())
-                }else if (response.code() == 500){
-                    callback.customerPetFailed("Show error..")
+                when {
+                    response.isSuccessful -> {
+                        callback.customerPetSuccess(response.body())
+                    }
+                    response.code() == 500 -> {
+                        callback.customerPetFailed("Edit error..")
+                    }
+                    response.code() == 404 -> {
+                        callback.customerPetFailed("Customer not found..")
+                    }
+                    else -> callback.customerPetFailed("Else..")
                 }
             }
         })
@@ -1072,16 +1177,26 @@ class Repository {
                 call: Call<CustomerPetResponse?>,
                 response: Response<CustomerPetResponse?>
             ) {
-                if (response.isSuccessful){
-                    callback.customerPetSuccess(response.body())
-                }else if (response.code() == 500){
-                    callback.customerPetFailed("Show error..")
+                when {
+                    response.isSuccessful -> {
+                        callback.customerPetSuccess(response.body())
+                    }
+                    response.code() == 404 -> {
+                        callback.customerPetFailed("Data not found..")
+                    }
+                    response.code() == 500 -> {
+                        callback.customerPetFailed("Delete error..")
+                    }
+                    response.code() == 406 -> {
+                        callback.customerPetFailed("Check constraint..")
+                    }
+                    else -> callback.customerPetFailed("Else..")
                 }
             }
         })
     }
 
-//  TRANSACTION
+//    TRANSACTION
     fun getAllTransaction(callback: TransactionRepositoryCallback<TransactionResponse>){
         ApiClient().services.getAllTransaction().enqueue(object : Callback<TransactionResponse?>{
             override fun onFailure(call: Call<TransactionResponse?>, t: Throwable) {
@@ -1135,7 +1250,6 @@ class Repository {
             }
         })
     }
-
 
     fun addTransaction(type: String, transaction: Transaction, callback: TransactionRepositoryCallback<TransactionResponse>){
         ApiClient().services.addTransaction(type, transaction).enqueue(object : Callback<TransactionResponse?>{
@@ -1227,7 +1341,7 @@ class Repository {
         })
     }
 
-//  DETAIL PRODUCT TRANSACTION
+//    DETAIL PRODUCT TRANSACTION
     fun getAllDetailProductTransaction(callback: DetailProductTransactionRepositoryCallback<DetailProductTransactionResponse>){
         ApiClient().services.getAllDetailProductTransaction().enqueue(object : Callback<DetailProductTransactionResponse?>{
             override fun onFailure(call: Call<DetailProductTransactionResponse?>, t: Throwable) {
@@ -1336,7 +1450,7 @@ class Repository {
         })
     }
 
-//  DETAIL SERVICE TRANSACTION
+//    DETAIL SERVICE TRANSACTION
     fun getAllDetailServiceTransaction(callback: DetailServiceTransactionRepositoryCallback<DetailServiceTransactionResponse>){
         ApiClient().services.getAllDetailServiceTransaction().enqueue(object : Callback<DetailServiceTransactionResponse?>{
             override fun onFailure(call: Call<DetailServiceTransactionResponse?>, t: Throwable) {
@@ -1445,6 +1559,7 @@ class Repository {
         })
     }
 
+//    MIN PRODUCT
     fun getMinProduct(callback: MinProductRepositoryCallback<ProductResponse>){
         ApiClient().services.getMinProduct().enqueue(object : Callback<ProductResponse?>{
             override fun onFailure(call: Call<ProductResponse?>, t: Throwable) {
