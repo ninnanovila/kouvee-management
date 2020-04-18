@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.kouveemanagement.CustomView
+import com.example.kouveemanagement.CustomFun
 import com.example.kouveemanagement.OwnerActivity
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.adapter.EmployeeRecyclerViewAdapter
@@ -39,8 +39,8 @@ class EmployeeManagementActivity : AppCompatActivity(), EmployeeView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_employee_management)
-        if (!CustomView.verifiedNetwork(this)){
-            CustomView.warningSnackBar(container, baseContext, "Please check internet connection")
+        if (!CustomFun.verifiedNetwork(this)){
+            CustomFun.warningSnackBar(container, baseContext, "Please check internet connection")
         }
         presenter = EmployeePresenter(this, Repository())
         presenter.getAllEmployee()
@@ -91,12 +91,12 @@ class EmployeeManagementActivity : AppCompatActivity(), EmployeeView {
         swipe_rv.setOnRefreshListener {
             presenter.getAllEmployee()
         }
-        CustomView.setSwipe(swipe_rv)
+        CustomFun.setSwipe(swipe_rv)
     }
 
     private fun getList(){
         if (temps.isNullOrEmpty()){
-            CustomView.warningSnackBar(container, baseContext, "Empty data")
+            CustomFun.warningSnackBar(container, baseContext, "Empty data")
             recyclerview.adapter = EmployeeRecyclerViewAdapter(temps as MutableList<Employee>){}
         }else{
             if(sort_switch.isChecked){
@@ -124,7 +124,7 @@ class EmployeeManagementActivity : AppCompatActivity(), EmployeeView {
     override fun employeeSuccess(data: EmployeeResponse?) {
         val temp: List<Employee> = data?.employees ?: emptyList()
         if (temp.isEmpty()){
-            CustomView.neutralSnackBar(container, baseContext, "Employee empty")
+            CustomFun.neutralSnackBar(container, baseContext, "Employee empty")
         }else{
             clearList()
             employeesList.addAll(temp)
@@ -135,12 +135,12 @@ class EmployeeManagementActivity : AppCompatActivity(), EmployeeView {
                 showDialog(it)
                 Toast.makeText(this, it.id, Toast.LENGTH_LONG).show()
             }
-            CustomView.successSnackBar(container, baseContext, "Ok, success")
+            CustomFun.successSnackBar(container, baseContext, "Ok, success")
         }
     }
 
     override fun employeeFailed(data: String) {
-        CustomView.failedSnackBar(container, baseContext, data)
+        CustomFun.failedSnackBar(container, baseContext, data)
     }
 
     private fun clearList(){

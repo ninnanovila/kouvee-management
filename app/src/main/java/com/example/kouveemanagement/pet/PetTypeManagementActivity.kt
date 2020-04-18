@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.kouveemanagement.CustomView
+import com.example.kouveemanagement.CustomFun
 import com.example.kouveemanagement.OwnerActivity
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.adapter.PetRecyclerViewAdapter
@@ -88,12 +88,12 @@ class PetTypeManagementActivity : AppCompatActivity(), PetTypeView {
         swipe_rv.setOnRefreshListener {
             presenterType.getAllPetType()
         }
-        CustomView.setSwipe(swipe_rv)
+        CustomFun.setSwipe(swipe_rv)
     }
 
     private fun getList(){
         if (temps.isNullOrEmpty()){
-            CustomView.warningSnackBar(container, baseContext, "Empty data")
+            CustomFun.warningSnackBar(container, baseContext, "Empty data")
             recyclerview.adapter = PetRecyclerViewAdapter("type", temps, {}, mutableListOf()){}
         }else{
             if(sort_switch.isChecked){
@@ -112,7 +112,7 @@ class PetTypeManagementActivity : AppCompatActivity(), PetTypeView {
 
     override fun showPetTypeLoading() {
         if (edit){
-            CustomView.warningSnackBar(container, baseContext, "Processing..")
+            CustomFun.warningSnackBar(container, baseContext, "Processing..")
         }else{
             swipe_rv.isRefreshing = true
         }
@@ -127,7 +127,7 @@ class PetTypeManagementActivity : AppCompatActivity(), PetTypeView {
         if (!edit){
             val temp: List<PetType> = data?.pettype ?: emptyList()
             if (temp.isEmpty()){
-                CustomView.neutralSnackBar(container, baseContext, "Pet Type empty")
+                CustomFun.neutralSnackBar(container, baseContext, "Pet Type empty")
             }else{
                 petTypesList.addAll(temp)
                 petTypesTemp.addAll(temp)
@@ -137,17 +137,17 @@ class PetTypeManagementActivity : AppCompatActivity(), PetTypeView {
                     showPetType(it)
                     Toast.makeText(this, "Type : " + it.name, Toast.LENGTH_SHORT).show()
                 }, mutableListOf(),{})
-                CustomView.successSnackBar(container, baseContext, "Ok, success")
+                CustomFun.successSnackBar(container, baseContext, "Ok, success")
             }
         }else{
             startActivity<PetTypeManagementActivity>()
             infoDialog.dismiss()
-            CustomView.successSnackBar(container, baseContext, "Ok, success")
+            CustomFun.successSnackBar(container, baseContext, "Ok, success")
         }
     }
 
     override fun petTypeFailed(data: String) {
-        CustomView.failedSnackBar(container, baseContext, data)
+        CustomFun.failedSnackBar(container, baseContext, data)
     }
 
     private fun clearList(){

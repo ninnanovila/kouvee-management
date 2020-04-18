@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.kouveemanagement.CustomView
+import com.example.kouveemanagement.CustomFun
 import com.example.kouveemanagement.OwnerActivity
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.adapter.ProductRecyclerViewAdapter
@@ -71,7 +71,7 @@ class ProductManagementActivity : AppCompatActivity(), ProductView {
         }
         show_min.setOnClickListener {
             if (minProducts.isNullOrEmpty()){
-                CustomView.warningSnackBar(container, baseContext, "Minimum product empty")
+                CustomFun.warningSnackBar(container, baseContext, "Minimum product empty")
             }else{
                 temps = minProducts
                 getList()
@@ -97,12 +97,12 @@ class ProductManagementActivity : AppCompatActivity(), ProductView {
         swipe_rv.setOnRefreshListener {
             presenter.getAllProduct()
         }
-        CustomView.setSwipe(swipe_rv)
+        CustomFun.setSwipe(swipe_rv)
     }
 
     private fun getList(){
         if(temps.isNullOrEmpty()){
-            CustomView.warningSnackBar(container, baseContext, "Empty data")
+            CustomFun.warningSnackBar(container, baseContext, "Empty data")
             recyclerview.adapter = ProductRecyclerViewAdapter(temps as MutableList<Product>){}
         }else{
             if(sort_switch.isChecked){
@@ -130,7 +130,7 @@ class ProductManagementActivity : AppCompatActivity(), ProductView {
     override fun productSuccess(data: ProductResponse?) {
         val temp: List<Product> = data?.products ?: emptyList()
         if (temp.isEmpty()){
-            CustomView.neutralSnackBar(container, baseContext, "Product empty")
+            CustomFun.neutralSnackBar(container, baseContext, "Product empty")
         }else{
             clearList()
             productsList.addAll(temp)
@@ -145,12 +145,12 @@ class ProductManagementActivity : AppCompatActivity(), ProductView {
             recyclerview.adapter = ProductRecyclerViewAdapter(productsList) {
                 showDialog(it)
             }
-            CustomView.successSnackBar(container, baseContext, "Ok, success")
+            CustomFun.successSnackBar(container, baseContext, "Ok, success")
         }
     }
 
     override fun productFailed(data: String) {
-        CustomView.failedSnackBar(container, baseContext, data)
+        CustomFun.failedSnackBar(container, baseContext, data)
     }
 
     private fun clearList(){

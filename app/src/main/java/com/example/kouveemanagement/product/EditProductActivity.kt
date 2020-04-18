@@ -10,7 +10,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.example.kouveemanagement.CustomView
+import com.example.kouveemanagement.CustomFun
 import com.example.kouveemanagement.OwnerActivity
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.model.Product
@@ -61,10 +61,10 @@ class EditProductActivity : AppCompatActivity(), ProductView, UploadPhotoProduct
         }
         btn_upload.setOnClickListener {
             if (bitmap!=null){
-                CustomView.welcomeSnackBar(container, baseContext, "Uploading image...")
+                CustomFun.welcomeSnackBar(container, baseContext, "Uploading image...")
                 multipartImageUpload()
             }else{
-                CustomView.warningSnackBar(container, baseContext, "Please choose image")
+                CustomFun.warningSnackBar(container, baseContext, "Please choose image")
             }
         }
     }
@@ -136,7 +136,7 @@ class EditProductActivity : AppCompatActivity(), ProductView, UploadPhotoProduct
     override fun productFailed(data: String) {
         btn_save.revertAnimation()
         btn_cancel.visibility = View.VISIBLE
-        CustomView.failedSnackBar(container, baseContext, data)
+        CustomFun.failedSnackBar(container, baseContext, data)
     }
 
     override fun onBackPressed() {
@@ -237,7 +237,7 @@ class EditProductActivity : AppCompatActivity(), ProductView, UploadPhotoProduct
         if (resultCode == Activity.RESULT_OK){
             if (requestCode == 200){
                 val filePath = getImageFilePath(data)
-                CustomView.welcomeSnackBar(container, baseContext, "Image has been chosen..")
+                CustomFun.welcomeSnackBar(container, baseContext, "Image has been chosen..")
                 bitmap = BitmapFactory.decodeFile(filePath)
                 getByteArrayInBackground()
                 image_product.setImageBitmap(bitmap)
@@ -281,7 +281,7 @@ class EditProductActivity : AppCompatActivity(), ProductView, UploadPhotoProduct
         progressbar_img.visibility = View.INVISIBLE
         btn_choose.visibility = View.VISIBLE
         btn_upload.visibility = View.VISIBLE
-        CustomView.failedSnackBar(container, baseContext, data)
+        CustomFun.failedSnackBar(container, baseContext, data)
     }
 
 }

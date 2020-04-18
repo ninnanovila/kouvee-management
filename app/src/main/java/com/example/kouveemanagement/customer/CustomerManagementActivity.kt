@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.kouveemanagement.CustomView
+import com.example.kouveemanagement.CustomFun
 import com.example.kouveemanagement.CustomerServiceActivity
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.adapter.CustomerRecyclerViewAdapter
@@ -42,8 +42,8 @@ class CustomerManagementActivity : AppCompatActivity(), CustomerView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_customer_management)
-        if (!CustomView.verifiedNetwork(this)){
-            CustomView.warningSnackBar(container, baseContext, "Please check internet connection")
+        if (!CustomFun.verifiedNetwork(this)){
+            CustomFun.warningSnackBar(container, baseContext, "Please check internet connection")
         }
         presenter = CustomerPresenter(this, Repository())
         presenter.getAllCustomer()
@@ -94,12 +94,12 @@ class CustomerManagementActivity : AppCompatActivity(), CustomerView {
         swipe_rv.setOnRefreshListener {
             presenter.getAllCustomer()
         }
-        CustomView.setSwipe(swipe_rv)
+        CustomFun.setSwipe(swipe_rv)
     }
 
     private fun getList(){
         if (temps.isNullOrEmpty()){
-            CustomView.warningSnackBar(container, baseContext, "Empty data")
+            CustomFun.warningSnackBar(container, baseContext, "Empty data")
             recyclerview.adapter = CustomerRecyclerViewAdapter(temps as MutableList<Customer>){}
         }else{
             if(sort_switch.isChecked){
@@ -128,7 +128,7 @@ class CustomerManagementActivity : AppCompatActivity(), CustomerView {
         val temp: List<Customer> = data?.customers ?: emptyList()
 //        val temp: List<Customer> = emptyList()
         if (temp.isEmpty()){
-            CustomView.neutralSnackBar(container, baseContext, "Oops, no result")
+            CustomFun.neutralSnackBar(container, baseContext, "Oops, no result")
         }else{
             clearList()
             customersList.addAll(temp)
@@ -141,12 +141,12 @@ class CustomerManagementActivity : AppCompatActivity(), CustomerView {
                 }
                 adapter = customerAdapter
             }
-            CustomView.successSnackBar(container, baseContext, "Ok, success")
+            CustomFun.successSnackBar(container, baseContext, "Ok, success")
         }
     }
 
     override fun customerFailed(data: String) {
-        CustomView.failedSnackBar(container, baseContext, data)
+        CustomFun.failedSnackBar(container, baseContext, data)
     }
 
     private fun clearList(){

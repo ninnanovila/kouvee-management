@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.kouveemanagement.CustomView
+import com.example.kouveemanagement.CustomFun
 import com.example.kouveemanagement.OwnerActivity
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.adapter.DetailOrderProductRecyclerViewAdapter
@@ -25,7 +25,6 @@ import com.example.kouveemanagement.presenter.OrderProductView
 import com.example.kouveemanagement.repository.Repository
 import kotlinx.android.synthetic.main.activity_add_order_product.*
 import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.toast
 
 class AddOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOrderProductView {
 
@@ -81,7 +80,7 @@ class AddOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOrd
         swipe_rv.setOnRefreshListener {
             presenterD.getDetailOrderProductByOrderId(orderProduct.id.toString())
         }
-        CustomView.setSwipe(swipe_rv)
+        CustomFun.setSwipe(swipe_rv)
     }
 
     private fun setData(input: OrderProduct){
@@ -112,20 +111,20 @@ class AddOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOrd
                 startActivity<OrderProductActivity>()
             }
             "edit" -> {
-                CustomView.successSnackBar(container, baseContext, "Success edit supplier")
+                CustomFun.successSnackBar(container, baseContext, "Success edit supplier")
                 startActivity<AddOrderProductActivity>()
             }
             "delete" -> {
                 startActivity<OrderProductActivity>()
             }
             else -> {
-                CustomView.successSnackBar(container, baseContext, "Ok, success")
+                CustomFun.successSnackBar(container, baseContext, "Ok, success")
             }
         }
     }
 
     override fun orderProductFailed(data: String) {
-        CustomView.failedSnackBar(container, baseContext, data)
+        CustomFun.failedSnackBar(container, baseContext, data)
     }
 
     override fun showDetailOrderProductLoading() {
@@ -139,7 +138,7 @@ class AddOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOrd
     override fun detailOrderProductSuccess(data: DetailOrderProductResponse?) {
         val temp: List<DetailOrderProduct> = data?.detailOrderProducts ?: emptyList()
         if (temp.isEmpty()){
-            CustomView.neutralSnackBar(container, baseContext, "Empty detail")
+            CustomFun.neutralSnackBar(container, baseContext, "Empty detail")
         }else{
             clearDetail()
             detailOrderProducts.addAll(temp)
@@ -149,12 +148,12 @@ class AddOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOrd
                 val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
                 transaction.replace(R.id.container, fragment).commit()
             }
-            CustomView.successSnackBar(container, baseContext, "Detail success")
+            CustomFun.successSnackBar(container, baseContext, "Detail success")
         }
     }
 
     override fun detailOrderProductFailed(data: String) {
-        CustomView.failedSnackBar(container, baseContext, data)
+        CustomFun.failedSnackBar(container, baseContext, data)
     }
 
     private fun clearDetail(){
@@ -212,7 +211,7 @@ class AddOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOrd
                 }
             }
             .setNegativeButton("NO"){ _: DialogInterface, _: Int ->
-                CustomView.warningSnackBar(container, baseContext, "Process canceled")
+                CustomFun.warningSnackBar(container, baseContext, "Process canceled")
             }
             .show()
     }

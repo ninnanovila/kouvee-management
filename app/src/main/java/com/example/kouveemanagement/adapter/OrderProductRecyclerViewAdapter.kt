@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.kouveemanagement.CustomFun
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.model.OrderProduct
 import com.example.kouveemanagement.orderproduct.OrderProductActivity
@@ -50,8 +51,7 @@ class OrderProductRecyclerViewAdapter (private val orderProducts : MutableList<O
             id.text = orderProduct.id
             status.text = orderProduct.status
             val priceTotal = orderProduct.total.toString()
-            val rp = "Rp. $priceTotal"
-            total.text = rp
+            total.text = CustomFun.changeToRp(priceTotal.toDouble())
 
             containerView.setOnClickListener {
                 listener(orderProduct)

@@ -7,7 +7,7 @@ import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.kouveemanagement.CustomView
+import com.example.kouveemanagement.CustomFun
 import com.example.kouveemanagement.OwnerActivity
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.adapter.OrderProductRecyclerViewAdapter
@@ -99,12 +99,12 @@ class OrderProductActivity : AppCompatActivity(), OrderProductView, SupplierView
             presenterS.getAllSupplier()
             presenterP.getAllProduct()
         }
-        CustomView.setSwipe(swipe_rv)
+        CustomFun.setSwipe(swipe_rv)
     }
 
     private fun getList(){
         if (temps.isNullOrEmpty()){
-            CustomView.warningSnackBar(container, baseContext, "Empty data")
+            CustomFun.warningSnackBar(container, baseContext, "Empty data")
             recyclerview.adapter = OrderProductRecyclerViewAdapter(temps as MutableList<OrderProduct>){}
         }else{
             recyclerview.adapter = OrderProductRecyclerViewAdapter(temps as MutableList<OrderProduct>){
@@ -126,7 +126,7 @@ class OrderProductActivity : AppCompatActivity(), OrderProductView, SupplierView
         if (add == "0"){
             val temp: List<OrderProduct> = data?.orderProducts ?: emptyList()
             if (temp.isEmpty()){
-                CustomView.neutralSnackBar(container, baseContext, "Oops, no result")
+                CustomFun.neutralSnackBar(container, baseContext, "Oops, no result")
             }else{
                 clearList()
                 orderProductsList.addAll(temp)
@@ -138,7 +138,7 @@ class OrderProductActivity : AppCompatActivity(), OrderProductView, SupplierView
                     Toast.makeText(this, "Order Number : "+it.id, Toast.LENGTH_LONG).show()
                 }
             }
-            CustomView.successSnackBar(container, baseContext, "Ok, success")
+            CustomFun.successSnackBar(container, baseContext, "Ok, success")
         }else if (add == "1"){
             orderProduct = data?.orderProducts?.get(0)!!
             startActivity<AddOrderProductActivity>()
@@ -146,7 +146,7 @@ class OrderProductActivity : AppCompatActivity(), OrderProductView, SupplierView
     }
 
     override fun orderProductFailed(data: String) {
-        CustomView.failedSnackBar(container, baseContext, data)
+        CustomFun.failedSnackBar(container, baseContext, data)
     }
 
     private fun clearList(){
@@ -215,7 +215,7 @@ class OrderProductActivity : AppCompatActivity(), OrderProductView, SupplierView
     override fun supplierSuccess(data: SupplierResponse?) {
         val temp: List<Supplier> = data?.suppliers ?: emptyList()
         if (temp.isEmpty()){
-            CustomView.neutralSnackBar(container, baseContext, "Supplier empty")
+            CustomFun.neutralSnackBar(container, baseContext, "Supplier empty")
         }else{
             clearSuppliers()
             suppliers.addAll(temp)
@@ -225,12 +225,12 @@ class OrderProductActivity : AppCompatActivity(), OrderProductView, SupplierView
                     supplierIdDropdown.add(temp[i].id.toString())
                 }
             }
-            CustomView.successSnackBar(container, baseContext, "Supplier success")
+            CustomFun.successSnackBar(container, baseContext, "Supplier success")
         }
     }
 
     override fun supplierFailed(data: String) {
-        CustomView.failedSnackBar(container, baseContext, data)
+        CustomFun.failedSnackBar(container, baseContext, data)
     }
 
     private fun clearSuppliers(){
@@ -250,7 +250,7 @@ class OrderProductActivity : AppCompatActivity(), OrderProductView, SupplierView
     override fun productSuccess(data: ProductResponse?) {
         val temp: List<Product> = data?.products ?: emptyList()
         if (temp.isEmpty()){
-            CustomView.neutralSnackBar(container, baseContext, "Product empty")
+            CustomFun.neutralSnackBar(container, baseContext, "Product empty")
         }else{
             clearProducts()
             products.addAll(temp)
@@ -260,12 +260,12 @@ class OrderProductActivity : AppCompatActivity(), OrderProductView, SupplierView
                     productIdDropdown.add(temp[i].id.toString())
                 }
             }
-            CustomView.successSnackBar(container, baseContext, "Product success")
+            CustomFun.successSnackBar(container, baseContext, "Product success")
         }
     }
 
     override fun productFailed(data: String) {
-        CustomView.failedSnackBar(container, baseContext, data)
+        CustomFun.failedSnackBar(container, baseContext, data)
     }
 
     private fun clearProducts(){

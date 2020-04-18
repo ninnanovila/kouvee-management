@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.kouveemanagement.CustomFun
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.model.Service
 import com.example.kouveemanagement.service.ServiceManagementActivity
@@ -50,8 +51,7 @@ class ServiceRecyclerViewAdapter(private val services: MutableList<Service>, pri
         fun bindItem(service: Service, listener: (Service) -> Unit) {
             name.text = service.name
             val priceS = service.price.toString()
-            val rp = "Rp. $priceS"
-            price.text = rp
+            price.text = CustomFun.changeToRp(priceS.toDouble())
             containerView.setOnClickListener {
                 listener(service)
             }

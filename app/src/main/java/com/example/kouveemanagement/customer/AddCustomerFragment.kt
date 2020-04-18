@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.kouveemanagement.CustomView
+import com.example.kouveemanagement.CustomFun
 import com.example.kouveemanagement.MainActivity
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.model.Customer
@@ -107,7 +107,7 @@ class AddCustomerFragment : Fragment(), CustomerView {
 
     override fun customerFailed(data: String) {
         btn_add.revertAnimation()
-        context?.let { view?.let { itView -> CustomView.failedSnackBar(itView, it, data) } }
+        context?.let { view?.let { itView -> CustomFun.failedSnackBar(itView, it, data) } }
     }
 
 }

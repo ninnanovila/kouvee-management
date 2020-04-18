@@ -4,12 +4,15 @@ import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.*
+import android.widget.Button
+import android.widget.ImageButton
+import android.widget.SearchView
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.kouveemanagement.CustomView
+import com.example.kouveemanagement.CustomFun
 import com.example.kouveemanagement.OwnerActivity
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.adapter.SupplierRecyclerViewAdapter
@@ -87,14 +90,15 @@ class SupplierManagementActivity : AppCompatActivity(), SupplierView {
             getList()
         }
         swipe_rv.setOnRefreshListener {
+            toggleButton.check(R.id.show_all)
             presenter.getAllSupplier()
         }
-        CustomView.setSwipe(swipe_rv)
+        CustomFun.setSwipe(swipe_rv)
     }
 
     private fun getList(){
         if (temps.isNullOrEmpty()){
-            CustomView.warningSnackBar(container, baseContext, "Empty data")
+            CustomFun.warningSnackBar(container, baseContext, "Empty data")
             recyclerview.adapter = SupplierRecyclerViewAdapter(temps as MutableList<Supplier>){}
         }else{
             if(sort_switch.isChecked){
@@ -122,7 +126,7 @@ class SupplierManagementActivity : AppCompatActivity(), SupplierView {
     override fun supplierSuccess(data: SupplierResponse?) {
         val temp: List<Supplier> = data?.suppliers ?: emptyList()
         if (temp.isEmpty()){
-            CustomView.neutralSnackBar(container, baseContext, "Supplier empty")
+            CustomFun.neutralSnackBar(container, baseContext, "Supplier empty")
         }else{
             clearList()
             suppliersList.addAll(temp)
@@ -132,12 +136,12 @@ class SupplierManagementActivity : AppCompatActivity(), SupplierView {
             recyclerview.adapter = SupplierRecyclerViewAdapter(suppliersList) {
                 showDialog(it)
             }
-            CustomView.successSnackBar(container, baseContext, "Ok, success")
+            CustomFun.successSnackBar(container, baseContext, "Ok, success")
         }
     }
 
     override fun supplierFailed(data: String) {
-        CustomView.failedSnackBar(container, baseContext, data)
+        CustomFun.failedSnackBar(container, baseContext, data)
     }
 
     private fun clearList(){

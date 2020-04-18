@@ -13,9 +13,15 @@ import androidx.core.content.ContextCompat
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.kouveemanagement.presenter.LoginPresenter
 import com.google.android.material.snackbar.Snackbar
+import com.skydoves.balloon.Balloon
+import com.skydoves.balloon.BalloonAnimation
+import com.skydoves.balloon.createBalloon
+import java.text.NumberFormat
+import java.util.*
 
-object CustomView {
+object CustomFun {
 
+    //SNACK BAR
     fun successSnackBar(viewInput: View, baseContext: Context, textInput: String){
         val snackBar = Snackbar.make(viewInput,textInput, Snackbar.LENGTH_INDEFINITE)
         snackBar.setActionTextColor(
@@ -112,17 +118,20 @@ object CustomView {
         snackBar.show()
     }
 
+    //TEXT FOR SNACK BAR
     private fun setTextView(text: TextView){
         text.maxLines = 1
         text.setTypeface(null, Typeface.ITALIC)
         text.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
     }
 
+    //SWIPE LOADING
     fun setSwipe(swipe: SwipeRefreshLayout){
         swipe.setColorSchemeColors(Color.WHITE)
         swipe.setProgressBackgroundColorSchemeResource(R.color.colorAccent)
     }
 
+    //NETWORK CHECK
     fun verifiedNetwork(activity: AppCompatActivity): Boolean{
         val connectManager = activity.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val network = connectManager.activeNetwork
@@ -131,6 +140,31 @@ object CustomView {
             return networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) || networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
         }
         return false
+    }
+
+    //CONVERTER
+    fun changeToRp(number: Double): String{
+        val id =  Locale("in", "ID")
+        val formatter = NumberFormat.getCurrencyInstance(id)
+        return formatter.format(number).toString()+",-"
+    }
+
+    //TOOL TIPS
+    fun createToolTips(context: Context, text: String): Balloon {
+        return createBalloon(context) {
+            setArrowSize(10)
+            setWidthRatio(1.0f)
+            setHeight(65)
+            setArrowPosition(0.7f)
+            setCornerRadius(4f)
+            setAlpha(0.9f)
+            setText(text)
+            setTextColorResource(android.R.color.white)
+            setBackgroundColorResource(R.color.colorPrimary)
+            setBalloonAnimation(BalloonAnimation.CIRCULAR)
+            setAutoDismissDuration(1000L)
+            setLifecycleOwner(lifecycleOwner)
+        }
     }
 
 }

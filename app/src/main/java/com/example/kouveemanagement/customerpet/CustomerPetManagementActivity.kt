@@ -96,7 +96,7 @@ class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView, Cust
         swipe_rv.setOnRefreshListener {
             presenter.getAllCustomerPet()
         }
-        CustomView.setSwipe(swipe_rv)
+        CustomFun.setSwipe(swipe_rv)
     }
 
     private fun getList(){
@@ -122,7 +122,7 @@ class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView, Cust
     override fun petTypeSuccess(data: PetTypeResponse?) {
         val temp: List<PetType> = data?.pettype ?: emptyList()
         if (temp.isEmpty()){
-            CustomView.neutralSnackBar(container, baseContext, "Pet Type empty")
+            CustomFun.neutralSnackBar(container, baseContext, "Pet Type empty")
         }else{
             nameTypeDropdown.clear()
             idTypeList.clear()
@@ -138,7 +138,7 @@ class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView, Cust
     }
 
     override fun petTypeFailed(data: String) {
-        CustomView.failedSnackBar(container, baseContext, data)
+        CustomFun.failedSnackBar(container, baseContext, data)
     }
 
     override fun showCustomerPetLoading() {
@@ -152,7 +152,7 @@ class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView, Cust
     override fun customerPetSuccess(data: CustomerPetResponse?) {
         val temp: List<CustomerPet> = data?.customerpets ?: emptyList()
         if (temp.isEmpty()){
-            CustomView.neutralSnackBar(container, baseContext, "Oops, no result")
+            CustomFun.neutralSnackBar(container, baseContext, "Oops, no result")
         }else{
             clearList()
             customerPetsList.addAll(temp)
@@ -163,12 +163,12 @@ class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView, Cust
                 showDialog(it)
                 Toast.makeText(this, it.id, Toast.LENGTH_LONG).show()
             }
-            CustomView.successSnackBar(container, baseContext, "Ok, success")
+            CustomFun.successSnackBar(container, baseContext, "Ok, success")
         }
     }
 
     override fun customerPetFailed(data: String) {
-        CustomView.failedSnackBar(container, baseContext, data)
+        CustomFun.failedSnackBar(container, baseContext, data)
     }
 
     private fun clearList(){
@@ -220,7 +220,7 @@ class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView, Cust
     override fun customerSuccess(data: CustomerResponse?) {
         val temp: List<Customer> = data?.customers ?: emptyList()
         if (temp.isEmpty()){
-            CustomView.neutralSnackBar(container, baseContext, "Customer empty")
+            CustomFun.neutralSnackBar(container, baseContext, "Customer empty")
         }else{
             nameCustomerDropdown.clear()
             idCustomerList.clear()
@@ -234,6 +234,6 @@ class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView, Cust
     }
 
     override fun customerFailed(data: String) {
-        CustomView.failedSnackBar(container, baseContext, data)
+        CustomFun.failedSnackBar(container, baseContext, data)
     }
 }

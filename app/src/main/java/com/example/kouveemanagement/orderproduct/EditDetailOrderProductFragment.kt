@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.kouveemanagement.CustomView
+import com.example.kouveemanagement.CustomFun
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.model.DetailOrderProduct
 import com.example.kouveemanagement.model.DetailOrderProductResponse
@@ -124,9 +124,9 @@ class EditDetailOrderProductFragment : Fragment(), DetailOrderProductView {
         btn_save.revertAnimation()
         btn_cancel.visibility = View.VISIBLE
         if (state == "edit"){
-            context?.let { view?.let { itView -> CustomView.failedSnackBar(itView, it, data) } }
+            context?.let { view?.let { itView -> CustomFun.failedSnackBar(itView, it, data) } }
         }else if (state == "delete"){
-            context?.let { view?.let { itView -> CustomView.failedSnackBar(itView, it, data) } }
+            context?.let { view?.let { itView -> CustomFun.failedSnackBar(itView, it, data) } }
         }
     }
 

@@ -3,7 +3,7 @@ package com.example.kouveemanagement.supplier
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.example.kouveemanagement.CustomView
+import com.example.kouveemanagement.CustomFun
 import com.example.kouveemanagement.OwnerActivity
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.model.Supplier
@@ -92,7 +92,7 @@ class EditSupplierActivity : AppCompatActivity(), SupplierView {
     override fun supplierFailed(data: String) {
         btn_save.revertAnimation()
         btn_cancel.visibility = View.VISIBLE
-        CustomView.failedSnackBar(container, baseContext, data)
+        CustomFun.failedSnackBar(container, baseContext, data)
     }
 
     override fun onBackPressed() {

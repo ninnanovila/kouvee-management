@@ -7,7 +7,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.kouveemanagement.CustomView
+import com.example.kouveemanagement.CustomFun
 import com.example.kouveemanagement.OwnerActivity
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.adapter.DetailOrderProductRecyclerViewAdapter
@@ -76,7 +76,7 @@ class EditOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOr
 
     override fun orderProductFailed(data: String) {
         btn_done.revertAnimation()
-        CustomView.failedSnackBar(container, baseContext, data)
+        CustomFun.failedSnackBar(container, baseContext, data)
     }
 
     override fun showDetailOrderProductLoading() {
@@ -90,19 +90,19 @@ class EditOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOr
     override fun detailOrderProductSuccess(data: DetailOrderProductResponse?) {
         val temp: List<DetailOrderProduct> = data?.detailOrderProducts ?: emptyList()
         if (temp.isEmpty()){
-            CustomView.neutralSnackBar(container, baseContext, "Detail empty")
+            CustomFun.neutralSnackBar(container, baseContext, "Detail empty")
         }else{
             detailOrderProducts.addAll(temp)
             recyclerview.layoutManager = LinearLayoutManager(this)
             recyclerview.adapter = DetailOrderProductRecyclerViewAdapter(OrderProductActivity.products, detailOrderProducts){
                 Toast.makeText(this, it.id_order, Toast.LENGTH_LONG).show()
             }
-            CustomView.successSnackBar(container, baseContext, "Detail success")
+            CustomFun.successSnackBar(container, baseContext, "Detail success")
         }
     }
 
     override fun detailOrderProductFailed(data: String) {
-        CustomView.failedSnackBar(container, baseContext, data)
+        CustomFun.failedSnackBar(container, baseContext, data)
     }
 
     private fun alertDialog(){
@@ -113,7 +113,7 @@ class EditOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOr
                 presenter.editDoneOrderProduct(idOrderProduct)
             }
             .setNegativeButton("NO"){ _: DialogInterface, _: Int ->
-                CustomView.warningSnackBar(container, baseContext, "Process canceled")
+                CustomFun.warningSnackBar(container, baseContext, "Process canceled")
             }
             .show()
     }

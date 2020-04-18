@@ -116,8 +116,8 @@
     <string name="last_employee">Last employee</string>
 
     <!--LOGIN-->
-    <string name="login_id">Input employee number</string>
-    <string name="login_password">Input password</string>
+    <string name="login_id">Input Employee ID</string>
+    <string name="login_password">Input Password</string>
 
     <!--STRING DATA-->
     <string name="content_desc">Image</string>

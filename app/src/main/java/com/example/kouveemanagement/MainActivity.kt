@@ -25,8 +25,8 @@ class MainActivity : AppCompatActivity(), LoginView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        if (!CustomView.verifiedNetwork(this)){
-            CustomView.warningSnackBar(container, baseContext, "Please check internet connection")
+        if (!CustomFun.verifiedNetwork(this)){
+            CustomFun.warningSnackBar(container, baseContext, "Please check internet connection")
         }
         database = Room.databaseBuilder(this, AppDatabase::class.java, "kouvee-db").build()
         checkCurrentUser()
@@ -43,11 +43,11 @@ class MainActivity : AppCompatActivity(), LoginView {
     private fun isValid(): Boolean {
         if (id_login.text.isNullOrEmpty()){
             id_login.error = getString(R.string.error_id)
-            CustomView.failedSnackBar(container, baseContext, "Check employee number")
+            CustomFun.failedSnackBar(container, baseContext, "Check employee number")
             return false
         }
         if (password_login.text.isNullOrEmpty()){
-            CustomView.failedSnackBar(container, baseContext, "Check password")
+            CustomFun.failedSnackBar(container, baseContext, "Check password")
             return false
         }
         return true
@@ -66,7 +66,7 @@ class MainActivity : AppCompatActivity(), LoginView {
             "Admin" -> startActivity<OwnerActivity>()
             "Customer Service" -> startActivity<CustomerServiceActivity>()
             "Cashier" -> {
-                CustomView.failedSnackBar(container, baseContext, "Cashier can not access")
+                CustomFun.failedSnackBar(container, baseContext, "Cashier can not access")
                 btn_login.revertAnimation()
             }
         }
@@ -78,7 +78,7 @@ class MainActivity : AppCompatActivity(), LoginView {
 
     override fun loginFailed(data: String) {
         btn_login.revertAnimation()
-        CustomView.failedLoginSnackBar(container, baseContext, id_login.text.toString(), password_login.text.toString(), loginPresenter, data)
+        CustomFun.failedLoginSnackBar(container, baseContext, id_login.text.toString(), password_login.text.toString(), loginPresenter, data)
     }
 
     private fun checkCurrentUser(){

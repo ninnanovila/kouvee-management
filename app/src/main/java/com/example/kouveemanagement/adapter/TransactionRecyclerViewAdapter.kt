@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.kouveemanagement.CustomFun
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.model.Transaction
 import com.example.kouveemanagement.transaction.ServiceTransactionActivity
@@ -49,11 +50,10 @@ class TransactionRecyclerViewAdapter(private val transactions: MutableList<Trans
         fun bindItem(transaction: Transaction, listener: (Transaction) -> Unit){
             id.text = transaction.id
             val discountTotal = transaction.discount.toString()
-            val rpD = "(- Rp. $discountTotal)"
-            discount.text = rpD
+            val rpD = CustomFun.changeToRp(discountTotal.toDouble())
+            discount.text = "(- $rpD)"
             val priceTotal = transaction.total_price.toString()
-            val rpT = "Rp. $priceTotal"
-            totalPrice.text = rpT
+            totalPrice.text = CustomFun.changeToRp(priceTotal.toDouble())
             val paidOff = "Paid Off"
             val notYetPaidOff = "Not Yet Paid Off"
             if (transaction.payment.equals("1")){

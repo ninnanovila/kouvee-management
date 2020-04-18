@@ -30,8 +30,8 @@ class CustomerServiceActivity : AppCompatActivity() {
         menuInitialization()
         database = Room.databaseBuilder(this, AppDatabase::class.java, "kouvee-db").build()
         setContentView(R.layout.activity_customer_service)
-        if (!CustomView.verifiedNetwork(this)) CustomView.warningSnackBar(container, baseContext, "Please check internet connection")
-        else CustomView.welcomeSnackBar(container, baseContext, "Welcome Customer Service!")
+        if (!CustomFun.verifiedNetwork(this)) CustomFun.warningSnackBar(container, baseContext, "Please check internet connection")
+        else CustomFun.welcomeSnackBar(container, baseContext, "Welcome Customer Service!")
         setMenu()
         getCurrentUser()
         btn_logout.setOnClickListener {
@@ -60,7 +60,7 @@ class CustomerServiceActivity : AppCompatActivity() {
                 //TRANSACTION
                 "Product Transaction" -> startActivity<ProductTransactionActivity>()
                 "Service Transaction" -> startActivity<ServiceTransactionActivity>()
-                else -> CustomView.warningSnackBar(container, baseContext, "Don't have permission")
+                else -> CustomFun.warningSnackBar(container, baseContext, "Don't have permission")
             }
         }
     }
@@ -81,7 +81,7 @@ class CustomerServiceActivity : AppCompatActivity() {
             .setMessage("Are you sure to log out ?")
 
         confirm.setNegativeButton("NO") { _, _ ->
-            CustomView.welcomeSnackBar(container, baseContext, "Stay here")
+            CustomFun.welcomeSnackBar(container, baseContext, "Stay here")
         }
         confirm.setPositiveButton("YES") { _, _ ->
             val thread = Thread {

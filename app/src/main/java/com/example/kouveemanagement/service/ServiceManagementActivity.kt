@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.kouveemanagement.CustomView
+import com.example.kouveemanagement.CustomFun
 import com.example.kouveemanagement.OwnerActivity
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.adapter.ServiceRecyclerViewAdapter
@@ -47,8 +47,8 @@ class ServiceManagementActivity : AppCompatActivity(), ServiceView, PetSizeView 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_service_management)
-        if (!CustomView.verifiedNetwork(this)){
-            CustomView.warningSnackBar(container, baseContext, "Please check internet connection")
+        if (!CustomFun.verifiedNetwork(this)){
+            CustomFun.warningSnackBar(container, baseContext, "Please check internet connection")
         }
         presenter = ServicePresenter(this, Repository())
         presenter.getAllService()
@@ -101,12 +101,12 @@ class ServiceManagementActivity : AppCompatActivity(), ServiceView, PetSizeView 
         swipe_rv.setOnRefreshListener {
             presenter.getAllService()
         }
-        CustomView.setSwipe(swipe_rv)
+        CustomFun.setSwipe(swipe_rv)
     }
 
     private fun getList(){
         if (temps.isNullOrEmpty()){
-            CustomView.warningSnackBar(container, baseContext, "Empty data")
+            CustomFun.warningSnackBar(container, baseContext, "Empty data")
             recyclerview.adapter = ServiceRecyclerViewAdapter(temps as MutableList<Service>){}
         }else{
             if(sort_switch.isChecked){
@@ -134,7 +134,7 @@ class ServiceManagementActivity : AppCompatActivity(), ServiceView, PetSizeView 
     override fun serviceSuccess(data: ServiceResponse?) {
         val temp: List<Service> = data?.services ?: emptyList()
         if (temp.isEmpty()){
-            CustomView.neutralSnackBar(container, baseContext, "Oops, no result")
+            CustomFun.neutralSnackBar(container, baseContext, "Oops, no result")
         }else{
             clearList()
             servicesList.addAll(temp)
@@ -144,12 +144,12 @@ class ServiceManagementActivity : AppCompatActivity(), ServiceView, PetSizeView 
             recyclerview.adapter = ServiceRecyclerViewAdapter(servicesList){
                 showDialog(it)
             }
-            CustomView.successSnackBar(container, baseContext, "Ok, success")
+            CustomFun.successSnackBar(container, baseContext, "Ok, success")
         }
     }
 
     override fun serviceFailed(data: String) {
-        CustomView.failedSnackBar(container, baseContext, data)
+        CustomFun.failedSnackBar(container, baseContext, data)
     }
 
     private fun clearList(){
@@ -203,7 +203,7 @@ class ServiceManagementActivity : AppCompatActivity(), ServiceView, PetSizeView 
     override fun petSizeSuccess(data: PetSizeResponse?) {
         val temp: List<PetSize> = data?.petsize ?: emptyList()
         if (temp.isEmpty()){
-            CustomView.neutralSnackBar(container, baseContext, "Pet size empty")
+            CustomFun.neutralSnackBar(container, baseContext, "Pet size empty")
         }else{
             namePetSize.clear()
             idPetSize.clear()
@@ -217,6 +217,6 @@ class ServiceManagementActivity : AppCompatActivity(), ServiceView, PetSizeView 
     }
 
     override fun petSizeFailed(data: String) {
-        CustomView.failedSnackBar(container, baseContext, data)
+        CustomFun.failedSnackBar(container, baseContext, data)
     }
 }

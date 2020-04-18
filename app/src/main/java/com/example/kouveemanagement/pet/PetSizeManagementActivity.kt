@@ -9,7 +9,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.kouveemanagement.CustomView
+import com.example.kouveemanagement.CustomFun
 import com.example.kouveemanagement.OwnerActivity
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.adapter.PetRecyclerViewAdapter
@@ -19,7 +19,6 @@ import com.example.kouveemanagement.presenter.PetSizePresenter
 import com.example.kouveemanagement.presenter.PetSizeView
 import com.example.kouveemanagement.repository.Repository
 import kotlinx.android.synthetic.main.activity_pet_size_management.*
-import kotlinx.android.synthetic.main.dialog_detail_pet.view.*
 import org.jetbrains.anko.startActivity
 
 class PetSizeManagementActivity : AppCompatActivity(), PetSizeView {
@@ -95,12 +94,12 @@ class PetSizeManagementActivity : AppCompatActivity(), PetSizeView {
         swipe_rv.setOnRefreshListener {
             presenterSize.getAllPetSize()
         }
-        CustomView.setSwipe(swipe_rv)
+        CustomFun.setSwipe(swipe_rv)
     }
 
     private fun getList(){
         if (temps.isNullOrEmpty()){
-            CustomView.warningSnackBar(container, baseContext, "Empty data")
+            CustomFun.warningSnackBar(container, baseContext, "Empty data")
             recyclerview.adapter = PetRecyclerViewAdapter("size", mutableListOf(), {}, temps){}
         }else{
             if(sort_switch.isChecked){
@@ -119,7 +118,7 @@ class PetSizeManagementActivity : AppCompatActivity(), PetSizeView {
 
     override fun showPetSizeLoading() {
         if (edit){
-            CustomView.warningSnackBar(container, baseContext, "Processing..")
+            CustomFun.warningSnackBar(container, baseContext, "Processing..")
         }else{
             swipe_rv.isRefreshing = true
         }
@@ -134,7 +133,7 @@ class PetSizeManagementActivity : AppCompatActivity(), PetSizeView {
         if (!edit){
             val temp: List<PetSize> = data?.petsize ?: emptyList()
             if (temp.isEmpty()){
-                CustomView.neutralSnackBar(container, baseContext, "Pet sizes empty")
+                CustomFun.neutralSnackBar(container, baseContext, "Pet sizes empty")
             }else{
                 petSizesList.addAll(temp)
                 petSizesTemp.addAll(temp)
@@ -144,17 +143,17 @@ class PetSizeManagementActivity : AppCompatActivity(), PetSizeView {
                     showPetSize(it)
                     Toast.makeText(this, "Size : "+it.name, Toast.LENGTH_LONG).show()
                 })
-                CustomView.successSnackBar(container, baseContext, "Ok, success")
+                CustomFun.successSnackBar(container, baseContext, "Ok, success")
             }
         }else{
             startActivity<PetSizeManagementActivity>()
             infoDialog.dismiss()
-            CustomView.successSnackBar(container, baseContext, "Ok, success")
+            CustomFun.successSnackBar(container, baseContext, "Ok, success")
         }
     }
 
     override fun petSizeFailed(data: String) {
-        CustomView.failedSnackBar(container, baseContext, data)
+        CustomFun.failedSnackBar(container, baseContext, data)
     }
 
     private fun clearList(){

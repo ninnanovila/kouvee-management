@@ -57,8 +57,8 @@ class OwnerActivity : AppCompatActivity(), MinProductView {
         menuInitialization()
         database = Room.databaseBuilder(this, AppDatabase::class.java, "kouvee-db").build()
         setContentView(R.layout.activity_owner)
-        if (!CustomView.verifiedNetwork(this)) CustomView.warningSnackBar(container, baseContext, "Please check internet connection")
-        else CustomView.welcomeSnackBar(container, baseContext, "Welcome Admin!")
+        if (!CustomFun.verifiedNetwork(this)) CustomFun.warningSnackBar(container, baseContext, "Please check internet connection")
+        else CustomFun.welcomeSnackBar(container, baseContext, "Welcome Admin!")
         setMenu()
         getCurrentUser()
         getMinProduct()
@@ -95,7 +95,7 @@ class OwnerActivity : AppCompatActivity(), MinProductView {
                 "Service" -> startActivity<ServiceManagementActivity>()
                 //TRANSACTION
                 "Order Product" -> startActivity<OrderProductActivity>()
-                else -> CustomView.warningSnackBar(container, baseContext, "Don't have permission")
+                else -> CustomFun.warningSnackBar(container, baseContext, "Don't have permission")
             }
         }
     }
@@ -115,7 +115,7 @@ class OwnerActivity : AppCompatActivity(), MinProductView {
             .setTitle("Confirmation")
             .setMessage("Are you sure to log out ?")
         confirm.setNegativeButton("NO") { _, _ ->
-            CustomView.welcomeSnackBar(container, baseContext, "Stay here")
+            CustomFun.welcomeSnackBar(container, baseContext, "Stay here")
         }
         confirm.setPositiveButton("YES") { _, _ ->
             val thread = Thread {
@@ -141,7 +141,7 @@ class OwnerActivity : AppCompatActivity(), MinProductView {
     override fun minProductSuccess(data: ProductResponse?) {
         val temp = data?.products ?: emptyList()
         if (temp.isEmpty()){
-            CustomView.successSnackBar(container, baseContext, "No Notification")
+            CustomFun.successSnackBar(container, baseContext, "No Notification")
         }else{
             notificationId = 0
             stackNotification.clear()
@@ -152,12 +152,12 @@ class OwnerActivity : AppCompatActivity(), MinProductView {
                 showNotification(stackNotification[i].name, stackNotification[i].stock, stackNotification[i].min_stock)
                 notificationId++
             }
-            CustomView.successSnackBar(container, baseContext, "Check notification")
+            CustomFun.successSnackBar(container, baseContext, "Check notification")
         }
     }
 
     override fun minProductFailed(data: String) {
-        CustomView.failedSnackBar(container, baseContext, data)
+        CustomFun.failedSnackBar(container, baseContext, data)
     }
 
     override fun onNewIntent(intent: Intent) {

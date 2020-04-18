@@ -6,7 +6,7 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.kouveemanagement.CustomView
+import com.example.kouveemanagement.CustomFun
 import com.example.kouveemanagement.OwnerActivity
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.model.Employee
@@ -128,7 +128,7 @@ class EditEmployeeActivity : AppCompatActivity(), EmployeeView {
     override fun employeeFailed(data: String) {
         btn_save.revertAnimation()
         btn_cancel.visibility = View.VISIBLE
-        CustomView.failedSnackBar(container, baseContext, data)
+        CustomFun.failedSnackBar(container, baseContext, data)
     }
 
     override fun onBackPressed() {

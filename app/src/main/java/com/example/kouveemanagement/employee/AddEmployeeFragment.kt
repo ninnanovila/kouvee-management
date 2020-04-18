@@ -8,8 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.Toast
-import com.example.kouveemanagement.CustomView
+import com.example.kouveemanagement.CustomFun
 
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.model.Employee
@@ -118,7 +117,7 @@ class AddEmployeeFragment : Fragment(), EmployeeView {
 
     override fun employeeFailed(data: String) {
         btn_add.revertAnimation()
-        context?.let { view?.let { itView -> CustomView.failedSnackBar(itView, it, data) } }
+        context?.let { view?.let { itView -> CustomFun.failedSnackBar(itView, it, data) } }
     }
 
 }

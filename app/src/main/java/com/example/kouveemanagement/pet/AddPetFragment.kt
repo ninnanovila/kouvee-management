@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.kouveemanagement.CustomView
+import com.example.kouveemanagement.CustomFun
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.model.PetSize
 import com.example.kouveemanagement.model.PetSizeResponse
@@ -106,7 +106,7 @@ class AddPetFragment : Fragment(), PetSizeView, PetTypeView {
 
     override fun petTypeFailed(data: String) {
         btn_add_t.revertAnimation()
-        context?.let { view?.let { itView -> CustomView.failedSnackBar(itView, it, data) } }
+        context?.let { view?.let { itView -> CustomFun.failedSnackBar(itView, it, data) } }
     }
 
     override fun showPetSizeLoading() {
@@ -122,7 +122,7 @@ class AddPetFragment : Fragment(), PetSizeView, PetTypeView {
 
     override fun petSizeFailed(data: String) {
         btn_add_s.revertAnimation()
-        context?.let { view?.let { itView -> CustomView.failedSnackBar(itView, it, data) } }
+        context?.let { view?.let { itView -> CustomFun.failedSnackBar(itView, it, data) } }
     }
 
 }
