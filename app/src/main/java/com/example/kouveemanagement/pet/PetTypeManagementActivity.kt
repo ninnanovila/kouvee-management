@@ -69,15 +69,18 @@ class PetTypeManagementActivity : AppCompatActivity(), PetTypeView {
         })
         fabAnimation()
         show_all.setOnClickListener {
+            CustomFun.createToolTips(this, "L").showAlignTop(show_all)
             temps = petTypesTemp
             getList()
         }
         show_en.setOnClickListener {
+            CustomFun.createToolTips(this, "C").showAlignTop(show_en)
             val filtered = petTypesTemp.filter { it.deleted_at === null }
             temps = filtered as ArrayList<PetType>
             getList()
         }
         show_dis.setOnClickListener {
+            CustomFun.createToolTips(this, "R").showAlignTop(show_dis)
             val filtered = petTypesTemp.filter { it.deleted_at !== null }
             temps = filtered as ArrayList<PetType>
             getList()
@@ -133,7 +136,7 @@ class PetTypeManagementActivity : AppCompatActivity(), PetTypeView {
                 petTypesTemp.addAll(temp)
                 temps = petTypesTemp
                 recyclerview.layoutManager = LinearLayoutManager(this)
-                recyclerview.adapter = PetRecyclerViewAdapter("type", petTypesList, {
+                recyclerview.adapter = PetRecyclerViewAdapter("type", petTypesList.asReversed(), {
                     showPetType(it)
                     Toast.makeText(this, "Type : " + it.name, Toast.LENGTH_SHORT).show()
                 }, mutableListOf(),{})

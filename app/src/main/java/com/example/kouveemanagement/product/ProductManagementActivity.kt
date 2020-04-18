@@ -70,6 +70,7 @@ class ProductManagementActivity : AppCompatActivity(), ProductView {
             transaction.replace(R.id.container, fragment).commit()
         }
         show_min.setOnClickListener {
+            CustomFun.createToolTips(this, "M").showAlignTop(show_min)
             if (minProducts.isNullOrEmpty()){
                 CustomFun.warningSnackBar(container, baseContext, "Minimum product empty")
             }else{
@@ -78,15 +79,18 @@ class ProductManagementActivity : AppCompatActivity(), ProductView {
             }
         }
         show_all.setOnClickListener {
+            CustomFun.createToolTips(this, "L").showAlignTop(show_all)
             temps = productsTemp
             getList()
         }
         show_en.setOnClickListener {
+            CustomFun.createToolTips(this, "C").showAlignTop(show_en)
             val filtered = productsTemp.filter { it.deleted_at === null }
             temps = filtered as ArrayList<Product>
             getList()
         }
         show_dis.setOnClickListener {
+            CustomFun.createToolTips(this, "R").showAlignTop(show_dis)
             val filtered = productsTemp.filter { it.deleted_at !== null }
             temps = filtered as ArrayList<Product>
             getList()
@@ -142,7 +146,7 @@ class ProductManagementActivity : AppCompatActivity(), ProductView {
                 }
             }
             recyclerview.layoutManager = LinearLayoutManager(this)
-            recyclerview.adapter = ProductRecyclerViewAdapter(productsList) {
+            recyclerview.adapter = ProductRecyclerViewAdapter(productsList.asReversed()) {
                 showDialog(it)
             }
             CustomFun.successSnackBar(container, baseContext, "Ok, success")

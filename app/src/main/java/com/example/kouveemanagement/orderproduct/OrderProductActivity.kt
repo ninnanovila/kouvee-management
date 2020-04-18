@@ -80,16 +80,19 @@ class OrderProductActivity : AppCompatActivity(), OrderProductView, SupplierView
         })
         fabAnimation()
         show_pending.setOnClickListener {
+            CustomFun.createToolTips(this, "P").showAlignTop(show_pending)
             val filtered = orderProductsTemp.filter { it.status == "Pending" }
             temps = filtered as ArrayList<OrderProduct>
             getList()
         }
         show_delivery.setOnClickListener {
+            CustomFun.createToolTips(this, "O").showAlignTop(show_delivery)
             val filtered = orderProductsTemp.filter { it.status == "On Delivery" }
             temps = filtered as ArrayList<OrderProduct>
             getList()
         }
         show_arrived.setOnClickListener {
+            CustomFun.createToolTips(this, "A").showAlignTop(show_arrived)
             val filtered = orderProductsTemp.filter { it.status == "Arrived" }
             temps = filtered as ArrayList<OrderProduct>
             getList()
@@ -133,7 +136,7 @@ class OrderProductActivity : AppCompatActivity(), OrderProductView, SupplierView
                 orderProductsTemp.addAll(temp)
                 temps = orderProductsTemp
                 recyclerview.layoutManager = LinearLayoutManager(this)
-                recyclerview.adapter = OrderProductRecyclerViewAdapter(orderProductsList){
+                recyclerview.adapter = OrderProductRecyclerViewAdapter(orderProductsList.asReversed()){
                     showDetail(it)
                     Toast.makeText(this, "Order Number : "+it.id, Toast.LENGTH_LONG).show()
                 }

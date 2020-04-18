@@ -23,13 +23,10 @@ object CustomFun {
 
     //SNACK BAR
     fun successSnackBar(viewInput: View, baseContext: Context, textInput: String){
-        val snackBar = Snackbar.make(viewInput,textInput, Snackbar.LENGTH_INDEFINITE)
+        val snackBar = Snackbar.make(viewInput,textInput, Snackbar.LENGTH_SHORT)
         snackBar.setActionTextColor(
             ContextCompat.getColor(baseContext, R.color.colorGrey)
         )
-        snackBar.setAction("Close"){
-            snackBar.dismiss()
-        }
         val view = snackBar.view
         view.setBackgroundResource(R.drawable.snack_bar_success)
         val textView = view.findViewById<TextView>(R.id.snackbar_text)
@@ -55,13 +52,10 @@ object CustomFun {
     }
 
     fun warningSnackBar(input: View, baseContext: Context, textInput: String){
-        val snackBar = Snackbar.make(input, textInput, Snackbar.LENGTH_INDEFINITE)
+        val snackBar = Snackbar.make(input, textInput, Snackbar.LENGTH_SHORT)
         snackBar.setActionTextColor(
             ContextCompat.getColor(baseContext, R.color.black)
         )
-        snackBar.setAction("Ok"){
-            snackBar.dismiss()
-        }
         val view = snackBar.view
         view.setBackgroundResource(R.drawable.snack_bar_warning)
         val textView = view.findViewById<TextView>(R.id.snackbar_text)
@@ -71,13 +65,10 @@ object CustomFun {
     }
 
     fun neutralSnackBar(input: View, baseContext: Context, textInput: String){
-        val snackBar = Snackbar.make(input, textInput, Snackbar.LENGTH_INDEFINITE)
+        val snackBar = Snackbar.make(input, textInput, Snackbar.LENGTH_SHORT)
         snackBar.setActionTextColor(
             ContextCompat.getColor(baseContext, R.color.black)
         )
-        snackBar.setAction("Close"){
-            snackBar.dismiss()
-        }
         val view = snackBar.view
         view.setBackgroundResource(R.drawable.snack_bar_neutral)
         val textView = view.findViewById<TextView>(R.id.snackbar_text)
@@ -87,13 +78,10 @@ object CustomFun {
     }
 
     fun welcomeSnackBar(input: View, baseContext: Context, textInput: String){
-        val snackBar = Snackbar.make(input, textInput, Snackbar.LENGTH_LONG)
+        val snackBar = Snackbar.make(input, textInput, Snackbar.LENGTH_SHORT)
         snackBar.setActionTextColor(
             ContextCompat.getColor(baseContext, android.R.color.white)
         )
-        snackBar.setAction("Close"){
-            snackBar.dismiss()
-        }
         val view = snackBar.view
         view.setBackgroundResource(R.drawable.snack_bar_welcome)
         val textView = view.findViewById<TextView>(R.id.snackbar_text)
@@ -103,7 +91,7 @@ object CustomFun {
     }
 
     fun failedLoginSnackBar(input: View, baseContext: Context, id: String, pass: String, presenter: LoginPresenter, msg: String){
-        val snackBar = Snackbar.make(input, msg, Snackbar.LENGTH_SHORT)
+        val snackBar = Snackbar.make(input, msg, Snackbar.LENGTH_INDEFINITE)
         snackBar.setActionTextColor(
             ContextCompat.getColor(baseContext, R.color.colorGrey)
         )
@@ -150,19 +138,48 @@ object CustomFun {
     }
 
     //TOOL TIPS
-    fun createToolTips(context: Context, text: String): Balloon {
+    fun createToolTips(context: Context, type: String): Balloon {
         return createBalloon(context) {
-            setArrowSize(10)
-            setWidthRatio(1.0f)
-            setHeight(65)
-            setArrowPosition(0.7f)
+            setArrowSize(5)
+            setWidthRatio(0.5f)
+            setHeight(40)
             setCornerRadius(4f)
             setAlpha(0.9f)
-            setText(text)
+            setTextTypeface(Typeface.BOLD)
             setTextColorResource(android.R.color.white)
-            setBackgroundColorResource(R.color.colorPrimary)
+            setBackgroundColorResource(R.color.colorGreyDark)
             setBalloonAnimation(BalloonAnimation.CIRCULAR)
             setAutoDismissDuration(1000L)
+            when (type) {
+                "L" -> {
+                    setArrowPosition(0.25f)
+                    setText("Show all data")
+                }
+                "C" -> {
+                    setArrowPosition(0.5f)
+                    setText("Show enable data")
+                }
+                "R" -> {
+                    setArrowPosition(0.5f)
+                    setText("Show deleted data")
+                }
+                "M" -> {
+                    setArrowPosition(0.5f)
+                    setText("Show minimum product")
+                }
+                "P" -> {
+                    setArrowPosition(0.25f)
+                    setText("Pending")
+                }
+                "O" -> {
+                    setArrowPosition(0.5f)
+                    setText("On Delivery")
+                }
+                "A" -> {
+                    setArrowPosition(0.5f)
+                    setText("Arrived")
+                }
+            }
             setLifecycleOwner(lifecycleOwner)
         }
     }

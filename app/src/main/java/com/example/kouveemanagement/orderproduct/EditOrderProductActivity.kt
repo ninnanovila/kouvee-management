@@ -94,7 +94,7 @@ class EditOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOr
         }else{
             detailOrderProducts.addAll(temp)
             recyclerview.layoutManager = LinearLayoutManager(this)
-            recyclerview.adapter = DetailOrderProductRecyclerViewAdapter(OrderProductActivity.products, detailOrderProducts){
+            recyclerview.adapter = DetailOrderProductRecyclerViewAdapter(OrderProductActivity.products, detailOrderProducts.asReversed()){
                 Toast.makeText(this, it.id_order, Toast.LENGTH_LONG).show()
             }
             CustomFun.successSnackBar(container, baseContext, "Detail success")

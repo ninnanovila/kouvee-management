@@ -73,15 +73,18 @@ class SupplierManagementActivity : AppCompatActivity(), SupplierView {
             transaction.replace(R.id.container, fragment).commit()
         }
         show_all.setOnClickListener {
+            CustomFun.createToolTips(this, "L").showAlignTop(show_all)
             temps = suppliersTemp
             getList()
         }
         show_en.setOnClickListener {
+            CustomFun.createToolTips(this, "C").showAlignTop(show_en)
             val filtered = suppliersTemp.filter { it.deleted_at === null }
             temps = filtered as ArrayList<Supplier>
             getList()
         }
         show_dis.setOnClickListener {
+            CustomFun.createToolTips(this, "R").showAlignTop(show_dis)
             val filtered = suppliersTemp.filter { it.deleted_at !== null }
             temps = filtered as ArrayList<Supplier>
             getList()
@@ -133,7 +136,7 @@ class SupplierManagementActivity : AppCompatActivity(), SupplierView {
             suppliersTemp.addAll(temp)
             temps = suppliersTemp
             recyclerview.layoutManager = LinearLayoutManager(this)
-            recyclerview.adapter = SupplierRecyclerViewAdapter(suppliersList) {
+            recyclerview.adapter = SupplierRecyclerViewAdapter(suppliersList.asReversed()) {
                 showDialog(it)
             }
             CustomFun.successSnackBar(container, baseContext, "Ok, success")

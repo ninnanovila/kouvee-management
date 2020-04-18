@@ -162,7 +162,7 @@ class ProductTransactionActivity : AppCompatActivity(), TransactionView, Custome
                 transactionsTemp.addAll(temp)
                 temps.addAll(temp)
                 recyclerview.layoutManager = LinearLayoutManager(this)
-                recyclerview.adapter = TransactionRecyclerViewAdapter(transactionsList){
+                recyclerview.adapter = TransactionRecyclerViewAdapter(transactionsList.asReversed()){
                     transaction = it
                     showDialog(it)
                 }

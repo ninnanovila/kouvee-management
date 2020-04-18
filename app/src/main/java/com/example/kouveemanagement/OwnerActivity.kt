@@ -140,9 +140,7 @@ class OwnerActivity : AppCompatActivity(), MinProductView {
 
     override fun minProductSuccess(data: ProductResponse?) {
         val temp = data?.products ?: emptyList()
-        if (temp.isEmpty()){
-            CustomFun.successSnackBar(container, baseContext, "No Notification")
-        }else{
+        if (temp.isNotEmpty()){
             notificationId = 0
             stackNotification.clear()
             minProducts.clear()

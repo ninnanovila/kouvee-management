@@ -75,15 +75,18 @@ class CustomerManagementActivity : AppCompatActivity(), CustomerView {
             transaction.replace(R.id.container, fragment).commit()
         }
         show_all.setOnClickListener {
+            CustomFun.createToolTips(this, "L").showAlignTop(show_all)
             temps = customersTemp
             getList()
         }
         show_en.setOnClickListener {
+            CustomFun.createToolTips(this, "C").showAlignTop(show_en)
             val filtered = customersTemp.filter { it.deleted_at === null }
             temps = filtered as ArrayList<Customer>
             getList()
         }
         show_dis.setOnClickListener {
+            CustomFun.createToolTips(this, "R").showAlignTop(show_dis)
             val filtered = customersTemp.filter { it.deleted_at !== null }
             temps = filtered as ArrayList<Customer>
             getList()
@@ -136,7 +139,7 @@ class CustomerManagementActivity : AppCompatActivity(), CustomerView {
             temps = customersTemp
             recyclerview.apply {
                 layoutManager = LinearLayoutManager(this@CustomerManagementActivity)
-                customerAdapter = CustomerRecyclerViewAdapter(customersList) {
+                customerAdapter = CustomerRecyclerViewAdapter(customersList.asReversed()) {
                     showDialog(it)
                 }
                 adapter = customerAdapter

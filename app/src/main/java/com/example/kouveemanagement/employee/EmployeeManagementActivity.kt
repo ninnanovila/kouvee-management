@@ -72,15 +72,18 @@ class EmployeeManagementActivity : AppCompatActivity(), EmployeeView {
             transaction.replace(R.id.container, fragment).commit()
         }
         show_all.setOnClickListener {
+            CustomFun.createToolTips(this, "L").showAlignTop(show_all)
             temps = employeesTemp
             getList()
         }
         show_en.setOnClickListener {
+            CustomFun.createToolTips(this, "C").showAlignTop(show_en)
             val filtered = employeesTemp.filter { it.deleted_at === null }
             temps = filtered as ArrayList<Employee>
             getList()
         }
         show_dis.setOnClickListener {
+            CustomFun.createToolTips(this, "R").showAlignTop(show_dis)
             val filtered = employeesTemp.filter { it.deleted_at !== null }
             temps = filtered as ArrayList<Employee>
             getList()
@@ -131,7 +134,7 @@ class EmployeeManagementActivity : AppCompatActivity(), EmployeeView {
             employeesTemp.addAll(temp)
             temps = employeesTemp
             recyclerview.layoutManager = LinearLayoutManager(this)
-            recyclerview.adapter = EmployeeRecyclerViewAdapter(employeesList){
+            recyclerview.adapter = EmployeeRecyclerViewAdapter(employeesList.asReversed()){
                 showDialog(it)
                 Toast.makeText(this, it.id, Toast.LENGTH_LONG).show()
             }

@@ -75,15 +75,18 @@ class PetSizeManagementActivity : AppCompatActivity(), PetSizeView {
             transaction.replace(R.id.container, fragment).commit()
         }
         show_all.setOnClickListener {
+            CustomFun.createToolTips(this, "L").showAlignTop(show_all)
             temps = petSizesTemp
             getList()
         }
         show_en.setOnClickListener {
+            CustomFun.createToolTips(this, "C").showAlignTop(show_en)
             val filtered = petSizesTemp.filter { it.deleted_at === null }
             temps = filtered as ArrayList<PetSize>
             getList()
         }
         show_dis.setOnClickListener {
+            CustomFun.createToolTips(this, "R").showAlignTop(show_dis)
             val filtered = petSizesTemp.filter { it.deleted_at !== null }
             temps = filtered as ArrayList<PetSize>
             getList()
@@ -139,7 +142,7 @@ class PetSizeManagementActivity : AppCompatActivity(), PetSizeView {
                 petSizesTemp.addAll(temp)
                 temps = petSizesTemp
                 recyclerview.layoutManager = LinearLayoutManager(this)
-                recyclerview.adapter = PetRecyclerViewAdapter("size", mutableListOf(), {}, petSizesList, {
+                recyclerview.adapter = PetRecyclerViewAdapter("size", mutableListOf(), {}, petSizesList.asReversed(), {
                     showPetSize(it)
                     Toast.makeText(this, "Size : "+it.name, Toast.LENGTH_LONG).show()
                 })

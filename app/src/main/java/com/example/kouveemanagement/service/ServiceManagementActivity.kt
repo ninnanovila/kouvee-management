@@ -82,15 +82,18 @@ class ServiceManagementActivity : AppCompatActivity(), ServiceView, PetSizeView 
             transaction.replace(R.id.container, fragment).commit()
         }
         show_all.setOnClickListener {
+            CustomFun.createToolTips(this, "L").showAlignTop(show_all)
             temps = servicesTemp
             getList()
         }
         show_en.setOnClickListener {
+            CustomFun.createToolTips(this, "C").showAlignTop(show_en)
             val filtered = servicesTemp.filter { it.deleted_at === null }
             temps = filtered as ArrayList<Service>
             getList()
         }
         show_dis.setOnClickListener {
+            CustomFun.createToolTips(this, "R").showAlignTop(show_dis)
             val filtered = servicesTemp.filter { it.deleted_at !== null }
             temps = filtered as ArrayList<Service>
             getList()
@@ -141,7 +144,7 @@ class ServiceManagementActivity : AppCompatActivity(), ServiceView, PetSizeView 
             servicesTemp.addAll(temp)
             temps = servicesTemp
             recyclerview.layoutManager = LinearLayoutManager(this)
-            recyclerview.adapter = ServiceRecyclerViewAdapter(servicesList){
+            recyclerview.adapter = ServiceRecyclerViewAdapter(servicesList.asReversed()){
                 showDialog(it)
             }
             CustomFun.successSnackBar(container, baseContext, "Ok, success")

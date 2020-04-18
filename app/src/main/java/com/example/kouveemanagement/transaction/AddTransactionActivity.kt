@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.kouveemanagement.CustomFun
 import com.example.kouveemanagement.CustomerServiceActivity
 import com.example.kouveemanagement.MainActivity
 import com.example.kouveemanagement.R
@@ -91,8 +92,8 @@ class AddTransactionActivity : AppCompatActivity(), TransactionView, DetailProdu
             status.visibility = View.GONE
             btn_status.visibility = View.GONE
         }
-        val price = transaction.total_price
-        total_price.text = "Rp. $price"
+        val price = transaction.total_price.toString()
+        total_price.text = CustomFun.changeToRp(price.toDouble())
     }
 
     override fun showTransactionLoading() {
@@ -107,8 +108,8 @@ class AddTransactionActivity : AppCompatActivity(), TransactionView, DetailProdu
         transaction = data?.transactions?.get(0)!!
         status.text = transaction.status
         id_customer_pet.text = transaction.id_customer_pet
-        val price = transaction.total_price
-        total_price.text = "Rp. $price"
+        val price = transaction.total_price.toString()
+        total_price.text = CustomFun.changeToRp(price.toDouble())
         when(state){
             "edit" -> {
                 Toast.makeText(this, "Success Edit Transaction", Toast.LENGTH_SHORT).show()

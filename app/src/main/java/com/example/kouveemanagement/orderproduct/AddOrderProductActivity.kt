@@ -92,7 +92,7 @@ class AddOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOrd
             }
         }
         val totalInput = input.total.toString()
-        total.text = "Rp. $totalInput"
+        total.text = CustomFun.changeToRp(totalInput.toDouble())
     }
 
     override fun showOrderProductLoading() {
@@ -143,7 +143,7 @@ class AddOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOrd
             clearDetail()
             detailOrderProducts.addAll(temp)
             recyclerview.layoutManager = LinearLayoutManager(this)
-            recyclerview.adapter = DetailOrderProductRecyclerViewAdapter(OrderProductActivity.products, detailOrderProducts){
+            recyclerview.adapter = DetailOrderProductRecyclerViewAdapter(OrderProductActivity.products, detailOrderProducts.asReversed()){
                 val fragment = EditDetailOrderProductFragment.newInstance(it)
                 val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
                 transaction.replace(R.id.container, fragment).commit()
