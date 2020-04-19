@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.example.kouveemanagement.CustomFun
@@ -29,6 +30,7 @@ import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.ResponseBody
 import org.jetbrains.anko.startActivity
 import java.io.*
+
 
 class EditProductActivity : AppCompatActivity(), ProductView, UploadPhotoProductView {
 
@@ -60,12 +62,8 @@ class EditProductActivity : AppCompatActivity(), ProductView, UploadPhotoProduct
             startActivityForResult(getImageChooserIntent(), 200)
         }
         btn_upload.setOnClickListener {
-            if (bitmap!=null){
-                CustomFun.welcomeSnackBar(container, baseContext, "Uploading image...")
-                multipartImageUpload()
-            }else{
-                CustomFun.warningSnackBar(container, baseContext, "Please choose image")
-            }
+            CustomFun.welcomeSnackBar(container, baseContext, "Uploading image...")
+            multipartImageUpload()
         }
     }
 
@@ -79,7 +77,11 @@ class EditProductActivity : AppCompatActivity(), ProductView, UploadPhotoProduct
         product?.min_stock?.toString()?.let { min_stock.setText(it) }
         product?.price?.toString()?.let { price.setText(it) }
         created_at.setText(product?.created_at)
-        updated_at.setText(product?.updated_at)
+        if (product?.updated_at.isNullOrEmpty()){
+            updated_at.setText("-")
+        }else{
+            updated_at.setText(product?.updated_at)
+        }
         if (product?.deleted_at.isNullOrBlank()){
             deleted_at.setText("-")
         }else{
@@ -146,18 +148,34 @@ class EditProductActivity : AppCompatActivity(), ProductView, UploadPhotoProduct
 
 
     //IMAGE
-    var bitmap: Bitmap? = null
-    var byteArray: ByteArray? = null
+    private lateinit var bitmap: Bitmap
+    private lateinit var byteArray: ByteArray
 
+    //CAMERA
     private fun getImageOutputUri(): Uri? {
         var fileUri: Uri? = null
         val img = getExternalFilesDir("")
         if (img!=null){
-            fileUri = Uri.fromFile(File(img.path, "profile.jpeg"))
+            fileUri = Uri.fromFile(File(img.path, "profile.png"))
         }
         return fileUri
     }
 
+    //IMAGE
+    private fun getPathFromURI(contentUri: Uri): String? {
+        try {
+            val projectData = arrayOf(MediaStore.Audio.Media.DATA)
+            val cursor = contentResolver.query(contentUri, projectData, null, null, null)!!
+            val columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA)
+            cursor.moveToFirst()
+            return cursor.getString(columnIndex)
+        }catch (e: Exception){
+            Log.d("IMG ", e.message)
+        }
+        return ""
+    }
+
+    //PATH
     private fun getImageFromFilePath(dataInput: Intent?): String {
         val isCamera = dataInput == null || dataInput.data == null
 
@@ -169,19 +187,11 @@ class EditProductActivity : AppCompatActivity(), ProductView, UploadPhotoProduct
         return getImageFromFilePath(data)
     }
 
-    private fun getPathFromURI(contentUri: Uri): String? {
-        val projectData = arrayOf(MediaStore.Audio.Media.DATA)
-        val cursor = contentResolver.query(contentUri, projectData, null, null, null)
-        val columnIndex = cursor!!.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA)
-        cursor.moveToFirst()
-        return cursor.getString(columnIndex)
-    }
-
     private fun getByteArrayInBackground() {
         val thread: Thread = object : Thread() {
             override fun run() {
                 val bos = ByteArrayOutputStream()
-                bitmap?.compress(Bitmap.CompressFormat.JPEG, 10, bos)
+                bitmap.compress(Bitmap.CompressFormat.PNG, 0, bos)
                 byteArray = bos.toByteArray()
             }
         }
@@ -233,30 +243,33 @@ class EditProductActivity : AppCompatActivity(), ProductView, UploadPhotoProduct
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
         if (resultCode == Activity.RESULT_OK){
             if (requestCode == 200){
                 val filePath = getImageFilePath(data)
+                Log.d("FILE PATH ", filePath)
                 CustomFun.welcomeSnackBar(container, baseContext, "Image has been chosen..")
-                bitmap = BitmapFactory.decodeFile(filePath)
-                getByteArrayInBackground()
-                image_product.setImageBitmap(bitmap)
+                try {
+                    val bmOptions = BitmapFactory.Options()
+                    bitmap = BitmapFactory.decodeFile(filePath, bmOptions)
+                    getByteArrayInBackground()
+                    image_product.setImageBitmap(bitmap)
+                }catch (e: OutOfMemoryError){
+                    CustomFun.failedSnackBar(container, baseContext, e.message.toString())
+                }
             }
         }
     }
 
     private fun multipartImageUpload() {
         try {
-            if (byteArray != null) {
-                val filesDir = applicationContext.filesDir
-                val file = File(filesDir, "image" + ".png")
-                val fos = FileOutputStream(file)
-                fos.write(byteArray!!)
-                fos.flush()
-                fos.close()
-                val body: MultipartBody.Part = createFormData("photo", file.name, file.asRequestBody("image/*".toMediaTypeOrNull()))
-                imagePresenter.uploadPhotoProduct(id, body)
-            }
+            val filesDir = applicationContext.filesDir
+            val file = File(filesDir, "image" + ".png")
+            val fos = FileOutputStream(file)
+            fos.write(byteArray)
+            fos.flush()
+            fos.close()
+            val body: MultipartBody.Part = createFormData("photo", file.name, file.asRequestBody("image/*".toMediaTypeOrNull()))
+            imagePresenter.uploadPhotoProduct(id, body)
         } catch (e: FileNotFoundException) {
             e.printStackTrace()
         } catch (e: IOException) {

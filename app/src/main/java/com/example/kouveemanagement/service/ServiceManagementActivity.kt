@@ -144,7 +144,7 @@ class ServiceManagementActivity : AppCompatActivity(), ServiceView, PetSizeView 
             servicesTemp.addAll(temp)
             temps = servicesTemp
             recyclerview.layoutManager = LinearLayoutManager(this)
-            recyclerview.adapter = ServiceRecyclerViewAdapter(servicesList.asReversed()){
+            recyclerview.adapter = ServiceRecyclerViewAdapter(servicesList){
                 showDialog(it)
             }
             CustomFun.successSnackBar(container, baseContext, "Ok, success")

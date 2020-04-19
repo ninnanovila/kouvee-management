@@ -129,7 +129,6 @@ class CustomerManagementActivity : AppCompatActivity(), CustomerView {
 
     override fun customerSuccess(data: CustomerResponse?) {
         val temp: List<Customer> = data?.customers ?: emptyList()
-//        val temp: List<Customer> = emptyList()
         if (temp.isEmpty()){
             CustomFun.neutralSnackBar(container, baseContext, "Oops, no result")
         }else{
@@ -139,7 +138,7 @@ class CustomerManagementActivity : AppCompatActivity(), CustomerView {
             temps = customersTemp
             recyclerview.apply {
                 layoutManager = LinearLayoutManager(this@CustomerManagementActivity)
-                customerAdapter = CustomerRecyclerViewAdapter(customersList.asReversed()) {
+                customerAdapter = CustomerRecyclerViewAdapter(customersList) {
                     showDialog(it)
                 }
                 adapter = customerAdapter

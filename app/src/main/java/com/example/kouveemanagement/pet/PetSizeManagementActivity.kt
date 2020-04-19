@@ -142,7 +142,7 @@ class PetSizeManagementActivity : AppCompatActivity(), PetSizeView {
                 petSizesTemp.addAll(temp)
                 temps = petSizesTemp
                 recyclerview.layoutManager = LinearLayoutManager(this)
-                recyclerview.adapter = PetRecyclerViewAdapter("size", mutableListOf(), {}, petSizesList.asReversed(), {
+                recyclerview.adapter = PetRecyclerViewAdapter("size", mutableListOf(), {}, petSizesList, {
                     showPetSize(it)
                     Toast.makeText(this, "Size : "+it.name, Toast.LENGTH_LONG).show()
                 })
@@ -178,7 +178,11 @@ class PetSizeManagementActivity : AppCompatActivity(), PetSizeView {
         val id = petSize.id.toString()
         name.setText(petSize.name)
         createdAt.text = petSize.created_at
-        updatedAt.text = petSize.updated_at
+        if (petSize.updated_at.isNullOrBlank()){
+            updatedAt.text = "-"
+        }else{
+            updatedAt.text = petSize.updated_at
+        }
         if (petSize.deleted_at.isNullOrBlank()){
             deletedAt.text = "-"
         }else{

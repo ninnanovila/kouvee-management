@@ -136,7 +136,7 @@ class PetTypeManagementActivity : AppCompatActivity(), PetTypeView {
                 petTypesTemp.addAll(temp)
                 temps = petTypesTemp
                 recyclerview.layoutManager = LinearLayoutManager(this)
-                recyclerview.adapter = PetRecyclerViewAdapter("type", petTypesList.asReversed(), {
+                recyclerview.adapter = PetRecyclerViewAdapter("type", petTypesList, {
                     showPetType(it)
                     Toast.makeText(this, "Type : " + it.name, Toast.LENGTH_SHORT).show()
                 }, mutableListOf(),{})
@@ -172,7 +172,11 @@ class PetTypeManagementActivity : AppCompatActivity(), PetTypeView {
         val id = petType.id.toString()
         name.setText(petType.name)
         createdAt.text = petType.created_at
-        updatedAt.text = petType.updated_at
+        if (petType.updated_at.isNullOrBlank()){
+            updatedAt.text = "-"
+        }else{
+            updatedAt.text = petType.updated_at
+        }
         if (petType.deleted_at.isNullOrBlank()){
             deletedAt.text = "-"
         }else{

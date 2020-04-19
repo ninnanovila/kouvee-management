@@ -157,7 +157,7 @@ class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView, Cust
             clearList()
             customerPetsList.addAll(temp)
             customerPetsTemp.addAll(temp)
-            temps.addAll(temp)
+            temps = customerPetsTemp
             recyclerview.layoutManager = LinearLayoutManager(this)
             recyclerview.adapter = CustomerPetRecyclerViewAdapter(petTypes, customerPetsList){
                 showDialog(it)
@@ -174,7 +174,6 @@ class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView, Cust
     private fun clearList(){
         customerPetsList.clear()
         customerPetsTemp.clear()
-        temps.clear()
     }
 
     private fun showDialog(customerPet: CustomerPet){

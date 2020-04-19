@@ -136,7 +136,7 @@ class OrderProductActivity : AppCompatActivity(), OrderProductView, SupplierView
                 orderProductsTemp.addAll(temp)
                 temps = orderProductsTemp
                 recyclerview.layoutManager = LinearLayoutManager(this)
-                recyclerview.adapter = OrderProductRecyclerViewAdapter(orderProductsList.asReversed()){
+                recyclerview.adapter = OrderProductRecyclerViewAdapter(orderProductsList){
                     showDetail(it)
                     Toast.makeText(this, "Order Number : "+it.id, Toast.LENGTH_LONG).show()
                 }

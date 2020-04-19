@@ -134,7 +134,7 @@ class EmployeeManagementActivity : AppCompatActivity(), EmployeeView {
             employeesTemp.addAll(temp)
             temps = employeesTemp
             recyclerview.layoutManager = LinearLayoutManager(this)
-            recyclerview.adapter = EmployeeRecyclerViewAdapter(employeesList.asReversed()){
+            recyclerview.adapter = EmployeeRecyclerViewAdapter(employeesList){
                 showDialog(it)
                 Toast.makeText(this, it.id, Toast.LENGTH_LONG).show()
             }

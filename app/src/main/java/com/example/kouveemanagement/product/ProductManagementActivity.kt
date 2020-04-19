@@ -146,7 +146,7 @@ class ProductManagementActivity : AppCompatActivity(), ProductView {
                 }
             }
             recyclerview.layoutManager = LinearLayoutManager(this)
-            recyclerview.adapter = ProductRecyclerViewAdapter(productsList.asReversed()) {
+            recyclerview.adapter = ProductRecyclerViewAdapter(productsList) {
                 showDialog(it)
             }
             CustomFun.successSnackBar(container, baseContext, "Ok, success")
@@ -184,7 +184,11 @@ class ProductManagementActivity : AppCompatActivity(), ProductView {
         price.text = product.price.toString()
         product.photo.let { Picasso.get().load(baseUrl+product.photo.toString()).fit().into(photo) }
         createdAt.text = product.created_at
-        updatedAt.text = product.updated_at
+        if (product.updated_at.isNullOrEmpty()){
+            updatedAt.text = "-"
+        }else{
+            updatedAt.text = product.updated_at
+        }
         if (product.deleted_at.isNullOrEmpty()){
             deletedAt.text = "-"
         }else{
@@ -202,7 +206,6 @@ class ProductManagementActivity : AppCompatActivity(), ProductView {
         btnClose.setOnClickListener {
             infoDialog.dismiss()
         }
-
     }
 
     override fun onBackPressed() {

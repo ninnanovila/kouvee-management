@@ -24,7 +24,6 @@ import com.example.kouveemanagement.repository.Repository
 import kotlinx.android.synthetic.main.activity_supplier_management.*
 import org.jetbrains.anko.startActivity
 
-
 class SupplierManagementActivity : AppCompatActivity(), SupplierView {
 
     private var suppliersList: MutableList<Supplier> = mutableListOf()
@@ -136,7 +135,7 @@ class SupplierManagementActivity : AppCompatActivity(), SupplierView {
             suppliersTemp.addAll(temp)
             temps = suppliersTemp
             recyclerview.layoutManager = LinearLayoutManager(this)
-            recyclerview.adapter = SupplierRecyclerViewAdapter(suppliersList.asReversed()) {
+            recyclerview.adapter = SupplierRecyclerViewAdapter(suppliersList) {
                 showDialog(it)
             }
             CustomFun.successSnackBar(container, baseContext, "Ok, success")
@@ -166,7 +165,11 @@ class SupplierManagementActivity : AppCompatActivity(), SupplierView {
         address.text = supplier.address.toString()
         phoneNumber.text = supplier.phone_number.toString()
         createdAt.text = supplier.created_at
-        updatedAt.text = supplier.updated_at
+        if (supplier.updated_at.isNullOrEmpty()){
+            updatedAt.text = "-"
+        }else{
+            updatedAt.text = supplier.updated_at
+        }
         if (supplier.deleted_at.isNullOrEmpty()){
             deletedAt.text = "-"
         }else{
