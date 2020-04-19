@@ -450,12 +450,16 @@ class Repository {
                     response.isSuccessful -> {
                         callback.supplierSuccess(response.body())
                     }
-                    response.code() == 500 -> {
+                    response.code() == 406 -> {
                         callback.supplierFailed("Check constraint..")
                     }
                     response.code() == 404 -> {
                         callback.supplierFailed("Data not found..")
                     }
+                    response.code() == 500 -> {
+                        callback.supplierFailed("Delete error..")
+                    }
+                    else -> callback.supplierFailed("Else..")
                 }
             }
         })
@@ -572,8 +576,11 @@ class Repository {
                     response.code() == 404 -> {
                         callback.productFailed("Data not found..")
                     }
-                    response.code() == 500 -> {
+                    response.code() == 406 -> {
                         callback.productFailed("Check constraint..")
+                    }
+                    response.code() == 500 -> {
+                        callback.productFailed("Delete error..")
                     }
                     else -> callback.productFailed("Else..")
                 }
@@ -693,7 +700,7 @@ class Repository {
                         callback.petSizeFailed("Data not found..")
                     }
                     response.code() == 406 -> {
-                        callback.petSizeFailed("Data not found..")
+                        callback.petSizeFailed("Pet size exist..")
                     }
                     else -> {
                         callback.petSizeFailed("Else..")
@@ -720,8 +727,11 @@ class Repository {
                     response.code() == 404 -> {
                         callback.petSizeFailed("Data not found..")
                     }
-                    response.code() == 500 -> {
+                    response.code() == 406 -> {
                         callback.petSizeFailed("Check constraint..")
+                    }
+                    response.code() == 500 -> {
+                        callback.petSizeFailed("Delete error..")
                     }
                     else -> callback.petSizeFailed("Else..")
                 }
