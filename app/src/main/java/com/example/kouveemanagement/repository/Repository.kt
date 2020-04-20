@@ -8,6 +8,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+
 class Repository {
 
 //    LOGIN
@@ -1583,6 +1584,23 @@ class Repository {
                     callback.minProductSuccess(response.body())
                 }else if (response.code() == 500){
                     callback.minProductFailed("Show error..")
+                }
+            }
+        })
+    }
+
+    fun downloadOrderInvoice(id: String, callback: OrderInvoiceRepositoryCallback<ResponseBody>) {
+        val baseUrl = "https://gregpetshop.berusahapastibisakok.tech/api/order_invoice/$id"
+
+        ApiClient().services.getInvoiceOrderProduct(id).enqueue(object : Callback<ResponseBody?>{
+            override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {
+                callback.orderInvoiceFailed(t.message.toString())
+            }
+            override fun onResponse(call: Call<ResponseBody?>, response: Response<ResponseBody?>) {
+                if (response.isSuccessful){
+                    callback.orderInvoiceSuccess(response.body())
+                }else{
+                    callback.orderInvoiceFailed("Download failed..")
                 }
             }
         })

@@ -83,3 +83,8 @@ interface MinProductView : MinProductRepositoryCallback<ProductResponse> {
     fun showMinProductLoading()
     fun hideMinProductLoading()
 }
+
+interface OrderInvoiceView : OrderInvoiceRepositoryCallback<ResponseBody> {
+    fun showDownloadProgress()
+    fun hideDownloadProgress()
+}

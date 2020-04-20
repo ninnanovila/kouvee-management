@@ -79,3 +79,8 @@ interface MinProductRepositoryCallback<ProductResponse> {
     fun minProductSuccess(data: ProductResponse?)
     fun minProductFailed(data: String)
 }
+
+interface OrderInvoiceRepositoryCallback<ResponseBody> {
+    fun orderInvoiceSuccess(data: ResponseBody?)
+    fun orderInvoiceFailed(data: String)
+}

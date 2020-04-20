@@ -1020,7 +1020,6 @@ class DetailProductTransactionPresenter(private val view: DetailProductTransacti
 
 //DETAIL SERVICE TRANSACTION
 class DetailServiceTransactionPresenter(private val view: DetailServiceTransactionView, private val repository: Repository){
-
     fun getAllDetailServiceTransaction(){
         view.showDetailServiceTransactionLoading()
         repository.getAllDetailServiceTransaction(object : DetailServiceTransactionRepositoryCallback<DetailServiceTransactionResponse>{
@@ -1107,7 +1106,6 @@ class DetailServiceTransactionPresenter(private val view: DetailServiceTransacti
 }
 
 class MinProductPresenter(private val view: MinProductView, private val repository: Repository){
-
     fun getMinProduct(){
         view.showMinProductLoading()
         repository.getMinProduct(object : MinProductRepositoryCallback<ProductResponse>{
@@ -1118,6 +1116,22 @@ class MinProductPresenter(private val view: MinProductView, private val reposito
             override fun minProductFailed(data: String) {
                 view.minProductFailed(data)
                 view.hideMinProductLoading()
+            }
+        })
+    }
+}
+
+class OrderInvoicePresenter(private val view: OrderInvoiceView, private val repository: Repository){
+    fun getOrderInvoice(id_order: String){
+        view.showDownloadProgress()
+        repository.downloadOrderInvoice(id_order, object : OrderInvoiceRepositoryCallback<ResponseBody>{
+            override fun orderInvoiceSuccess(data: ResponseBody?) {
+                view.orderInvoiceSuccess(data)
+                view.hideDownloadProgress()
+            }
+            override fun orderInvoiceFailed(data: String) {
+                view.orderInvoiceFailed(data)
+                view.hideDownloadProgress()
             }
         })
     }
