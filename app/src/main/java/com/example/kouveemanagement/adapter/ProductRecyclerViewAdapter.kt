@@ -4,14 +4,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kouveemanagement.CustomFun
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.model.Product
 import com.example.kouveemanagement.product.ProductManagementActivity
+import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import kotlinx.android.extensions.LayoutContainer
+import java.lang.Exception
 import java.util.*
 
 class ProductRecyclerViewAdapter (private val products : MutableList<Product>, private val listener: (Product) -> Unit) : RecyclerView.Adapter<ProductRecyclerViewAdapter.ViewHolder>(){
@@ -54,10 +57,22 @@ class ProductRecyclerViewAdapter (private val products : MutableList<Product>, p
         private var name = itemView.findViewById<TextView>(R.id.name)
         private var price = itemView.findViewById<TextView>(R.id.price)
         private var stock = itemView.findViewById<TextView>(R.id.stock)
+        private var progressBar = itemView.findViewById<ProgressBar>(R.id.progressbar)
 
         fun bindItem(product: Product, listener: (Product) -> Unit){
 
-            product.photo.let { Picasso.get().load(baseUrl+it).fit().into(photo) }
+            val photoUrl = baseUrl+product.photo
+            Picasso.get()
+                .load(photoUrl)
+                .fit()
+                .into(photo, object : Callback {
+                    override fun onSuccess() {
+                        progressBar.visibility = View.GONE
+                    }
+                    override fun onError(e: Exception?) {
+
+                    }
+                })
             name.text = product.name
             val priceP = product.price.toString()
             price.text = CustomFun.changeToRp(priceP.toDouble())

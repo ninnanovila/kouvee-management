@@ -145,6 +145,7 @@ class ProductManagementActivity : AppCompatActivity(), ProductView {
                     minProducts.add(temps[i])
                 }
             }
+            recreateRv()
             recyclerview.layoutManager = LinearLayoutManager(this)
             recyclerview.adapter = ProductRecyclerViewAdapter(productsList) {
                 showDialog(it)
@@ -161,6 +162,11 @@ class ProductManagementActivity : AppCompatActivity(), ProductView {
         productsList.clear()
         productsTemp.clear()
         minProducts.clear()
+    }
+
+    private fun recreateRv(){
+        recyclerview.layoutManager = null
+        recyclerview.adapter = null
     }
 
     private fun showDialog(product: Product){

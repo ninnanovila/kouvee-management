@@ -175,6 +175,10 @@ interface ApiInterface {
     @PUT("order_product/print/{id}")
     fun editPrintOrderProduct(@Path("id")id: String): Call<OrderProductResponse>
 
+    @Streaming
+    @GET("order_invoice/{id}")
+    fun getInvoiceOrderProduct(@Path("id")id: String): Call<ResponseBody>
+
 //  DETAIL ORDER PRODUCT
     @GET("detail_order_product")
     fun getAllDetailOrderProduct(): Call<DetailOrderProductResponse>

@@ -62,7 +62,7 @@ class EditProductActivity : AppCompatActivity(), ProductView, UploadPhotoProduct
             startActivityForResult(getImageChooserIntent(), 200)
         }
         btn_upload.setOnClickListener {
-            CustomFun.welcomeSnackBar(container, baseContext, "Uploading image...")
+            CustomFun.warningSnackBar(container, baseContext, "Uploading image...")
             multipartImageUpload()
         }
     }
