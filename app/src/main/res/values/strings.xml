@@ -212,5 +212,6 @@
     <string name="tribute">This is data management for Kouvee Pet Shop. Admin and Customer Service have an access to this application. Enjoy!</string>
     <string name="more_info">made with laf, for P3L</string>
     <string name="icon_source">*all icon from flaticon.com</string>
+    <string name="choose_supplier">Choose Supplier</string>
 
 </resources>

@@ -64,6 +64,19 @@ object CustomFun {
         snackBar.show()
     }
 
+    fun warningLongSnackBar(input: View, baseContext: Context, textInput: String){
+        val snackBar = Snackbar.make(input, textInput, Snackbar.LENGTH_INDEFINITE)
+        snackBar.setActionTextColor(
+            ContextCompat.getColor(baseContext, R.color.black)
+        )
+        val view = snackBar.view
+        view.setBackgroundResource(R.drawable.snack_bar_warning)
+        val textView = view.findViewById<TextView>(R.id.snackbar_text)
+        textView.setTextColor(ContextCompat.getColor(baseContext, android.R.color.black))
+        setTextView(textView)
+        snackBar.show()
+    }
+
     fun neutralSnackBar(input: View, baseContext: Context, textInput: String){
         val snackBar = Snackbar.make(input, textInput, Snackbar.LENGTH_SHORT)
         snackBar.setActionTextColor(

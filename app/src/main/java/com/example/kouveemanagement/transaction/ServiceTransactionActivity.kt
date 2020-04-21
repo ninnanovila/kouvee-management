@@ -179,7 +179,7 @@ class  ServiceTransactionActivity : AppCompatActivity(), TransactionView, Custom
     }
 
     private fun chooseCustomerPet(type: String) {
-        dialog = LayoutInflater.from(this).inflate(R.layout.item_choose, null)
+        dialog = LayoutInflater.from(this).inflate(R.layout.item_choose_pet, null)
         val adapter =
             ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, customerPetNameDropdown)
         val dropdown = dialog.findViewById<AutoCompleteTextView>(R.id.dropdown)

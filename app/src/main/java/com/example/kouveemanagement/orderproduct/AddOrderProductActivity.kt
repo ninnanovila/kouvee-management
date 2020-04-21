@@ -170,7 +170,7 @@ class AddOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOrd
     }
 
     private fun showEditSupplier(){
-        dialog = LayoutInflater.from(this).inflate(R.layout.item_choose, null)
+        dialog = LayoutInflater.from(this).inflate(R.layout.item_choose_supplier, null)
         val adapter =
             ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, OrderProductActivity.supplierNameDropdown)
         val dropdown = dialog.findViewById<AutoCompleteTextView>(R.id.dropdown)
@@ -221,7 +221,7 @@ class AddOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOrd
     }
 
     override fun showDownloadProgress() {
-        CustomFun.welcomeSnackBar(container, baseContext, "Creating invoice..")
+        CustomFun.warningLongSnackBar(container, baseContext, "Creating invoice..")
     }
 
     override fun hideDownloadProgress() {

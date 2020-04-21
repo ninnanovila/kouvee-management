@@ -156,7 +156,7 @@ class EditProductActivity : AppCompatActivity(), ProductView, UploadPhotoProduct
         var fileUri: Uri? = null
         val img = getExternalFilesDir("")
         if (img!=null){
-            fileUri = Uri.fromFile(File(img.path, "profile.png"))
+            fileUri = Uri.fromFile(File(img.path, "product.png"))
         }
         return fileUri
     }
@@ -203,8 +203,7 @@ class EditProductActivity : AppCompatActivity(), ProductView, UploadPhotoProduct
         val intents: MutableList<Intent> = mutableListOf()
 
         val captureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        val listCam =
-            packageManager.queryIntentActivities(captureIntent, 0)
+        val listCam = packageManager.queryIntentActivities(captureIntent, 0)
         for (res in listCam) {
             val intent = Intent(captureIntent)
             intent.component = ComponentName(res.activityInfo.packageName, res.activityInfo.name)
@@ -246,7 +245,7 @@ class EditProductActivity : AppCompatActivity(), ProductView, UploadPhotoProduct
         if (resultCode == Activity.RESULT_OK){
             if (requestCode == 200){
                 val filePath = getImageFilePath(data)
-                Log.d("FILE PATH ", filePath)
+                Log.d("IMG PATH ", filePath)
                 CustomFun.welcomeSnackBar(container, baseContext, "Image has been chosen..")
                 try {
                     val bmOptions = BitmapFactory.Options()
@@ -263,7 +262,7 @@ class EditProductActivity : AppCompatActivity(), ProductView, UploadPhotoProduct
     private fun multipartImageUpload() {
         try {
             val filesDir = applicationContext.filesDir
-            val file = File(filesDir, "image" + ".png")
+            val file = File(filesDir, "product" + ".png")
             val fos = FileOutputStream(file)
             fos.write(byteArray)
             fos.flush()
@@ -281,6 +280,7 @@ class EditProductActivity : AppCompatActivity(), ProductView, UploadPhotoProduct
         progressbar_img.visibility = View.VISIBLE
         btn_choose.visibility = View.INVISIBLE
         btn_upload.visibility = View.INVISIBLE
+        CustomFun.warningLongSnackBar(container, baseContext, "Uploading image..")
     }
 
     override fun hideUploadProgress() {
