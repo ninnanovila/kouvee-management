@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.example.kouveemanagement.CustomFun
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.model.DetailProductTransaction
 import com.example.kouveemanagement.model.DetailProductTransactionResponse
@@ -25,6 +26,7 @@ class EditDetailProductTransactionFragment : Fragment(), DetailProductTransactio
     private lateinit var presenter: DetailProductTransactionPresenter
 
     private lateinit var idProduct: String
+    private lateinit var maxStock: String
 
     private var state = "edit"
 
@@ -61,10 +63,12 @@ class EditDetailProductTransactionFragment : Fragment(), DetailProductTransactio
             btn_cancel.visibility = View.VISIBLE
         }
         btn_save.setOnClickListener {
-            if (isValid()){
+            if (isValid() && !passStock()){
                 state = "edit"
                 getData()
                 presenter.editDetailProductTransaction(detailProductTransaction)
+            }else if (passStock()){
+                CustomFun.failedSnackBar(requireView(), requireContext(), "Max stock : $maxStock")
             }
         }
         btn_cancel.setOnClickListener {
@@ -106,32 +110,38 @@ class EditDetailProductTransactionFragment : Fragment(), DetailProductTransactio
     }
 
     override fun showDetailProductTransactionLoading() {
-        btn_save.visibility = View.INVISIBLE
+        btn_save.startAnimation()
         btn_cancel.visibility = View.INVISIBLE
-        progressbar.visibility = View.VISIBLE
     }
 
     override fun hideDetailProductTransactionLoading() {
-        progressbar.visibility = View.GONE
-        btn_save.visibility = View.VISIBLE
-        btn_cancel.visibility = View.VISIBLE
     }
 
     override fun detailProductTransactionSuccess(data: DetailProductTransactionResponse?) {
-        if (state == "edit"){
-            Toast.makeText(context, "Success to edit", Toast.LENGTH_SHORT).show()
-        }else if (state == "delete"){
-            Toast.makeText(context, "Success to delete", Toast.LENGTH_SHORT).show()
-        }
         startActivity<AddTransactionActivity>("type" to "product")
     }
 
     override fun detailProductTransactionFailed(data: String) {
+        btn_save.revertAnimation()
+        btn_cancel.visibility = View.VISIBLE
         if (state == "edit"){
-            Toast.makeText(context, data, Toast.LENGTH_SHORT).show()
+            CustomFun.failedSnackBar(requireView(), requireContext(), data)
         }else if (state == "delete"){
-            Toast.makeText(context, data, Toast.LENGTH_SHORT).show()
+            CustomFun.failedSnackBar(requireView(), requireContext(), data)
         }
+    }
+
+    private fun passStock() : Boolean{
+        val products = ProductTransactionActivity.products
+        for (i in products.indices){
+            if (idProduct == products[i].id){
+                maxStock = products[i].stock.toString()
+                if (quantity.text.toString().toInt() > products[i].stock.toString().toInt()){
+                    return true
+                }
+            }
+        }
+        return false
     }
 
 }

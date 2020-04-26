@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.example.kouveemanagement.CustomFun
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.model.DetailProductTransaction
 import com.example.kouveemanagement.model.DetailProductTransactionResponse
@@ -26,6 +27,7 @@ class AddDetailProductTransactionFragment : Fragment(), DetailProductTransaction
     private lateinit var presenter: DetailProductTransactionPresenter
 
     private lateinit var idProduct: String
+    private lateinit var maxStock: String
 
     companion object{
         fun newInstance() = AddDetailProductTransactionFragment()
@@ -43,10 +45,12 @@ class AddDetailProductTransactionFragment : Fragment(), DetailProductTransaction
         idTransaction = AddTransactionActivity.idTransaction
         idProduct = ProductTransactionActivity.productIdDropdown[0]
         btn_add.setOnClickListener {
-            if (isValid()){
+            if (isValid() && !passStock()){
                 getData()
                 presenter = DetailProductTransactionPresenter(this, Repository())
                 presenter.addDetailProductTransaction(detailProductTransaction)
+            }else if (passStock()){
+                CustomFun.failedSnackBar(requireView(), requireContext(), "Max stock : $maxStock")
             }
         }
         btn_close.setOnClickListener {
@@ -76,27 +80,38 @@ class AddDetailProductTransactionFragment : Fragment(), DetailProductTransaction
     }
 
     override fun hideDetailProductTransactionLoading() {
-        btn_add.revertAnimation()
     }
 
     override fun detailProductTransactionSuccess(data: DetailProductTransactionResponse?) {
-        Toast.makeText(context, "Success Detail Product", Toast.LENGTH_SHORT).show()
         startActivity<AddTransactionActivity>("type" to "product")
     }
 
     override fun detailProductTransactionFailed(data: String) {
-        Toast.makeText(context, data, Toast.LENGTH_SHORT).show()
+        btn_add.revertAnimation()
+        CustomFun.failedSnackBar(requireView(), requireContext(), data)
     }
 
     private fun setProductDropdown(){
-        val adapter = context?.let {
-            ArrayAdapter(it, android.R.layout.simple_spinner_dropdown_item, ProductTransactionActivity.productNameDropdown)
-        }
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, ProductTransactionActivity.productNameDropdown)
         product_dropdown.setAdapter(adapter)
         product_dropdown.setOnItemClickListener { _, _, position, _ ->
             idProduct = ProductTransactionActivity.productIdDropdown[position]
-            Toast.makeText(context, "ID PRODUCT : $idProduct", Toast.LENGTH_LONG).show()
+            val name = ProductTransactionActivity.productNameDropdown[position]
+            Toast.makeText(context, "Product: $name", Toast.LENGTH_LONG).show()
         }
+    }
+
+    private fun passStock() : Boolean{
+        val products = ProductTransactionActivity.products
+        for (i in products.indices){
+            if (idProduct == products[i].id){
+                maxStock = products[i].stock.toString()
+                if (quantity.text.toString().toInt() > products[i].stock.toString().toInt()){
+                    return true
+                }
+            }
+        }
+        return false
     }
 
 }

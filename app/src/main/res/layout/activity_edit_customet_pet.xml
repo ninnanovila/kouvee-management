@@ -7,6 +7,7 @@
     tools:context=".customerpet.EditCustomerPetActivity">
 
     <RelativeLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <RelativeLayout

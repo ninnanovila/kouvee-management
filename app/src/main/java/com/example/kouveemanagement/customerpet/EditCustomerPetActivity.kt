@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import com.example.kouveemanagement.CustomFun
 import com.example.kouveemanagement.CustomerServiceActivity
 import com.example.kouveemanagement.MainActivity
 import com.example.kouveemanagement.R
@@ -78,14 +79,16 @@ class EditCustomerPetActivity : AppCompatActivity(), CustomerPetView {
         customer_dropdown.setText(nameDropdown[positionC], true)
         customer_dropdown.setOnItemClickListener { _, _, position, _ ->
             idCustomer = idCustomerList[position]
-            Toast.makeText(this, "ID CUSTOMER : $idCustomer", Toast.LENGTH_LONG).show()
+            val name = nameDropdown[position]
+            Toast.makeText(this, "Customer : $name", Toast.LENGTH_LONG).show()
         }
         val adapterT = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, typeDropdown)
         type_dropdown.setAdapter(adapterT)
         type_dropdown.setText(typeDropdown[positionT], true)
         type_dropdown.setOnItemClickListener { _, _, position, _ ->
             idType = idTypeList[position]
-            Toast.makeText(this, "ID TYPE : $idType", Toast.LENGTH_LONG).show()
+            val name = typeDropdown[position]
+            Toast.makeText(this, "Type : $name", Toast.LENGTH_LONG).show()
         }
     }
 
@@ -95,7 +98,11 @@ class EditCustomerPetActivity : AppCompatActivity(), CustomerPetView {
         name.setText(customerPet?.name)
         birthdate.setText(customerPet?.birthdate)
         created_at.setText(customerPet?.created_at)
-        updated_at.setText(customerPet?.updated_at)
+        if (customerPet?.updated_at.isNullOrEmpty()){
+            updated_at.setText("-")
+        }else{
+            updated_at.setText(customerPet?.updated_at)
+        }
         if (customerPet?.deleted_at.isNullOrBlank()){
             deleted_at.setText("-")
         }else{
@@ -145,14 +152,13 @@ class EditCustomerPetActivity : AppCompatActivity(), CustomerPetView {
     }
 
     override fun customerPetSuccess(data: CustomerPetResponse?) {
-        Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
         startActivity<CustomerPetManagementActivity>()
     }
 
     override fun customerPetFailed(data: String) {
         btn_save.revertAnimation()
         btn_cancel.visibility = View.VISIBLE
-        Toast.makeText(this, data, Toast.LENGTH_SHORT).show()
+        CustomFun.failedSnackBar(container, baseContext, data)
     }
 
     override fun onBackPressed() {

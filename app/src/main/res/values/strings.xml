@@ -64,7 +64,7 @@
     <string name="pet_management">Pet Management</string>
     <string name="product_management">Product Management</string>
     <string name="service_management">Service Management</string>
-    <string name="customer_pet_management">Pet Management</string>
+    <string name="customer_pet_management">Customer\'s Pet Management</string>
     <string name="employee_management">Employee Management</string>
     <string name="pet_size_management">Pet Size Management</string>
     <string name="pet_type_management">Pet Type Management</string>

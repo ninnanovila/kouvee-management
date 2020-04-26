@@ -30,7 +30,6 @@ class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView, Cust
 
     private lateinit var presenterC: CustomerPresenter
     private lateinit var presenterT: PetTypePresenter
-    private var petTypes: MutableList<PetType> = mutableListOf()
 
     companion object{
         var nameCustomerDropdown: MutableList<String> = arrayListOf()
@@ -38,6 +37,8 @@ class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView, Cust
         var nameTypeDropdown: MutableList<String> = arrayListOf()
         var idTypeList: MutableList<String> = arrayListOf()
         var customerPets: MutableList<CustomerPet> = mutableListOf()
+        var petTypes: MutableList<PetType> = mutableListOf()
+        var customers: MutableList<Customer> = mutableListOf()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -77,15 +78,18 @@ class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView, Cust
             transaction.replace(R.id.container, fragment).commit()
         }
         show_all.setOnClickListener {
+            CustomFun.createToolTips(this, "L").showAlignTop(show_all)
             temps = customerPetsTemp
             getList()
         }
         show_en.setOnClickListener {
+            CustomFun.createToolTips(this, "C").showAlignTop(show_en)
             val filtered = customerPetsTemp.filter { it.deleted_at === null }
             temps = filtered as ArrayList<CustomerPet>
             getList()
         }
         show_dis.setOnClickListener {
+            CustomFun.createToolTips(this, "R").showAlignTop(show_dis)
             val filtered = customerPetsTemp.filter { it.deleted_at !== null }
             temps = filtered as ArrayList<CustomerPet>
             getList()
@@ -100,14 +104,19 @@ class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView, Cust
     }
 
     private fun getList(){
-        if (sort_switch.isChecked){
-            val sorted = temps.sortedBy { it.name }
-            recyclerview.adapter = CustomerPetRecyclerViewAdapter(petTypes, sorted as MutableList<CustomerPet>){
-                showDialog(it)
-            }
+        if (temps.isNullOrEmpty()){
+            CustomFun.warningSnackBar(container, baseContext, "Empty data")
+            recyclerview.adapter = CustomerPetRecyclerViewAdapter(petTypes, temps){}
         }else{
-            recyclerview.adapter = CustomerPetRecyclerViewAdapter(petTypes, temps){
-                showDialog(it)
+            if (sort_switch.isChecked){
+                val sorted = temps.sortedBy { it.name }
+                recyclerview.adapter = CustomerPetRecyclerViewAdapter(petTypes, sorted as MutableList<CustomerPet>){
+                    showDialog(it)
+                }
+            }else{
+                recyclerview.adapter = CustomerPetRecyclerViewAdapter(petTypes, temps){
+                    showDialog(it)
+                }
             }
         }
         customerPetAdapter.notifyDataSetChanged()
@@ -161,7 +170,6 @@ class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView, Cust
             recyclerview.layoutManager = LinearLayoutManager(this)
             recyclerview.adapter = CustomerPetRecyclerViewAdapter(petTypes, customerPetsList){
                 showDialog(it)
-                Toast.makeText(this, it.id, Toast.LENGTH_LONG).show()
             }
             CustomFun.successSnackBar(container, baseContext, "Ok, success")
         }
@@ -181,14 +189,31 @@ class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView, Cust
 
         val name = dialog.findViewById<TextView>(R.id.name)
         val birthday = dialog.findViewById<TextView>(R.id.birthdate)
+        val createdAt = dialog.findViewById<TextView>(R.id.created_at)
+        val updatedAt = dialog.findViewById<TextView>(R.id.updated_at)
+        val deletedAt = dialog.findViewById<TextView>(R.id.deleted_at)
+        val lastEmp = dialog.findViewById<TextView>(R.id.last_emp)
         val btnClose = dialog.findViewById<ImageButton>(R.id.btn_close)
         val btnEdit = dialog.findViewById<Button>(R.id.btn_edit)
 
         name.text = customerPet.name.toString()
         birthday.text = customerPet.birthdate.toString()
+        createdAt.text = customerPet.created_at
+        if (customerPet.updated_at.isNullOrEmpty()){
+            updatedAt.text = "-"
+        }else{
+            updatedAt.text = customerPet.updated_at
+        }
+        if (customerPet.deleted_at.isNullOrEmpty()){
+            deletedAt.text = "-"
+        }else{
+            deletedAt.text = customerPet.deleted_at
+        }
+        lastEmp.text = customerPet.last_emp
 
         val infoDialog = AlertDialog.Builder(this)
             .setView(dialog)
+            .setCancelable(false)
             .show()
 
         if (customerPet.deleted_at != null){
@@ -223,6 +248,8 @@ class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView, Cust
         }else{
             nameCustomerDropdown.clear()
             idCustomerList.clear()
+            customers.clear()
+            customers.addAll(temp)
             for (i in temp.indices){
                 if (temp[i].deleted_at == null){
                     nameCustomerDropdown.add(temp[i].name.toString())

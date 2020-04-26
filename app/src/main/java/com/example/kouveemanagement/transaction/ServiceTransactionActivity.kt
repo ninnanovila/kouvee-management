@@ -40,7 +40,7 @@ class  ServiceTransactionActivity : AppCompatActivity(), TransactionView, Custom
     private var type = "normal"
 
     companion object{
-        lateinit var transaction: Transaction
+        var transaction: Transaction = Transaction()
         var customerPetNameDropdown: MutableList<String> = arrayListOf()
         var customerPetIdDropdown: MutableList<String> = arrayListOf()
         var customersPet: MutableList<CustomerPet> = arrayListOf()
@@ -118,7 +118,7 @@ class  ServiceTransactionActivity : AppCompatActivity(), TransactionView, Custom
                 transactionsTemp.addAll(temp)
                 temps.addAll(temp)
                 recyclerview.layoutManager = LinearLayoutManager(this)
-                recyclerview.adapter = TransactionRecyclerViewAdapter(transactionsList.asReversed()){
+                recyclerview.adapter = TransactionRecyclerViewAdapter(transactionsList){
                     transaction = it
                     showDialog(it)
                 }
@@ -219,10 +219,10 @@ class  ServiceTransactionActivity : AppCompatActivity(), TransactionView, Custom
         dialogAlert = AlertDialog.Builder(this)
             .setTitle("What do you want to do?")
             .setPositiveButton("Show"){ _, _ ->
-                startActivity<ShowTransactionActivity>("type" to type)
+                startActivity<ShowTransactionActivity>("type" to "service")
             }
             .setNeutralButton("Edit"){_,_ ->
-                startActivity<AddTransactionActivity>("type" to type)
+                startActivity<AddTransactionActivity>("type" to "service")
             }
             .show()
     }

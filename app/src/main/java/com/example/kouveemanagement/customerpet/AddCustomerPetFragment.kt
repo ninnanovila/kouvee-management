@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.example.kouveemanagement.CustomFun
 import com.example.kouveemanagement.MainActivity
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.model.*
@@ -26,12 +27,7 @@ class AddCustomerPetFragment : Fragment(), CustomerPetView{
     private lateinit var customerPet: CustomerPet
     private lateinit var presenter: CustomerPetPresenter
 
-    private var nameDropdown: MutableList<String> = arrayListOf()
-    private var idCustomerList: MutableList<String> = arrayListOf()
     private lateinit var idCustomer: String
-
-    private var typeDropdown: MutableList<String> = arrayListOf()
-    private var idTypeList: MutableList<String> = arrayListOf()
     private lateinit var idType: String
 
     companion object{
@@ -48,10 +44,6 @@ class AddCustomerPetFragment : Fragment(), CustomerPetView{
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        nameDropdown = CustomerPetManagementActivity.nameCustomerDropdown
-        idCustomerList = CustomerPetManagementActivity.idCustomerList
-        typeDropdown = CustomerPetManagementActivity.nameTypeDropdown
-        idTypeList = CustomerPetManagementActivity.idTypeList
         lastEmp = MainActivity.currentUser?.user_id.toString()
         btn_add.setOnClickListener {
             if (isValid()){
@@ -71,7 +63,7 @@ class AddCustomerPetFragment : Fragment(), CustomerPetView{
     fun getData(){
         val name =  name.text.toString()
         val birthday = birthdate.text.toString()
-        customerPet = CustomerPet(null, idCustomer,idType, name, birthday, null, null, null, lastEmp)
+        customerPet = CustomerPet(id_customer = idCustomer,id_type = idType, name = name, birthdate = birthday, last_emp = lastEmp)
     }
 
     private fun showDatePicker(){
@@ -79,13 +71,10 @@ class AddCustomerPetFragment : Fragment(), CustomerPetView{
         val month = Calendar.getInstance().get(Calendar.MONTH)
         val day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
         birthdate.setOnClickListener {
-            val datePickerDialog =
-                context?.let { it1 ->
-                    DatePickerDialog(it1, DatePickerDialog.OnDateSetListener {
+            val datePickerDialog = DatePickerDialog(requireContext(), DatePickerDialog.OnDateSetListener {
                             _, year, month, dayOfMonth -> birthdate.setText("$year-$month-$dayOfMonth")
                     }, year, month, day)
-                }
-            datePickerDialog?.show()
+            datePickerDialog.show()
         }
     }
 
@@ -102,12 +91,12 @@ class AddCustomerPetFragment : Fragment(), CustomerPetView{
     }
 
     override fun customerPetSuccess(data: CustomerPetResponse?) {
-        Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
         startActivity<CustomerPetManagementActivity>()
     }
 
     override fun customerPetFailed(data: String) {
-        Toast.makeText(context, data, Toast.LENGTH_SHORT).show()
+        btn_add.revertAnimation()
+        CustomFun.failedSnackBar(requireView(), requireContext(), data)
     }
 
     override fun showCustomerPetLoading() {
@@ -115,28 +104,25 @@ class AddCustomerPetFragment : Fragment(), CustomerPetView{
     }
 
     override fun hideCustomerPetLoading() {
-        btn_add.revertAnimation()
     }
 
     private fun setCustomerDropdown(){
-        val adapter = context?.let {
-            ArrayAdapter(it, android.R.layout.simple_spinner_dropdown_item, nameDropdown)
-        }
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, CustomerPetManagementActivity.nameCustomerDropdown)
         customer_dropdown.setAdapter(adapter)
         customer_dropdown.setOnItemClickListener { _, _, position, _ ->
-            idCustomer = idCustomerList[position]
-            Toast.makeText(context, "ID CUSTOMER : $idCustomer", Toast.LENGTH_LONG).show()
+            idCustomer = CustomerPetManagementActivity.idCustomerList[position]
+            val name = CustomerPetManagementActivity.nameCustomerDropdown[position]
+            Toast.makeText(context, "Customer : $name", Toast.LENGTH_LONG).show()
         }
     }
 
     private fun setTypeDropDown(){
-        val adapter = context?.let {
-            ArrayAdapter(it, android.R.layout.simple_spinner_dropdown_item, typeDropdown)
-        }
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, CustomerPetManagementActivity.nameTypeDropdown)
         type_dropdown.setAdapter(adapter)
         type_dropdown.setOnItemClickListener { _, _, position, _ ->
-            idType = idTypeList[position]
-            Toast.makeText(context, "ID TYPE : $idType", Toast.LENGTH_LONG).show()
+            idType = CustomerPetManagementActivity.idTypeList[position]
+            val name = CustomerPetManagementActivity.nameTypeDropdown[position]
+            Toast.makeText(context, "Type : $name", Toast.LENGTH_LONG).show()
         }
     }
 

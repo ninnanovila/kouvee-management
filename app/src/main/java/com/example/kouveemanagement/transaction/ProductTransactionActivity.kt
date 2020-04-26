@@ -40,7 +40,7 @@ class ProductTransactionActivity : AppCompatActivity(), TransactionView, Custome
     private var type = "normal"
 
     companion object{
-        lateinit var transaction: Transaction
+        var transaction: Transaction = Transaction()
         var customerPetNameDropdown: MutableList<String> = arrayListOf()
         var customerPetIdDropdown: MutableList<String> = arrayListOf()
         var customersPet: MutableList<CustomerPet> = arrayListOf()
@@ -123,9 +123,9 @@ class ProductTransactionActivity : AppCompatActivity(), TransactionView, Custome
         }
     }
 
-    private fun showDialog(transaction: Transaction){
-        val input = transaction.id.toString()[0]
-        Toast.makeText(this, "ID : $input", Toast.LENGTH_LONG).show()
+    private fun showDialog(transactionInput: Transaction){
+        val input = transactionInput.id.toString()[0]
+        transaction = transactionInput
         if (input == 'P'){
             type = "product"
         }else if (input == 'L'){
@@ -136,10 +136,10 @@ class ProductTransactionActivity : AppCompatActivity(), TransactionView, Custome
         dialogAlert = AlertDialog.Builder(this)
             .setTitle("What do you want to do?")
             .setPositiveButton("Show"){ _, _ ->
-                startActivity<ShowTransactionActivity>("type" to type)
+                startActivity<ShowTransactionActivity>("type" to "product")
             }
             .setNeutralButton("Edit"){_,_ ->
-                startActivity<AddTransactionActivity>("type" to type)
+                startActivity<AddTransactionActivity>("type" to "product")
             }
             .show()
     }
@@ -162,7 +162,7 @@ class ProductTransactionActivity : AppCompatActivity(), TransactionView, Custome
                 transactionsTemp.addAll(temp)
                 temps.addAll(temp)
                 recyclerview.layoutManager = LinearLayoutManager(this)
-                recyclerview.adapter = TransactionRecyclerViewAdapter(transactionsList.asReversed()){
+                recyclerview.adapter = TransactionRecyclerViewAdapter(transactionsList){
                     transaction = it
                     showDialog(it)
                 }
