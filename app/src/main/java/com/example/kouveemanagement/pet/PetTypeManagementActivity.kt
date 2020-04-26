@@ -188,6 +188,7 @@ class PetTypeManagementActivity : AppCompatActivity(), PetTypeView {
 
         infoDialog = AlertDialog.Builder(this)
             .setView(dialog)
+            .setCancelable(false)
             .show()
 
         btnEdit.setOnClickListener {

@@ -77,12 +77,12 @@ class AddPetFragment : Fragment(), PetSizeView, PetTypeView {
 
     private fun getPetSize(){
         val name = name.text.toString()
-        petSize = PetSize(null, name, null, null, null)
+        petSize = PetSize(name =  name)
     }
 
     private fun getPetType(){
         val name = name.text.toString()
-        petType = PetType(null, name, null, null, null)
+        petType = PetType(name = name)
     }
 
     private fun isValid(): Boolean{

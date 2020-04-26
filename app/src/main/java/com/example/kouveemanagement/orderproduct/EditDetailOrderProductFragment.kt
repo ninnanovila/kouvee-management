@@ -54,6 +54,7 @@ class EditDetailOrderProductFragment : Fragment(), DetailOrderProductView {
         presenter = DetailOrderProductPresenter(this, Repository())
         idOrderProduct = detailOrderProduct.id_order.toString()
         idProduct = detailOrderProduct.id_product.toString()
+        quantity.setText("0")
         btn_edit.setOnClickListener {
             btn_edit.visibility = View.GONE
             btn_save.visibility = View.VISIBLE
@@ -61,10 +62,12 @@ class EditDetailOrderProductFragment : Fragment(), DetailOrderProductView {
             quantity.isEnabled = true
         }
         btn_save.setOnClickListener {
-            if (isValid()){
+            if (isValid() && passQuantity()){
                 state = "edit"
                 getData()
                 presenter.editDetailOrderProduct(detailOrderProduct)
+            }else if(!passQuantity()){
+                CustomFun.failedSnackBar(requireView(), requireContext(), "Must more than min stock")
             }
         }
         btn_cancel.setOnClickListener {
@@ -124,10 +127,22 @@ class EditDetailOrderProductFragment : Fragment(), DetailOrderProductView {
         btn_save.revertAnimation()
         btn_cancel.visibility = View.VISIBLE
         if (state == "edit"){
-            context?.let { view?.let { itView -> CustomFun.failedSnackBar(itView, it, data) } }
+            CustomFun.failedSnackBar(requireView(), requireContext(), data)
         }else if (state == "delete"){
-            context?.let { view?.let { itView -> CustomFun.failedSnackBar(itView, it, data) } }
+            CustomFun.failedSnackBar(requireView(), requireContext(), data)
         }
+    }
+
+    private fun passQuantity(): Boolean {
+        val products = OrderProductActivity.products
+        for (i in products.indices){
+            if (idProduct == products[i].id){
+                if (quantity.text.toString().toInt() < products[i].min_stock.toString().toInt()){
+                    return false
+                }
+            }
+        }
+        return true
     }
 
 }

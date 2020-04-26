@@ -194,7 +194,7 @@
     <string name="detail_transaction">Detail Transaction</string>
 
     <!--NUMBER-->
-    <string name="employee_number">Employee Number</string>
+    <string name="employee_number">Employee ID</string>
     <string name="order_product_number">Order Product Number</string>
     <string name="transaction_number">Transaction Number</string>
 

@@ -8,6 +8,7 @@ import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
@@ -32,6 +33,7 @@ import com.example.kouveemanagement.supplier.SupplierManagementActivity
 import kotlinx.android.synthetic.main.activity_owner.*
 import org.jetbrains.anko.startActivity
 
+
 class OwnerActivity : AppCompatActivity(), MinProductView {
 
     private var menu: MutableList<Menu> = mutableListOf()
@@ -40,11 +42,13 @@ class OwnerActivity : AppCompatActivity(), MinProductView {
     //NOTIFICATION
     private var notificationId = 0
     private var stackNotification = ArrayList<Product>()
+    private var nameProducts: ArrayList<String> = arrayListOf()
 
     companion object {
         var database: AppDatabase? = null
         var currentUser: CurrentUser? = null
         var minProducts: MutableList<Product> = mutableListOf()
+
         //NOTIFICATION
         private const val NAME_CHANNEL = "kouvee channel"
         private const val GROUP_KEY_PRODUCTS = "group_key_products"
@@ -64,6 +68,9 @@ class OwnerActivity : AppCompatActivity(), MinProductView {
         getMinProduct()
         btn_logout.setOnClickListener {
             showLogoutConfirm()
+        }
+        fab_notif.setOnClickListener{
+            showDialog()
         }
     }
 
@@ -114,16 +121,19 @@ class OwnerActivity : AppCompatActivity(), MinProductView {
         val confirm = AlertDialog.Builder(this)
             .setTitle("Confirmation")
             .setMessage("Are you sure to log out ?")
+            .setCancelable(false)
         confirm.setNegativeButton("NO") { _, _ ->
-            CustomFun.welcomeSnackBar(container, baseContext, "Stay here")
         }
-        confirm.setPositiveButton("YES") { _, _ ->
+        confirm.setPositiveButton("YES") { dialog, _ ->
+            val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.cancelAll()
             val thread = Thread {
                 currentUser?.let { database?.currentUserDao()?.deleteCurrentUser(it) }
                 database?.clearAllTables()
                 startActivity<MainActivity>()
             }
             thread.start()
+            dialog.dismiss()
         }
         confirm.show()
     }
@@ -144,13 +154,15 @@ class OwnerActivity : AppCompatActivity(), MinProductView {
             notificationId = 0
             stackNotification.clear()
             minProducts.clear()
+            nameProducts.clear()
             minProducts.addAll(temp)
             for (i in minProducts.indices){
                 stackNotification.add(minProducts[i])
+                nameProducts.add(minProducts[i].name.toString())
                 showNotification(stackNotification[i].name, stackNotification[i].stock, stackNotification[i].min_stock)
                 notificationId++
             }
-            CustomFun.successSnackBar(container, baseContext, "Check notification")
+            fab_notif.visibility = View.VISIBLE
         }
     }
 
@@ -165,48 +177,70 @@ class OwnerActivity : AppCompatActivity(), MinProductView {
     }
 
     private fun showNotification(title: String?, stock: Int?, minStock: Int?){
-        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        val bigIcon = BitmapFactory.decodeResource(resources, R.drawable.ic_product)
-        val intent = Intent(this, OrderProductActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
-        val pendingIntent = PendingIntent.getActivity(this, NOTIFICATION_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-        val builder: NotificationCompat.Builder
+        if (MainActivity.currentUser?.user_role.toString() == "Admin"){
+            val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            val bigIcon = BitmapFactory.decodeResource(resources, R.drawable.ic_product)
+            val intent = Intent(this, OrderProductActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            val pendingIntent = PendingIntent.getActivity(this, NOTIFICATION_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+            val builder: NotificationCompat.Builder
 
-        val channelId = "channel_01"
-        if (notificationId < MAX_NOTIFICATION){
-            builder = NotificationCompat.Builder(this, channelId)
-                .setContentTitle("$title on minimum stock")
-                .setContentText("Stock is $stock and minimum is $minStock, let's order")
-                .setSmallIcon(R.drawable.ic_notification_big)
-                .setLargeIcon(bigIcon)
-                .setGroup(GROUP_KEY_PRODUCTS)
-                .setContentIntent(pendingIntent)
-                .setAutoCancel(true)
+            val channelId = "channel_01"
+            if (notificationId < MAX_NOTIFICATION){
+                builder = NotificationCompat.Builder(this, channelId)
+                    .setContentTitle("$title on minimum stock")
+                    .setContentText("Stock is $stock and minimum is $minStock, let's order")
+                    .setSmallIcon(R.drawable.ic_notification_big)
+                    .setLargeIcon(bigIcon)
+                    .setGroup(GROUP_KEY_PRODUCTS)
+                    .setContentIntent(pendingIntent)
+                    .setAutoCancel(true)
+            }else{
+                val notificationStyle = NotificationCompat.InboxStyle()
+                    .addLine(stackNotification[notificationId].name + "on minimum stock")
+                    .addLine(stackNotification[notificationId-1].name + "on minimum stock")
+                    .setBigContentTitle("$notificationId products on minimum stock")
+                    .setSummaryText("Let's order product!")
+                builder = NotificationCompat.Builder(this, channelId)
+                    .setContentTitle("$notificationId products on minimum stock")
+                    .setContentText("Let's order product!")
+                    .setSmallIcon(R.drawable.ic_notification_big)
+                    .setGroup(GROUP_KEY_PRODUCTS)
+                    .setGroupSummary(true)
+                    .setContentIntent(pendingIntent)
+                    .setStyle(notificationStyle)
+                    .setAutoCancel(true)
+            }
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                val channel = NotificationChannel(channelId, NAME_CHANNEL, NotificationManager.IMPORTANCE_DEFAULT)
+                builder.setChannelId(channelId)
+                notificationManager.createNotificationChannel(channel)
+            }
+
+            val notification = builder.build()
+            notificationManager.notify(notificationId, notification)
         }else{
-            val notificationStyle = NotificationCompat.InboxStyle()
-                .addLine(stackNotification[notificationId].name + "on minimum stock")
-                .addLine(stackNotification[notificationId-1].name + "on minimum stock")
-                .setBigContentTitle("$notificationId products on minimum stock")
-                .setSummaryText("Let's order product!")
-            builder = NotificationCompat.Builder(this, channelId)
-                .setContentTitle("$notificationId products on minimum stock")
-                .setContentText("Let's order product!")
-                .setSmallIcon(R.drawable.ic_notification_big)
-                .setGroup(GROUP_KEY_PRODUCTS)
-                .setGroupSummary(true)
-                .setContentIntent(pendingIntent)
-                .setStyle(notificationStyle)
-                .setAutoCancel(true)
+            stackNotification.clear()
+            notificationId = 0
         }
+    }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(channelId, NAME_CHANNEL, NotificationManager.IMPORTANCE_DEFAULT)
-            builder.setChannelId(channelId)
-            notificationManager.createNotificationChannel(channel)
-        }
-
-        val notification = builder.build()
-        notificationManager.notify(notificationId, notification)
+    private fun showDialog(){
+        val input = nameProducts.toTypedArray()
+        AlertDialog.Builder(this)
+            .setTitle("Minimum Product")
+            .setIcon(R.drawable.ic_notification_big)
+            .setCancelable(false)
+            .setItems(input){ _, _ ->
+            }
+            .setPositiveButton("ORDER"){ _, _ ->
+                startActivity<OrderProductActivity>()
+            }
+            .setNegativeButton("CLOSE"){ dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
     }
 
 }

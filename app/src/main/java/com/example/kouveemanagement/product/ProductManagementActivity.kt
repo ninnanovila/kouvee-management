@@ -205,6 +205,7 @@ class ProductManagementActivity : AppCompatActivity(), ProductView {
         }
         val infoDialog = androidx.appcompat.app.AlertDialog.Builder(this)
             .setView(dialog)
+            .setCancelable(false)
             .show()
         btnEdit.setOnClickListener {
             startActivity<EditProductActivity>("product" to product)

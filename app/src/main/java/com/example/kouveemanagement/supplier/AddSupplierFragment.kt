@@ -51,7 +51,7 @@ class AddSupplierFragment : Fragment(), SupplierView {
         val name = name.text.toString()
         val address = address.text.toString()
         val phoneNumber = phone_number.text.toString()
-        supplier = Supplier(null, name, address, phoneNumber, null, null, null)
+        supplier = Supplier(name = name, address = address, phone_number = phoneNumber)
     }
 
     private fun isValid(): Boolean {

@@ -44,12 +44,17 @@ class AddDetailOrderProductFragment : Fragment(), DetailOrderProductView {
         super.onViewCreated(view, savedInstanceState)
         view.bringToFront()
         idOrderProduct = AddOrderProductActivity.idOrderProduct
-        idProduct = OrderProductActivity.productIdDropdown[0]
+        idProduct = "-1"
+        quantity.setText("0")
         btn_add.setOnClickListener {
-            if (isValid()){
+            if (isValid() && idProduct != "-1" && passQuantity()){
                 getData()
                 presenter = DetailOrderProductPresenter(this, Repository())
                 presenter.addDetailOrderProduct(detailOrderProduct)
+            }else if(!passQuantity()){
+                CustomFun.failedSnackBar(requireView(), requireContext(), "Must more than min stock")
+            }else if (idProduct == "-1"){
+                CustomFun.failedSnackBar(requireView(), requireContext(), "Please choose product")
             }
         }
         btn_close.setOnClickListener {
@@ -87,7 +92,7 @@ class AddDetailOrderProductFragment : Fragment(), DetailOrderProductView {
 
     override fun detailOrderProductFailed(data: String) {
         btn_add.revertAnimation()
-        context?.let { view?.let { itView -> CustomFun.failedSnackBar(itView, it, data) } }
+        CustomFun.failedSnackBar(requireView(), requireContext(), data)
     }
 
     private fun setProductDropdown(){
@@ -100,6 +105,18 @@ class AddDetailOrderProductFragment : Fragment(), DetailOrderProductView {
             val name = OrderProductActivity.productNameDropdown[position]
             Toast.makeText(context, "Product : $name", Toast.LENGTH_LONG).show()
         }
+    }
+
+    private fun passQuantity() : Boolean{
+        val products = OrderProductActivity.products
+        for (i in products.indices){
+            if (idProduct == products[i].id){
+                if (quantity.text.toString().toInt() < products[i].min_stock.toString().toInt()){
+                    return false
+                }
+            }
+        }
+        return true
     }
 
 }

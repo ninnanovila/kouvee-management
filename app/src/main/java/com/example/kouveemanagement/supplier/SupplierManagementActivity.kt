@@ -179,6 +179,7 @@ class SupplierManagementActivity : AppCompatActivity(), SupplierView {
             btnEdit.visibility = View.GONE
         }
         val infoDialog = AlertDialog.Builder(this)
+            .setCancelable(false)
             .setView(dialog)
             .show()
         btnEdit.setOnClickListener {

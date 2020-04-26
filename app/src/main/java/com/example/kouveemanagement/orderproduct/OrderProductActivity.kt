@@ -188,6 +188,7 @@ class OrderProductActivity : AppCompatActivity(), OrderProductView, SupplierView
         dialogAlert = AlertDialog.Builder(this)
             .setTitle("Confirmation")
             .setMessage("Are you sure to order product?")
+            .setCancelable(false)
             .setPositiveButton("YES"){ _, _ ->
                 add = "1"
                 chooseSupplier()
@@ -278,6 +279,7 @@ class OrderProductActivity : AppCompatActivity(), OrderProductView, SupplierView
     }
 
     private fun chooseSupplier() {
+        supplierId = "-1"
         dialog = LayoutInflater.from(this).inflate(R.layout.item_choose_supplier, null)
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, supplierNameDropdown)
         val dropdown = dialog.findViewById<AutoCompleteTextView>(R.id.dropdown)
@@ -292,6 +294,7 @@ class OrderProductActivity : AppCompatActivity(), OrderProductView, SupplierView
 
         infoDialog = AlertDialog.Builder(this)
             .setView(dialog)
+            .setCancelable(false)
             .show()
 
         btnClose.setOnClickListener {
@@ -299,8 +302,12 @@ class OrderProductActivity : AppCompatActivity(), OrderProductView, SupplierView
         }
 
         btnAdd.setOnClickListener {
-            orderProduct = OrderProduct(null, supplierId, null, null)
-            presenter.addOrderProduct(orderProduct)
+            if (supplierId == "-1"){
+                CustomFun.failedSnackBar(container, baseContext, "Please choose supplier")
+            }else{
+                orderProduct = OrderProduct(id_supplier =  supplierId)
+                presenter.addOrderProduct(orderProduct)
+            }
         }
     }
 

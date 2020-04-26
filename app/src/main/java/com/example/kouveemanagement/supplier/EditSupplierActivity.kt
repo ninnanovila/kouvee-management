@@ -62,7 +62,7 @@ class EditSupplierActivity : AppCompatActivity(), SupplierView {
         val name = name.text.toString()
         val address = address.text.toString()
         val phoneNumber = phone_number.text.toString()
-        supplier = Supplier(id, name, address, phoneNumber, null, null, null)
+        supplier = Supplier(id = id, name = name, address = address, phone_number = phoneNumber)
     }
 
     private fun isValid(): Boolean {

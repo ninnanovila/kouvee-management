@@ -51,7 +51,7 @@ class AddProductFragment : Fragment(), ProductView {
         val stock = stock.text.toString()
         val minStock = min_stock.text.toString()
         val price = price.text.toString()
-        product = Product(null, name, unit, stock.toInt(), minStock.toInt(), price.toDouble(), null)
+        product = Product(name = name, unit = unit, stock = stock.toInt(), min_stock = minStock.toInt(), price = price.toDouble())
     }
 
     private fun isValid(): Boolean {

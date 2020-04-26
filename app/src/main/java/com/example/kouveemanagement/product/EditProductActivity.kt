@@ -77,7 +77,7 @@ class EditProductActivity : AppCompatActivity(), ProductView, UploadPhotoProduct
         product?.min_stock?.toString()?.let { min_stock.setText(it) }
         product?.price?.toString()?.let { price.setText(it) }
         created_at.setText(product?.created_at)
-        if (product?.updated_at.isNullOrEmpty()){
+        if (product?.updated_at.isNullOrBlank()){
             updated_at.setText("-")
         }else{
             updated_at.setText(product?.updated_at)
@@ -96,7 +96,7 @@ class EditProductActivity : AppCompatActivity(), ProductView, UploadPhotoProduct
         val stock = stock.text.toString()
         val minStock = min_stock.text.toString()
         val price = price.text.toString()
-        product = Product(id, name, unit, stock.toInt(), minStock.toInt(), price.toDouble(), null)
+        product = Product(id = id,name = name,unit = unit,stock = stock.toInt(), min_stock = minStock.toInt(), price = price.toDouble())
     }
 
     private fun isValid(): Boolean {
@@ -146,7 +146,6 @@ class EditProductActivity : AppCompatActivity(), ProductView, UploadPhotoProduct
         startActivity<ProductManagementActivity>()
     }
 
-
     //IMAGE
     private lateinit var bitmap: Bitmap
     private lateinit var byteArray: ByteArray
@@ -165,7 +164,7 @@ class EditProductActivity : AppCompatActivity(), ProductView, UploadPhotoProduct
     private fun getPathFromURI(contentUri: Uri): String? {
         try {
             val projectData = arrayOf(MediaStore.Audio.Media.DATA)
-            val cursor = contentResolver.query(contentUri, projectData, null, null, null)!!
+            val cursor = contentResolver.query(contentUri, projectData,null, null, null)!!
             val columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA)
             cursor.moveToFirst()
             return cursor.getString(columnIndex)
@@ -287,7 +286,7 @@ class EditProductActivity : AppCompatActivity(), ProductView, UploadPhotoProduct
     }
 
     override fun uploadProductSuccess(data: ResponseBody?) {
-        startActivity<ProductManagementActivity>()
+        startActivity<OwnerActivity>()
     }
 
     override fun uploadProductFailed(data: String) {

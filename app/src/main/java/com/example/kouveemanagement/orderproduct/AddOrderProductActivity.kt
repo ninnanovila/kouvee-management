@@ -170,6 +170,7 @@ class AddOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOrd
     }
 
     private fun showEditSupplier(){
+        supplierId = orderProduct.id_supplier.toString()
         dialog = LayoutInflater.from(this).inflate(R.layout.item_choose_supplier, null)
         val adapter =
             ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, OrderProductActivity.supplierNameDropdown)
@@ -190,6 +191,7 @@ class AddOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOrd
 
         infoDialog = AlertDialog.Builder(this)
             .setView(dialog)
+            .setCancelable(false)
             .show()
 
         btnClose.setOnClickListener {
@@ -197,9 +199,13 @@ class AddOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOrd
         }
 
         btnSave.setOnClickListener {
-            state = "edit"
-            val newOrderProduct = OrderProduct(orderProduct.id.toString(), supplierId, orderProduct.total, orderProduct.status)
-            presenter.editOrderProduct(orderProduct.id.toString(), newOrderProduct)
+            if (supplierId == orderProduct.id_supplier.toString()){
+                CustomFun.failedSnackBar(container, baseContext, "Supplier same as before")
+            }else{
+                state = "edit"
+                val newOrderProduct = OrderProduct(orderProduct.id.toString(), supplierId, orderProduct.total, orderProduct.status)
+                presenter.editOrderProduct(orderProduct.id.toString(), newOrderProduct)
+            }
         }
     }
 
@@ -217,6 +223,7 @@ class AddOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOrd
             .setNegativeButton("NO"){ _: DialogInterface, _: Int ->
                 CustomFun.warningSnackBar(container, baseContext, "Process canceled")
             }
+            .setCancelable(false)
             .show()
     }
 

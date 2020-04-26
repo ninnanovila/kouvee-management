@@ -195,6 +195,7 @@ class PetSizeManagementActivity : AppCompatActivity(), PetSizeView {
 
         infoDialog = AlertDialog.Builder(this)
             .setView(dialog)
+            .setCancelable(false)
             .show()
 
         btnEdit.setOnClickListener {
@@ -223,5 +224,10 @@ class PetSizeManagementActivity : AppCompatActivity(), PetSizeView {
         btnClose.setOnClickListener {
             infoDialog.dismiss()
         }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        startActivity<OwnerActivity>()
     }
 }

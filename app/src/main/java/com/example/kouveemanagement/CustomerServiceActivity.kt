@@ -56,7 +56,7 @@ class CustomerServiceActivity : AppCompatActivity() {
             when(it.name) {
                 //DATA MASTER
                 "Customer" -> startActivity<CustomerManagementActivity>()
-                "Customer Pet" -> startActivity<CustomerPetManagementActivity>()
+                "Customer's Pet" -> startActivity<CustomerPetManagementActivity>()
                 //TRANSACTION
                 "Product Transaction" -> startActivity<ProductTransactionActivity>()
                 "Service Transaction" -> startActivity<ServiceTransactionActivity>()
@@ -79,17 +79,18 @@ class CustomerServiceActivity : AppCompatActivity() {
         val confirm = AlertDialog.Builder(this)
             .setTitle("Confirmation")
             .setMessage("Are you sure to log out ?")
+            .setCancelable(false)
 
         confirm.setNegativeButton("NO") { _, _ ->
-            CustomFun.welcomeSnackBar(container, baseContext, "Stay here")
         }
-        confirm.setPositiveButton("YES") { _, _ ->
+        confirm.setPositiveButton("YES") { dialog, _ ->
             val thread = Thread {
                 currentUser?.let { database?.currentUserDao()?.deleteCurrentUser(it) }
                 database?.clearAllTables()
                 startActivity<MainActivity>()
             }
             thread.start()
+            dialog.dismiss()
         }
         confirm.show()
     }
