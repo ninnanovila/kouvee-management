@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.kouveemanagement.CustomFun
 import com.example.kouveemanagement.CustomerServiceActivity
 import com.example.kouveemanagement.MainActivity
 import com.example.kouveemanagement.R
@@ -80,22 +81,120 @@ class ProductTransactionActivity : AppCompatActivity(), TransactionView, Custome
                 return false
             }
         })
+        fab_add.setOnClickListener{
+            showAlert()
+        }
+    }
+
+    override fun showTransactionLoading() {
+        progressbar.visibility = View.VISIBLE
+    }
+
+    override fun hideTransactionLoading() {
+        progressbar.visibility = View.GONE
+    }
+
+    override fun transactionSuccess(data: TransactionResponse?) {
+        if (add == "0"){
+            val temp: List<Transaction> = data?.transactions ?: emptyList()
+            if (temp.isEmpty()){
+                CustomFun.warningLongSnackBar(container, baseContext, "Empty data")
+            }else{
+                transactionsList.addAll(temp)
+                transactionsTemp.addAll(temp)
+                temps.addAll(temp)
+                recyclerview.layoutManager = LinearLayoutManager(this)
+                recyclerview.adapter = TransactionRecyclerViewAdapter(transactionsList){
+                    transaction = it
+                    showDialog(it)
+                }
+                CustomFun.successSnackBar(container, baseContext, "Ok, success")
+            }
+        }else{
+            transaction = data?.transactions?.get(0)!!
+            startActivity<AddTransactionActivity>("type" to type)
+        }
+    }
+
+    override fun transactionFailed(data: String) {
+        Toast.makeText(this, data, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        startActivity<CustomerServiceActivity>()
+    }
+
+    override fun showCustomerPetLoading() {
+    }
+
+    override fun hideCustomerPetLoading() {
+    }
+
+    override fun customerPetSuccess(data: CustomerPetResponse?) {
+        val temp: List<CustomerPet> = data?.customerpets ?: emptyList()
+        if (temp.isEmpty()){
+            CustomFun.warningLongSnackBar(container, baseContext, "Empty data")
+        }else{
+            customersPet.addAll(temp)
+            customerPetNameDropdown.clear()
+            customerPetIdDropdown.clear()
+            for (i in temp.indices){
+                customerPetNameDropdown.add(i, temp[i].name.toString())
+                customerPetIdDropdown.add(i, temp[i].id.toString())
+            }
+        }
+    }
+
+    override fun customerPetFailed(data: String) {
+        CustomFun.failedSnackBar(container, baseContext, data)
+    }
+
+    override fun showProductLoading() {
+    }
+
+    override fun hideProductLoading() {
+    }
+
+    override fun productSuccess(data: ProductResponse?) {
+        val temp: List<Product> = data?.products ?: emptyList()
+        if (temp.isEmpty()){
+            CustomFun.warningLongSnackBar(container, baseContext, "Empty data")
+        }else{
+            products.addAll(temp)
+            productNameDropdown.clear()
+            productIdDropdown.clear()
+            for (i in temp.indices){
+                if (temp[i].deleted_at == null){
+                    productNameDropdown.add(temp[i].name.toString())
+                    productIdDropdown.add(temp[i].id.toString())
+                }
+            }
+        }
+    }
+
+    override fun productFailed(data: String) {
+        CustomFun.failedSnackBar(container, baseContext, data)
     }
 
     private fun showAlert(){
         add = "1"
         type = "product"
         dialogAlert = AlertDialog.Builder(this)
-            .setTitle("Create transaction ?")
+            .setIcon(R.drawable.product_transaction)
+            .setTitle("Confirmation")
+            .setMessage("Are you sure to create product transaction?")
+            .setCancelable(false)
             .setPositiveButton("YES"){ _, _ ->
-                chooseCustomerPet("Product")
+                chooseCustomerPet()
             }
-            .setNeutralButton("NO"){_,_ ->
+            .setNegativeButton("NO"){dialog,_ ->
+                dialog.dismiss()
             }
             .show()
     }
 
-    private fun chooseCustomerPet(type: String) {
+    private fun chooseCustomerPet() {
         dialog = LayoutInflater.from(this).inflate(R.layout.item_choose_pet, null)
         val adapter =
             ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, customerPetNameDropdown)
@@ -105,7 +204,8 @@ class ProductTransactionActivity : AppCompatActivity(), TransactionView, Custome
         dropdown.setAdapter(adapter)
         dropdown.setOnItemClickListener { _, _, position, _ ->
             customerPetId = customerPetIdDropdown[position]
-            Toast.makeText(this, "ID CUSTOMER PET : $customerPetId", Toast.LENGTH_LONG).show()
+            val name = customerPetNameDropdown[position]
+            Toast.makeText(this, "Pet : $name", Toast.LENGTH_LONG).show()
         }
 
         infoDialog = AlertDialog.Builder(this)
@@ -144,97 +244,4 @@ class ProductTransactionActivity : AppCompatActivity(), TransactionView, Custome
             .show()
     }
 
-    override fun showTransactionLoading() {
-        progressbar.visibility = View.VISIBLE
-    }
-
-    override fun hideTransactionLoading() {
-        progressbar.visibility = View.GONE
-    }
-
-    override fun transactionSuccess(data: TransactionResponse?) {
-        if (add == "0"){
-            val temp: List<Transaction> = data?.transactions ?: emptyList()
-            if (temp.isEmpty()){
-                Toast.makeText(this, "No Result", Toast.LENGTH_SHORT).show()
-            }else{
-                transactionsList.addAll(temp)
-                transactionsTemp.addAll(temp)
-                temps.addAll(temp)
-                recyclerview.layoutManager = LinearLayoutManager(this)
-                recyclerview.adapter = TransactionRecyclerViewAdapter(transactionsList){
-                    transaction = it
-                    showDialog(it)
-                }
-            }
-        }else{
-            transaction = data?.transactions?.get(0)!!
-            startActivity<AddTransactionActivity>("type" to type)
-        }
-    }
-
-    override fun transactionFailed(data: String) {
-        Toast.makeText(this, data, Toast.LENGTH_SHORT).show()
-    }
-
-    override fun onBackPressed() {
-        super.onBackPressed()
-        startActivity<CustomerServiceActivity>()
-    }
-
-    override fun showCustomerPetLoading() {
-        progressbar.visibility = View.VISIBLE
-    }
-
-    override fun hideCustomerPetLoading() {
-        progressbar.visibility = View.GONE
-    }
-
-    override fun customerPetSuccess(data: CustomerPetResponse?) {
-        val temp: List<CustomerPet> = data?.customerpets ?: emptyList()
-        if (temp.isEmpty()){
-            Toast.makeText(this, "No Result", Toast.LENGTH_SHORT).show()
-        }else{
-            customersPet.addAll(temp)
-            customerPetNameDropdown.clear()
-            customerPetIdDropdown.clear()
-            for (i in temp.indices){
-                customerPetNameDropdown.add(i, temp[i].name.toString())
-                customerPetIdDropdown.add(i, temp[i].id.toString())
-            }
-        }
-    }
-
-    override fun customerPetFailed(data: String) {
-        Toast.makeText(this, data, Toast.LENGTH_SHORT).show()
-    }
-
-    override fun showProductLoading() {
-        progressbar.visibility = View.VISIBLE
-    }
-
-    override fun hideProductLoading() {
-        progressbar.visibility = View.GONE
-    }
-
-    override fun productSuccess(data: ProductResponse?) {
-        val temp: List<Product> = data?.products ?: emptyList()
-        if (temp.isEmpty()){
-            Toast.makeText(this, "No Result", Toast.LENGTH_SHORT).show()
-        }else{
-            products.addAll(temp)
-            productNameDropdown.clear()
-            productIdDropdown.clear()
-            for (i in temp.indices){
-                if (temp[i].deleted_at == null){
-                    productNameDropdown.add(temp[i].name.toString())
-                    productIdDropdown.add(temp[i].id.toString())
-                }
-            }
-        }
-    }
-
-    override fun productFailed(data: String) {
-        Toast.makeText(this, data, Toast.LENGTH_SHORT).show()
-    }
 }

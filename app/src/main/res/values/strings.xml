@@ -195,8 +195,8 @@
 
     <!--NUMBER-->
     <string name="employee_number">Employee ID</string>
-    <string name="order_product_number">Order Product Number</string>
-    <string name="transaction_number">Transaction Number</string>
+    <string name="order_product_number">Order Product ID</string>
+    <string name="transaction_number">Transaction ID</string>
 
     <!--OTHER-->
     <string name="status">Status</string>
@@ -213,5 +213,6 @@
     <string name="more_info">made with laf, for P3L</string>
     <string name="icon_source">*all icon from flaticon.com</string>
     <string name="choose_supplier">Choose Supplier</string>
+    <string name="printed_at">Printed At</string>
 
 </resources>

@@ -97,6 +97,9 @@ class AddOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOrd
         }
         val totalInput = input.total.toString()
         total.text = CustomFun.changeToRp(totalInput.toDouble())
+        created_at.text = input.created_at.toString()
+        updated_at.text = input.updated_at.toString()
+        printed_at.text = input.printed_at.toString()
     }
 
     override fun showOrderProductLoading() {
