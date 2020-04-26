@@ -98,8 +98,16 @@ class AddOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOrd
         val totalInput = input.total.toString()
         total.text = CustomFun.changeToRp(totalInput.toDouble())
         created_at.text = input.created_at.toString()
-        updated_at.text = input.updated_at.toString()
-        printed_at.text = input.printed_at.toString()
+        if (input.updated_at == null){
+            updated_at.text = "-"
+        }else{
+            updated_at.text = input.updated_at.toString()
+        }
+        if (input.printed_at == null){
+            printed_at.text = "-"
+        }else{
+            printed_at.text = input.printed_at.toString()
+        }
     }
 
     override fun showOrderProductLoading() {
@@ -223,7 +231,8 @@ class AddOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOrd
                     presenter.deleteOrderProduct(orderProduct.id.toString())
                 }
             }
-            .setNegativeButton("NO"){ _: DialogInterface, _: Int ->
+            .setNegativeButton("NO"){ dialog: DialogInterface, _: Int ->
+                dialog.dismiss()
                 CustomFun.warningSnackBar(container, baseContext, "Process canceled")
             }
             .setCancelable(false)

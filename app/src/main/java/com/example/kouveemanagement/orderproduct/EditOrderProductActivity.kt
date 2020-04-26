@@ -54,7 +54,8 @@ class EditOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOr
             }
         }
         status.text = input.status.toString()
-        total.text = input.total.toString()
+        val totalInput = input.total.toString()
+        total.text = CustomFun.changeToRp(totalInput.toDouble())
         created_at.text = input.created_at.toString()
         updated_at.text = input.updated_at.toString()
         printed_at.text = input.printed_at.toString()
@@ -112,6 +113,7 @@ class EditOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOr
         AlertDialog.Builder(this)
             .setTitle("Confirmation")
             .setMessage("Are you sure to done this order ?")
+            .setCancelable(false)
             .setPositiveButton("YES"){ _: DialogInterface, _: Int ->
                 presenter.editDoneOrderProduct(idOrderProduct)
             }
