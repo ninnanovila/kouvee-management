@@ -18,7 +18,7 @@ import com.example.kouveemanagement.repository.Repository
 import kotlinx.android.synthetic.main.activity_service_transaction.*
 import org.jetbrains.anko.startActivity
 
-class  ServiceTransactionActivity : AppCompatActivity(), TransactionView, CustomerPetView, ServiceView{
+class  ServiceTransactionActivity : AppCompatActivity(), TransactionView, CustomerPetView, ServiceView, CustomerView, PetSizeView{
 
     private var transactionsList: MutableList<Transaction> = mutableListOf()
     private val transactionsTemp = ArrayList<Transaction>()
@@ -34,33 +34,36 @@ class  ServiceTransactionActivity : AppCompatActivity(), TransactionView, Custom
     private lateinit var dialogAlert: AlertDialog
 
     private lateinit var presenterC: CustomerPetPresenter
-    private lateinit var customerPetId: String
+    private lateinit var petId: String
     private lateinit var presenterS: ServicePresenter
+    private lateinit var presenterCu: CustomerPresenter
+    private lateinit var presenterSize: PetSizePresenter
 
     private var add = "0"
-    private var type = "normal"
+    private var type = "service"
+    private var size:Int = -1
 
     companion object{
+        var idOfSize: String = "-1"
         var transaction: Transaction = Transaction()
-        var customerPetNameDropdown: MutableList<String> = arrayListOf()
-        var customerPetIdDropdown: MutableList<String> = arrayListOf()
+        var customerPetName: MutableList<String> = arrayListOf()
+        var customerPetId: MutableList<String> = arrayListOf()
         var customersPet: MutableList<CustomerPet> = arrayListOf()
-        var serviceNameDropdown: MutableList<String> = arrayListOf()
-        var serviceIdDropdown: MutableList<String> = arrayListOf()
+        var serviceName: MutableList<String> = arrayListOf()
+        var serviceId: MutableList<String> = arrayListOf()
         var services: MutableList<Service> = arrayListOf()
         var transactions: MutableList<Transaction> = mutableListOf()
+        var customers: MutableList<Customer> = mutableListOf()
+        var petSizesName: MutableList<String> = arrayListOf()
+        var petSizesId: MutableList<String> = arrayListOf()
+        var petSizes: MutableList<PetSize> = mutableListOf()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_service_transaction)
         lastEmp = MainActivity.currentUser?.user_id.toString()
-        presenterS = ServicePresenter(this, Repository())
-        presenterS.getAllService()
-        presenterC = CustomerPetPresenter(this, Repository())
-        presenterC.getAllCustomerPet()
-        presenter = TransactionPresenter(this, Repository())
-        presenter.getAllServiceTransaction()
+        getAllData()
         btn_home.setOnClickListener {
             startActivity<CustomerServiceActivity>()
         }
@@ -84,14 +87,57 @@ class  ServiceTransactionActivity : AppCompatActivity(), TransactionView, Custom
         fab_add.setOnClickListener {
             showAlert()
         }
+        swipe_rv.setOnRefreshListener {
+            presenterCu.getAllCustomer()
+            presenterS.getAllService()
+            presenterC.getAllCustomerPet()
+            presenter.getAllServiceTransaction()
+        }
+        show_paid_off.setOnClickListener{
+            val filtered = transactionsTemp.filter { it.payment == "1" }
+            temps = filtered as ArrayList<Transaction>
+            getList()
+        }
+        show_not_paid_off.setOnClickListener{
+            val filtered = transactionsTemp.filter { it.payment == "0" }
+            temps = filtered as ArrayList<Transaction>
+            getList()
+        }
+        CustomFun.setSwipe(swipe_rv)
+    }
+
+    private fun getAllData(){
+        presenterSize = PetSizePresenter(this, Repository())
+        presenterSize.getAllPetSize()
+        presenterCu = CustomerPresenter(this, Repository())
+        presenterCu.getAllCustomer()
+        presenterS = ServicePresenter(this, Repository())
+        presenterS.getAllService()
+        presenterC = CustomerPetPresenter(this, Repository())
+        presenterC.getAllCustomerPet()
+        presenter = TransactionPresenter(this, Repository())
+        presenter.getAllServiceTransaction()
+    }
+
+    private fun getList(){
+        if (temps.isNullOrEmpty()){
+            CustomFun.warningSnackBar(container, baseContext, "Empty data")
+            recyclerview.adapter = TransactionRecyclerViewAdapter(temps){}
+        }else{
+            recyclerview.adapter = TransactionRecyclerViewAdapter(temps){
+                transaction = it
+                showDialog(it, it.payment.toString())
+            }
+        }
+        transactionAdapter.notifyDataSetChanged()
     }
 
     override fun showTransactionLoading() {
-        progressbar.visibility = View.VISIBLE
+        swipe_rv.isRefreshing = true
     }
 
     override fun hideTransactionLoading() {
-        progressbar.visibility = View.GONE
+        swipe_rv.isRefreshing = false
     }
 
     override fun transactionSuccess(data: TransactionResponse?) {
@@ -100,30 +146,31 @@ class  ServiceTransactionActivity : AppCompatActivity(), TransactionView, Custom
             if (temp.isEmpty()){
                 CustomFun.warningLongSnackBar(container, baseContext, "Empty data")
             }else{
+                clearList()
                 transactionsList.addAll(temp)
                 transactionsTemp.addAll(temp)
-                temps.addAll(temp)
+                temps = transactionsTemp
                 recyclerview.layoutManager = LinearLayoutManager(this)
                 recyclerview.adapter = TransactionRecyclerViewAdapter(transactionsList){
                     transaction = it
-                    showDialog(it)
+                    showDialog(it, it.payment.toString())
                 }
                 CustomFun.successSnackBar(container, baseContext, "Ok, success")
 
             }
         }else{
             transaction = data?.transactions?.get(0)!!
-            startActivity<AddTransactionActivity>("type" to type)
+            startActivity<AddTransactionActivity>("type" to "service")
         }
     }
 
     override fun transactionFailed(data: String) {
-        Toast.makeText(this, data, Toast.LENGTH_SHORT).show()
+        CustomFun.failedSnackBar(container, baseContext, data)
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-        startActivity<CustomerServiceActivity>()
+    private fun clearList(){
+        transactionsList.clear()
+        transactionsTemp.clear()
     }
 
     override fun showCustomerPetLoading() {
@@ -137,18 +184,23 @@ class  ServiceTransactionActivity : AppCompatActivity(), TransactionView, Custom
         if (temp.isEmpty()){
             CustomFun.warningLongSnackBar(container, baseContext, "Empty data")
         }else{
+            clearPet()
             customersPet.addAll(temp)
-            customerPetNameDropdown.clear()
-            customerPetIdDropdown.clear()
             for (i in temp.indices){
-                customerPetNameDropdown.add(i, temp[i].name.toString())
-                customerPetIdDropdown.add(i, temp[i].id.toString())
+                customerPetName.add(i, temp[i].name.toString())
+                customerPetId.add(i, temp[i].id.toString())
             }
         }
     }
 
     override fun customerPetFailed(data: String) {
         CustomFun.failedSnackBar(container, baseContext, data)
+    }
+
+    private fun clearPet(){
+        customersPet.clear()
+        customerPetName.clear()
+        customerPetId.clear()
     }
 
     override fun showServiceLoading() {
@@ -162,13 +214,12 @@ class  ServiceTransactionActivity : AppCompatActivity(), TransactionView, Custom
         if (temp.isEmpty()){
             CustomFun.warningLongSnackBar(container, baseContext, "Empty data")
         }else{
+            clearService()
             services.addAll(temp)
-            serviceNameDropdown.clear()
-            serviceIdDropdown.clear()
-            for (i in temp.indices){
-                if (temp[i].deleted_at == null){
-                    serviceNameDropdown.add(temp[i].name.toString())
-                    serviceIdDropdown.add(temp[i].id.toString())
+            for (service in temp){
+                if (service.deleted_at == null){
+                    serviceName.add(service.name.toString())
+                    serviceId.add(service.id.toString())
                 }
             }
         }
@@ -176,6 +227,58 @@ class  ServiceTransactionActivity : AppCompatActivity(), TransactionView, Custom
 
     override fun serviceFailed(data: String) {
         CustomFun.failedSnackBar(container, baseContext, data)
+    }
+
+    private fun clearService(){
+        services.clear()
+        serviceName.clear()
+        serviceId.clear()
+    }
+
+    override fun showCustomerLoading() {
+    }
+
+    override fun hideCustomerLoading() {
+    }
+
+    override fun customerSuccess(data: CustomerResponse?) {
+        val temp = data?.customers ?: emptyList()
+        if (temp.isNotEmpty()){
+            customers.clear()
+            customers.addAll(temp)
+        }
+    }
+
+    override fun customerFailed(data: String) {
+    }
+
+    override fun showPetSizeLoading() {
+    }
+
+    override fun hidePetSizeLoading() {
+    }
+
+    override fun petSizeSuccess(data: PetSizeResponse?) {
+        val temp = data?.petsize ?: emptyList()
+        if (temp.isNotEmpty()){
+            clearPetSizes()
+            petSizes.addAll(temp)
+            for (size in temp){
+                if (size.deleted_at == null){
+                    petSizesName.add(size.name.toString())
+                    petSizesId.add(size.id.toString())
+                }
+            }
+        }
+    }
+
+    override fun petSizeFailed(data: String) {
+    }
+
+    private fun clearPetSizes(){
+        petSizes.clear()
+        petSizesId.clear()
+        petSizesName.clear()
     }
 
     private fun showAlert(){
@@ -187,7 +290,7 @@ class  ServiceTransactionActivity : AppCompatActivity(), TransactionView, Custom
             .setMessage("Are you sure to create service transaction?")
             .setCancelable(false)
             .setPositiveButton("YES"){ _, _ ->
-                chooseCustomerPet()
+                chooseSize()
             }
             .setNegativeButton("NO"){dialog,_ ->
                 dialog.dismiss()
@@ -195,22 +298,46 @@ class  ServiceTransactionActivity : AppCompatActivity(), TransactionView, Custom
             .show()
     }
 
+    private fun chooseSize(){
+        val name = petSizesName.toTypedArray()
+        AlertDialog.Builder(this)
+            .setTitle("Choose Size")
+            .setCancelable(false)
+            .setSingleChoiceItems(name, size){ _, i ->
+                size = i
+                idOfSize = petSizesId[i]
+            }
+            .setPositiveButton("CHOOSE"){ dialogInterface, _ ->
+                if (size == -1){
+                    CustomFun.failedSnackBar(container, baseContext, "Please choose size")
+                }else{
+                    dialogInterface.dismiss()
+                    chooseCustomerPet()
+                }
+            }
+            .setNegativeButton("CANCEL"){ dialogInterface, _ ->
+                dialogInterface.dismiss()
+            }
+            .show()
+    }
+
     private fun chooseCustomerPet() {
+        petId = "-1"
         dialog = LayoutInflater.from(this).inflate(R.layout.item_choose_pet, null)
         val adapter =
-            ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, customerPetNameDropdown)
+            ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, customerPetName)
         val dropdown = dialog.findViewById<AutoCompleteTextView>(R.id.dropdown)
         val btnAdd = dialog.findViewById<Button>(R.id.btn_add)
         val btnClose = dialog.findViewById<ImageButton>(R.id.btn_close)
         dropdown.setAdapter(adapter)
         dropdown.setOnItemClickListener { _, _, position, _ ->
-            customerPetId = customerPetIdDropdown[position]
-            val name = customerPetNameDropdown[position]
-            Toast.makeText(this, "Pet : $name", Toast.LENGTH_LONG).show()
+            petId = customerPetId[position]
+            checkCustomer(petId)
         }
 
         infoDialog = AlertDialog.Builder(this)
             .setView(dialog)
+            .setCancelable(false)
             .show()
 
         btnClose.setOnClickListener {
@@ -218,33 +345,60 @@ class  ServiceTransactionActivity : AppCompatActivity(), TransactionView, Custom
         }
 
         btnAdd.setOnClickListener {
-            transaction = Transaction(id_customer_pet = customerPetId, last_cs = lastEmp)
-            Toast.makeText(this, "ID CUSTOMER PET : $lastEmp", Toast.LENGTH_LONG).show()
+            transaction = if (petId == "-1"){
+                Transaction(last_cs = lastEmp)
+            }else{
+                Transaction(id_customer_pet = petId, last_cs = lastEmp)
+            }
             presenter.addTransaction(type, transaction)
         }
     }
 
-    private fun showDialog(transaction: Transaction){
-        val input = transaction.id.toString()[0]
-        Toast.makeText(this, "ID : $input", Toast.LENGTH_LONG).show()
-        if (input == 'P'){
-            type = "product"
-        }else if (input == 'L'){
-            type = "service"
+    private fun checkCustomer(petId: String){
+        var idCustomer = "-1"
+        for(customerPet in customersPet){
+            if (customerPet.id.equals(petId)){
+                idCustomer = customerPet.id_customer.toString()
+            }
         }
-        Toast.makeText(this, transaction.id, Toast.LENGTH_LONG).show()
-
-        dialogAlert = AlertDialog.Builder(this)
-            .setTitle("What do you want to do?")
-            .setPositiveButton("Show"){ _, _ ->
-                startActivity<ShowTransactionActivity>("type" to "service")
+        for (customer in customers){
+            if (customer.id.equals(idCustomer)){
+                Toast.makeText(this, "Customer : ${customer.name}", Toast.LENGTH_LONG).show()
             }
-            .setNeutralButton("Edit"){_,_ ->
-                startActivity<AddTransactionActivity>("type" to "service")
-            }
-            .show()
+        }
     }
 
+    private fun showDialog(transactionInput: Transaction, payment: String){
+        transaction = transactionInput
+        Toast.makeText(this, "ID : "+transaction.id, Toast.LENGTH_LONG).show()
 
+        if (payment == "0"){
+            dialogAlert = AlertDialog.Builder(this)
+                .setIcon(R.drawable.product_transaction)
+                .setTitle("What do you want to do?")
+                .setMessage("You can edit this transaction, this transaction not yet paid off.")
+                .setPositiveButton("Show"){ _, _ ->
+                    startActivity<ShowTransactionActivity>("type" to "service")
+                }
+                .setNegativeButton("Edit"){_,_ ->
+                    startActivity<AddTransactionActivity>("type" to "service")
+                }
+                .show()
+        }else if (payment == "1"){
+            dialogAlert = AlertDialog.Builder(this)
+                .setIcon(R.drawable.product_transaction)
+                .setTitle("What do you want to do?")
+                .setMessage("You can not edit this transaction, this transaction is paid off.")
+                .setPositiveButton("Show"){ _, _ ->
+                    startActivity<ShowTransactionActivity>("type" to "service")
+                }
+                .show()
+        }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        startActivity<CustomerServiceActivity>()
+    }
 
 }

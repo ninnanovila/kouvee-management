@@ -88,7 +88,11 @@ class AddTransactionActivity : AppCompatActivity(), TransactionView, DetailProdu
 
     private fun setData(){
         created_at.text = transaction.created_at
-        updated_at.text = transaction.updated_at
+        if (transaction.updated_at == null){
+            updated_at.text = "-"
+        }else{
+            updated_at.text = transaction.updated_at
+        }
         if (transaction.last_cr == null){
             last_cr.text = "-"
         }else{
@@ -127,7 +131,11 @@ class AddTransactionActivity : AppCompatActivity(), TransactionView, DetailProdu
                 CustomFun.successSnackBar(container, baseContext, "Success edit")
             }
             "cancel" -> {
-                startActivity<ServiceTransactionActivity>()
+                if (type == "service"){
+                    startActivity<ServiceTransactionActivity>()
+                }else if (type == "product"){
+                    startActivity<ProductTransactionActivity>()
+                }
             }
             "status" -> {
                 CustomFun.successSnackBar(container, baseContext, "Success update status")
@@ -155,8 +163,8 @@ class AddTransactionActivity : AppCompatActivity(), TransactionView, DetailProdu
         if (temp.isEmpty()){
             CustomFun.warningSnackBar(container, baseContext, "Empty detail")
         }else{
-            for (i in temp.indices){
-                detailProducts.add(i, temp[i])
+            for (detail in temp){
+                detailProducts.add(detail)
             }
             recyclerview.layoutManager = LinearLayoutManager(this)
             recyclerview.adapter = DetailTransactionRecyclerViewAdapter("product", detailProducts, {
@@ -184,8 +192,8 @@ class AddTransactionActivity : AppCompatActivity(), TransactionView, DetailProdu
         if (temp.isEmpty()){
             CustomFun.warningSnackBar(container, baseContext, "Empty detail")
         }else{
-            for (i in temp.indices){
-                detailServices.add(i, temp[i])
+            for (detail in temp){
+                detailServices.add(detail)
             }
             recyclerview.layoutManager = LinearLayoutManager(this)
             recyclerview.adapter = DetailTransactionRecyclerViewAdapter("service", mutableListOf(), {}, mutableListOf(), detailServices, {

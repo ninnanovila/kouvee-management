@@ -39,7 +39,7 @@ class ProductTransactionActivity : AppCompatActivity(), TransactionView, Custome
     private lateinit var presenterCu: CustomerPresenter
 
     private var add = "0"
-    private var type = "normal"
+    private var type = "product"
 
     companion object{
         var transaction: Transaction = Transaction()
@@ -152,7 +152,7 @@ class ProductTransactionActivity : AppCompatActivity(), TransactionView, Custome
     }
 
     override fun transactionFailed(data: String) {
-        Toast.makeText(this, data, Toast.LENGTH_SHORT).show()
+        CustomFun.failedSnackBar(container, baseContext, data)
     }
 
     private fun clearList(){
@@ -306,7 +306,7 @@ class ProductTransactionActivity : AppCompatActivity(), TransactionView, Custome
 
     private fun showDialog(transactionInput: Transaction, payment: String){
         transaction = transactionInput
-        Toast.makeText(this, "ID :"+transaction.id, Toast.LENGTH_LONG).show()
+        Toast.makeText(this, "ID : "+transaction.id, Toast.LENGTH_LONG).show()
 
         if (payment == "0"){
             dialogAlert = AlertDialog.Builder(this)

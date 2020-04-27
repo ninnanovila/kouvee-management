@@ -209,29 +209,34 @@
             app:layout_constraintStart_toStartOf="@id/materialCardView"
             app:layout_constraintTop_toBottomOf="@+id/materialCardView" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerview"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_rv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/detail"
             android:layout_marginTop="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/detail"
-            tools:listitem="@layout/item_detail_transaction" />
+            app:layout_constraintTop_toBottomOf="@+id/detail">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:listitem="@layout/item_detail_transaction" />
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/recyclerview"
+            android:layout_below="@id/swipe_rv"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:src="@drawable/ic_add"
-            android:background="@color/colorOrange"
             android:backgroundTint="@color/colorOrange"
+            app:backgroundTint="@color/colorOrange"
             app:fabSize="mini"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />

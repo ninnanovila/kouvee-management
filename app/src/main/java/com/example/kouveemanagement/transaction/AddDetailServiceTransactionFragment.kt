@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import com.example.kouveemanagement.CustomFun
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.model.DetailServiceTransaction
 import com.example.kouveemanagement.model.DetailServiceTransactionResponse
@@ -26,6 +27,9 @@ class AddDetailServiceTransactionFragment : Fragment(), DetailServiceTransaction
     private lateinit var presenter: DetailServiceTransactionPresenter
 
     private lateinit var idService: String
+    private var services = ServiceTransactionActivity.services
+    private lateinit var serviceName: MutableList<String>
+    private lateinit var serviceId: MutableList<String>
 
     companion object{
         fun newInstance() = AddDetailServiceTransactionFragment()
@@ -35,14 +39,14 @@ class AddDetailServiceTransactionFragment : Fragment(), DetailServiceTransaction
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_add_detail_service_transaction, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setServiceName()
         idTransaction = AddTransactionActivity.idTransaction
-        idService = ServiceTransactionActivity.serviceIdDropdown[0]
+        idService = "-1"
         btn_add.setOnClickListener {
             if (isValid()){
                 getData()
@@ -53,7 +57,6 @@ class AddDetailServiceTransactionFragment : Fragment(), DetailServiceTransaction
         btn_close.setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()?.remove(this)?.commit()
         }
-        setServiceDropdown()
     }
 
     fun getData(){
@@ -77,27 +80,34 @@ class AddDetailServiceTransactionFragment : Fragment(), DetailServiceTransaction
     }
 
     override fun hideDetailServiceTransactionLoading() {
-        btn_add.revertAnimation()
     }
 
     override fun detailServiceTransactionSuccess(data: DetailServiceTransactionResponse?) {
-        Toast.makeText(context, "Success Detail Service", Toast.LENGTH_SHORT).show()
         startActivity<AddTransactionActivity>("type" to "service")
     }
 
     override fun detailServiceTransactionFailed(data: String) {
-        Toast.makeText(context, data, Toast.LENGTH_SHORT).show()
+        btn_add.revertAnimation()
+        CustomFun.failedSnackBar(requireView(), requireContext(), data)
     }
 
     private fun setServiceDropdown(){
-        val adapter = context?.let {
-            ArrayAdapter(it, android.R.layout.simple_spinner_dropdown_item, ServiceTransactionActivity.serviceNameDropdown)
-        }
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, serviceName)
         service_dropdown.setAdapter(adapter)
         service_dropdown.setOnItemClickListener { _, _, position, _ ->
-            idService = ServiceTransactionActivity.serviceIdDropdown[position]
-            Toast.makeText(context, "ID PRODUCT : $idService", Toast.LENGTH_LONG).show()
+            idService = serviceId[position]
+            Toast.makeText(context, "ID SERVICE : $idService", Toast.LENGTH_LONG).show()
         }
+    }
+
+    private fun setServiceName(){
+        for (service in services){
+            if (service.id_size == ServiceTransactionActivity.idOfSize){
+                serviceId.add(service.id.toString())
+                serviceName.add(service.name.toString())
+            }
+        }
+        setServiceDropdown()
     }
 
 }
