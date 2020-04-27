@@ -28,8 +28,8 @@ class AddDetailServiceTransactionFragment : Fragment(), DetailServiceTransaction
 
     private lateinit var idService: String
     private var services = ServiceTransactionActivity.services
-    private lateinit var serviceName: MutableList<String>
-    private lateinit var serviceId: MutableList<String>
+    private var serviceName: MutableList<String> = arrayListOf()
+    private var serviceId: MutableList<String> = arrayListOf()
 
     companion object{
         fun newInstance() = AddDetailServiceTransactionFragment()
@@ -52,6 +52,8 @@ class AddDetailServiceTransactionFragment : Fragment(), DetailServiceTransaction
                 getData()
                 presenter = DetailServiceTransactionPresenter(this, Repository())
                 presenter.addDetailServiceTransaction(detailServiceTransaction)
+            }else if (idService == "-1"){
+                CustomFun.failedSnackBar(requireView(), requireContext(), "Please choose service")
             }
         }
         btn_close.setOnClickListener {
@@ -96,13 +98,14 @@ class AddDetailServiceTransactionFragment : Fragment(), DetailServiceTransaction
         service_dropdown.setAdapter(adapter)
         service_dropdown.setOnItemClickListener { _, _, position, _ ->
             idService = serviceId[position]
-            Toast.makeText(context, "ID SERVICE : $idService", Toast.LENGTH_LONG).show()
+            val name = serviceName[position]
+            Toast.makeText(context, "Service : $name", Toast.LENGTH_LONG).show()
         }
     }
 
     private fun setServiceName(){
         for (service in services){
-            if (service.id_size == ServiceTransactionActivity.idOfSize){
+            if (service.id_size == AddTransactionActivity.idOfSize){
                 serviceId.add(service.id.toString())
                 serviceName.add(service.name.toString())
             }

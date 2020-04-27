@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.example.kouveemanagement.CustomFun
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.model.DetailServiceTransaction
 import com.example.kouveemanagement.model.DetailServiceTransactionResponse
@@ -44,7 +45,6 @@ class EditDetailServiceTransactionFragment : Fragment(), DetailServiceTransactio
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         detailServiceTransaction = arguments?.getParcelable("input")!!
         return inflater.inflate(R.layout.fragment_edit_detail_service_transaction, container, false)
     }
@@ -107,31 +107,25 @@ class EditDetailServiceTransactionFragment : Fragment(), DetailServiceTransactio
     }
 
     override fun showDetailServiceTransactionLoading() {
-        btn_save.visibility = View.INVISIBLE
+        btn_save.startAnimation()
         btn_cancel.visibility = View.INVISIBLE
-        progressbar.visibility = View.VISIBLE
     }
 
     override fun hideDetailServiceTransactionLoading() {
-        progressbar.visibility = View.GONE
-        btn_save.visibility = View.VISIBLE
-        btn_cancel.visibility = View.VISIBLE
     }
 
     override fun detailServiceTransactionSuccess(data: DetailServiceTransactionResponse?) {
-        if (state == "edit"){
-            Toast.makeText(context, "Success to edit", Toast.LENGTH_SHORT).show()
-        }else if (state == "delete"){
-            Toast.makeText(context, "Success to delete", Toast.LENGTH_SHORT).show()
-        }
         startActivity<AddTransactionActivity>("type" to "service")
     }
 
     override fun detailServiceTransactionFailed(data: String) {
+        btn_save.revertAnimation()
+        btn_cancel.visibility = View.VISIBLE
         if (state == "edit"){
-            Toast.makeText(context, data, Toast.LENGTH_SHORT).show()
+            CustomFun.failedSnackBar(requireView(), requireContext(), data)
         }else if (state == "delete"){
-            Toast.makeText(context, data, Toast.LENGTH_SHORT).show()
-        }    }
+            CustomFun.failedSnackBar(requireView(), requireContext(), data)
+        }
+    }
 
 }

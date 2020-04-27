@@ -1,8 +1,10 @@
 package com.example.kouveemanagement.transaction
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
@@ -33,6 +35,7 @@ class AddTransactionActivity : AppCompatActivity(), TransactionView, DetailProdu
     private var detailServices: MutableList<DetailServiceTransaction> = mutableListOf()
 
     companion object{
+        var idOfSize = "-1"
         lateinit var idTransaction: String
     }
 
@@ -41,6 +44,7 @@ class AddTransactionActivity : AppCompatActivity(), TransactionView, DetailProdu
         setContentView(R.layout.activity_add_transaction)
         lastEmp = MainActivity.currentUser?.user_id.toString()
         type = intent?.getStringExtra("type").toString()
+        if (ServiceTransactionActivity.idOfSize != "-1") idOfSize = ServiceTransactionActivity.idOfSize
         if(type == "service"){
             transaction = ServiceTransactionActivity.transaction
         }else if (type == "product"){
@@ -70,7 +74,7 @@ class AddTransactionActivity : AppCompatActivity(), TransactionView, DetailProdu
         }
         btn_cancel.setOnClickListener {
             state = "cancel"
-            presenter.cancelTransaction(idTransaction)
+            showAlertCancel()
         }
         btn_edit.setOnClickListener {
             state = "edit"
@@ -78,12 +82,25 @@ class AddTransactionActivity : AppCompatActivity(), TransactionView, DetailProdu
         }
         btn_status.setOnClickListener {
             state = "status"
-            val newTransaction = Transaction(last_cs = lastEmp)
-            presenter.editStatusTransaction(idTransaction, newTransaction)
+            if (type == "product"){
+                CustomFun.warningSnackBar(container, baseContext, "Feature for service transaction")
+            }else{
+                showAlertChangeStatus()
+            }
         }
         btn_home.setOnClickListener {
             startActivity<CustomerServiceActivity>()
         }
+        swipe_rv.setOnRefreshListener {
+            if (type == "service"){
+                detailServicePresenter = DetailServiceTransactionPresenter(this, Repository())
+                detailServicePresenter.getDetailServiceTransactionByIdTransaction(idTransaction)
+            }else if (type == "product"){
+                detailProductPresenter = DetailProductTransactionPresenter(this, Repository())
+                detailProductPresenter.getDetailProductTransactionByIdTransaction(idTransaction)
+            }
+        }
+        CustomFun.setSwipe(swipe_rv)
     }
 
     private fun setData(){
@@ -116,11 +133,11 @@ class AddTransactionActivity : AppCompatActivity(), TransactionView, DetailProdu
     }
 
     override fun showTransactionLoading() {
-        progressbar.visibility = View.VISIBLE
+        swipe_rv.isRefreshing = true
     }
 
     override fun hideTransactionLoading() {
-        progressbar.visibility = View.GONE
+        swipe_rv.isRefreshing = false
     }
 
     override fun transactionSuccess(data: TransactionResponse?) {
@@ -151,11 +168,11 @@ class AddTransactionActivity : AppCompatActivity(), TransactionView, DetailProdu
     }
 
     override fun showDetailProductTransactionLoading() {
-        progressbar.visibility = View.VISIBLE
+        swipe_rv.isRefreshing = true
     }
 
     override fun hideDetailProductTransactionLoading() {
-        progressbar.visibility = View.GONE
+        swipe_rv.isRefreshing = false
     }
 
     override fun detailProductTransactionSuccess(data: DetailProductTransactionResponse?) {
@@ -180,11 +197,11 @@ class AddTransactionActivity : AppCompatActivity(), TransactionView, DetailProdu
     }
 
     override fun showDetailServiceTransactionLoading() {
-        progressbar.visibility = View.VISIBLE
+        swipe_rv.isRefreshing = true
     }
 
     override fun hideDetailServiceTransactionLoading() {
-        progressbar.visibility = View.GONE
+        swipe_rv.isRefreshing = false
     }
 
     override fun detailServiceTransactionSuccess(data: DetailServiceTransactionResponse?) {
@@ -194,6 +211,7 @@ class AddTransactionActivity : AppCompatActivity(), TransactionView, DetailProdu
         }else{
             for (detail in temp){
                 detailServices.add(detail)
+                setIdOfSize(detail.id_service.toString())
             }
             recyclerview.layoutManager = LinearLayoutManager(this)
             recyclerview.adapter = DetailTransactionRecyclerViewAdapter("service", mutableListOf(), {}, mutableListOf(), detailServices, {
@@ -220,6 +238,51 @@ class AddTransactionActivity : AppCompatActivity(), TransactionView, DetailProdu
             }
         }
         return "Guest"
+    }
+
+    private fun setIdOfSize(id: String){
+        lateinit var temp: Service
+        for (service in ServiceTransactionActivity.services){
+            if (service.id == id){
+                temp = service
+            }
+        }
+        for(size in ServiceTransactionActivity.petSizes){
+            if (size.id == temp.id_size.toString()){
+                idOfSize = size.id.toString()
+            }
+        }
+    }
+
+    private fun showAlertCancel(){
+        AlertDialog.Builder(this)
+            .setTitle("Confirmation")
+            .setMessage("Are you sure to $state this transaction ?")
+            .setPositiveButton("YES"){ _: DialogInterface, _: Int ->
+                presenter.cancelTransaction(idTransaction)
+            }
+            .setNegativeButton("NO"){ dialog: DialogInterface, _: Int ->
+                dialog.dismiss()
+                CustomFun.warningSnackBar(container, baseContext, "Process canceled")
+            }
+            .setCancelable(false)
+            .show()
+    }
+
+    private fun showAlertChangeStatus(){
+        AlertDialog.Builder(this)
+            .setTitle("Confirmation")
+            .setMessage("Are you sure to change the status $state of this transaction ?")
+            .setPositiveButton("YES"){ _: DialogInterface, _: Int ->
+                val newTransaction = Transaction(last_cs = lastEmp)
+                presenter.editStatusTransaction(idTransaction, newTransaction)
+            }
+            .setNegativeButton("NO"){ dialog: DialogInterface, _: Int ->
+                dialog.dismiss()
+                CustomFun.warningSnackBar(container, baseContext, "Process canceled")
+            }
+            .setCancelable(false)
+            .show()
     }
 
     override fun onBackPressed() {
