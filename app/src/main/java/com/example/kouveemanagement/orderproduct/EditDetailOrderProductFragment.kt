@@ -55,7 +55,7 @@ class EditDetailOrderProductFragment : Fragment(), DetailOrderProductView {
         presenter = DetailOrderProductPresenter(this, Repository())
         idOrderProduct = detailOrderProduct.id_order.toString()
         idProduct = detailOrderProduct.id_product.toString()
-        quantity.setText("0")
+        quantity.setText(detailOrderProduct.quantity.toString())
         btn_edit.setOnClickListener {
             btn_edit.visibility = View.GONE
             btn_save.visibility = View.VISIBLE

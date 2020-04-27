@@ -214,7 +214,6 @@ class AddTransactionActivity : AppCompatActivity(), TransactionView, DetailProdu
         }else {
             ServiceTransactionActivity.customersPet
         }
-
         for (pet in temp){
             if (pet.id.equals(id)){
                 return pet.name.toString()

@@ -43,7 +43,8 @@ class AddDetailProductTransactionFragment : Fragment(), DetailProductTransaction
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         idTransaction = AddTransactionActivity.idTransaction
-        idProduct = ProductTransactionActivity.productIdDropdown[0]
+        idProduct = "-1"
+        quantity.setText("0")
         btn_add.setOnClickListener {
             if (isValid() && !passStock()){
                 getData()
@@ -51,6 +52,8 @@ class AddDetailProductTransactionFragment : Fragment(), DetailProductTransaction
                 presenter.addDetailProductTransaction(detailProductTransaction)
             }else if (passStock()){
                 CustomFun.failedSnackBar(requireView(), requireContext(), "Max stock : $maxStock")
+            }else if (idProduct == "-1"){
+                CustomFun.failedSnackBar(requireView(), requireContext(), "Please choose product")
             }
         }
         btn_close.setOnClickListener {
