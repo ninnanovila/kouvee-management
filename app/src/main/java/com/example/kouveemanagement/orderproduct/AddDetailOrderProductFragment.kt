@@ -27,6 +27,7 @@ class AddDetailOrderProductFragment : Fragment(), DetailOrderProductView {
     private lateinit var presenter: DetailOrderProductPresenter
 
     private lateinit var idProduct: String
+    private lateinit var minStock: String
 
     companion object {
         fun newInstance() = AddDetailOrderProductFragment()
@@ -52,7 +53,7 @@ class AddDetailOrderProductFragment : Fragment(), DetailOrderProductView {
                 presenter = DetailOrderProductPresenter(this, Repository())
                 presenter.addDetailOrderProduct(detailOrderProduct)
             }else if(!passQuantity()){
-                CustomFun.failedSnackBar(requireView(), requireContext(), "Must more than min stock")
+                CustomFun.failedSnackBar(requireView(), requireContext(), "Min stock : $minStock")
             }else if (idProduct == "-1"){
                 CustomFun.failedSnackBar(requireView(), requireContext(), "Please choose product")
             }
@@ -108,10 +109,13 @@ class AddDetailOrderProductFragment : Fragment(), DetailOrderProductView {
     }
 
     private fun passQuantity() : Boolean{
+        var range = 0
         val products = OrderProductActivity.products
-        for (i in products.indices){
-            if (idProduct == products[i].id){
-                if (quantity.text.toString().toInt() < products[i].min_stock.toString().toInt()){
+        for (product in products){
+            if (idProduct == product.id){
+                range = product.min_stock.toString().toInt() - product.stock.toString().toInt()
+                minStock = range.toString()
+                if (quantity.text.toString().toInt() < range){
                     return false
                 }
             }

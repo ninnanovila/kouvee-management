@@ -126,7 +126,7 @@
             app:layout_constraintTop_toTopOf="@+id/toggleButton" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/textTitle"
             style="@style/Title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

@@ -40,10 +40,13 @@ class AddTransactionActivity : AppCompatActivity(), TransactionView, DetailProdu
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_transaction)
         lastEmp = MainActivity.currentUser?.user_id.toString()
-        transaction = ServiceTransactionActivity.transaction
-        idTransaction = transaction.id.toString()
         type = intent?.getStringExtra("type").toString()
-        Toast.makeText(this, "TYPE : $type", Toast.LENGTH_LONG).show()
+        if(type == "service"){
+            transaction = ServiceTransactionActivity.transaction
+        }else if (type == "product"){
+            transaction = ProductTransactionActivity.transaction
+        }
+        idTransaction = transaction.id.toString()
         presenter = TransactionPresenter(this, Repository())
         presenter.editTotalTransaction(idTransaction)
         if (type == "service"){
@@ -84,16 +87,28 @@ class AddTransactionActivity : AppCompatActivity(), TransactionView, DetailProdu
     }
 
     private fun setData(){
+        created_at.text = transaction.created_at
+        updated_at.text = transaction.updated_at
+        if (transaction.last_cr == null){
+            last_cr.text = "-"
+        }else{
+            last_cr.text = transaction.last_cr
+        }
+        last_cs.text = transaction.last_cs
         id.text = transaction.id
-        id_customer_pet.text = transaction.id_customer_pet
+        id_customer_pet.text = petName(transaction.id_customer_pet.toString())
         if (type == "service"){
             status.text = transaction.status
         }else{
             status.visibility = View.GONE
-            btn_status.visibility = View.GONE
         }
-        val price = transaction.total_price.toString()
-        total_price.text = CustomFun.changeToRp(price.toDouble())
+        discount.text = CustomFun.changeToRp(transaction.discount.toString().toDouble())
+        total_price.text = CustomFun.changeToRp(transaction.total_price.toString().toDouble())
+        if (transaction.payment == "0"){
+            payment.text = getString(R.string.not_yet_paid_off)
+        }else{
+            payment.text = getString(R.string.paid_off)
+        }
     }
 
     override fun showTransactionLoading() {
@@ -106,29 +121,25 @@ class AddTransactionActivity : AppCompatActivity(), TransactionView, DetailProdu
 
     override fun transactionSuccess(data: TransactionResponse?) {
         transaction = data?.transactions?.get(0)!!
-        status.text = transaction.status
-        id_customer_pet.text = transaction.id_customer_pet
-        val price = transaction.total_price.toString()
-        total_price.text = CustomFun.changeToRp(price.toDouble())
+        setData()
         when(state){
             "edit" -> {
-                Toast.makeText(this, "Success Edit Transaction", Toast.LENGTH_SHORT).show()
+                CustomFun.successSnackBar(container, baseContext, "Success edit")
             }
             "cancel" -> {
-                Toast.makeText(this, "Success Cancel Transaction", Toast.LENGTH_SHORT).show()
                 startActivity<ServiceTransactionActivity>()
             }
             "status" -> {
-                Toast.makeText(this, "Success Update Status Transaction", Toast.LENGTH_SHORT).show()
+                CustomFun.successSnackBar(container, baseContext, "Success update status")
             }
             else -> {
-                Toast.makeText(this, "Success Transaction", Toast.LENGTH_SHORT).show()
+                CustomFun.successSnackBar(container, baseContext, "Ok, success")
             }
         }
     }
 
     override fun transactionFailed(data: String) {
-        Toast.makeText(this, data, Toast.LENGTH_SHORT).show()
+        CustomFun.failedSnackBar(container, baseContext, data)
     }
 
     override fun showDetailProductTransactionLoading() {
@@ -142,7 +153,7 @@ class AddTransactionActivity : AppCompatActivity(), TransactionView, DetailProdu
     override fun detailProductTransactionSuccess(data: DetailProductTransactionResponse?) {
         val temp: List<DetailProductTransaction> = data?.detailProductTransactions ?: emptyList()
         if (temp.isEmpty()){
-            Toast.makeText(this, "No Result", Toast.LENGTH_SHORT).show()
+            CustomFun.warningSnackBar(container, baseContext, "Empty detail")
         }else{
             for (i in temp.indices){
                 detailProducts.add(i, temp[i])
@@ -152,13 +163,12 @@ class AddTransactionActivity : AppCompatActivity(), TransactionView, DetailProdu
                 val fragment = EditDetailProductTransactionFragment.newInstance(it)
                 val transaction = supportFragmentManager.beginTransaction()
                 transaction.replace(R.id.container, fragment).commit()
-                Toast.makeText(this, it.id_transaction, Toast.LENGTH_LONG).show()
             }, ProductTransactionActivity.products, mutableListOf(), {}, mutableListOf())
         }
     }
 
     override fun detailProductTransactionFailed(data: String) {
-        Toast.makeText(this, data, Toast.LENGTH_SHORT).show()
+        CustomFun.failedSnackBar(container, baseContext, data)
     }
 
     override fun showDetailServiceTransactionLoading() {
@@ -172,7 +182,7 @@ class AddTransactionActivity : AppCompatActivity(), TransactionView, DetailProdu
     override fun detailServiceTransactionSuccess(data: DetailServiceTransactionResponse?) {
         val temp: List<DetailServiceTransaction> = data?.detailServiceTransactions ?: emptyList()
         if (temp.isEmpty()){
-            Toast.makeText(this, "No Result", Toast.LENGTH_SHORT).show()
+            CustomFun.warningSnackBar(container, baseContext, "Empty detail")
         }else{
             for (i in temp.indices){
                 detailServices.add(i, temp[i])
@@ -182,12 +192,35 @@ class AddTransactionActivity : AppCompatActivity(), TransactionView, DetailProdu
                 val fragment = EditDetailServiceTransactionFragment.newInstance(it)
                 val transaction = supportFragmentManager.beginTransaction()
                 transaction.replace(R.id.container, fragment).commit()
-                Toast.makeText(this, it.id_transaction, Toast.LENGTH_LONG).show()
             }, ServiceTransactionActivity.services)
         }
     }
 
     override fun detailServiceTransactionFailed(data: String) {
-        Toast.makeText(this, data, Toast.LENGTH_SHORT).show()
+        CustomFun.failedSnackBar(container, baseContext, data)
+    }
+
+    private fun petName(id: String):String{
+        val temp: MutableList<CustomerPet> = if (type == "product"){
+            ProductTransactionActivity.customersPet
+        }else {
+            ServiceTransactionActivity.customersPet
+        }
+
+        for (pet in temp){
+            if (pet.id.equals(id)){
+                return pet.name.toString()
+            }
+        }
+        return "Guest"
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        if (type == "product"){
+            startActivity<ProductTransactionActivity>()
+        }else if (type == "service"){
+            startActivity<ServiceTransactionActivity>()
+        }
     }
 }

@@ -50,8 +50,7 @@ class TransactionRecyclerViewAdapter(private val transactions: MutableList<Trans
         fun bindItem(transaction: Transaction, listener: (Transaction) -> Unit){
             id.text = transaction.id
             val discountTotal = transaction.discount.toString()
-            val rpD = CustomFun.changeToRp(discountTotal.toDouble())
-            discount.text = "(- $rpD)"
+            discount.text = CustomFun.changeToRp(discountTotal.toDouble())
             val priceTotal = transaction.total_price.toString()
             totalPrice.text = CustomFun.changeToRp(priceTotal.toDouble())
             val paidOff = "Paid Off"

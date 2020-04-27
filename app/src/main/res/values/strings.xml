@@ -214,5 +214,10 @@
     <string name="icon_source">*all icon from flaticon.com</string>
     <string name="choose_supplier">Choose Supplier</string>
     <string name="printed_at">Printed At</string>
+    <string name="choose_pet">Choose Pet</string>
+    <string name="last_cs">Last Customer Service</string>
+    <string name="last_cashier">Last Cashier</string>
+    <string name="discount">Discount</string>
+    <string name="payment_status">Payment Status</string>
 
 </resources>

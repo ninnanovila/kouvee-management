@@ -25,6 +25,7 @@ class EditDetailOrderProductFragment : Fragment(), DetailOrderProductView {
     private lateinit var presenter: DetailOrderProductPresenter
 
     private lateinit var idProduct: String
+    private lateinit var minStock: String
 
     private var state = "edit"
 
@@ -67,7 +68,7 @@ class EditDetailOrderProductFragment : Fragment(), DetailOrderProductView {
                 getData()
                 presenter.editDetailOrderProduct(detailOrderProduct)
             }else if(!passQuantity()){
-                CustomFun.failedSnackBar(requireView(), requireContext(), "Must more than min stock")
+                CustomFun.failedSnackBar(requireView(), requireContext(), "Min stock : $minStock")
             }
         }
         btn_cancel.setOnClickListener {
@@ -133,11 +134,14 @@ class EditDetailOrderProductFragment : Fragment(), DetailOrderProductView {
         }
     }
 
-    private fun passQuantity(): Boolean {
+    private fun passQuantity() : Boolean{
+        var range = 0
         val products = OrderProductActivity.products
-        for (i in products.indices){
-            if (idProduct == products[i].id){
-                if (quantity.text.toString().toInt() < products[i].min_stock.toString().toInt()){
+        for (product in products){
+            if (idProduct == product.id){
+                range = product.min_stock.toString().toInt() - product.stock.toString().toInt()
+                minStock = range.toString()
+                if (quantity.text.toString().toInt() < range){
                     return false
                 }
             }
