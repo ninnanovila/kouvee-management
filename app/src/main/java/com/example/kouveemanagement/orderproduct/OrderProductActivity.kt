@@ -59,10 +59,10 @@ class OrderProductActivity : AppCompatActivity(), OrderProductView, SupplierView
         btn_home.setOnClickListener {
             startActivity<OwnerActivity>()
         }
-        orderAdapter = OrderProductRecyclerViewAdapter(orderProductsList) {}
+        orderAdapter = OrderProductRecyclerViewAdapter(suppliers,orderProductsList) {}
         search_view.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                recyclerview.adapter = OrderProductRecyclerViewAdapter(orderProducts){
+                recyclerview.adapter = OrderProductRecyclerViewAdapter(suppliers,orderProducts){
                     showDetail(it)
                 }
                 query?.let { orderAdapter.filterOrderProduct(it) }
@@ -70,7 +70,7 @@ class OrderProductActivity : AppCompatActivity(), OrderProductView, SupplierView
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                recyclerview.adapter = OrderProductRecyclerViewAdapter(orderProducts){
+                recyclerview.adapter = OrderProductRecyclerViewAdapter(suppliers,orderProducts){
                     showDetail(it)
                 }
                 newText?.let { orderAdapter.filterOrderProduct(it) }
@@ -108,9 +108,9 @@ class OrderProductActivity : AppCompatActivity(), OrderProductView, SupplierView
     private fun getList(){
         if (temps.isNullOrEmpty()){
             CustomFun.warningSnackBar(container, baseContext, "Empty data")
-            recyclerview.adapter = OrderProductRecyclerViewAdapter(temps as MutableList<OrderProduct>){}
+            recyclerview.adapter = OrderProductRecyclerViewAdapter(suppliers,temps as MutableList<OrderProduct>){}
         }else{
-            recyclerview.adapter = OrderProductRecyclerViewAdapter(temps as MutableList<OrderProduct>){
+            recyclerview.adapter = OrderProductRecyclerViewAdapter(suppliers,temps as MutableList<OrderProduct>){
                 showDetail(it)
             }
         }
@@ -136,7 +136,7 @@ class OrderProductActivity : AppCompatActivity(), OrderProductView, SupplierView
                 orderProductsTemp.addAll(temp)
                 temps = orderProductsTemp
                 recyclerview.layoutManager = LinearLayoutManager(this)
-                recyclerview.adapter = OrderProductRecyclerViewAdapter(orderProductsList){
+                recyclerview.adapter = OrderProductRecyclerViewAdapter(suppliers,orderProductsList){
                     showDetail(it)
                     Toast.makeText(this, "Order Number : "+it.id, Toast.LENGTH_LONG).show()
                 }
@@ -237,7 +237,6 @@ class OrderProductActivity : AppCompatActivity(), OrderProductView, SupplierView
                     supplierIdDropdown.add(temp[i].id.toString())
                 }
             }
-            CustomFun.successSnackBar(container, baseContext, "Supplier success")
         }
     }
 
@@ -272,7 +271,6 @@ class OrderProductActivity : AppCompatActivity(), OrderProductView, SupplierView
                     productIdDropdown.add(temp[i].id.toString())
                 }
             }
-            CustomFun.successSnackBar(container, baseContext, "Product success")
         }
     }
 

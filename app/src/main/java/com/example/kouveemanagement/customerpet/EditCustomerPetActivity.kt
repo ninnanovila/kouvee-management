@@ -58,10 +58,10 @@ class EditCustomerPetActivity : AppCompatActivity(), CustomerPetView {
     private fun setDropdown(customerPet: CustomerPet){
         var positionC = 0
         var positionT = 0
-        nameDropdown = CustomerPetManagementActivity.nameCustomerDropdown
-        idCustomerList = CustomerPetManagementActivity.idCustomerList
-        typeDropdown = CustomerPetManagementActivity.nameTypeDropdown
-        idTypeList = CustomerPetManagementActivity.idTypeList
+        nameDropdown = CustomerPetManagementActivity.nameCustomer
+        idCustomerList = CustomerPetManagementActivity.idCustomer
+        typeDropdown = CustomerPetManagementActivity.nameType
+        idTypeList = CustomerPetManagementActivity.idType
         for (i in idCustomerList.indices){
             if (idCustomerList[i] == customerPet.id_customer){
                 positionC = i

@@ -134,7 +134,7 @@ class AddTransactionActivity : AppCompatActivity(), TransactionView, DetailProdu
         if (type == "service"){
             status.text = transaction.status
         }else{
-            status.visibility = View.GONE
+            status.text = "-"
         }
         discount.text = CustomFun.changeToRp(transaction.discount.toString().toDouble())
         total_price.text = CustomFun.changeToRp(transaction.total_price.toString().toDouble())
@@ -202,7 +202,7 @@ class AddTransactionActivity : AppCompatActivity(), TransactionView, DetailProdu
                 val fragment = EditDetailProductTransactionFragment.newInstance(it)
                 val transaction = supportFragmentManager.beginTransaction()
                 transaction.replace(R.id.container, fragment).commit()
-            }, ProductTransactionActivity.products, mutableListOf(), {}, mutableListOf())
+            }, ProductTransactionActivity.products, mutableListOf(), {}, mutableListOf(), mutableListOf())
         }
     }
 
@@ -233,7 +233,7 @@ class AddTransactionActivity : AppCompatActivity(), TransactionView, DetailProdu
                 val fragment = EditDetailServiceTransactionFragment.newInstance(it)
                 val transaction = supportFragmentManager.beginTransaction()
                 transaction.replace(R.id.container, fragment).commit()
-            }, ServiceTransactionActivity.services)
+            }, ServiceTransactionActivity.services, ServiceTransactionActivity.petSizes)
         }
     }
 

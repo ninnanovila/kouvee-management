@@ -32,10 +32,10 @@ class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView, Cust
     private lateinit var presenterT: PetTypePresenter
 
     companion object{
-        var nameCustomerDropdown: MutableList<String> = arrayListOf()
-        var idCustomerList: MutableList<String> = arrayListOf()
-        var nameTypeDropdown: MutableList<String> = arrayListOf()
-        var idTypeList: MutableList<String> = arrayListOf()
+        var nameCustomer: MutableList<String> = arrayListOf()
+        var idCustomer: MutableList<String> = arrayListOf()
+        var nameType: MutableList<String> = arrayListOf()
+        var idType: MutableList<String> = arrayListOf()
         var customerPets: MutableList<CustomerPet> = mutableListOf()
         var petTypes: MutableList<PetType> = mutableListOf()
         var customers: MutableList<Customer> = mutableListOf()
@@ -53,11 +53,11 @@ class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView, Cust
         btn_home.setOnClickListener {
             startActivity<CustomerServiceActivity>()
         }
-        customerPetAdapter = CustomerPetRecyclerViewAdapter(petTypes, customerPetsList){}
+        customerPetAdapter = CustomerPetRecyclerViewAdapter(customers,petTypes, customerPetsList){}
         search_view.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 sort_switch.isChecked = false
-                recyclerview.adapter = CustomerPetRecyclerViewAdapter(petTypes, customerPets){
+                recyclerview.adapter = CustomerPetRecyclerViewAdapter(customers,petTypes, customerPets){
                     showDialog(it)
                 }
                 query?.let { customerPetAdapter.filterCustomerPet(it) }
@@ -65,7 +65,7 @@ class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView, Cust
             }
             override fun onQueryTextChange(newText: String?): Boolean {
                 sort_switch.isChecked = false
-                recyclerview.adapter = CustomerPetRecyclerViewAdapter(petTypes, customerPets){
+                recyclerview.adapter = CustomerPetRecyclerViewAdapter(customers,petTypes, customerPets){
                     showDialog(it)
                 }
                 newText?.let { customerPetAdapter.filterCustomerPet(it) }
@@ -106,15 +106,15 @@ class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView, Cust
     private fun getList(){
         if (temps.isNullOrEmpty()){
             CustomFun.warningSnackBar(container, baseContext, "Empty data")
-            recyclerview.adapter = CustomerPetRecyclerViewAdapter(petTypes, temps){}
+            recyclerview.adapter = CustomerPetRecyclerViewAdapter(customers, petTypes, temps){}
         }else{
             if (sort_switch.isChecked){
                 val sorted = temps.sortedBy { it.name }
-                recyclerview.adapter = CustomerPetRecyclerViewAdapter(petTypes, sorted as MutableList<CustomerPet>){
+                recyclerview.adapter = CustomerPetRecyclerViewAdapter(customers, petTypes, sorted as MutableList<CustomerPet>){
                     showDialog(it)
                 }
             }else{
-                recyclerview.adapter = CustomerPetRecyclerViewAdapter(petTypes, temps){
+                recyclerview.adapter = CustomerPetRecyclerViewAdapter(customers, petTypes, temps){
                     showDialog(it)
                 }
             }
@@ -123,9 +123,11 @@ class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView, Cust
     }
 
     override fun showPetTypeLoading() {
+        swipe_rv.isRefreshing = true
     }
 
     override fun hidePetTypeLoading() {
+        swipe_rv.isRefreshing = false
     }
 
     override fun petTypeSuccess(data: PetTypeResponse?) {
@@ -133,14 +135,12 @@ class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView, Cust
         if (temp.isEmpty()){
             CustomFun.neutralSnackBar(container, baseContext, "Pet Type empty")
         }else{
-            nameTypeDropdown.clear()
-            idTypeList.clear()
-            petTypes.clear()
+            clearType()
             petTypes.addAll(temp)
             for (i in temp.indices){
                 if (temp[i].deleted_at == null){
-                    nameTypeDropdown.add(temp[i].name.toString())
-                    idTypeList.add(temp[i].id.toString())
+                    nameType.add(temp[i].name.toString())
+                    idType.add(temp[i].id.toString())
                 }
             }
         }
@@ -148,6 +148,12 @@ class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView, Cust
 
     override fun petTypeFailed(data: String) {
         CustomFun.failedSnackBar(container, baseContext, data)
+    }
+
+    private fun clearType(){
+        nameType.clear()
+        idType.clear()
+        petTypes.clear()
     }
 
     override fun showCustomerPetLoading() {
@@ -168,7 +174,7 @@ class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView, Cust
             customerPetsTemp.addAll(temp)
             temps = customerPetsTemp
             recyclerview.layoutManager = LinearLayoutManager(this)
-            recyclerview.adapter = CustomerPetRecyclerViewAdapter(petTypes, customerPetsList){
+            recyclerview.adapter = CustomerPetRecyclerViewAdapter(customers, petTypes, customerPetsList){
                 showDialog(it)
             }
             CustomFun.successSnackBar(container, baseContext, "Ok, success")
@@ -229,16 +235,12 @@ class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView, Cust
         }
     }
 
-
-    override fun onBackPressed() {
-        super.onBackPressed()
-        startActivity<CustomerServiceActivity>()
-    }
-
     override fun showCustomerLoading() {
+        swipe_rv.isRefreshing = true
     }
 
     override fun hideCustomerLoading() {
+        swipe_rv.isRefreshing = false
     }
 
     override fun customerSuccess(data: CustomerResponse?) {
@@ -246,14 +248,12 @@ class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView, Cust
         if (temp.isEmpty()){
             CustomFun.neutralSnackBar(container, baseContext, "Customer empty")
         }else{
-            nameCustomerDropdown.clear()
-            idCustomerList.clear()
-            customers.clear()
+            clearCustomer()
             customers.addAll(temp)
             for (i in temp.indices){
                 if (temp[i].deleted_at == null){
-                    nameCustomerDropdown.add(temp[i].name.toString())
-                    idCustomerList.add(temp[i].id.toString())
+                    nameCustomer.add(temp[i].name.toString())
+                    idCustomer.add(temp[i].id.toString())
                 }
             }
         }
@@ -261,5 +261,16 @@ class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView, Cust
 
     override fun customerFailed(data: String) {
         CustomFun.failedSnackBar(container, baseContext, data)
+    }
+
+    private fun clearCustomer(){
+        nameCustomer.clear()
+        idCustomer.clear()
+        customers.clear()
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        startActivity<CustomerServiceActivity>()
     }
 }

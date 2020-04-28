@@ -113,7 +113,7 @@ class ShowTransactionActivity : AppCompatActivity(), TransactionView, DetailProd
             recyclerview.layoutManager = LinearLayoutManager(this)
             recyclerview.adapter = DetailTransactionRecyclerViewAdapter("product", detailProducts.asReversed(), {
                 Toast.makeText(this, it.id_transaction, Toast.LENGTH_LONG).show()
-            }, ProductTransactionActivity.products, mutableListOf(), {}, mutableListOf())
+            }, ProductTransactionActivity.products, mutableListOf(), {}, mutableListOf(), mutableListOf())
         }
     }
 
@@ -138,7 +138,7 @@ class ShowTransactionActivity : AppCompatActivity(), TransactionView, DetailProd
             recyclerview.layoutManager = LinearLayoutManager(this)
             recyclerview.adapter = DetailTransactionRecyclerViewAdapter("service", mutableListOf(), {}, mutableListOf(), detailServices.asReversed(), {
                 Toast.makeText(this, it.id_transaction, Toast.LENGTH_LONG).show()
-            }, ServiceTransactionActivity.services)
+            }, ServiceTransactionActivity.services, ServiceTransactionActivity.petSizes)
         }
     }
 

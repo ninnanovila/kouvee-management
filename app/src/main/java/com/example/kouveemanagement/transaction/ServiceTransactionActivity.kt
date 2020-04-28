@@ -67,17 +67,17 @@ class  ServiceTransactionActivity : AppCompatActivity(), TransactionView, Custom
         btn_home.setOnClickListener {
             startActivity<CustomerServiceActivity>()
         }
-        transactionAdapter = TransactionRecyclerViewAdapter(transactionsList){}
+        transactionAdapter = TransactionRecyclerViewAdapter("service", customersPet, transactionsList){}
         search_view.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                recyclerview.adapter = TransactionRecyclerViewAdapter(transactions){
+                recyclerview.adapter = TransactionRecyclerViewAdapter("service", customersPet, transactions){
                     showAlert()
                 }
                 query?.let { transactionAdapter.filterTransaction(it) }
                 return false
             }
             override fun onQueryTextChange(newText: String?): Boolean {
-                recyclerview.adapter = TransactionRecyclerViewAdapter(transactions) {
+                recyclerview.adapter = TransactionRecyclerViewAdapter("service", customersPet, transactions) {
                     showAlert()
                 }
                 newText?.let { transactionAdapter.filterTransaction(it) }
@@ -122,9 +122,9 @@ class  ServiceTransactionActivity : AppCompatActivity(), TransactionView, Custom
     private fun getList(){
         if (temps.isNullOrEmpty()){
             CustomFun.warningSnackBar(container, baseContext, "Empty data")
-            recyclerview.adapter = TransactionRecyclerViewAdapter(temps){}
+            recyclerview.adapter = TransactionRecyclerViewAdapter("service", customersPet, temps){}
         }else{
-            recyclerview.adapter = TransactionRecyclerViewAdapter(temps){
+            recyclerview.adapter = TransactionRecyclerViewAdapter("service", customersPet, temps){
                 transaction = it
                 showDialog(it, it.payment.toString())
             }
@@ -151,7 +151,7 @@ class  ServiceTransactionActivity : AppCompatActivity(), TransactionView, Custom
                 transactionsTemp.addAll(temp)
                 temps = transactionsTemp
                 recyclerview.layoutManager = LinearLayoutManager(this)
-                recyclerview.adapter = TransactionRecyclerViewAdapter(transactionsList){
+                recyclerview.adapter = TransactionRecyclerViewAdapter("service", customersPet, transactionsList){
                     transaction = it
                     showDialog(it, it.payment.toString())
                 }

@@ -57,6 +57,7 @@ class ProductRecyclerViewAdapter (private val products : MutableList<Product>, p
         private var name = itemView.findViewById<TextView>(R.id.name)
         private var price = itemView.findViewById<TextView>(R.id.price)
         private var stock = itemView.findViewById<TextView>(R.id.stock)
+        private var unit = itemView.findViewById<TextView>(R.id.unit)
         private var progressBar = itemView.findViewById<ProgressBar>(R.id.progressbar)
 
         fun bindItem(product: Product, listener: (Product) -> Unit){
@@ -77,6 +78,7 @@ class ProductRecyclerViewAdapter (private val products : MutableList<Product>, p
             val priceP = product.price.toString()
             price.text = CustomFun.changeToRp(priceP.toDouble())
             stock.text = product.stock.toString()
+            unit.text = product.unit.toString()
 
             containerView.setOnClickListener {
                 listener(product)

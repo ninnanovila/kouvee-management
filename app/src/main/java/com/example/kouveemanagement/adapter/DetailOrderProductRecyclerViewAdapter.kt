@@ -32,12 +32,14 @@ class DetailOrderProductRecyclerViewAdapter(private val products: MutableList<Pr
         private var subtotal = itemView.findViewById<TextView>(R.id.subtotal)
 
         fun bindItem(products: MutableList<Product>, detailOrderProduct: DetailOrderProduct, listener: (DetailOrderProduct) -> Unit){
+            var unit = ""
             for (product in products){
                 if (detailOrderProduct.id_product.equals(product.id)){
                     id.text = product.name
+                    unit = product.unit.toString()
                 }
             }
-            quantity.text = detailOrderProduct.quantity.toString()
+            quantity.text = detailOrderProduct.quantity.toString() + " $unit"
             val total = detailOrderProduct.subtotal.toString()
             subtotal.text = CustomFun.changeToRp(total.toDouble())
 

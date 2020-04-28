@@ -68,17 +68,17 @@ class ProductTransactionActivity : AppCompatActivity(), TransactionView, Custome
         btn_home.setOnClickListener {
             startActivity<CustomerServiceActivity>()
         }
-        transactionAdapter = TransactionRecyclerViewAdapter(transactionsList){}
+        transactionAdapter = TransactionRecyclerViewAdapter("product", customersPet, transactionsList){}
         search_view.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                recyclerview.adapter = TransactionRecyclerViewAdapter(transactions){
+                recyclerview.adapter = TransactionRecyclerViewAdapter("product", customersPet,transactions){
                     showAlert()
                 }
                 query?.let { transactionAdapter.filterTransaction(it) }
                 return false
             }
             override fun onQueryTextChange(newText: String?): Boolean {
-                recyclerview.adapter = TransactionRecyclerViewAdapter(transactions) {
+                recyclerview.adapter = TransactionRecyclerViewAdapter("product", customersPet,transactions) {
                     showAlert()
                 }
                 newText?.let { transactionAdapter.filterTransaction(it) }
@@ -110,9 +110,9 @@ class ProductTransactionActivity : AppCompatActivity(), TransactionView, Custome
     private fun getList(){
         if (temps.isNullOrEmpty()){
             CustomFun.warningSnackBar(container, baseContext, "Empty data")
-            recyclerview.adapter = TransactionRecyclerViewAdapter(temps){}
+            recyclerview.adapter = TransactionRecyclerViewAdapter("product", customersPet,temps){}
         }else{
-            recyclerview.adapter = TransactionRecyclerViewAdapter(temps){
+            recyclerview.adapter = TransactionRecyclerViewAdapter("product", customersPet,temps){
                 transaction = it
                 showDialog(it, it.payment.toString())
             }
@@ -139,7 +139,7 @@ class ProductTransactionActivity : AppCompatActivity(), TransactionView, Custome
                 transactionsTemp.addAll(temp)
                 temps = transactionsTemp
                 recyclerview.layoutManager = LinearLayoutManager(this)
-                recyclerview.adapter = TransactionRecyclerViewAdapter(transactionsList){
+                recyclerview.adapter = TransactionRecyclerViewAdapter("product", customersPet,transactionsList){
                     transaction = it
                     showDialog(it, it.payment.toString())
                 }

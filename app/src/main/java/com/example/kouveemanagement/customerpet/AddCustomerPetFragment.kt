@@ -107,21 +107,21 @@ class AddCustomerPetFragment : Fragment(), CustomerPetView{
     }
 
     private fun setCustomerDropdown(){
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, CustomerPetManagementActivity.nameCustomerDropdown)
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, CustomerPetManagementActivity.nameCustomer)
         customer_dropdown.setAdapter(adapter)
         customer_dropdown.setOnItemClickListener { _, _, position, _ ->
-            idCustomer = CustomerPetManagementActivity.idCustomerList[position]
-            val name = CustomerPetManagementActivity.nameCustomerDropdown[position]
+            idCustomer = CustomerPetManagementActivity.idCustomer[position]
+            val name = CustomerPetManagementActivity.nameCustomer[position]
             Toast.makeText(context, "Customer : $name", Toast.LENGTH_LONG).show()
         }
     }
 
     private fun setTypeDropDown(){
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, CustomerPetManagementActivity.nameTypeDropdown)
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, CustomerPetManagementActivity.nameType)
         type_dropdown.setAdapter(adapter)
         type_dropdown.setOnItemClickListener { _, _, position, _ ->
-            idType = CustomerPetManagementActivity.idTypeList[position]
-            val name = CustomerPetManagementActivity.nameTypeDropdown[position]
+            idType = CustomerPetManagementActivity.idType[position]
+            val name = CustomerPetManagementActivity.nameType[position]
             Toast.makeText(context, "Type : $name", Toast.LENGTH_LONG).show()
         }
     }
