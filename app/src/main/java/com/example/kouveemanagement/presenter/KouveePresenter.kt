@@ -887,6 +887,20 @@ class TransactionPresenter(private val view: TransactionView, private val reposi
         })
     }
 
+    fun editPetTransaction(id: String, transaction: Transaction){
+        view.showTransactionLoading()
+        repository.editPetTransaction(id, transaction, object : TransactionRepositoryCallback<TransactionResponse>{
+            override fun transactionSuccess(data: TransactionResponse?) {
+                view.transactionSuccess(data)
+                view.hideTransactionLoading()
+            }
+            override fun transactionFailed(data: String) {
+                view.transactionFailed(data)
+                view.hideTransactionLoading()
+            }
+        })
+    }
+
     fun editDoneTransaction(id: String, transaction: Transaction){
         view.showTransactionLoading()
         repository.editDoneTransaction(id, transaction, object : TransactionRepositoryCallback<TransactionResponse>{

@@ -2,8 +2,9 @@ package com.example.kouveemanagement.transaction
 
 import android.content.DialogInterface
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -24,7 +25,10 @@ class AddTransactionActivity : AppCompatActivity(), TransactionView, DetailProdu
 
     private var state: String = ""
     private lateinit var type: String
+    private lateinit var petId: String
 
+    private lateinit var dialog: View
+    private lateinit var infoDialog: AlertDialog
     private lateinit var lastEmp: String
 
     private lateinit var presenter: TransactionPresenter
@@ -78,14 +82,22 @@ class AddTransactionActivity : AppCompatActivity(), TransactionView, DetailProdu
         }
         btn_edit.setOnClickListener {
             state = "edit"
-            Toast.makeText(this, "Edit Transaction ?", Toast.LENGTH_LONG).show()
+            if (transaction.id_customer_pet == "1"){
+                CustomFun.warningSnackBar(container, baseContext, "Edit pet, feature for customer")
+            }else{
+                chooseCustomerPet()
+            }
         }
         btn_status.setOnClickListener {
             state = "status"
             if (type == "product"){
-                CustomFun.warningSnackBar(container, baseContext, "Feature for service transaction")
+                CustomFun.warningSnackBar(container, baseContext, "Change statue, feature for service transaction")
             }else{
-                showAlertChangeStatus()
+                if (transaction.status == "Done"){
+                    CustomFun.warningSnackBar(container, baseContext, "Transaction done, needs payment")
+                }else{
+                    showAlertChangeStatus()
+                }
             }
         }
         btn_home.setOnClickListener {
@@ -117,6 +129,7 @@ class AddTransactionActivity : AppCompatActivity(), TransactionView, DetailProdu
         }
         last_cs.text = transaction.last_cs
         id.text = transaction.id
+        petId = transaction.id_customer_pet.toString()
         id_customer_pet.text = petName(transaction.id_customer_pet.toString())
         if (type == "service"){
             status.text = transaction.status
@@ -180,6 +193,7 @@ class AddTransactionActivity : AppCompatActivity(), TransactionView, DetailProdu
         if (temp.isEmpty()){
             CustomFun.warningSnackBar(container, baseContext, "Empty detail")
         }else{
+            detailProducts.clear()
             for (detail in temp){
                 detailProducts.add(detail)
             }
@@ -209,6 +223,7 @@ class AddTransactionActivity : AppCompatActivity(), TransactionView, DetailProdu
         if (temp.isEmpty()){
             CustomFun.warningSnackBar(container, baseContext, "Empty detail")
         }else{
+            detailServices.clear()
             for (detail in temp){
                 detailServices.add(detail)
                 setIdOfSize(detail.id_service.toString())
@@ -256,6 +271,7 @@ class AddTransactionActivity : AppCompatActivity(), TransactionView, DetailProdu
 
     private fun showAlertCancel(){
         AlertDialog.Builder(this)
+            .setIcon(R.drawable.delete)
             .setTitle("Confirmation")
             .setMessage("Are you sure to $state this transaction ?")
             .setPositiveButton("YES"){ _: DialogInterface, _: Int ->
@@ -271,10 +287,11 @@ class AddTransactionActivity : AppCompatActivity(), TransactionView, DetailProdu
 
     private fun showAlertChangeStatus(){
         AlertDialog.Builder(this)
+            .setIcon(R.drawable.update)
             .setTitle("Confirmation")
-            .setMessage("Are you sure to change the status $state of this transaction ?")
+            .setMessage("Are you sure to change the status of this transaction ?")
             .setPositiveButton("YES"){ _: DialogInterface, _: Int ->
-                val newTransaction = Transaction(last_cs = lastEmp)
+                val newTransaction = Transaction(id = idTransaction, last_cs = lastEmp)
                 presenter.editStatusTransaction(idTransaction, newTransaction)
             }
             .setNegativeButton("NO"){ dialog: DialogInterface, _: Int ->
@@ -283,6 +300,72 @@ class AddTransactionActivity : AppCompatActivity(), TransactionView, DetailProdu
             }
             .setCancelable(false)
             .show()
+    }
+
+    private fun chooseCustomerPet() {
+        dialog = LayoutInflater.from(this).inflate(R.layout.item_choose_pet, null)
+        var name: MutableList<String> = mutableListOf()
+        var id: MutableList<String> = mutableListOf()
+        if (type == "prduct"){
+            name = ProductTransactionActivity.customerPetName
+            id = ProductTransactionActivity.customerPetId
+        }else if (type == "service"){
+            name = ServiceTransactionActivity.customerPetName
+            id = ServiceTransactionActivity.customerPetId
+        }
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, name)
+        val dropdown = dialog.findViewById<AutoCompleteTextView>(R.id.dropdown)
+        val btnAdd = dialog.findViewById<Button>(R.id.btn_add)
+        val btnClose = dialog.findViewById<ImageButton>(R.id.btn_close)
+        dropdown.setAdapter(adapter)
+        dropdown.setOnItemClickListener { _, _, position, _ ->
+            petId = id[position]
+            checkCustomer(petId)
+        }
+
+        infoDialog = AlertDialog.Builder(this)
+            .setView(dialog)
+            .setCancelable(false)
+            .show()
+
+        btnClose.setOnClickListener {
+            infoDialog.dismiss()
+        }
+
+        btnAdd.text = getString(R.string.save)
+
+        btnAdd.setOnClickListener {
+            if (petId == transaction.id_customer_pet){
+                CustomFun.failedSnackBar(container, baseContext, "Pet same as before")
+            }else{
+                transaction = Transaction(id = transaction.id, id_customer_pet = petId)
+                presenter.editPetTransaction(transaction.id.toString(), transaction)
+                infoDialog.dismiss()
+            }
+        }
+    }
+
+    private fun checkCustomer(petId: String){
+        var customers: MutableList<Customer> = mutableListOf()
+        var pets: MutableList<CustomerPet> = mutableListOf()
+        if (type == "product"){
+            customers = ProductTransactionActivity.customers
+            pets = ProductTransactionActivity.customersPet
+        }else if (type == "service"){
+            customers = ServiceTransactionActivity.customers
+            pets = ServiceTransactionActivity.customersPet
+        }
+        var idCustomer = "-1"
+        for(customerPet in pets){
+            if (customerPet.id.equals(petId)){
+                idCustomer = customerPet.id_customer.toString()
+            }
+        }
+        for (customer in customers){
+            if (customer.id.equals(idCustomer)){
+                Toast.makeText(this, "Customer : ${customer.name}", Toast.LENGTH_LONG).show()
+            }
+        }
     }
 
     override fun onBackPressed() {

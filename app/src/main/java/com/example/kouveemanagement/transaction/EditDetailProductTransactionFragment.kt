@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.kouveemanagement.CustomFun
 import com.example.kouveemanagement.R
@@ -81,9 +80,9 @@ class EditDetailProductTransactionFragment : Fragment(), DetailProductTransactio
     }
 
     private fun setDropdown(detailProductTransaction: DetailProductTransaction){
-        for (i in ProductTransactionActivity.productIdDropdown.indices){
-            if (ProductTransactionActivity.productIdDropdown[i] == detailProductTransaction.id_product){
-                product.setText(ProductTransactionActivity.productNameDropdown[i])
+        for (i in ProductTransactionActivity.productId.indices){
+            if (ProductTransactionActivity.productId[i] == detailProductTransaction.id_product){
+                product.setText(ProductTransactionActivity.productName[i])
             }
         }
     }

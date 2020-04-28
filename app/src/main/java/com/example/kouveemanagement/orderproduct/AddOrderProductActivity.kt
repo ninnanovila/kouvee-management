@@ -201,6 +201,7 @@ class AddOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOrd
         }
 
         infoDialog = AlertDialog.Builder(this)
+            .setIcon(R.drawable.order_product)
             .setView(dialog)
             .setCancelable(false)
             .show()
@@ -211,7 +212,7 @@ class AddOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOrd
 
         btnSave.setOnClickListener {
             if (supplierId == orderProduct.id_supplier.toString()){
-                CustomFun.failedSnackBar(container, baseContext, "Supplier same as before")
+                CustomFun.failedSnackBar(container, baseContext, "Supplier not change")
             }else{
                 state = "edit"
                 val newOrderProduct = OrderProduct(orderProduct.id.toString(), supplierId, orderProduct.total, orderProduct.status)
@@ -221,7 +222,7 @@ class AddOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOrd
     }
 
     private fun alertDialog(){
-        AlertDialog.Builder(this)
+        val alertDialog = AlertDialog.Builder(this)
             .setTitle("Confirmation")
             .setMessage("Are you sure to $state this order ?")
             .setPositiveButton("YES"){ _: DialogInterface, _: Int ->
@@ -235,7 +236,12 @@ class AddOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOrd
                 dialog.dismiss()
                 CustomFun.warningSnackBar(container, baseContext, "Process canceled")
             }
-            .setCancelable(false)
+        if (state == "print"){
+            alertDialog.setIcon(R.drawable.printer)
+        }else{
+            alertDialog.setIcon(R.drawable.delete)
+        }
+        alertDialog.setCancelable(false)
             .show()
     }
 

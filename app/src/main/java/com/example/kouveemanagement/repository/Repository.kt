@@ -1298,6 +1298,24 @@ class Repository {
         })
     }
 
+    fun editPetTransaction(id: String, transaction: Transaction, callback: TransactionRepositoryCallback<TransactionResponse>){
+        ApiClient().services.editPetTransaction(id, transaction).enqueue(object : Callback<TransactionResponse?>{
+            override fun onFailure(call: Call<TransactionResponse?>, t: Throwable) {
+                callback.transactionFailed(t.message.toString())
+            }
+            override fun onResponse(
+                call: Call<TransactionResponse?>,
+                response: Response<TransactionResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.transactionSuccess(response.body())
+                }else if (response.code() == 500){
+                    callback.transactionFailed("Show error..")
+                }
+            }
+        })
+    }
+
     fun editDoneTransaction(id: String, transaction: Transaction, callback: TransactionRepositoryCallback<TransactionResponse>){
         ApiClient().services.editDoneTransaction(id, transaction).enqueue(object : Callback<TransactionResponse?>{
             override fun onFailure(call: Call<TransactionResponse?>, t: Throwable) {

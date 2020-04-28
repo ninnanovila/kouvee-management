@@ -111,13 +111,15 @@ class EditOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOr
 
     private fun alertDialog(){
         AlertDialog.Builder(this)
+            .setIcon(R.drawable.update)
             .setTitle("Confirmation")
             .setMessage("Are you sure to done this order ?")
             .setCancelable(false)
-            .setPositiveButton("YES"){ _: DialogInterface, _: Int ->
+            .setPositiveButton("YES"){ _, _ ->
                 presenter.editDoneOrderProduct(idOrderProduct)
             }
-            .setNegativeButton("NO"){ _: DialogInterface, _: Int ->
+            .setNegativeButton("NO"){ dialog, _ ->
+                dialog.dismiss()
                 CustomFun.warningSnackBar(container, baseContext, "Process canceled..")
             }
             .show()

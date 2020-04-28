@@ -95,11 +95,11 @@ class AddDetailProductTransactionFragment : Fragment(), DetailProductTransaction
     }
 
     private fun setProductDropdown(){
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, ProductTransactionActivity.productNameDropdown)
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, ProductTransactionActivity.productName)
         product_dropdown.setAdapter(adapter)
         product_dropdown.setOnItemClickListener { _, _, position, _ ->
-            idProduct = ProductTransactionActivity.productIdDropdown[position]
-            val name = ProductTransactionActivity.productNameDropdown[position]
+            idProduct = ProductTransactionActivity.productId[position]
+            val name = ProductTransactionActivity.productName[position]
             Toast.makeText(context, "Product: $name", Toast.LENGTH_LONG).show()
         }
     }

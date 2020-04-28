@@ -170,6 +170,8 @@ class OrderProductActivity : AppCompatActivity(), OrderProductView, SupplierView
             }
         }
         dialogAlert = AlertDialog.Builder(this)
+            .setIcon(R.drawable.order_product)
+            .setCancelable(false)
             .setTitle("Order Product")
             .setMessage("What will you do with this order product?")
             .setPositiveButton(text){ _, _ ->
@@ -181,11 +183,15 @@ class OrderProductActivity : AppCompatActivity(), OrderProductView, SupplierView
                     startActivity<EditOrderProductActivity>()
                 }
             }
+            .setNegativeButton("CANCEL"){dialog, _ ->
+                dialog.dismiss()
+            }
             .show()
     }
 
     private fun showAlert(){
         dialogAlert = AlertDialog.Builder(this)
+            .setIcon(R.drawable.order_product)
             .setTitle("Confirmation")
             .setMessage("Are you sure to order product?")
             .setCancelable(false)
@@ -193,7 +199,9 @@ class OrderProductActivity : AppCompatActivity(), OrderProductView, SupplierView
                 add = "1"
                 chooseSupplier()
             }
-            .setNegativeButton("NO",null)
+            .setNegativeButton("NO"){ dialogInterface, _ ->
+                dialogInterface.dismiss()
+            }
             .show()
     }
 

@@ -91,7 +91,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
-                    style="@style/ProgressButton"/>
+                    style="@style/ProgressButtonWhite"/>
 
                 <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
                     android:id="@+id/btn_save"
@@ -101,7 +101,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
-                    style="@style/ProgressButtonWhite" />
+                    style="@style/ProgressButton" />
             </LinearLayout>
         </LinearLayout>
 

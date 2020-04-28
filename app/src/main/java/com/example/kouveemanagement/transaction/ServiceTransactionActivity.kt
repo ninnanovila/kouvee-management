@@ -350,7 +350,7 @@ class  ServiceTransactionActivity : AppCompatActivity(), TransactionView, Custom
             }else{
                 Transaction(id_customer_pet = petId, last_cs = lastEmp)
             }
-            presenter.addTransaction(type, transaction)
+            presenter.addTransaction("Service", transaction)
         }
     }
 
@@ -374,23 +374,31 @@ class  ServiceTransactionActivity : AppCompatActivity(), TransactionView, Custom
 
         if (payment == "0"){
             dialogAlert = AlertDialog.Builder(this)
-                .setIcon(R.drawable.product_transaction)
+                .setCancelable(false)
+                .setIcon(R.drawable.service_transaction)
                 .setTitle("What do you want to do?")
                 .setMessage("You can edit this transaction, this transaction not yet paid off.")
-                .setPositiveButton("Show"){ _, _ ->
-                    startActivity<ShowTransactionActivity>("type" to "service")
-                }
-                .setNegativeButton("Edit"){_,_ ->
+                .setPositiveButton("Edit"){ _, _ ->
                     startActivity<AddTransactionActivity>("type" to "service")
+                }
+                .setNegativeButton("Cancel"){dialog,_ ->
+                    dialog.dismiss()
+                }
+                .setNeutralButton("Show"){_,_ ->
+                    startActivity<ShowTransactionActivity>("type" to "service")
                 }
                 .show()
         }else if (payment == "1"){
             dialogAlert = AlertDialog.Builder(this)
-                .setIcon(R.drawable.product_transaction)
+                .setCancelable(false)
+                .setIcon(R.drawable.service_transaction)
                 .setTitle("What do you want to do?")
                 .setMessage("You can not edit this transaction, this transaction is paid off.")
                 .setPositiveButton("Show"){ _, _ ->
                     startActivity<ShowTransactionActivity>("type" to "service")
+                }
+                .setNegativeButton("Cancel"){dialog, _ ->
+                    dialog.dismiss()
                 }
                 .show()
         }

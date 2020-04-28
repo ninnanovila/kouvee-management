@@ -119,6 +119,7 @@ class OwnerActivity : AppCompatActivity(), MinProductView {
 
     private fun showLogoutConfirm(){
         val confirm = AlertDialog.Builder(this)
+            .setIcon(R.drawable.alert)
             .setTitle("Confirmation")
             .setMessage("Are you sure to log out ?")
             .setCancelable(false)

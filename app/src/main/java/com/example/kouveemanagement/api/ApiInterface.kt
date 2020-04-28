@@ -211,6 +211,9 @@ interface ApiInterface {
     @PUT("transaction/{id}")
     fun editTotalTransaction(@Path("id")id: String): Call<TransactionResponse>
 
+    @PUT("transaction/customer/{id}")
+    fun editPetTransaction(@Path("id")id: String, @Body transaction: Transaction): Call<TransactionResponse>
+
     @PUT("transaction/done/{id}")
     fun editDoneTransaction(@Path("id")id: String, @Body transaction: Transaction): Call<TransactionResponse>
 

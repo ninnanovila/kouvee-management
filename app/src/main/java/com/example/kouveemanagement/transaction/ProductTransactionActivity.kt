@@ -33,7 +33,7 @@ class ProductTransactionActivity : AppCompatActivity(), TransactionView, Custome
     private lateinit var infoDialog: AlertDialog
     private lateinit var dialogAlert: AlertDialog
 
-    private lateinit var customerPetId: String
+    private lateinit var petId: String
     private lateinit var presenterC: CustomerPetPresenter
     private lateinit var presenterP: ProductPresenter
     private lateinit var presenterCu: CustomerPresenter
@@ -43,11 +43,11 @@ class ProductTransactionActivity : AppCompatActivity(), TransactionView, Custome
 
     companion object{
         var transaction: Transaction = Transaction()
-        var customerPetNameDropdown: MutableList<String> = arrayListOf()
-        var customerPetIdDropdown: MutableList<String> = arrayListOf()
+        var customerPetName: MutableList<String> = arrayListOf()
+        var customerPetId: MutableList<String> = arrayListOf()
         var customersPet: MutableList<CustomerPet> = arrayListOf()
-        var productNameDropdown: MutableList<String> = arrayListOf()
-        var productIdDropdown: MutableList<String> = arrayListOf()
+        var productName: MutableList<String> = arrayListOf()
+        var productId: MutableList<String> = arrayListOf()
         var products: MutableList<Product> = arrayListOf()
         var transactions: MutableList<Transaction> = mutableListOf()
         var customers: MutableList<Customer> = mutableListOf()
@@ -175,8 +175,8 @@ class ProductTransactionActivity : AppCompatActivity(), TransactionView, Custome
             customersPet.addAll(temp)
             for (pet in temp){
                 if (pet.deleted_at == null){
-                    customerPetNameDropdown.add(pet.name.toString())
-                    customerPetIdDropdown.add(pet.id.toString())
+                    customerPetName.add(pet.name.toString())
+                    customerPetId.add(pet.id.toString())
                 }
             }
         }
@@ -188,8 +188,8 @@ class ProductTransactionActivity : AppCompatActivity(), TransactionView, Custome
 
     private fun clearPet(){
         customersPet.clear()
-        customerPetNameDropdown.clear()
-        customerPetIdDropdown.clear()
+        customerPetName.clear()
+        customerPetId.clear()
     }
 
     override fun showProductLoading() {
@@ -207,8 +207,8 @@ class ProductTransactionActivity : AppCompatActivity(), TransactionView, Custome
             products.addAll(temp)
             for (i in temp.indices){
                 if (temp[i].deleted_at == null){
-                    productNameDropdown.add(temp[i].name.toString())
-                    productIdDropdown.add(temp[i].id.toString())
+                    productName.add(temp[i].name.toString())
+                    productId.add(temp[i].id.toString())
                 }
             }
         }
@@ -220,8 +220,8 @@ class ProductTransactionActivity : AppCompatActivity(), TransactionView, Custome
 
     private fun clearProduct(){
         products.clear()
-        productNameDropdown.clear()
-        productIdDropdown.clear()
+        productName.clear()
+        productId.clear()
     }
 
     override fun showCustomerLoading() {
@@ -259,16 +259,16 @@ class ProductTransactionActivity : AppCompatActivity(), TransactionView, Custome
     }
 
     private fun chooseCustomerPet() {
-        customerPetId = "-1"
+        petId = "-1"
         dialog = LayoutInflater.from(this).inflate(R.layout.item_choose_pet, null)
-        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, customerPetNameDropdown)
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, customerPetName)
         val dropdown = dialog.findViewById<AutoCompleteTextView>(R.id.dropdown)
         val btnAdd = dialog.findViewById<Button>(R.id.btn_add)
         val btnClose = dialog.findViewById<ImageButton>(R.id.btn_close)
         dropdown.setAdapter(adapter)
         dropdown.setOnItemClickListener { _, _, position, _ ->
-            customerPetId = customerPetIdDropdown[position]
-            checkCustomer(customerPetId)
+            petId = customerPetId[position]
+            checkCustomer(petId)
         }
 
         infoDialog = AlertDialog.Builder(this)
@@ -281,12 +281,12 @@ class ProductTransactionActivity : AppCompatActivity(), TransactionView, Custome
         }
 
         btnAdd.setOnClickListener {
-            transaction = if (customerPetId == "-1"){
+            transaction = if (petId == "-1"){
                 Transaction(last_cs = lastEmp)
             }else{
-                Transaction(id_customer_pet = customerPetId, last_cs = lastEmp)
+                Transaction(id_customer_pet = petId, last_cs = lastEmp)
             }
-            presenter.addTransaction(type, transaction)
+            presenter.addTransaction("Product", transaction)
         }
     }
 
@@ -310,23 +310,31 @@ class ProductTransactionActivity : AppCompatActivity(), TransactionView, Custome
 
         if (payment == "0"){
             dialogAlert = AlertDialog.Builder(this)
+                .setCancelable(false)
                 .setIcon(R.drawable.product_transaction)
                 .setTitle("What do you want to do?")
                 .setMessage("You can edit this transaction, this transaction not yet paid off.")
-                .setPositiveButton("Show"){ _, _ ->
-                    startActivity<ShowTransactionActivity>("type" to "product")
-                }
-                .setNegativeButton("Edit"){_,_ ->
+                .setPositiveButton("Edit"){ _, _ ->
                     startActivity<AddTransactionActivity>("type" to "product")
+                }
+                .setNegativeButton("Cancel"){dialog,_ ->
+                    dialog.dismiss()
+                }
+                .setNeutralButton("Show"){_,_ ->
+                    startActivity<ShowTransactionActivity>("type" to "product")
                 }
                 .show()
         }else if (payment == "1"){
             dialogAlert = AlertDialog.Builder(this)
+                .setCancelable(false)
                 .setIcon(R.drawable.product_transaction)
                 .setTitle("What do you want to do?")
                 .setMessage("You can not edit this transaction, this transaction is paid off.")
                 .setPositiveButton("Show"){ _, _ ->
                     startActivity<ShowTransactionActivity>("type" to "product")
+                }
+                .setNegativeButton("Cancel"){dialog,_ ->
+                    dialog.dismiss()
                 }
                 .show()
         }
