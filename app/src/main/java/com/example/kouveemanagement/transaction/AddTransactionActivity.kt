@@ -226,7 +226,9 @@ class AddTransactionActivity : AppCompatActivity(), TransactionView, DetailProdu
             detailServices.clear()
             for (detail in temp){
                 detailServices.add(detail)
-                setIdOfSize(detail.id_service.toString())
+                if(idOfSize == "-1"){
+                    setIdOfSize(detail.id_service.toString())
+                }
             }
             recyclerview.layoutManager = LinearLayoutManager(this)
             recyclerview.adapter = DetailTransactionRecyclerViewAdapter("service", mutableListOf(), {}, mutableListOf(), detailServices, {
