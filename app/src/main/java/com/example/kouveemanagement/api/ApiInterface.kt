@@ -13,9 +13,17 @@ interface ApiInterface {
     @POST("login")
     fun loginPost(@Field("id")id: String, @Field("password")password: String): Call<LoginResponse>
 
+//  CHANGE PASS
+    @FormUrlEncoded
+    @POST("employee/changePass")
+    fun changePassword(@Field("id")id: String, @Field("password")password: String, @Field("new_password")newPassword: String): Call<LoginResponse>
+
 //    EMPLOYEE
     @GET("employeeAll")
     fun getAllEmployee(): Call<EmployeeResponse>
+
+    @GET("employee/{id}")
+    fun getEmployeeById(@Path("id")id: String): Call<EmployeeResponse>
 
     @FormUrlEncoded
     @POST("employee/search")

@@ -11,6 +11,7 @@ import com.example.kouveemanagement.customerpet.CustomerPetManagementActivity
 import com.example.kouveemanagement.model.Menu
 import com.example.kouveemanagement.persistent.AppDatabase
 import com.example.kouveemanagement.persistent.CurrentUser
+import com.example.kouveemanagement.profile.ProfileActivity
 import com.example.kouveemanagement.transaction.ProductTransactionActivity
 import com.example.kouveemanagement.transaction.ServiceTransactionActivity
 import kotlinx.android.synthetic.main.activity_customer_service.*
@@ -34,8 +35,8 @@ class CustomerServiceActivity : AppCompatActivity() {
         else CustomFun.welcomeSnackBar(container, baseContext, "Welcome Customer Service!")
         setMenu()
         getCurrentUser()
-        btn_logout.setOnClickListener {
-            showLogoutConfirm()
+        btn_profile.setOnClickListener {
+            startActivity<ProfileActivity>()
         }
     }
 

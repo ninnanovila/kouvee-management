@@ -27,6 +27,7 @@ import com.example.kouveemanagement.pet.PetTypeManagementActivity
 import com.example.kouveemanagement.presenter.MinProductPresenter
 import com.example.kouveemanagement.presenter.MinProductView
 import com.example.kouveemanagement.product.ProductManagementActivity
+import com.example.kouveemanagement.profile.ProfileActivity
 import com.example.kouveemanagement.repository.Repository
 import com.example.kouveemanagement.service.ServiceManagementActivity
 import com.example.kouveemanagement.supplier.SupplierManagementActivity
@@ -66,8 +67,8 @@ class OwnerActivity : AppCompatActivity(), MinProductView {
         setMenu()
         getCurrentUser()
         getMinProduct()
-        btn_logout.setOnClickListener {
-            showLogoutConfirm()
+        btn_profile.setOnClickListener {
+            startActivity<ProfileActivity>()
         }
         fab_notif.setOnClickListener{
             showDialog()

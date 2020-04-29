@@ -20,6 +20,7 @@ class MainActivity : AppCompatActivity(), LoginView {
     companion object {
         var database: AppDatabase? = null
         var currentUser: CurrentUser? = null
+        var loggedInUser: Employee = Employee()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,8 +62,9 @@ class MainActivity : AppCompatActivity(), LoginView {
     }
 
     override fun loginSuccess(data: LoginResponse?) {
-        data?.employee?.let { insertCurrentUser(it) }
-        when(data?.employee?.role){
+        loggedInUser = data?.employee!!
+        insertCurrentUser(data.employee)
+        when(data.employee.role){
             "Admin" -> startActivity<OwnerActivity>()
             "Customer Service" -> startActivity<CustomerServiceActivity>()
             "Cashier" -> {
@@ -71,7 +73,7 @@ class MainActivity : AppCompatActivity(), LoginView {
             }
         }
 
-        if(data?.employee?.role.equals("Cashier")){
+        if(data.employee.role.equals("Cashier")){
             deleteCurrentUser()
         }
     }

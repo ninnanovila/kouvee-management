@@ -39,6 +39,32 @@ class Repository {
         })
     }
 
+    fun changePassword(id: String, old: String, new: String, callback: LoginRepositoryCallback<LoginResponse>){
+        ApiClient().services.changePassword(id, old, new).enqueue(object : Callback<LoginResponse?>{
+            override fun onFailure(call: Call<LoginResponse?>, t: Throwable) {
+                callback.loginFailed(t.message.toString())
+            }
+
+            override fun onResponse(
+                call: Call<LoginResponse?>,
+                response: Response<LoginResponse?>
+            ) {
+                when {
+                    response.isSuccessful -> {
+                        callback.loginSuccess(response.body())
+                    }
+                    response.code() == 404 -> {
+                        callback.loginFailed("Old password wrong..")
+                    }
+                    response.code() == 500 -> {
+                        callback.loginFailed("Wrong password..")
+                    }
+                    else -> callback.loginFailed("Else ...")
+                }
+            }
+        })
+    }
+
 //    EMPLOYEE
     fun getAllEmployee(callback: EmployeeRepositoryCallback<EmployeeResponse>) {
         ApiClient().services.getAllEmployee().enqueue(object : Callback<EmployeeResponse?> {
@@ -57,6 +83,25 @@ class Repository {
                 }
             }
 
+        })
+    }
+
+    fun getEmployeeById(id: String, callback: EmployeeRepositoryCallback<EmployeeResponse>){
+        ApiClient().services.getEmployeeById(id).enqueue(object : Callback<EmployeeResponse?>{
+            override fun onFailure(call: Call<EmployeeResponse?>, t: Throwable) {
+                callback.employeeFailed(t.message.toString())
+            }
+
+            override fun onResponse(
+                call: Call<EmployeeResponse?>,
+                response: Response<EmployeeResponse?>
+            ) {
+                if (response.isSuccessful){
+                    callback.employeeSuccess(response.body())
+                }else{
+                    callback.employeeFailed("Show error..")
+                }
+            }
         })
     }
 

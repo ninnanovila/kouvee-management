@@ -219,5 +219,9 @@
     <string name="last_cashier">Last Cashier</string>
     <string name="discount">Discount</string>
     <string name="payment_status">Payment Status</string>
+    <string name="profile">Profile</string>
+    <string name="change_password">Change Password</string>
+    <string name="old_password">Old Password</string>
+    <string name="new_password">New Password</string>
 
 </resources>

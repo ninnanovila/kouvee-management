@@ -21,6 +21,20 @@ class LoginPresenter(private val view: LoginView, private val repository: Reposi
             }
         })
     }
+
+    fun changePassword(id: String, old: String, new: String){
+        view.showLoginLoading()
+        repository.changePassword(id, old, new, object : LoginRepositoryCallback<LoginResponse> {
+            override fun loginSuccess(data: LoginResponse?) {
+                view.loginSuccess(data)
+                view.hideLoginLoading()
+            }
+            override fun loginFailed(data: String) {
+                view.loginFailed(data)
+                view.hideLoginLoading()
+            }
+        })
+    }
 }
 
 //EMPLOYEE
@@ -29,6 +43,20 @@ class EmployeePresenter(private val view: EmployeeView, private val repository: 
     fun getAllEmployee(){
         view.showEmployeeLoading()
         repository.getAllEmployee(object : EmployeeRepositoryCallback<EmployeeResponse> {
+            override fun employeeSuccess(data: EmployeeResponse?) {
+                view.employeeSuccess(data)
+                view.hideEmployeeLoading()
+            }
+            override fun employeeFailed(data: String) {
+                view.employeeFailed(data)
+                view.hideEmployeeLoading()
+            }
+        })
+    }
+
+    fun getEmployeeById(id: String){
+        view.showEmployeeLoading()
+        repository.getEmployeeById(id, object : EmployeeRepositoryCallback<EmployeeResponse> {
             override fun employeeSuccess(data: EmployeeResponse?) {
                 view.employeeSuccess(data)
                 view.hideEmployeeLoading()
