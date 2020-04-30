@@ -42,7 +42,7 @@ class ChangePasswordFragment : Fragment(), LoginView {
         }
         btn_save.setOnClickListener {
             if (isValid()){
-                presenter.changePassword(MainActivity.loggedInUser.id.toString(), old_password.text.toString(), new_password.text.toString())
+                presenter.changePassword(ProfileActivity.employee.id.toString(), old_password.text.toString(), new_password.text.toString())
             }
         }
     }

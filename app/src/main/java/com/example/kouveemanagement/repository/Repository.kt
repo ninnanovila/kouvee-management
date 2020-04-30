@@ -54,10 +54,10 @@ class Repository {
                         callback.loginSuccess(response.body())
                     }
                     response.code() == 404 -> {
-                        callback.loginFailed("Old password wrong..")
+                        callback.loginFailed("User not found..")
                     }
                     response.code() == 500 -> {
-                        callback.loginFailed("Wrong password..")
+                        callback.loginFailed("Wrong old password..")
                     }
                     else -> callback.loginFailed("Else ...")
                 }

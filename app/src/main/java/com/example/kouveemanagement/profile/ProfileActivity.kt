@@ -19,8 +19,11 @@ import org.jetbrains.anko.startActivity
 class ProfileActivity : AppCompatActivity(), EmployeeView {
 
     private lateinit var idEmployee: String
-    private lateinit var employee: Employee
     private var presenter = EmployeePresenter(this, Repository())
+
+    companion object{
+        lateinit var employee: Employee
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
