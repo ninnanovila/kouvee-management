@@ -141,7 +141,7 @@ class ProductManagementActivity : AppCompatActivity(), ProductView {
             productsTemp.addAll(temp)
             temps = productsTemp
             for (i in productsList.indices){
-                if (temps[i].deleted_at == null && (temps[i].stock!!.toInt() <= temps[i].min_stock!!.toInt())){
+                if (temps[i].deleted_at == null && (temps[i].stock!!.toInt() < temps[i].min_stock!!.toInt())){
                     minProducts.add(temps[i])
                 }
             }

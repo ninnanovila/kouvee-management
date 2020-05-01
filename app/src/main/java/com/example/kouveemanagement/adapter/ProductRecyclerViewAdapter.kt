@@ -14,6 +14,7 @@ import com.example.kouveemanagement.product.ProductManagementActivity
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import kotlinx.android.extensions.LayoutContainer
+import org.jetbrains.anko.image
 import java.lang.Exception
 import java.util.*
 
@@ -61,8 +62,8 @@ class ProductRecyclerViewAdapter (private val products : MutableList<Product>, p
         private var progressBar = itemView.findViewById<ProgressBar>(R.id.progressbar)
 
         fun bindItem(product: Product, listener: (Product) -> Unit){
-
             val photoUrl = baseUrl+product.photo
+            photo.destroyDrawingCache()
             Picasso.get()
                 .load(photoUrl)
                 .fit()

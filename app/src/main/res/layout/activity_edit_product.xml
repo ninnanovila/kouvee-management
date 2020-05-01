@@ -87,6 +87,7 @@
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/colorOrange"
                         app:backgroundTint="@color/colorOrange"
+                        android:visibility="gone"
                         app:fabSize="mini"/>
                     <ProgressBar
                         android:id="@+id/progressbar_img"

@@ -246,6 +246,7 @@ class EditProductActivity : AppCompatActivity(), ProductView, UploadPhotoProduct
                 val filePath = getImageFilePath(data)
                 Log.d("IMG PATH ", filePath)
                 CustomFun.welcomeSnackBar(container, baseContext, "Image has been chosen..")
+                btn_upload.visibility = View.VISIBLE
                 try {
                     val bmOptions = BitmapFactory.Options()
                     bitmap = BitmapFactory.decodeFile(filePath, bmOptions)
