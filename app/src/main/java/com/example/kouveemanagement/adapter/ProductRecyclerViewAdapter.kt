@@ -53,7 +53,7 @@ class ProductRecyclerViewAdapter (private val products : MutableList<Product>, p
 
     class ViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView), LayoutContainer {
 
-        private var baseUrl: String = "https://gregpetshop.berusahapastibisakok.tech/api/product/photo/"
+        private var baseUrl: String = "http://gregpetshop.berusahapastibisakok.tech/api/product/photo/"
         private var photo = itemView.findViewById<ImageView>(R.id.photo)
         private var name = itemView.findViewById<TextView>(R.id.name)
         private var price = itemView.findViewById<TextView>(R.id.price)
@@ -63,10 +63,9 @@ class ProductRecyclerViewAdapter (private val products : MutableList<Product>, p
 
         fun bindItem(product: Product, listener: (Product) -> Unit){
             val photoUrl = baseUrl+product.photo
-            photo.destroyDrawingCache()
             Picasso.get()
                 .load(photoUrl)
-                .fit()
+                .resize(50,50)
                 .into(photo, object : Callback {
                     override fun onSuccess() {
                         progressBar.visibility = View.GONE
