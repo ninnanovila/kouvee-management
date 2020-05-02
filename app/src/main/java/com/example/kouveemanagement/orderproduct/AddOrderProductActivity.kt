@@ -194,6 +194,7 @@ class AddOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOrd
         btnSave.visibility = View.VISIBLE
 
         dropdown.setAdapter(adapter)
+        dropdown.setText(getName(supplierId))
         dropdown.setOnItemClickListener { _, _, position, _ ->
             supplierId = OrderProductActivity.supplierIdDropdown[position]
             val name = OrderProductActivity.supplierNameDropdown[position]
@@ -243,6 +244,17 @@ class AddOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOrd
         }
         alertDialog.setCancelable(false)
             .show()
+    }
+
+    private fun getName(input: String) : String {
+
+        for (supplier in OrderProductActivity.suppliers){
+            if (supplier.id == input){
+                return supplier.name.toString()
+            }
+        }
+
+        return  ""
     }
 
     override fun showDownloadProgress() {

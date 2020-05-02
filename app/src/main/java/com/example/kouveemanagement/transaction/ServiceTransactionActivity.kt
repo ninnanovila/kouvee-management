@@ -373,21 +373,36 @@ class  ServiceTransactionActivity : AppCompatActivity(), TransactionView, Custom
         Toast.makeText(this, "ID : "+transaction.id, Toast.LENGTH_LONG).show()
 
         if (payment == "0"){
-            dialogAlert = AlertDialog.Builder(this)
-                .setCancelable(false)
-                .setIcon(R.drawable.service_transaction)
-                .setTitle("What do you want to do?")
-                .setMessage("You can edit this transaction, this transaction not yet paid off.")
-                .setPositiveButton("Edit"){ _, _ ->
-                    startActivity<AddTransactionActivity>("type" to "service")
-                }
-                .setNegativeButton("Cancel"){dialog,_ ->
-                    dialog.dismiss()
-                }
-                .setNeutralButton("Show"){_,_ ->
-                    startActivity<ShowTransactionActivity>("type" to "service")
-                }
-                .show()
+            if (transactionInput.status != "Done"){
+                dialogAlert = AlertDialog.Builder(this)
+                    .setCancelable(false)
+                    .setIcon(R.drawable.service_transaction)
+                    .setTitle("What do you want to do?")
+                    .setMessage("You can edit this transaction, this transaction on progress and not yet paid off.")
+                    .setPositiveButton("Edit"){ _, _ ->
+                        startActivity<AddTransactionActivity>("type" to "service")
+                    }
+                    .setNegativeButton("Cancel"){dialog,_ ->
+                        dialog.dismiss()
+                    }
+                    .setNeutralButton("Show"){_,_ ->
+                        startActivity<ShowTransactionActivity>("type" to "service")
+                    }
+                    .show()
+            }else{
+                dialogAlert = AlertDialog.Builder(this)
+                    .setCancelable(false)
+                    .setIcon(R.drawable.service_transaction)
+                    .setTitle("What do you want to do?")
+                    .setMessage("You can edit this transaction, this transaction done and not yet paid off. Let's pay it.")
+                    .setPositiveButton("Show"){ _, _ ->
+                        startActivity<ShowTransactionActivity>("type" to "service")
+                    }
+                    .setNegativeButton("Cancel"){dialog,_ ->
+                        dialog.dismiss()
+                    }
+                    .show()
+            }
         }else if (payment == "1"){
             dialogAlert = AlertDialog.Builder(this)
                 .setCancelable(false)

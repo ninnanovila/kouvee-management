@@ -57,7 +57,7 @@ class AddEmployeeFragment : Fragment(), EmployeeView {
         val adapter =
             context?.let { ArrayAdapter(it, android.R.layout.simple_spinner_dropdown_item, roles) }
         role_dropdown.setAdapter(adapter)
-        role_dropdown.setText(roles[0])
+        role_dropdown.setText("")
     }
 
     fun getData(){
