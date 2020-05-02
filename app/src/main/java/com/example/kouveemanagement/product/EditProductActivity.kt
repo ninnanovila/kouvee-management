@@ -249,13 +249,12 @@ class EditProductActivity : AppCompatActivity(), ProductView, UploadPhotoProduct
                 try {
                     val bmOptions = BitmapFactory.Options()
                     bitmap = BitmapFactory.decodeFile(filePath, bmOptions)
-                    if (bitmap.byteCount > 500000){
-                        CustomFun.failedSnackBar(container, baseContext, "Max size : 500KB")
-                    }else{
-                        getByteArrayInBackground()
-                        image_product.setImageBitmap(bitmap)
-                        btn_upload.visibility = View.VISIBLE
-                    }
+//                    Log.d("BYTE ", bitmap.width.toString())
+//                    val size = bitmap.byteCount/1024
+//                        CustomFun.failedSnackBar(container, baseContext, "Size: $size KB, Max : 500 KB")
+                    getByteArrayInBackground()
+                    image_product.setImageBitmap(bitmap)
+                    btn_upload.visibility = View.VISIBLE
                 }catch (e: OutOfMemoryError){
                     CustomFun.failedSnackBar(container, baseContext, e.message.toString())
                 }
