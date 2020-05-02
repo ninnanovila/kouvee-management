@@ -249,8 +249,8 @@ class EditProductActivity : AppCompatActivity(), ProductView, UploadPhotoProduct
                 try {
                     val bmOptions = BitmapFactory.Options()
                     bitmap = BitmapFactory.decodeFile(filePath, bmOptions)
-                    if (bitmap.byteCount > 102400){
-                        CustomFun.failedSnackBar(container, baseContext, "Max size : 100KB")
+                    if (bitmap.byteCount > 500000){
+                        CustomFun.failedSnackBar(container, baseContext, "Max size : 500KB")
                     }else{
                         getByteArrayInBackground()
                         image_product.setImageBitmap(bitmap)
