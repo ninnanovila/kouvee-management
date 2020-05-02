@@ -1,10 +1,12 @@
 package com.example.kouveemanagement
 
+import android.Manifest.permission.*
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.Bundle
@@ -73,6 +75,7 @@ class OwnerActivity : AppCompatActivity(), MinProductView {
         fab_notif.setOnClickListener{
             showDialog()
         }
+        askingPermission()
     }
 
     private fun getMinProduct(){
@@ -243,6 +246,66 @@ class OwnerActivity : AppCompatActivity(), MinProductView {
                 dialog.dismiss()
             }
             .show()
+    }
+
+    private var askedPermissions = arrayListOf<String>()
+    private var deniedPermission = arrayListOf<String>()
+    private var requestedPermission = arrayListOf<String>()
+
+    //PERMISSION
+    private fun askingPermission(){
+        askedPermissions.add(CAMERA)
+        askedPermissions.add(WRITE_EXTERNAL_STORAGE)
+        askedPermissions.add(READ_EXTERNAL_STORAGE)
+        requestedPermission = findUnAskedPermissions(askedPermissions)
+
+        if (requestedPermission.size > 0) requestPermissions(requestedPermission.toTypedArray(), 107)
+    }
+
+    private fun findUnAskedPermissions(requested: java.util.ArrayList<String>): ArrayList<String> {
+        val result = java.util.ArrayList<String>()
+        for (perm in requested) {
+            if (!hasPermission(perm)) {
+                result.add(perm)
+            }
+        }
+        return result
+    }
+
+    private fun hasPermission(permission: String): Boolean {
+        return checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == 107){
+            for (denied in requestedPermission){
+                if (!hasPermission(denied)){
+                    deniedPermission.add(denied)
+                }
+            }
+
+            if (deniedPermission.size > 0) {
+                if (shouldShowRequestPermissionRationale(deniedPermission[0])) {
+                    AlertDialog.Builder(this)
+                        .setCancelable(false)
+                        .setIcon(R.drawable.alert)
+                        .setTitle("Warning")
+                        .setMessage("You should accept this permission to make this application work properly. Thank you.")
+                        .setPositiveButton("OK"){ _, _ ->
+                            requestPermissions(
+                                deniedPermission.toTypedArray(),
+                                107
+                            )
+                        }
+                        .setNegativeButton("CANCEL"){dialog, _ ->
+                            dialog.dismiss()
+                        }
+                        .show()
+                }
+            }
+        }
+
     }
 
 }

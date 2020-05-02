@@ -291,7 +291,7 @@ class EditProductActivity : AppCompatActivity(), ProductView, UploadPhotoProduct
     }
 
     override fun uploadProductSuccess(data: ResponseBody?) {
-        startActivity<OwnerActivity>()
+        startActivity<ProductManagementActivity>()
     }
 
     override fun uploadProductFailed(data: String) {
@@ -300,5 +300,6 @@ class EditProductActivity : AppCompatActivity(), ProductView, UploadPhotoProduct
         btn_upload.visibility = View.VISIBLE
         CustomFun.failedSnackBar(container, baseContext, data)
     }
+
 
 }
