@@ -14,7 +14,6 @@ import com.example.kouveemanagement.product.ProductManagementActivity
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import kotlinx.android.extensions.LayoutContainer
-import org.jetbrains.anko.image
 import java.lang.Exception
 import java.util.*
 
@@ -53,7 +52,7 @@ class ProductRecyclerViewAdapter (private val products : MutableList<Product>, p
 
     class ViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView), LayoutContainer {
 
-        private var baseUrl: String = "http://gregpetshop.berusahapastibisakok.tech/api/product/photo/"
+        private var baseUrl: String = "https://gregpetshop.berusahapastibisakok.tech/api/product/photo/"
         private var photo = itemView.findViewById<ImageView>(R.id.photo)
         private var name = itemView.findViewById<TextView>(R.id.name)
         private var price = itemView.findViewById<TextView>(R.id.price)
@@ -65,7 +64,7 @@ class ProductRecyclerViewAdapter (private val products : MutableList<Product>, p
             val photoUrl = baseUrl+product.photo
             Picasso.get()
                 .load(photoUrl)
-                .resize(50,50)
+                .fit()
                 .into(photo, object : Callback {
                     override fun onSuccess() {
                         progressBar.visibility = View.GONE

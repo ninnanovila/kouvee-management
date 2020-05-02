@@ -113,14 +113,13 @@
 
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/sort_switch"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:text="@string/sort_a_z"
             android:checked="false"
+            android:text="@string/sort_a_z"
+            app:switchPadding="10dp"
             app:layout_constraintBottom_toBottomOf="@+id/toggleButton"
             app:layout_constraintEnd_toEndOf="@+id/search_view"
-            app:layout_constraintStart_toEndOf="@+id/toggleButton"
             app:layout_constraintTop_toTopOf="@+id/toggleButton" />
 
         <TextView
