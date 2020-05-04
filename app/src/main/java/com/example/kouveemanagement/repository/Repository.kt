@@ -1123,10 +1123,17 @@ class Repository {
                 call: Call<DetailOrderProductResponse?>,
                 response: Response<DetailOrderProductResponse?>
             ) {
-                if (response.isSuccessful){
-                    callback.detailOrderProductSuccess(response.body())
-                }else if (response.code() == 500){
-                    callback.detailOrderProductFailed("Delete error..")
+                when {
+                    response.isSuccessful -> {
+                        callback.detailOrderProductSuccess(response.body())
+                    }
+                    response.code() == 500 -> {
+                        callback.detailOrderProductFailed("Delete error..")
+                    }
+                    response.code() == 406 -> {
+                        callback.detailOrderProductFailed("Minimum detail is 1..")
+                    }
+                    else -> callback.detailOrderProductFailed("Delete error..")
                 }
             }
         })

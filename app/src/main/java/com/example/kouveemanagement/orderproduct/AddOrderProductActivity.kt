@@ -275,7 +275,7 @@ class AddOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOrd
     //FUNCTION FOR WRITE TO DISK
     private fun writeToDisk(responseBody: ResponseBody) : Boolean {
         val id = orderProduct.id.toString()+"_order_invoice.pdf"
-        val file = File(getExternalFilesDir(null).toString() + File.separator.toString() + id)
+        val file = File(getExternalFilesDir(null).toString() + File.separator.toString() + "Kouvee/" + id)
 
         lateinit var inputStream: InputStream
         lateinit var outputStream: OutputStream

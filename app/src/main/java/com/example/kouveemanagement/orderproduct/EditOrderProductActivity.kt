@@ -3,6 +3,7 @@ package com.example.kouveemanagement.orderproduct
 import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -15,9 +16,11 @@ import com.example.kouveemanagement.model.*
 import com.example.kouveemanagement.presenter.*
 import com.example.kouveemanagement.repository.Repository
 import kotlinx.android.synthetic.main.activity_edit_order_product.*
+import okhttp3.ResponseBody
 import org.jetbrains.anko.startActivity
+import java.io.*
 
-class EditOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOrderProductView {
+class EditOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOrderProductView, OrderInvoiceView {
 
     private lateinit var presenter: OrderProductPresenter
     private lateinit var orderProduct: OrderProduct
@@ -25,6 +28,8 @@ class EditOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOr
 
     private var detailOrderProducts: MutableList<DetailOrderProduct> = mutableListOf()
     private lateinit var presenterD: DetailOrderProductPresenter
+
+    private lateinit var presenterI: OrderInvoicePresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,11 +40,15 @@ class EditOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOr
         presenter = OrderProductPresenter(this, Repository())
         presenterD = DetailOrderProductPresenter(this, Repository())
         presenterD.getDetailOrderProductByOrderId(idOrderProduct)
+        presenterI = OrderInvoicePresenter(this, Repository())
         btn_home.setOnClickListener {
             startActivity<OwnerActivity>()
         }
         btn_done.setOnClickListener {
             alertDialog()
+        }
+        btn_print.setOnClickListener {
+            presenterI.getOrderInvoice(idOrderProduct)
         }
     }
 
@@ -67,7 +76,7 @@ class EditOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOr
     }
 
     override fun showOrderProductLoading() {
-        btn_done.startAnimation()
+        btn_print.startAnimation()
     }
 
     override fun hideOrderProductLoading() {
@@ -79,7 +88,7 @@ class EditOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOr
     }
 
     override fun orderProductFailed(data: String) {
-        btn_done.revertAnimation()
+        btn_print.revertAnimation()
         CustomFun.failedSnackBar(container, baseContext, data)
     }
 
@@ -123,5 +132,57 @@ class EditOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOr
                 CustomFun.warningSnackBar(container, baseContext, "Process canceled..")
             }
             .show()
+    }
+
+    override fun showDownloadProgress() {
+        btn_print.startAnimation()
+        CustomFun.warningLongSnackBar(container, baseContext, "Creating invoice..")
+    }
+
+    override fun hideDownloadProgress() {
+    }
+
+    override fun orderInvoiceSuccess(data: ResponseBody?) {
+        btn_print.revertAnimation()
+        data?.let { writeToDisk(it) }
+    }
+
+    override fun orderInvoiceFailed(data: String) {
+        btn_print.revertAnimation()
+        CustomFun.failedSnackBar(container, baseContext, data)
+    }
+
+    //FUNCTION FOR WRITE TO DISK
+    private fun writeToDisk(responseBody: ResponseBody) : Boolean {
+        val id = orderProduct.id.toString()+"_order_invoice.pdf"
+        val file = File(getExternalFilesDir(null).toString() + File.separator.toString() + "Kouvee/" + id)
+
+        lateinit var inputStream: InputStream
+        lateinit var outputStream: OutputStream
+        try {
+            val fileReader = ByteArray(4096)
+            val fileSize: Long = responseBody.contentLength()
+            var fileSizeDownloaded: Long = 0
+            inputStream = responseBody.byteStream()
+            outputStream = FileOutputStream(file)
+
+            while (true){
+                val read = inputStream.read(fileReader)
+                if (read == -1){
+                    break
+                }
+                outputStream.write(fileReader, 0, read)
+                fileSizeDownloaded += read
+                Log.d("PDF ", " file download: $fileSizeDownloaded of $fileSize");
+            }
+            CustomFun.successSnackBar(container, baseContext, "Download invoice done..")
+            outputStream.flush()
+            return true
+        }catch (e: IOException){
+            return false
+        }finally {
+            inputStream.close()
+            outputStream.close()
+        }
     }
 }
