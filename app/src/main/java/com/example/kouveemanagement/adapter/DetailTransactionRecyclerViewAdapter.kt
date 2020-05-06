@@ -44,13 +44,16 @@ class DetailTransactionRecyclerViewAdapter(private val id: String,
 
         fun bindProduct(detailProductTransaction: DetailProductTransaction, listener: (DetailProductTransaction) -> Unit, products: MutableList<Product>){
             var unit = ""
+            var productPrice = ""
             for (product in products){
                 if (detailProductTransaction.id_product.equals(product.id)){
                     id.text = product.name
                     unit = product.unit.toString()
+                    productPrice = product.price.toString()
                 }
             }
-            quantity.text = detailProductTransaction.quantity.toString()+ " " + unit
+            productPrice = CustomFun.changeToRp(productPrice.toDouble())
+            quantity.text = detailProductTransaction.quantity.toString()+ " " + unit + " x " + productPrice
             val total = detailProductTransaction.subtotal_price.toString()
             subtotal.text = CustomFun.changeToRp(total.toDouble())
             containerView.setOnClickListener {
@@ -61,10 +64,12 @@ class DetailTransactionRecyclerViewAdapter(private val id: String,
         fun bindService(detailServiceTransaction: DetailServiceTransaction, listener: (DetailServiceTransaction) -> Unit, services: MutableList<Service>, petSizes: MutableList<PetSize>){
             var sizeFirst = "-1"
             var serviceFirst = ""
+            var servicePrice = ""
             for (service in services){
                 if (detailServiceTransaction.id_service.equals(service.id)){
                     serviceFirst = service.name.toString()
                     sizeFirst = service.id_size.toString()
+                    servicePrice = service.price.toString()
                 }
             }
             for (size in petSizes){
@@ -72,8 +77,9 @@ class DetailTransactionRecyclerViewAdapter(private val id: String,
                     sizeFirst = size.name.toString()
                 }
             }
+            servicePrice = CustomFun.changeToRp(servicePrice.toDouble())
             id.text = serviceFirst + " " + sizeFirst
-            quantity.text = detailServiceTransaction.quantity.toString()
+            quantity.text = detailServiceTransaction.quantity.toString() + " x " + servicePrice
             val total = detailServiceTransaction.subtotal_price.toString()
             subtotal.text = CustomFun.changeToRp(total.toDouble())
             containerView.setOnClickListener {

@@ -76,7 +76,7 @@ class TransactionRecyclerViewAdapter(private val type: String, private val custo
             }
             id.text = transaction.id
             val discountTotal = transaction.discount.toString()
-            discount.text = CustomFun.changeToRp(discountTotal.toDouble())
+            discount.text = "( " + CustomFun.changeToRp(discountTotal.toDouble()) + " )"
             val priceTotal = transaction.total_price.toString()
             totalPrice.text = CustomFun.changeToRp(priceTotal.toDouble())
             val paidOff = "Paid Off"

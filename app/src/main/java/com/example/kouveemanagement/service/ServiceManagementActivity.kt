@@ -41,6 +41,7 @@ class ServiceManagementActivity : AppCompatActivity(), ServiceView, PetSizeView 
     companion object {
         var namePetSize: MutableList<String> = arrayListOf()
         var idPetSize: MutableList<String> = arrayListOf()
+        var petSizes: MutableList<PetSize> = mutableListOf()
         var services: MutableList<Service> = mutableListOf()
     }
 
@@ -57,11 +58,11 @@ class ServiceManagementActivity : AppCompatActivity(), ServiceView, PetSizeView 
         btn_home.setOnClickListener{
             startActivity<OwnerActivity>()
         }
-        serviceAdapter = ServiceRecyclerViewAdapter(servicesList) {}
+        serviceAdapter = ServiceRecyclerViewAdapter(servicesList, petSizes) {}
         search_view.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 sort_switch.isChecked = false
-                recyclerview.adapter = ServiceRecyclerViewAdapter(services){
+                recyclerview.adapter = ServiceRecyclerViewAdapter(services, petSizes){
                     showDialog(it)
                 }
                 query?.let { serviceAdapter.filterService(it) }
@@ -69,7 +70,7 @@ class ServiceManagementActivity : AppCompatActivity(), ServiceView, PetSizeView 
             }
             override fun onQueryTextChange(newText: String?): Boolean {
                 sort_switch.isChecked = false
-                recyclerview.adapter = ServiceRecyclerViewAdapter(services){
+                recyclerview.adapter = ServiceRecyclerViewAdapter(services, petSizes){
                     showDialog(it)
                 }
                 newText?.let { serviceAdapter.filterService(it) }
@@ -110,15 +111,15 @@ class ServiceManagementActivity : AppCompatActivity(), ServiceView, PetSizeView 
     private fun getList(){
         if (temps.isNullOrEmpty()){
             CustomFun.warningSnackBar(container, baseContext, "Empty data")
-            recyclerview.adapter = ServiceRecyclerViewAdapter(temps as MutableList<Service>){}
+            recyclerview.adapter = ServiceRecyclerViewAdapter(temps as MutableList<Service>, petSizes){}
         }else{
             if(sort_switch.isChecked){
                 val sorted = temps.sortedBy { it.name }
-                recyclerview.adapter = ServiceRecyclerViewAdapter(sorted as MutableList<Service>){
+                recyclerview.adapter = ServiceRecyclerViewAdapter(sorted as MutableList<Service>, petSizes){
                     showDialog(it)
                 }
             }else{
-                recyclerview.adapter = ServiceRecyclerViewAdapter(temps as MutableList<Service>){
+                recyclerview.adapter = ServiceRecyclerViewAdapter(temps as MutableList<Service>, petSizes){
                     showDialog(it)
                 }
             }
@@ -144,7 +145,7 @@ class ServiceManagementActivity : AppCompatActivity(), ServiceView, PetSizeView 
             servicesTemp.addAll(temp)
             temps = servicesTemp
             recyclerview.layoutManager = LinearLayoutManager(this)
-            recyclerview.adapter = ServiceRecyclerViewAdapter(servicesList){
+            recyclerview.adapter = ServiceRecyclerViewAdapter(servicesList, petSizes){
                 showDialog(it)
             }
             CustomFun.successSnackBar(container, baseContext, "Ok, success")
@@ -208,8 +209,10 @@ class ServiceManagementActivity : AppCompatActivity(), ServiceView, PetSizeView 
         if (temp.isEmpty()){
             CustomFun.neutralSnackBar(container, baseContext, "Pet size empty")
         }else{
+            petSizes.clear()
             namePetSize.clear()
             idPetSize.clear()
+            petSizes.addAll(temp)
             for (i in temp.indices){
                 if (temp[i].deleted_at == null){
                     idPetSize.add(temp[i].id.toString())

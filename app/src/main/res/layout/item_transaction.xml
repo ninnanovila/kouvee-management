@@ -52,6 +52,7 @@
                 android:layout_weight="1"
                 android:textAlignment="textEnd"
                 android:layout_marginEnd="16dp"
+                android:textStyle="italic"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
         </LinearLayout>
@@ -63,6 +64,7 @@
             android:layout_marginStart="12dp"
             android:layout_marginEnd="16dp"
             android:textAlignment="textEnd"
+            android:textStyle="bold"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>
