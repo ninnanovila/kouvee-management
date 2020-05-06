@@ -140,9 +140,10 @@ class PetSizeManagementActivity : AppCompatActivity(), PetSizeView {
             }else{
                 petSizesList.addAll(temp)
                 petSizesTemp.addAll(temp)
-                temps = petSizesTemp
+                val filtered = petSizesTemp.filter { it.deleted_at === null }
+                temps = filtered as ArrayList<PetSize>
                 recyclerview.layoutManager = LinearLayoutManager(this)
-                recyclerview.adapter = PetRecyclerViewAdapter("size", mutableListOf(), {}, petSizesList, {
+                recyclerview.adapter = PetRecyclerViewAdapter("size", mutableListOf(), {}, temps, {
                     showPetSize(it)
                     Toast.makeText(this, "Size : "+it.name, Toast.LENGTH_LONG).show()
                 })

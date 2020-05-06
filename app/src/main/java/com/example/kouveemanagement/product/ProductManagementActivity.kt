@@ -146,8 +146,10 @@ class ProductManagementActivity : AppCompatActivity(), ProductView {
                 }
             }
             recreateRv()
+            val filtered = productsTemp.filter { it.deleted_at === null }
+            temps = filtered as ArrayList<Product>
             recyclerview.layoutManager = LinearLayoutManager(this)
-            recyclerview.adapter = ProductRecyclerViewAdapter(productsList) {
+            recyclerview.adapter = ProductRecyclerViewAdapter(temps) {
                 showDialog(it)
             }
             CustomFun.successSnackBar(container, baseContext, "Ok, success")

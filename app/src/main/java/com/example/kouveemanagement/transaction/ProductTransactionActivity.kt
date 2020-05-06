@@ -137,9 +137,10 @@ class ProductTransactionActivity : AppCompatActivity(), TransactionView, Custome
                 clearList()
                 transactionsList.addAll(temp)
                 transactionsTemp.addAll(temp)
-                temps = transactionsTemp
+                val filtered = transactionsTemp.filter { it.payment == "0" }
+                temps = filtered as ArrayList<Transaction>
                 recyclerview.layoutManager = LinearLayoutManager(this)
-                recyclerview.adapter = TransactionRecyclerViewAdapter("product", customersPet,transactionsList){
+                recyclerview.adapter = TransactionRecyclerViewAdapter("product", customersPet,temps){
                     transaction = it
                     showDialog(it, it.payment.toString())
                 }

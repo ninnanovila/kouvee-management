@@ -172,9 +172,10 @@ class CustomerPetManagementActivity : AppCompatActivity(), CustomerPetView, Cust
             clearList()
             customerPetsList.addAll(temp)
             customerPetsTemp.addAll(temp)
-            temps = customerPetsTemp
+            val filtered = customerPetsTemp.filter { it.deleted_at === null }
+            temps = filtered as ArrayList<CustomerPet>
             recyclerview.layoutManager = LinearLayoutManager(this)
-            recyclerview.adapter = CustomerPetRecyclerViewAdapter(customers, petTypes, customerPetsList){
+            recyclerview.adapter = CustomerPetRecyclerViewAdapter(customers, petTypes, temps){
                 showDialog(it)
             }
             CustomFun.successSnackBar(container, baseContext, "Ok, success")

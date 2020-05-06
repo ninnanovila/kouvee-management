@@ -56,7 +56,7 @@ class AddOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOrd
         idOrderProduct = orderProduct.id.toString()
         presenter = OrderProductPresenter(this, Repository())
         presenter.editTotalOrderProduct(orderProduct.id.toString())
-        detailAdapter = DetailOrderProductRecyclerViewAdapter(OrderProductActivity.products, detailOrderProducts){}
+        detailAdapter = DetailOrderProductRecyclerViewAdapter(OrderProductActivity.products, detailOrderProducts.asReversed()){}
         presenterD = DetailOrderProductPresenter(this, Repository())
         presenterD.getDetailOrderProductByOrderId(orderProduct.id.toString())
         presenterI = OrderInvoicePresenter(this, Repository())

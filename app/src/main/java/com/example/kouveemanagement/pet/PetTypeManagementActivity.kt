@@ -134,9 +134,10 @@ class PetTypeManagementActivity : AppCompatActivity(), PetTypeView {
             }else{
                 petTypesList.addAll(temp)
                 petTypesTemp.addAll(temp)
-                temps = petTypesTemp
+                val filtered = petTypesTemp.filter { it.deleted_at === null }
+                temps = filtered as ArrayList<PetType>
                 recyclerview.layoutManager = LinearLayoutManager(this)
-                recyclerview.adapter = PetRecyclerViewAdapter("type", petTypesList, {
+                recyclerview.adapter = PetRecyclerViewAdapter("type", temps, {
                     showPetType(it)
                     Toast.makeText(this, "Type : " + it.name, Toast.LENGTH_SHORT).show()
                 }, mutableListOf(),{})

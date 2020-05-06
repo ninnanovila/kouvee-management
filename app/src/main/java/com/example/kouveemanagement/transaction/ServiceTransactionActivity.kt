@@ -149,9 +149,10 @@ class  ServiceTransactionActivity : AppCompatActivity(), TransactionView, Custom
                 clearList()
                 transactionsList.addAll(temp)
                 transactionsTemp.addAll(temp)
-                temps = transactionsTemp
+                val filtered = transactionsTemp.filter { it.payment == "0" }
+                temps = filtered as ArrayList<Transaction>
                 recyclerview.layoutManager = LinearLayoutManager(this)
-                recyclerview.adapter = TransactionRecyclerViewAdapter("service", customersPet, transactionsList){
+                recyclerview.adapter = TransactionRecyclerViewAdapter("service", customersPet, temps){
                     transaction = it
                     showDialog(it, it.payment.toString())
                 }

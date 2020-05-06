@@ -135,10 +135,11 @@ class CustomerManagementActivity : AppCompatActivity(), CustomerView {
             clearList()
             customersList.addAll(temp)
             customersTemp.addAll(temp)
-            temps = customersTemp
+            val filtered = customersTemp.filter { it.deleted_at === null }
+            temps = filtered as ArrayList<Customer>
             recyclerview.apply {
                 layoutManager = LinearLayoutManager(this@CustomerManagementActivity)
-                customerAdapter = CustomerRecyclerViewAdapter(customersList) {
+                customerAdapter = CustomerRecyclerViewAdapter(temps) {
                     showDialog(it)
                 }
                 adapter = customerAdapter

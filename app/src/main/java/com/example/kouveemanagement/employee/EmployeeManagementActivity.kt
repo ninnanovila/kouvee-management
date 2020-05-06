@@ -132,9 +132,10 @@ class EmployeeManagementActivity : AppCompatActivity(), EmployeeView {
             clearList()
             employeesList.addAll(temp)
             employeesTemp.addAll(temp)
-            temps = employeesTemp
+            val filtered = employeesTemp.filter { it.deleted_at === null }
+            temps = filtered as ArrayList<Employee>
             recyclerview.layoutManager = LinearLayoutManager(this)
-            recyclerview.adapter = EmployeeRecyclerViewAdapter(employeesList){
+            recyclerview.adapter = EmployeeRecyclerViewAdapter(temps){
                 showDialog(it)
                 Toast.makeText(this, it.id, Toast.LENGTH_LONG).show()
             }

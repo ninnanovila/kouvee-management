@@ -133,9 +133,10 @@ class SupplierManagementActivity : AppCompatActivity(), SupplierView {
             clearList()
             suppliersList.addAll(temp)
             suppliersTemp.addAll(temp)
-            temps = suppliersTemp
+            val filtered = suppliersTemp.filter { it.deleted_at === null }
+            temps = filtered as ArrayList<Supplier>
             recyclerview.layoutManager = LinearLayoutManager(this)
-            recyclerview.adapter = SupplierRecyclerViewAdapter(suppliersList) {
+            recyclerview.adapter = SupplierRecyclerViewAdapter(temps) {
                 showDialog(it)
             }
             CustomFun.successSnackBar(container, baseContext, "Ok, success")

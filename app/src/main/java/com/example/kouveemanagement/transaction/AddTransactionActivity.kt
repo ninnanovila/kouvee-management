@@ -198,7 +198,7 @@ class AddTransactionActivity : AppCompatActivity(), TransactionView, DetailProdu
                 detailProducts.add(detail)
             }
             recyclerview.layoutManager = LinearLayoutManager(this)
-            recyclerview.adapter = DetailTransactionRecyclerViewAdapter("product", detailProducts, {
+            recyclerview.adapter = DetailTransactionRecyclerViewAdapter("product", detailProducts.asReversed(), {
                 val fragment = EditDetailProductTransactionFragment.newInstance(it)
                 val transaction = supportFragmentManager.beginTransaction()
                 transaction.replace(R.id.container, fragment).commit()
@@ -231,7 +231,7 @@ class AddTransactionActivity : AppCompatActivity(), TransactionView, DetailProdu
                 }
             }
             recyclerview.layoutManager = LinearLayoutManager(this)
-            recyclerview.adapter = DetailTransactionRecyclerViewAdapter("service", mutableListOf(), {}, mutableListOf(), detailServices, {
+            recyclerview.adapter = DetailTransactionRecyclerViewAdapter("service", mutableListOf(), {}, mutableListOf(), detailServices.asReversed(), {
                 val fragment = EditDetailServiceTransactionFragment.newInstance(it)
                 val transaction = supportFragmentManager.beginTransaction()
                 transaction.replace(R.id.container, fragment).commit()

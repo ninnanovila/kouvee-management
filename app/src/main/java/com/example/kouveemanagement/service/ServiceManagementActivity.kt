@@ -143,9 +143,10 @@ class ServiceManagementActivity : AppCompatActivity(), ServiceView, PetSizeView 
             clearList()
             servicesList.addAll(temp)
             servicesTemp.addAll(temp)
-            temps = servicesTemp
+            val filtered = servicesTemp.filter { it.deleted_at === null }
+            temps = filtered as ArrayList<Service>
             recyclerview.layoutManager = LinearLayoutManager(this)
-            recyclerview.adapter = ServiceRecyclerViewAdapter(servicesList, petSizes){
+            recyclerview.adapter = ServiceRecyclerViewAdapter(temps, petSizes){
                 showDialog(it)
             }
             CustomFun.successSnackBar(container, baseContext, "Ok, success")
