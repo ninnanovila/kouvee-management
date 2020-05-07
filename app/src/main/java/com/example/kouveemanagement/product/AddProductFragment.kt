@@ -41,6 +41,7 @@ class AddProductFragment : Fragment(), ProductView, UploadPhotoProductView {
 
     private lateinit var imagePresenter: UploadImagePresenter
     private var withPhoto = "0"
+    private var id = "-1"
 
     companion object {
         fun newInstance() = AddProductFragment()
@@ -55,16 +56,9 @@ class AddProductFragment : Fragment(), ProductView, UploadPhotoProductView {
         imagePresenter = UploadImagePresenter(this, Repository())
         btn_add.setOnClickListener {
             if (isValid()){
-                if (withPhoto == "0"){
-                    getData()
-                    presenter = ProductPresenter(this, Repository())
-                    presenter.addProduct(product)
-                }else if (withPhoto == "1"){
-                    getData()
-                    presenter = ProductPresenter(this, Repository())
-                    presenter.addProduct(product)
-                    multipartImageUpload()
-                }
+                getData()
+                presenter = ProductPresenter(this, Repository())
+                presenter.addProduct(product)
             }
         }
         btn_close.setOnClickListener {
@@ -116,6 +110,12 @@ class AddProductFragment : Fragment(), ProductView, UploadPhotoProductView {
     }
 
     override fun productSuccess(data: ProductResponse?) {
+        if (withPhoto == "0"){
+            startActivity<ProductManagementActivity>()
+        }else if (withPhoto == "1"){
+            id = data?.products?.get(0)?.id.toString()
+            multipartImageUpload()
+        }
     }
 
     override fun productFailed(data: String) {
@@ -254,7 +254,7 @@ class AddProductFragment : Fragment(), ProductView, UploadPhotoProductView {
             fos.flush()
             fos.close()
             val body: MultipartBody.Part = createFormData("photo", file.name, file.asRequestBody("image/*".toMediaTypeOrNull()))
-            imagePresenter.uploadPhotoProduct(product.id.toString(), body)
+            imagePresenter.uploadPhotoProduct(id, body)
         } catch (e: FileNotFoundException) {
             e.printStackTrace()
         } catch (e: IOException) {
