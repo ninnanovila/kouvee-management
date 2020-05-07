@@ -157,7 +157,6 @@ class  ServiceTransactionActivity : AppCompatActivity(), TransactionView, Custom
                     showDialog(it, it.payment.toString())
                 }
                 CustomFun.successSnackBar(container, baseContext, "Ok, success")
-
             }
         }else{
             transaction = data?.transactions?.get(0)!!

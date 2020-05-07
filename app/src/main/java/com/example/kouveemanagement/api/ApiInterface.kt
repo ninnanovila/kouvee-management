@@ -158,8 +158,8 @@ interface ApiInterface {
     @PUT("customer_pet/{id}")
     fun editCustomerPet(@Path("id")id: String, @Body customerPet: CustomerPet): Call<CustomerPetResponse>
 
-    @DELETE("customer_pet/{id}")
-    fun deleteCustomerPet(@Path("id")id: String): Call<CustomerPetResponse>
+    @DELETE("customer_pet/{id}/{last_emp}")
+    fun deleteCustomerPet(@Path("id")id: String, @Path("last_emp")last_Emp: String): Call<CustomerPetResponse>
 
 //  ORDER PRODUCT
     @GET("order_product")

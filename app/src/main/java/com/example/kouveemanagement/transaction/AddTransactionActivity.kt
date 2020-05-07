@@ -112,22 +112,13 @@ class AddTransactionActivity : AppCompatActivity(), TransactionView, DetailProdu
                 detailProductPresenter.getDetailProductTransactionByIdTransaction(idTransaction)
             }
         }
+        btn_log.setOnClickListener {
+            showLog(transaction)
+        }
         CustomFun.setSwipe(swipe_rv)
     }
 
     private fun setData(){
-        created_at.text = transaction.created_at
-        if (transaction.updated_at == null){
-            updated_at.text = "-"
-        }else{
-            updated_at.text = transaction.updated_at
-        }
-        if (transaction.last_cr == null){
-            last_cr.text = "-"
-        }else{
-            last_cr.text = transaction.last_cr
-        }
-        last_cs.text = transaction.last_cs
         id.text = transaction.id
         petId = transaction.id_customer_pet.toString()
         id_customer_pet.text = petName(transaction.id_customer_pet.toString())
@@ -376,6 +367,38 @@ class AddTransactionActivity : AppCompatActivity(), TransactionView, DetailProdu
             startActivity<ProductTransactionActivity>()
         }else if (type == "service"){
             startActivity<ServiceTransactionActivity>()
+        }
+    }
+
+    private fun showLog(input: Transaction){
+        val dialog = LayoutInflater.from(this).inflate(R.layout.dialog_show_log_transaction, null)
+
+        val createdAt = dialog.findViewById<TextView>(R.id.created_at)
+        val updatedAt = dialog.findViewById<TextView>(R.id.updated_at)
+        val lastCs = dialog.findViewById<TextView>(R.id.last_cs)
+        val lastCr = dialog.findViewById<TextView>(R.id.last_cashier)
+        val btnClose = dialog.findViewById<ImageButton>(R.id.btn_close)
+
+        createdAt.text = input.created_at
+        if (input.updated_at == null){
+            updatedAt.text = "-"
+        }else{
+            updatedAt.text = input.updated_at
+        }
+        if (input.last_cr == null){
+            lastCr.text = "-"
+        }else{
+            lastCr.text = input.last_cr
+        }
+        lastCs.text = input.last_cs
+
+        val infoDialog = AlertDialog.Builder(this)
+            .setView(dialog)
+            .setCancelable(false)
+            .show()
+
+        btnClose.setOnClickListener{
+            infoDialog.dismiss()
         }
     }
 }

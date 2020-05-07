@@ -175,10 +175,17 @@ class Repository {
                 call: Call<EmployeeResponse?>,
                 response: Response<EmployeeResponse?>
             ) {
-                if (response.isSuccessful){
-                    callback.employeeSuccess(response.body())
-                }else if (response.code() == 404){
-                    callback.employeeFailed("Employee not found..")
+                when {
+                    response.isSuccessful -> {
+                        callback.employeeSuccess(response.body())
+                    }
+                    response.code() == 404 -> {
+                        callback.employeeFailed("Employee not found..")
+                    }
+                    response.code() == 406 -> {
+                        callback.employeeFailed("Delete failed, has been used..")
+                    }
+                    else -> callback.employeeFailed("Else..")
                 }
             }
         })
@@ -287,6 +294,9 @@ class Repository {
                     response.code() == 404 -> {
                         callback.customerFailed("Data not found..")
                     }
+                    response.code() == 406 -> {
+                        callback.customerFailed("Delete failed, has been used..")
+                    }
                     else -> callback.customerFailed("Else ...")
                 }
             }
@@ -382,10 +392,17 @@ class Repository {
                 call: Call<ServiceResponse?>,
                 response: Response<ServiceResponse?>
             ) {
-                if (response.isSuccessful){
-                    callback.serviceSuccess(response.body())
-                }else if (response.code() == 404){
-                    callback.serviceFailed("Data not found..")
+                when {
+                    response.isSuccessful -> {
+                        callback.serviceSuccess(response.body())
+                    }
+                    response.code() == 404 -> {
+                        callback.serviceFailed("Data not found..")
+                    }
+                    response.code() == 406 -> {
+                        callback.serviceFailed("Delete failed, has been used..")
+                    }
+                    else -> callback.serviceFailed("Else..")
                 }
             }
         })
@@ -497,7 +514,7 @@ class Repository {
                         callback.supplierSuccess(response.body())
                     }
                     response.code() == 406 -> {
-                        callback.supplierFailed("Check constraint..")
+                        callback.supplierFailed("Delete failed, has been used..")
                     }
                     response.code() == 404 -> {
                         callback.supplierFailed("Data not found..")
@@ -623,7 +640,7 @@ class Repository {
                         callback.productFailed("Data not found..")
                     }
                     response.code() == 406 -> {
-                        callback.productFailed("Check constraint..")
+                        callback.productFailed("Delete failed, has been used..")
                     }
                     response.code() == 500 -> {
                         callback.productFailed("Delete error..")
@@ -774,7 +791,7 @@ class Repository {
                         callback.petSizeFailed("Data not found..")
                     }
                     response.code() == 406 -> {
-                        callback.petSizeFailed("Check constraint..")
+                        callback.petSizeFailed("Delete failed, has been used..")
                     }
                     response.code() == 500 -> {
                         callback.petSizeFailed("Delete error..")
@@ -900,7 +917,7 @@ class Repository {
                         callback.petTypeFailed("Delete error..")
                     }
                     response.code() == 403 -> {
-                        callback.petTypeFailed("Check constraint..")
+                        callback.petTypeFailed("Delete failed, has been used..")
                     }
                     response.code() == 404 -> {
                         callback.petTypeFailed("Data not found..")
@@ -1230,8 +1247,8 @@ class Repository {
         })
     }
 
-    fun deleteCustomerPet(id: String, callback: CustomerPetRepositoryCallback<CustomerPetResponse>){
-        ApiClient().services.deleteCustomerPet(id).enqueue(object : Callback<CustomerPetResponse?> {
+    fun deleteCustomerPet(id: String, last_emp: String, callback: CustomerPetRepositoryCallback<CustomerPetResponse>){
+        ApiClient().services.deleteCustomerPet(id, last_emp).enqueue(object : Callback<CustomerPetResponse?> {
             override fun onFailure(call: Call<CustomerPetResponse?>, t: Throwable) {
                 callback.customerPetFailed(t.message.toString())
             }
@@ -1251,7 +1268,7 @@ class Repository {
                         callback.customerPetFailed("Delete error..")
                     }
                     response.code() == 406 -> {
-                        callback.customerPetFailed("Check constraint..")
+                        callback.customerPetFailed("Delete failed, has been used..")
                     }
                     else -> callback.customerPetFailed("Else..")
                 }
@@ -1660,7 +1677,6 @@ class Repository {
     }
 
     fun downloadOrderInvoice(id: String, callback: OrderInvoiceRepositoryCallback<ResponseBody>) {
-        val baseUrl = "https://gregpetshop.berusahapastibisakok.tech/api/order_invoice/$id"
 
         ApiClient().services.getInvoiceOrderProduct(id).enqueue(object : Callback<ResponseBody?>{
             override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {

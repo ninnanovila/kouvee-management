@@ -134,9 +134,10 @@ class OrderProductActivity : AppCompatActivity(), OrderProductView, SupplierView
                 clearList()
                 orderProductsList.addAll(temp)
                 orderProductsTemp.addAll(temp)
-                temps = orderProductsTemp
+                val filtered = orderProductsTemp.filter { it.status == "Pending" }
+                temps = filtered as ArrayList<OrderProduct>
                 recyclerview.layoutManager = LinearLayoutManager(this)
-                recyclerview.adapter = OrderProductRecyclerViewAdapter(suppliers,orderProductsList){
+                recyclerview.adapter = OrderProductRecyclerViewAdapter(suppliers,temps){
                     showDetail(it)
                     Toast.makeText(this, "Order Number : "+it.id, Toast.LENGTH_LONG).show()
                 }

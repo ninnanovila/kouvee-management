@@ -53,47 +53,6 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-                android:hint="@string/created_at"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:startIconDrawable="@drawable/ic_calendar">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/created_at"
-                    android:enabled="false"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-                android:hint="@string/updated_at"
-                android:layout_marginTop="8dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:startIconDrawable="@drawable/ic_edit">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/updated_at"
-                    android:enabled="false"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-                android:hint="@string/deleted_at"
-                android:layout_marginTop="8dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:startIconDrawable="@drawable/ic_close">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/deleted_at"
-                    android:enabled="false"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
                 android:hint="@string/name"
                 android:layout_marginTop="8dp"
                 android:layout_width="match_parent"
@@ -171,6 +130,46 @@
                     tools:ignore="LabelFor" />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                android:hint="@string/created_at"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:startIconDrawable="@drawable/ic_calendar">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/created_at"
+                    android:enabled="false"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                android:hint="@string/updated_at"
+                android:layout_marginTop="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:startIconDrawable="@drawable/ic_edit">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/updated_at"
+                    android:enabled="false"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                android:hint="@string/deleted_at"
+                android:layout_marginTop="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:startIconDrawable="@drawable/ic_close">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/deleted_at"
+                    android:enabled="false"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout
                 android:orientation="horizontal"

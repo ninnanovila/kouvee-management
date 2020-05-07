@@ -827,9 +827,9 @@ class CustomerPetPresenter(private val view: CustomerPetView, private val reposi
         })
     }
 
-    fun deleteCustomerPet(id: String){
+    fun deleteCustomerPet(id: String, last_emp: String){
         view.showCustomerPetLoading()
-        repository.deleteCustomerPet(id, object : CustomerPetRepositoryCallback<CustomerPetResponse>{
+        repository.deleteCustomerPet(id,last_emp, object : CustomerPetRepositoryCallback<CustomerPetResponse>{
             override fun customerPetSuccess(data: CustomerPetResponse?) {
                 view.customerPetSuccess(data)
                 view.hideCustomerPetLoading()

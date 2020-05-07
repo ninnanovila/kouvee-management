@@ -84,6 +84,9 @@ class AddOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOrd
         swipe_rv.setOnRefreshListener {
             presenterD.getDetailOrderProductByOrderId(orderProduct.id.toString())
         }
+        btn_log.setOnClickListener {
+            showLog(orderProduct)
+        }
         CustomFun.setSwipe(swipe_rv)
     }
 
@@ -97,17 +100,6 @@ class AddOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOrd
         }
         val totalInput = input.total.toString()
         total.text = CustomFun.changeToRp(totalInput.toDouble())
-        created_at.text = input.created_at.toString()
-        if (input.updated_at == null){
-            updated_at.text = "-"
-        }else{
-            updated_at.text = input.updated_at.toString()
-        }
-        if (input.printed_at == null){
-            printed_at.text = "-"
-        }else{
-            printed_at.text = input.printed_at.toString()
-        }
     }
 
     override fun showOrderProductLoading() {
@@ -304,6 +296,36 @@ class AddOrderProductActivity : AppCompatActivity(), OrderProductView, DetailOrd
         }finally {
             inputStream.close()
             outputStream.close()
+        }
+    }
+
+    private fun showLog(input: OrderProduct){
+        val dialog = LayoutInflater.from(this).inflate(R.layout.dialog_show_log_order, null)
+
+        val createdAt = dialog.findViewById<TextView>(R.id.created_at)
+        val updatedAt = dialog.findViewById<TextView>(R.id.updated_at)
+        val printedAt = dialog.findViewById<TextView>(R.id.printed_at)
+        val btnClose = dialog.findViewById<ImageButton>(R.id.btn_close)
+
+        createdAt.text = input.created_at.toString()
+        if (input.updated_at == null){
+            updatedAt.text = "-"
+        }else{
+            updatedAt.text = input.updated_at.toString()
+        }
+        if (input.printed_at == null){
+            printedAt.text = "-"
+        }else{
+            printedAt.text = input.printed_at.toString()
+        }
+
+        val infoDialog = AlertDialog.Builder(this)
+            .setView(dialog)
+            .setCancelable(false)
+            .show()
+
+        btnClose.setOnClickListener{
+            infoDialog.dismiss()
         }
     }
 

@@ -34,6 +34,21 @@
 
     <com.google.android.material.textfield.TextInputLayout
         style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+        android:hint="@string/name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="8dp"
+        app:startIconDrawable="@drawable/ic_label">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/name"
+            android:enabled="false"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
         android:hint="@string/created_at"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -77,20 +92,6 @@
             android:layout_height="wrap_content"/>
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-        android:hint="@string/name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginBottom="8dp"
-        app:startIconDrawable="@drawable/ic_label">
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/name"
-            android:enabled="false"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    </com.google.android.material.textfield.TextInputLayout>
 
     <LinearLayout
         android:orientation="horizontal"

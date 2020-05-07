@@ -51,6 +51,51 @@
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            android:hint="@string/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:startIconDrawable="@drawable/ic_account"
+            app:errorEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/name"
+                android:inputType="text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            android:hint="@string/address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:startIconDrawable="@drawable/ic_location"
+            app:errorEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/address"
+                android:inputType="text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            android:hint="@string/phone_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:startIconDrawable="@drawable/ic_call"
+            app:errorEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/phone_number"
+                android:inputType="phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
             android:hint="@string/created_at"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -90,53 +135,6 @@
                 android:layout_height="wrap_content"/>
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-            android:hint="@string/name"
-            android:layout_marginTop="8dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:startIconDrawable="@drawable/ic_account"
-            app:errorEnabled="true">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/name"
-                android:inputType="text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-            android:hint="@string/address"
-            android:layout_marginTop="8dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:startIconDrawable="@drawable/ic_location"
-            app:errorEnabled="true">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/address"
-                android:inputType="text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-            android:hint="@string/phone_number"
-            android:layout_marginTop="8dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:startIconDrawable="@drawable/ic_call"
-            app:errorEnabled="true">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/phone_number"
-                android:inputType="phone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
             android:orientation="horizontal"

@@ -51,7 +51,53 @@
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            android:hint="@string/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:startIconDrawable="@drawable/ic_account"
+            app:errorEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/name"
+                android:inputType="text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            android:hint="@string/price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:startIconDrawable="@drawable/ic_wallet"
+            app:errorEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/price"
+                android:inputType="numberDecimal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/pet_size"
+            app:startIconDrawable="@drawable/ic_account">
+
+            <AutoCompleteTextView
+                android:id="@+id/size_dropdown"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:ignore="LabelFor"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
             android:hint="@string/created_at"
+            android:layout_marginTop="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:startIconDrawable="@drawable/ic_calendar">
@@ -90,53 +136,6 @@
                 android:layout_height="wrap_content"/>
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-            android:hint="@string/name"
-            android:layout_marginTop="8dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:startIconDrawable="@drawable/ic_account"
-            app:errorEnabled="true">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/name"
-                android:inputType="text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-            android:hint="@string/price"
-            android:layout_marginTop="8dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:startIconDrawable="@drawable/ic_wallet"
-            app:errorEnabled="true">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/price"
-                android:inputType="numberDecimal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
-            android:layout_marginTop="16dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/pet_size"
-            app:startIconDrawable="@drawable/ic_account">
-
-            <AutoCompleteTextView
-                android:id="@+id/size_dropdown"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:ignore="LabelFor"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
             android:orientation="horizontal"

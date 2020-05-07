@@ -48,7 +48,7 @@ class EditCustomerPetActivity : AppCompatActivity(), CustomerPetView {
             }
         }
         btn_cancel.setOnClickListener {
-            presenter.deleteCustomerPet(id)
+            presenter.deleteCustomerPet(id, lastEmp)
         }
         btn_home.setOnClickListener {
             startActivity<CustomerServiceActivity>()

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_margin="32dp"
@@ -12,7 +13,7 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.textview.MaterialTextView
-            android:text="@string/detail_customer_s_pet"
+            android:text="@string/transaction_log"
             android:layout_margin="16dp"
             android:layout_weight="1"
             android:layout_width="0dp"
@@ -30,36 +31,6 @@
             android:contentDescription="@string/content_desc"/>
 
     </LinearLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-        android:hint="@string/name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginBottom="8dp"
-        app:startIconDrawable="@drawable/ic_label">
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/name"
-            android:enabled="false"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-        android:hint="@string/birthdate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginBottom="8dp"
-        app:startIconDrawable="@drawable/ic_cake">
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/birthdate"
-            android:enabled="false"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
@@ -93,14 +64,14 @@
 
     <com.google.android.material.textfield.TextInputLayout
         style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-        android:hint="@string/deleted_at"
+        android:hint="@string/last_cs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginBottom="8dp"
-        app:startIconDrawable="@drawable/ic_close">
+        app:startIconDrawable="@drawable/ic_account">
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/deleted_at"
+            android:id="@+id/last_cs"
             android:enabled="false"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
@@ -108,26 +79,17 @@
 
     <com.google.android.material.textfield.TextInputLayout
         style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-        android:hint="@string/last_employee"
+        android:hint="@string/last_cashier"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
-        android:layout_marginBottom="8dp"
-        app:startIconDrawable="@drawable/ic_label">
+        android:layout_marginBottom="16dp"
+        app:startIconDrawable="@drawable/ic_account">
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/last_emp"
+            android:id="@+id/last_cashier"
             android:enabled="false"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </com.google.android.material.textfield.TextInputLayout>
-
-
-    <Button
-        style="@style/Widget.MaterialComponents.Button.TextButton"
-        android:id="@+id/btn_edit"
-        android:text="@string/edit"
-        android:layout_gravity="end"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
 
 </LinearLayout>
