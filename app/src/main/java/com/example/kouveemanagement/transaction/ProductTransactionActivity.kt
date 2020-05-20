@@ -49,6 +49,7 @@ class ProductTransactionActivity : AppCompatActivity(), TransactionView, Custome
         var productName: MutableList<String> = arrayListOf()
         var productId: MutableList<String> = arrayListOf()
         var products: MutableList<Product> = arrayListOf()
+        var enProducts: MutableList<Product> = arrayListOf()
         var transactions: MutableList<Transaction> = mutableListOf()
         var customers: MutableList<Customer> = mutableListOf()
     }
@@ -206,10 +207,11 @@ class ProductTransactionActivity : AppCompatActivity(), TransactionView, Custome
         }else{
             clearProduct()
             products.addAll(temp)
-            for (i in temp.indices){
-                if (temp[i].deleted_at == null){
-                    productName.add(temp[i].name.toString())
-                    productId.add(temp[i].id.toString())
+            for (thisProduct in temp){
+                if (thisProduct.deleted_at == null){
+                    productName.add(thisProduct.name.toString())
+                    productId.add(thisProduct.id.toString())
+                    enProducts.add(thisProduct)
                 }
             }
         }
@@ -223,6 +225,7 @@ class ProductTransactionActivity : AppCompatActivity(), TransactionView, Custome
         products.clear()
         productName.clear()
         productId.clear()
+        enProducts.clear()
     }
 
     override fun showCustomerLoading() {

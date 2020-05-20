@@ -11,6 +11,8 @@ import com.example.kouveemanagement.CustomFun
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.model.Product
 import com.example.kouveemanagement.product.ProductManagementActivity
+import com.example.kouveemanagement.transaction.AddDetailProductTransactionFragment
+import com.example.kouveemanagement.transaction.ProductTransactionActivity
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import kotlinx.android.extensions.LayoutContainer
@@ -43,6 +45,22 @@ class ProductRecyclerViewAdapter (private val products : MutableList<Product>, p
             while (i < products.size){
                 if (products[i].name?.toLowerCase(Locale.getDefault())?.contains(input)!!){
                     ProductManagementActivity.products.add(products[i])
+                }
+                i++
+            }
+        }
+        notifyDataSetChanged()
+    }
+
+    fun filterForTransaction(input: String){
+        AddDetailProductTransactionFragment.products.clear()
+        if (input.isEmpty()){
+            AddDetailProductTransactionFragment.products.addAll(products)
+        }else{
+            var i = 0
+            while (i < products.size){
+                if (products[i].name?.toLowerCase(Locale.getDefault())?.contains(input)!!){
+                    AddDetailProductTransactionFragment.products.add(products[i])
                 }
                 i++
             }

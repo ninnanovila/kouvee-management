@@ -11,6 +11,7 @@ import com.example.kouveemanagement.CustomFun
 import com.example.kouveemanagement.R
 import com.example.kouveemanagement.model.DetailServiceTransaction
 import com.example.kouveemanagement.model.DetailServiceTransactionResponse
+import com.example.kouveemanagement.model.Service
 import com.example.kouveemanagement.presenter.DetailServiceTransactionPresenter
 import com.example.kouveemanagement.presenter.DetailServiceTransactionView
 import com.example.kouveemanagement.repository.Repository
@@ -33,6 +34,7 @@ class AddDetailServiceTransactionFragment : Fragment(), DetailServiceTransaction
 
     companion object{
         fun newInstance() = AddDetailServiceTransactionFragment()
+        var services: MutableList<Service> = mutableListOf()
     }
 
     override fun onCreateView(

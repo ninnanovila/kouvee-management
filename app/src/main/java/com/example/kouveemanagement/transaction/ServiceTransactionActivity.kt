@@ -51,6 +51,7 @@ class  ServiceTransactionActivity : AppCompatActivity(), TransactionView, Custom
         var customersPet: MutableList<CustomerPet> = arrayListOf()
         var serviceName: MutableList<String> = arrayListOf()
         var serviceId: MutableList<String> = arrayListOf()
+        var enService: MutableList<Service> = arrayListOf()
         var services: MutableList<Service> = arrayListOf()
         var transactions: MutableList<Transaction> = mutableListOf()
         var customers: MutableList<Customer> = mutableListOf()
@@ -218,6 +219,7 @@ class  ServiceTransactionActivity : AppCompatActivity(), TransactionView, Custom
             services.addAll(temp)
             for (service in temp){
                 if (service.deleted_at == null){
+                    enService.add(service)
                     serviceName.add(service.name.toString())
                     serviceId.add(service.id.toString())
                 }
@@ -230,6 +232,7 @@ class  ServiceTransactionActivity : AppCompatActivity(), TransactionView, Custom
     }
 
     private fun clearService(){
+        enService.clear()
         services.clear()
         serviceName.clear()
         serviceId.clear()

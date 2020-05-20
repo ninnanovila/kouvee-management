@@ -127,7 +127,11 @@ class AddTransactionActivity : AppCompatActivity(), TransactionView, DetailProdu
         }else{
             status.text = "-"
         }
-        discount.text = CustomFun.changeToRp(transaction.discount.toString().toDouble())
+        if (transaction.discount.isNullOrEmpty()){
+            discount.text = CustomFun.changeToRp(0.0)
+        }else{
+            discount.text = CustomFun.changeToRp(transaction.discount.toString().toDouble())
+        }
         total_price.text = CustomFun.changeToRp(transaction.total_price.toString().toDouble())
         if (transaction.payment == "0"){
             payment.text = getString(R.string.not_yet_paid_off)

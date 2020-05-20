@@ -2,8 +2,12 @@ package com.example.kouveemanagement.transaction
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.widget.ImageButton
+import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kouveemanagement.CustomFun
 import com.example.kouveemanagement.CustomerServiceActivity
@@ -48,21 +52,12 @@ class ShowTransactionActivity : AppCompatActivity(), TransactionView, DetailProd
         btn_home.setOnClickListener{
             startActivity<CustomerServiceActivity>()
         }
+        btn_log.setOnClickListener {
+            showLog(transaction)
+        }
     }
 
     private fun setData(input: String){
-        created_at.text = transaction.created_at
-        if (transaction.updated_at == null){
-            updated_at.text = "-"
-        }else{
-            updated_at.text = transaction.updated_at
-        }
-        if (transaction.last_cr == null){
-            last_cr.text = "-"
-        }else{
-            last_cr.text = transaction.last_cr
-        }
-        last_cs.text = transaction.last_cs
         id.text = transaction.id
         id_customer_pet.text = petName(transaction.id_customer_pet.toString())
         if (input == "service"){
@@ -70,12 +65,48 @@ class ShowTransactionActivity : AppCompatActivity(), TransactionView, DetailProd
         }else{
             status.text = "-"
         }
-        discount.text = CustomFun.changeToRp(transaction.discount.toString().toDouble())
+        if (transaction.discount.isNullOrEmpty()){
+            discount.text = CustomFun.changeToRp(0.0)
+        }else{
+            discount.text = CustomFun.changeToRp(transaction.discount.toString().toDouble())
+        }
         total_price.text = CustomFun.changeToRp(transaction.total_price.toString().toDouble())
         if (transaction.payment == "0"){
             payment.text = getString(R.string.not_yet_paid_off)
         }else{
             payment.text = getString(R.string.paid_off)
+        }
+    }
+
+    private fun showLog(input: Transaction){
+        val dialog = LayoutInflater.from(this).inflate(R.layout.dialog_show_log_transaction, null)
+
+        val createdAt = dialog.findViewById<TextView>(R.id.created_at)
+        val updatedAt = dialog.findViewById<TextView>(R.id.updated_at)
+        val lastCs = dialog.findViewById<TextView>(R.id.last_cs)
+        val lastCr = dialog.findViewById<TextView>(R.id.last_cashier)
+        val btnClose = dialog.findViewById<ImageButton>(R.id.btn_close)
+
+        createdAt.text = input.created_at
+        if (input.updated_at == null){
+            updatedAt.text = "-"
+        }else{
+            updatedAt.text = input.updated_at
+        }
+        if (input.last_cr == null){
+            lastCr.text = "-"
+        }else{
+            lastCr.text = input.last_cr
+        }
+        lastCs.text = input.last_cs
+
+        val infoDialog = AlertDialog.Builder(this)
+            .setView(dialog)
+            .setCancelable(false)
+            .show()
+
+        btnClose.setOnClickListener{
+            infoDialog.dismiss()
         }
     }
 
