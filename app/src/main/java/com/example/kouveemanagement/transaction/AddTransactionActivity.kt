@@ -313,18 +313,6 @@ class AddTransactionActivity : AppCompatActivity(), TransactionView, DetailProdu
             id = ServiceTransactionActivity.customerPetId
         }
 
-//        val temp: MutableList<String> = mutableListOf()
-//        for(i in id.indices){
-//
-//            if (i == transaction.id_customer_pet?.toInt()){
-//                if (type == "product"){
-//                    temp.add(i, name[i])
-//                }else if (type == "service"){
-//                    temp.add(i, name[i])
-//                }
-//            }
-//        }
-
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, name)
         val dropdown = dialog.findViewById<AutoCompleteTextView>(R.id.dropdown)
         val btnAdd = dialog.findViewById<Button>(R.id.btn_add)
