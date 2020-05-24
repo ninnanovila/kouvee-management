@@ -50,7 +50,7 @@ class AddDetailProductTransactionFragment : Fragment(), DetailProductTransaction
         idTransaction = AddTransactionActivity.idTransaction
         idProduct = "-1"
         btn_close.setOnClickListener {
-            activity?.supportFragmentManager?.beginTransaction()?.remove(this)?.commit()
+            startActivity<AddTransactionActivity>("type" to "product")
         }
         show_detail.setOnClickListener {
             startActivity<AddTransactionActivity>("type" to "product")

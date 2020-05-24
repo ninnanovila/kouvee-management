@@ -2,6 +2,7 @@ package com.example.kouveemanagement.transaction
 
 import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
@@ -303,17 +304,32 @@ class AddTransactionActivity : AppCompatActivity(), TransactionView, DetailProdu
         dialog = LayoutInflater.from(this).inflate(R.layout.item_choose_pet, null)
         var name: MutableList<String> = mutableListOf()
         var id: MutableList<String> = mutableListOf()
-        if (type == "prduct"){
+        Toast.makeText(this, "Type : $type", Toast.LENGTH_LONG).show()
+        if (type == "product"){
             name = ProductTransactionActivity.customerPetName
             id = ProductTransactionActivity.customerPetId
         }else if (type == "service"){
             name = ServiceTransactionActivity.customerPetName
             id = ServiceTransactionActivity.customerPetId
         }
+
+//        val temp: MutableList<String> = mutableListOf()
+//        for(i in id.indices){
+//
+//            if (i == transaction.id_customer_pet?.toInt()){
+//                if (type == "product"){
+//                    temp.add(i, name[i])
+//                }else if (type == "service"){
+//                    temp.add(i, name[i])
+//                }
+//            }
+//        }
+
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, name)
         val dropdown = dialog.findViewById<AutoCompleteTextView>(R.id.dropdown)
         val btnAdd = dialog.findViewById<Button>(R.id.btn_add)
         val btnClose = dialog.findViewById<ImageButton>(R.id.btn_close)
+        dropdown.setText(petName(transaction.id_customer_pet.toString()))
         dropdown.setAdapter(adapter)
         dropdown.setOnItemClickListener { _, _, position, _ ->
             petId = id[position]

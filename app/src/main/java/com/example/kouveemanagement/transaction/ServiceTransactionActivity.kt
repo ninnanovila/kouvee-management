@@ -187,10 +187,13 @@ class  ServiceTransactionActivity : AppCompatActivity(), TransactionView, Custom
         }else{
             clearPet()
             customersPet.addAll(temp)
-            for (i in temp.indices){
-                customerPetName.add(i, temp[i].name.toString())
-                customerPetId.add(i, temp[i].id.toString())
+            for (i in temp){
+                if (i.deleted_at ==  null){
+                    customerPetName.add(i.name.toString())
+                    customerPetId.add(i.id.toString())
+                }
             }
+            Toast.makeText(this, "Pet done.", Toast.LENGTH_SHORT).show()
         }
     }
 

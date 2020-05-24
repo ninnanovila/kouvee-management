@@ -181,6 +181,7 @@ class ProductTransactionActivity : AppCompatActivity(), TransactionView, Custome
                     customerPetId.add(pet.id.toString())
                 }
             }
+            Toast.makeText(this, "Pet done.", Toast.LENGTH_SHORT).show()
         }
     }
 
