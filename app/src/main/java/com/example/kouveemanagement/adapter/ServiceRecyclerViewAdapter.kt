@@ -10,6 +10,7 @@ import com.example.kouveemanagement.R
 import com.example.kouveemanagement.model.PetSize
 import com.example.kouveemanagement.model.Service
 import com.example.kouveemanagement.service.ServiceManagementActivity
+import com.example.kouveemanagement.transaction.AddDetailServiceTransactionFragment
 import kotlinx.android.extensions.LayoutContainer
 import java.util.*
 
@@ -37,6 +38,22 @@ class ServiceRecyclerViewAdapter(private val services: MutableList<Service>, pri
             while (i < services.size){
                 if (services[i].name?.toLowerCase(Locale.getDefault())?.contains(input)!!){
                     ServiceManagementActivity.services.add(services[i])
+                }
+                i++
+            }
+        }
+        notifyDataSetChanged()
+    }
+
+    fun filterForTransaction(input: String){
+        AddDetailServiceTransactionFragment.services.clear()
+        if (input.isEmpty()){
+            AddDetailServiceTransactionFragment.services.addAll(services)
+        }else{
+            var i = 0
+            while (i < services.size){
+                if (services[i].name?.toLowerCase(Locale.getDefault())?.contains(input)!!){
+                    AddDetailServiceTransactionFragment.services.add(services[i])
                 }
                 i++
             }
