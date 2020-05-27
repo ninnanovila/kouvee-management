@@ -32,6 +32,8 @@ class AddDetailProductTransactionFragment : Fragment(), DetailProductTransaction
     private lateinit var idProduct: String
     private lateinit var productAdapter: ProductRecyclerViewAdapter
 
+    private lateinit var showDialog: AlertDialog
+
     companion object{
         fun newInstance() = AddDetailProductTransactionFragment()
         var products: MutableList<Product> = mutableListOf()
@@ -109,7 +111,7 @@ class AddDetailProductTransactionFragment : Fragment(), DetailProductTransaction
         stock.setText(product.stock.toString())
         quantity.setText("0")
 
-        val showDialog = AlertDialog.Builder(requireContext())
+        showDialog = AlertDialog.Builder(requireContext())
             .setCancelable(false)
             .setView(dialog)
             .show()
@@ -124,7 +126,6 @@ class AddDetailProductTransactionFragment : Fragment(), DetailProductTransaction
             }else if (idProduct == "-1"){
                 CustomFun.failedSnackBar(requireView(), requireContext(), "Please choose product")
             }
-            showDialog.dismiss()
         }
 
         btnClose.setOnClickListener{
@@ -140,17 +141,22 @@ class AddDetailProductTransactionFragment : Fragment(), DetailProductTransaction
     }
 
     override fun detailProductTransactionSuccess(data: DetailProductTransactionResponse?) {
+        showDialog.dismiss()
         CustomFun.successSnackBar(requireView(), requireContext(), "Success add!")
     }
 
     override fun detailProductTransactionFailed(data: String) {
+        showDialog.dismiss()
         CustomFun.failedSnackBar(requireView(), requireContext(), data)
     }
 
     private fun passStock(product: Product, quantity: String) : Boolean{
-        if (quantity.toInt() > product.stock.toString().toInt()){
-            return true
+        if (quantity != ""){
+            if (quantity.toInt() > product.stock.toString().toInt()){
+                return true
+            }
         }
+
         return false
     }
 

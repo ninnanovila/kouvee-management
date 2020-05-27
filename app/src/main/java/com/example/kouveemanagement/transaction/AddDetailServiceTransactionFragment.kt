@@ -34,6 +34,8 @@ class AddDetailServiceTransactionFragment : Fragment(), DetailServiceTransaction
 
     private var servicesBasedSize: MutableList<Service> = mutableListOf()
 
+    private lateinit var showDialog: AlertDialog
+
     companion object{
         fun newInstance() = AddDetailServiceTransactionFragment()
         var services: MutableList<Service> = mutableListOf()
@@ -121,7 +123,7 @@ class AddDetailServiceTransactionFragment : Fragment(), DetailServiceTransaction
         stock.visibility = View.GONE
         quantity.setText("0")
 
-        val showDialog = AlertDialog.Builder(requireContext())
+        showDialog = AlertDialog.Builder(requireContext())
             .setCancelable(false)
             .setView(dialog)
             .show()
@@ -134,7 +136,6 @@ class AddDetailServiceTransactionFragment : Fragment(), DetailServiceTransaction
             }else if (idService == "-1"){
                 CustomFun.failedSnackBar(requireView(), requireContext(), "Please choose service")
             }
-            showDialog.dismiss()
         }
 
         btnClose.setOnClickListener {
@@ -149,10 +150,12 @@ class AddDetailServiceTransactionFragment : Fragment(), DetailServiceTransaction
     }
 
     override fun detailServiceTransactionSuccess(data: DetailServiceTransactionResponse?) {
+        showDialog.dismiss()
         CustomFun.successSnackBar(requireView(), requireContext(), "Success add!")
     }
 
     override fun detailServiceTransactionFailed(data: String) {
+        showDialog.dismiss()
         CustomFun.failedSnackBar(requireView(), requireContext(), data)
     }
 

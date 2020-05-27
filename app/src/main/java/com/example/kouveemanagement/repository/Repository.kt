@@ -1503,10 +1503,18 @@ class Repository {
                 call: Call<DetailProductTransactionResponse?>,
                 response: Response<DetailProductTransactionResponse?>
             ) {
-                if (response.isSuccessful){
-                    callback.detailProductTransactionSuccess(response.body())
-                }else if (response.code() == 500){
-                    callback.detailProductTransactionFailed("Show error..")
+                when {
+                    response.isSuccessful -> {
+                        callback.detailProductTransactionSuccess(response.body())
+                    }
+                    response.code() == 500 -> {
+                        callback.detailProductTransactionFailed("Show error..")
+                    }
+                    response.code() == 406 -> {
+                        callback.detailProductTransactionFailed("Minimum detail is 1..")
+                    }else -> {
+                        callback.detailProductTransactionFailed("Else..")
+                    }
                 }
             }
         })
@@ -1612,10 +1620,19 @@ class Repository {
                 call: Call<DetailServiceTransactionResponse?>,
                 response: Response<DetailServiceTransactionResponse?>
             ) {
-                if (response.isSuccessful){
-                    callback.detailServiceTransactionSuccess(response.body())
-                }else if (response.code() == 500){
-                    callback.detailServiceTransactionFailed("Show error..")
+                when {
+                    response.isSuccessful -> {
+                        callback.detailServiceTransactionSuccess(response.body())
+                    }
+                    response.code() == 500 -> {
+                        callback.detailServiceTransactionFailed("Show error..")
+                    }
+                    response.code() == 406 -> {
+                        callback.detailServiceTransactionFailed("Minimum detail is 1..")
+                    }
+                    else -> {
+                        callback.detailServiceTransactionFailed("Else..")
+                    }
                 }
             }
         })
