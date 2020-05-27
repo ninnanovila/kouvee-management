@@ -40,7 +40,7 @@ class AddTransactionActivity : AppCompatActivity(), TransactionView, DetailProdu
     private var detailServices: MutableList<DetailServiceTransaction> = mutableListOf()
 
     companion object{
-        var idOfSize = "-1"
+        var idOfSize = ServiceTransactionActivity.idOfSize
         lateinit var idTransaction: String
     }
 

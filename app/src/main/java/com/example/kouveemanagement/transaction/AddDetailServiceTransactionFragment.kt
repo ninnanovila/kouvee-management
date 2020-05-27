@@ -48,11 +48,7 @@ class AddDetailServiceTransactionFragment : Fragment(), DetailServiceTransaction
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (AddTransactionActivity.idOfSize == "-1"){
-            setServicesBasedSize(ServiceTransactionActivity.idOfSize)
-        }else if (ServiceTransactionActivity.idOfSize == "-1"){
-            setServicesBasedSize(AddTransactionActivity.idOfSize)
-        }
+        setServicesBasedSize(AddTransactionActivity.idOfSize)
         serviceAdapter = ServiceRecyclerViewAdapter(servicesBasedSize, ServiceTransactionActivity.petSizes){}
         idTransaction = AddTransactionActivity.idTransaction
         idService = "-1"
