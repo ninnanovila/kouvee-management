@@ -61,6 +61,7 @@ class AddDetailProductTransactionFragment : Fragment(), DetailProductTransaction
         search_view.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 recyclerview.adapter = ProductRecyclerViewAdapter(products){
+                    idProduct = it.id.toString()
                     showDialog(it)
                 }
                 query?.let { productAdapter.filterForTransaction(it) }
@@ -68,6 +69,7 @@ class AddDetailProductTransactionFragment : Fragment(), DetailProductTransaction
             }
             override fun onQueryTextChange(newText: String?): Boolean {
                 recyclerview.adapter = ProductRecyclerViewAdapter(products){
+                    idProduct = it.id.toString()
                     showDialog(it)
                 }
                 newText?.let { productAdapter.filterForTransaction(it) }

@@ -64,6 +64,7 @@ class AddDetailServiceTransactionFragment : Fragment(), DetailServiceTransaction
         search_view.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
                 recyclerview.adapter = ServiceRecyclerViewAdapter(services, ServiceTransactionActivity.petSizes){
+                    idService = it.id.toString()
                     showDialog(it)
                 }
                 query?.let { serviceAdapter.filterForTransaction(it) }
@@ -72,6 +73,7 @@ class AddDetailServiceTransactionFragment : Fragment(), DetailServiceTransaction
 
             override fun onQueryTextChange(newText: String?): Boolean {
                 recyclerview.adapter = ServiceRecyclerViewAdapter(services, ServiceTransactionActivity.petSizes){
+                    idService = it.id.toString()
                     showDialog(it)
                 }
                 newText?.let { serviceAdapter.filterForTransaction(it) }
